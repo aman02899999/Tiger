@@ -600,7 +600,7 @@ function SettingsPage() {
             ].map((p) => (
               <div key={p.key} className="flex items-center justify-between rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
                 <div><p className="font-bold">{p.label}</p><p className="text-xs text-[#f7f0df]/50">{p.desc}</p></div>
-                <label className="relative inline-flex cursor-pointer items-center"><input type="checkbox" defaultChecked={user?.preferences?.[p.key]} onChange={(e) => updateUser({ preferences: { ...user!.preferences, [p.key]: e.target.checked } })} className="peer sr-only" /><div className="h-7 w-13 rounded-full bg-[#f7f0df]/15 peer-checked:bg-violet-300 after:absolute after:top-1 after:left-1 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-6" /></label>
+                <label className="relative inline-flex cursor-pointer items-center"><input type="checkbox" defaultChecked={user?.preferences?.[p.key]} onChange={(e) => updateUser({ preferences: { ...user!.preferences, [p.key]: e.target.checked } })} className="peer sr-only" /><div className="h-7 w-[52px] rounded-full bg-[#f7f0df]/15 peer-checked:bg-violet-300 after:absolute after:top-1 after:left-1 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-[28px]" /></label>
               </div>
             ))}
           </div>
@@ -650,9 +650,21 @@ function SettingsPage() {
 /* ---------------------------------------------------------------- */
 
 export default function SaaSApp() {
-  const { user } = useAuth();
+  const { user, authLoading, logout } = useAuth();
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [section, setSection] = useState("dashboard");
+
+  // Firebase checking session
+  if (authLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#07040d]">
+        <div className="text-center">
+          <div className="mx-auto h-14 w-14 animate-spin rounded-full border-4 border-violet-300/20 border-t-violet-300" />
+          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-[#f7f0df]/40">Loading…</p>
+        </div>
+      </div>
+    );
+  }
 
   // Not logged in → show login
   if (!user) {
@@ -667,7 +679,7 @@ export default function SaaSApp() {
 
   // Logged in + onboarded → show app shell
   return (
-    <AppShell currentSection={section} setCurrentSection={setSection} onLogout={() => { localStorage.removeItem("tfp_current_user"); window.location.reload(); }}>
+    <AppShell currentSection={section} setCurrentSection={setSection} onLogout={logout}>
       {section === "dashboard" && <Dashboard />}
       {section === "workouts" && <WorkoutsPage />}
       {section === "nutrition" && <NutritionPage />}

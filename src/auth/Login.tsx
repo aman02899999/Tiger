@@ -8,16 +8,23 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
-    setTimeout(() => {
-      const res = login(email, password);
-      setLoading(false);
-      if (res.success) onSuccess();
-      else setError(res.message);
-    }, 600);
+    const res = await login(email, password);
+    setLoading(false);
+    if (res.success) onSuccess();
+    else setError(res.message);
+  }
+
+  async function handleDemo() {
+    setLoading(true);
+    setError("");
+    const res = await login("demo@tigerfitpro.in", "demo123");
+    setLoading(false);
+    if (res.success) onSuccess();
+    else setError(res.message);
   }
 
   return (
@@ -39,11 +46,7 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
               Join 50,000+ Indians transforming their lives with AI-powered workouts, nutrition, sleep tracking, and family health.
             </p>
             <div className="mt-10 grid grid-cols-3 gap-4 max-w-md">
-              {[
-                { v: "50K+", l: "Users" },
-                { v: "4.9★", l: "Rating" },
-                { v: "28+", l: "AI Features" },
-              ].map((s) => (
+              {[{ v: "50K+", l: "Users" }, { v: "4.9★", l: "Rating" }, { v: "28+", l: "AI Features" }].map((s) => (
                 <div key={s.l} className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
                   <p className="text-2xl font-black text-[#f7f0df]">{s.v}</p>
                   <p className="text-xs uppercase tracking-[0.2em] text-[#f7f0df]/50">{s.l}</p>
@@ -77,17 +80,10 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3.5 text-sm text-[#f7f0df] outline-none focus:border-violet-200/40 focus:bg-[#f7f0df]/10" placeholder="Enter your password" />
             </label>
 
-            <div className="flex items-center justify-between text-xs">
-              <label className="flex items-center gap-2 text-[#f7f0df]/60">
-                <input type="checkbox" defaultChecked className="rounded accent-violet-400" /> Remember me
-              </label>
-              <button type="button" className="text-violet-100 hover:underline">Forgot password?</button>
-            </div>
-
             {error && <div className="rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-200">{error}</div>}
 
             <button type="submit" disabled={loading} className="w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_60px_rgba(167,139,250,0.35)] transition-all hover:shadow-[0_24px_80px_rgba(167,139,250,0.45)] disabled:opacity-60">
-              {loading ? "Signing in..." : "Sign In"}
+              {loading ? "Signing in…" : "Sign In"}
             </button>
 
             <div className="relative my-6">
@@ -96,7 +92,7 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <button type="button" onClick={() => { login("demo@tigerfitpro.in", "demo123"); onSuccess(); }} className="flex items-center justify-center gap-2 rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 py-3 text-sm font-semibold text-[#f7f0df]/70 hover:bg-[#f7f0df]/10">
+              <button type="button" onClick={handleDemo} disabled={loading} className="flex items-center justify-center gap-2 rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 py-3 text-sm font-semibold text-[#f7f0df]/70 hover:bg-[#f7f0df]/10 disabled:opacity-50">
                 🔑 Demo Account
               </button>
               <button type="button" disabled title="Google login coming soon" className="flex items-center justify-center gap-2 rounded-xl border border-[#f7f0df]/8 bg-[#f7f0df]/3 py-3 text-sm font-semibold text-[#f7f0df]/30 cursor-not-allowed">
@@ -121,12 +117,16 @@ export function SignupPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSu
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [agree, setAgree] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!agree) { setError("Please accept Terms & Privacy"); return; }
-    const res = signup(name, email, password);
+    if (!agree) { setError("Please accept Terms & Privacy to continue."); return; }
+    setLoading(true);
+    setError("");
+    const res = await signup(name, email, password);
+    setLoading(false);
     if (res.success) onSuccess();
     else setError(res.message);
   }
@@ -149,11 +149,7 @@ export function SignupPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSu
               Free forever. No credit card required. Unlock 28+ AI-powered features for a healthier lifestyle.
             </p>
             <div className="mt-10 space-y-3 max-w-md">
-              {[
-                "🎯 Personalized AI workout & diet plans",
-                "📸 Smart Indian food scanner",
-                "💍 Wedding mode, family dashboard & more",
-              ].map((f) => (
+              {["🎯 Personalized AI workout & diet plans", "📸 Smart Indian food scanner", "💍 Wedding mode, family dashboard & more"].map((f) => (
                 <p key={f} className="text-base text-[#f7f0df]/80">{f}</p>
               ))}
             </div>
@@ -193,8 +189,8 @@ export function SignupPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSu
 
             {error && <div className="rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-200">{error}</div>}
 
-            <button type="submit" className="w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_60px_rgba(167,139,250,0.35)] transition hover:shadow-[0_24px_80px_rgba(167,139,250,0.45)]">
-              Create Free Account
+            <button type="submit" disabled={loading} className="w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_60px_rgba(167,139,250,0.35)] transition hover:shadow-[0_24px_80px_rgba(167,139,250,0.45)] disabled:opacity-60">
+              {loading ? "Creating account…" : "Create Free Account"}
             </button>
 
             <p className="text-center text-sm text-[#f7f0df]/50 pt-4">
