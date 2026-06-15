@@ -300,7 +300,8 @@ export function Leaderboard() {
 
   const { user } = useAuth();
   const myScore = 7850; // Dummy score for current user
-  const myRank = dummyUsers.findIndex((u) => u.score < myScore) + 1 || 9;
+  const myRankIdx = dummyUsers.findIndex((u) => u.score < myScore);
+  const myRank = myRankIdx === -1 ? dummyUsers.length + 1 : myRankIdx + 1;
 
   return (
     <div className="space-y-6">

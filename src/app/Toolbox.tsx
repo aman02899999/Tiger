@@ -124,6 +124,10 @@ export default function FitnessToolbox() {
             <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Waist (cm)</span>
             <input type="number" value={measurements.waist} onChange={(e) => setMeasurements({ ...measurements, waist: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
           </label>
+          <label className="block">
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Hip (cm)</span>
+            <input type="number" value={measurements.hip} onChange={(e) => setMeasurements({ ...measurements, hip: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+          </label>
         </div>
       </div>
 

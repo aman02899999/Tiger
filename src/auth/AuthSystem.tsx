@@ -157,7 +157,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       id: "u-" + Date.now().toString(36),
       name,
       email,
-      avatar: name.split(" ").map((n) => n[0]).slice(-2).join("").toUpperCase(),
+      avatar: (name.split(" ").map((n) => n[0]).join("").toUpperCase() + "XX").slice(0, 2),
       phone: "",
       age: 0,
       gender: "male",
@@ -169,7 +169,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       streak: 0,
       onboardingComplete: false,
       preferences: { emailNotifications: true, pushNotifications: true, weeklyReports: true, aiCoach: true, darkMode: true, units: "metric" },
-      stats: { totalWorkouts: 0, caloriesTracked: 0, waterLiters: 0, sleepHours: 0, weightLog: [] },
+      stats: { totalWorkouts: 0, caloriesTracked: 0, waterLiters: 0, sleepHours: 0, weightLog: [{ date: new Date().toISOString().split("T")[0], weight: 70 }] },
     };
     users.push(newUser);
     saveUsers(users);

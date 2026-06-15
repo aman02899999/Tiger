@@ -198,8 +198,8 @@ function Hero() {
             </div>
 
             <div className="mt-16 grid grid-cols-2 gap-5 sm:grid-cols-4">
-              {heroStats.map((stat) => (
-                <div key={stat.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/6 p-5 backdrop-blur-xl motion-safe:animate-[fadeUp_800ms_ease-out_both]" style={{ animationDelay: String(Number(stat.number.replace(/\D/g, "")) * 40) + "ms" }}>
+              {heroStats.map((stat, i) => (
+                <div key={stat.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/6 p-5 backdrop-blur-xl motion-safe:animate-[fadeUp_800ms_ease-out_both]" style={{ animationDelay: i * 120 + "ms" }}>
                   <p className="text-2xl font-black tracking-[-0.06em] text-[#f7f0df]">{stat.number}</p>
                   <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-[#f7f0df]/44">{stat.label}</p>
                 </div>
@@ -410,8 +410,9 @@ function Pricing() {
 
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {pricingPlans.map((plan) => {
-            const displayPrice = annual ? annualPrices[plan.name] : plan.price;
-            const displayPeriod = plan.price === "₹0" ? "forever" : annual ? "/mo, billed yearly" : "/month";
+            const isFree = plan.price === "₹0";
+            const displayPrice = (annual && !isFree) ? annualPrices[plan.name] : plan.price;
+            const displayPeriod = isFree ? "forever" : annual ? "/mo, billed yearly" : "/month";
             return (
             <div key={plan.name} className={"relative rounded-[2rem] border p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 " + (plan.popular ? "border-violet-300/40 bg-violet-200/10 shadow-[0_0_60px_rgba(167,139,250,0.15),inset_0_1px_0_rgba(255,255,255,0.06)]" : "border-[#f7f0df]/12 bg-[#0b0714]/60")}>
               {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-5 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg">Most Popular</div>}

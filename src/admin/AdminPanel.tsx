@@ -110,7 +110,7 @@ function BlogsManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => void
         </div>
         <div className="flex gap-2">
           <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." className="rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-2.5 text-sm text-[#f7f0df] outline-none placeholder:text-[#f7f0df]/30 focus:border-violet-200/40" />
-          <Button onClick={() => setEditing({ ...blogs[0], slug: generateId(), title: "New Article", seoDescription: "" } as BlogPost)}>+ Create New</Button>
+          <Button onClick={() => setEditing({ slug: generateId(), title: "New Article", seoDescription: "", category: "Fitness", author: "Tiger Team", date: new Date().toISOString().split("T")[0], readTime: "5 min read", heroEmoji: "📝", tags: [], blocks: [], faqs: [] } as BlogPost)}>+ Create New</Button>
         </div>
       </div>
 
@@ -380,8 +380,8 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
 
   function resetAll() {
     if (confirm("Reset ALL data to defaults? This cannot be undone.")) {
-      ["blogs", "features", "testimonials", "pricingPlans", "faqs", "howItWorks", "heroStats", "users", "subscribers"].forEach((key) => {
-        localStorage.removeItem(`tfp_${key}`);
+      ["tfp_blogs", "tfp_features", "tfp_testimonials", "tfp_pricing_plans", "tfp_faqs", "tfp_how_it_works", "tfp_hero_stats", "tfp_users", "tfp_subscribers", "tfp_current_user", "tfp_users_db", "tfp_passwords"].forEach((key) => {
+        localStorage.removeItem(key);
       });
       pushToast({ type: "success", message: "All data reset!" });
       window.location.reload();

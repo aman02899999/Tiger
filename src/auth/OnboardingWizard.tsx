@@ -52,7 +52,7 @@ export default function OnboardingWizard({ onComplete }: { onComplete: () => voi
                 { id: "muscle-gain", icon: "💪", label: "Muscle Gain", desc: "Build strength and size" },
                 { id: "wedding", icon: "💍", label: "Wedding Ready", desc: "120-day transformation" },
                 { id: "maintenance", icon: "⚖️", label: "Maintenance", desc: "Stay fit and healthy" },
-                { id: "general", icon: "", label: "General Fitness", desc: "Overall wellness" },
+                { id: "general", icon: "🎯", label: "General Fitness", desc: "Overall wellness" },
               ].map((g) => (
                 <button
                   key={g.id}
