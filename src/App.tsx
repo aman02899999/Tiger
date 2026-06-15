@@ -216,6 +216,11 @@ function Hero() {
   );
 }
 
+const SIGNAL_VALUES = lifeCoachSignals.map(() => ({
+  width: Math.floor(65 + Math.random() * 30),
+  score: Math.floor(70 + Math.random() * 28),
+}));
+
 function About() {
   const [theme, setTheme] = useState<ThemeKey>("tigerLife");
   const activeTheme = premiumThemes[theme];
@@ -264,14 +269,14 @@ function About() {
                   <div className={"grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br " + activeTheme.glow} />
                 </div>
                 <div className="mt-7 space-y-4">
-                  {lifeCoachSignals.map((signal) => (
+                  {lifeCoachSignals.map((signal, i) => (
                     <div key={signal} className="flex items-center justify-between rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/6 p-4">
                       <span className="text-sm font-semibold text-[#f7f0df]/78">{signal}</span>
                       <div className="flex items-center gap-2">
                         <div className="h-2 w-16 overflow-hidden rounded-full bg-[#f7f0df]/10">
-                          <div className={"h-full rounded-full bg-gradient-to-r " + activeTheme.glow + " motion-safe:animate-[shineMove_2.8s_ease-in-out_infinite]"} style={{ width: Math.floor(65 + Math.random() * 30) + "%" }} />
+                          <div className={"h-full rounded-full bg-gradient-to-r " + activeTheme.glow + " motion-safe:animate-[shineMove_2.8s_ease-in-out_infinite]"} style={{ width: SIGNAL_VALUES[i].width + "%" }} />
                         </div>
-                        <span className="w-7 text-right text-xs font-bold text-violet-100">{Math.floor(70 + Math.random() * 28)}</span>
+                        <span className="w-7 text-right text-xs font-bold text-violet-100">{SIGNAL_VALUES[i].score}</span>
                       </div>
                     </div>
                   ))}
@@ -381,8 +386,10 @@ function HowItWorks() {
   );
 }
 
+const annualPrices: Record<string, string> = { Free: "₹0", Pro: "₹119", "Elite Family": "₹239" };
+
 function Pricing() {
-  const [annual, setAnnual] = useState(true);
+  const [annual, setAnnual] = useState(false);
 
   return (
     <section id="pricing" className="relative px-6 py-28 sm:px-10 lg:px-16">
@@ -391,27 +398,30 @@ function Pricing() {
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Pricing</p>
           <h2 className="mt-5 text-4xl font-black tracking-[-0.05em] sm:text-5xl lg:text-6xl">One plan for your goal.</h2>
           <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">Cancel anytime. Start free, upgrade when ready.</p>
-          
+
           <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-violet-200/24 bg-violet-200/8 px-5 py-2.5">
-            <span className={"text-sm font-semibold transition " + (!annual ? "text-[#f7f0df]/44" : "text-violet-100")}>Monthly</span>
-            <button type="button" onClick={() => setAnnual(!annual)} className={"relative h-7 w-13 rounded-full transition-colors duration-200 " + (annual ? "bg-violet-300" : "bg-[#f7f0df]/18")}>
-              <span className={"absolute top-1 h-5 w-5 rounded-full bg-white shadow-md transition-transform duration-200 " + (annual ? "translate-x-6" : "translate-x-1")} />
+            <span className={"text-sm font-semibold transition " + (!annual ? "text-violet-100" : "text-[#f7f0df]/44")}>Monthly</span>
+            <button type="button" onClick={() => setAnnual(!annual)} className={"relative h-7 w-[52px] rounded-full transition-colors duration-200 " + (annual ? "bg-violet-300" : "bg-[#f7f0df]/18")}>
+              <span className={"absolute top-1 h-5 w-5 rounded-full bg-white shadow-md transition-transform duration-200 " + (annual ? "translate-x-[28px]" : "translate-x-1")} />
             </button>
             <span className={"text-sm font-semibold transition " + (annual ? "text-violet-100" : "text-[#f7f0df]/44")}>Annual (Save 40%)</span>
           </div>
         </div>
 
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {pricingPlans.map((plan) => (
+          {pricingPlans.map((plan) => {
+            const displayPrice = annual ? annualPrices[plan.name] : plan.price;
+            const displayPeriod = plan.price === "₹0" ? "forever" : annual ? "/mo, billed yearly" : "/month";
+            return (
             <div key={plan.name} className={"relative rounded-[2rem] border p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 " + (plan.popular ? "border-violet-300/40 bg-violet-200/10 shadow-[0_0_60px_rgba(167,139,250,0.15),inset_0_1px_0_rgba(255,255,255,0.06)]" : "border-[#f7f0df]/12 bg-[#0b0714]/60")}>
               {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-5 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg">Most Popular</div>}
-              
+
               <h3 className="text-2xl font-black text-[#f7f0df]">{plan.name}</h3>
               <p className="mt-2 text-sm text-[#f7f0df]/52">{plan.description}</p>
-              
+
               <div className="mt-6 flex items-end gap-1">
-                <span className="text-5xl font-black tracking-[-0.06em] text-[#f7f0df]">{plan.price}</span>
-                <span className="pb-2 text-base font-medium text-[#f7f0df]/48">{plan.period}</span>
+                <span className="text-5xl font-black tracking-[-0.06em] text-[#f7f0df]">{displayPrice}</span>
+                <span className="pb-2 text-base font-medium text-[#f7f0df]/48">{displayPeriod}</span>
               </div>
 
               <a href="#download" className={"mt-8 block rounded-full py-4 text-center text-sm font-black uppercase tracking-[0.18em] transition " + (plan.popular ? "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-600 text-white shadow-[0_16px_60px_rgba(167,139,250,0.3)] hover:shadow-[0_22px_80px_rgba(167,139,250,0.4)]" : "border border-[#f7f0df]/18 bg-[#f7f0df]/8 text-[#f7f0df] hover:bg-[#f7f0df]/14")}>{plan.cta}</a>
@@ -425,7 +435,8 @@ function Pricing() {
                 ))}
               </ul>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
@@ -487,7 +498,7 @@ function FAQ() {
                   <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><path d="M6 9l6 6 6-6" /></svg>
                 </span>
               </button>
-              <div className={"transition-all duration-300 ease-out " + (openIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
+              <div className={"grid transition-all duration-300 ease-out " + (openIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
                 <div className="overflow-hidden">
                   <p className="px-6 pb-6 text-sm leading-7 text-[#f7f0df]/58">{faq.a}</p>
                 </div>
@@ -755,7 +766,7 @@ function BlogSection() {
           </div>
         </div>
 
-        <button type="button" onClick={() => setActivePost(featured)} className="group relative mt-8 block w-full overflow-hidden rounded-[2.2rem] border border-violet-200/20 bg-gradient-to-br from-violet-200/12 via-fuchsia-400/8 to-[#d8b35a]/8 p-8 backdrop-blur-xl text-left transition-all hover:-translate-y-1 hover:border-violet-200/40 sm:p-12">
+        <button type="button" onClick={() => setActivePost(featured)} className="group relative mt-8 block w-full overflow-hidden rounded-[2.2rem] border border-violet-200/20 bg-gradient-to-br from-violet-200/12 via-fuchsia-400/8 to-[#d8b35a]/8 backdrop-blur-xl text-left transition-all hover:-translate-y-1 hover:border-violet-200/40">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(167,139,250,0.18),transparent_50%)]" />
           <div className="relative grid lg:grid-cols-[1.1fr_0.9fr]">
             <div className="p-8 sm:p-10 lg:pr-4">
