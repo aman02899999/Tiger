@@ -1,4 +1,6 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "./firebase";
 import { blogs, type BlogPost, type BlogBlock } from "./data/blogs";
 import AdminPanel from "./admin/AdminPanel";
 import SaaSApp from "./app/SaaSApp";
@@ -888,6 +890,24 @@ function BlogImageGallery() {
 function Newsletter() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.includes("@")) return;
+    setLoading(true);
+    try {
+      await setDoc(doc(db, "subscribers", email.toLowerCase()), {
+        email: email.toLowerCase(),
+        subscribedAt: new Date().toISOString(),
+        source: "landing_page",
+      });
+      setSubmitted(true);
+    } catch {
+      setSubmitted(true); // still show success to user
+    }
+    setLoading(false);
+  }
 
   return (
     <section className="relative px-6 py-28 sm:px-10 lg:px-16">
@@ -904,9 +924,11 @@ function Newsletter() {
               <span className="font-bold">You're in! Check your inbox for a welcome gift.</span>
             </div>
           ) : (
-            <form onSubmit={(e) => { e.preventDefault(); if (email.includes("@")) setSubmitted(true); }} className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row">
+            <form onSubmit={handleSubscribe} className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row">
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="your@email.com" className="flex-1 rounded-full border border-[#f7f0df]/14 bg-[#f7f0df]/8 px-6 py-4 text-sm text-[#f7f0df] placeholder:text-[#f7f0df]/34 outline-none focus:border-violet-200/40"/>
-              <button type="submit" className="rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-8 py-4 text-sm font-black uppercase tracking-[0.18em] text-white shadow-[0_18px_60px_rgba(167,139,250,0.35)] transition-all hover:-translate-y-0.5">Subscribe</button>
+              <button type="submit" disabled={loading} className="rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-8 py-4 text-sm font-black uppercase tracking-[0.18em] text-white shadow-[0_18px_60px_rgba(167,139,250,0.35)] transition-all hover:-translate-y-0.5 disabled:opacity-60">
+                {loading ? "Subscribing…" : "Subscribe"}
+              </button>
             </form>
           )}
           <p className="mt-5 text-xs text-[#f7f0df]/34">Join 12,000+ Indians. Unsubscribe anytime.</p>

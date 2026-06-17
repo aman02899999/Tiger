@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../firebase";
 import { useAuth } from "../auth/AuthSystem";
 
 export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSuccess: () => void }) {
@@ -16,6 +18,17 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
     setLoading(false);
     if (res.success) onSuccess();
     else setError(res.message);
+  }
+
+  async function handleForgotPassword() {
+    if (!email) { setError("Enter your email above first."); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setError("");
+      alert(`Password reset email sent to ${email}. Check your inbox.`);
+    } catch {
+      setError("Could not send reset email. Check the address and try again.");
+    }
   }
 
   async function handleDemo() {
@@ -76,7 +89,10 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3.5 text-sm text-[#f7f0df] outline-none focus:border-violet-200/40 focus:bg-[#f7f0df]/10" placeholder="you@example.com" />
             </label>
             <label className="block">
-              <span className="mb-2 block text-xs font-bold uppercase tracking-[0.2em] text-violet-100/70">Password</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-violet-100/70">Password</span>
+                <button type="button" onClick={handleForgotPassword} className="text-xs text-violet-100 hover:underline">Forgot password?</button>
+              </div>
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3.5 text-sm text-[#f7f0df] outline-none focus:border-violet-200/40 focus:bg-[#f7f0df]/10" placeholder="Enter your password" />
             </label>
 

@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { deleteUser } from "firebase/auth";
+import { deleteDoc, doc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 import { useAuth } from "../auth/AuthSystem";
 import OnboardingWizard from "../auth/OnboardingWizard";
 import LoginPage, { SignupPage } from "../auth/Login";
@@ -345,11 +348,26 @@ function NutritionPage() {
 }
 
 function ProgressPage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const log = user?.stats.weightLog || [];
-  const max = Math.max(...log.map((l) => l.weight));
-  const min = Math.min(...log.map((l) => l.weight));
+  const max = log.length ? Math.max(...log.map((l) => l.weight)) : 0;
+  const min = log.length ? Math.min(...log.map((l) => l.weight)) : 0;
   const range = max - min;
+  const [newWeight, setNewWeight] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function addEntry() {
+    const w = parseFloat(newWeight);
+    if (!w || w < 20 || w > 300) return;
+    setSaving(true);
+    const entry = { date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short" }), weight: w };
+    await updateUser({ stats: { ...user!.stats, weightLog: [...log, entry] } });
+    setNewWeight("");
+    setSaving(false);
+  }
+
+  const totalChange = log.length >= 2 ? (log[log.length - 1].weight - log[0].weight).toFixed(1) : "0.0";
+  const isLoss = parseFloat(totalChange) < 0;
 
   return (
     <div className="space-y-6">
@@ -361,8 +379,8 @@ function ProgressPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         {[
           { label: "Starting Weight", value: `${log[0]?.weight || "--"} kg`, icon: "⚖️" },
-          { label: "Current Weight", value: `${log[log.length - 1]?.weight || "--"} kg`, icon: "" },
-          { label: "Total Lost", value: `${(log[0]?.weight - (log[log.length - 1]?.weight || 0)).toFixed(1)} kg`, icon: "🎉", color: "text-emerald-300" },
+          { label: "Current Weight", value: `${log[log.length - 1]?.weight || "--"} kg`, icon: "📍" },
+          { label: isLoss ? "Total Lost" : "Total Gained", value: `${Math.abs(parseFloat(totalChange))} kg`, icon: isLoss ? "🎉" : "💪", color: isLoss ? "text-emerald-300" : "text-violet-300" },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">{s.label}</p>
@@ -389,6 +407,31 @@ function ProgressPage() {
               );
             })}
           </div>
+        </div>
+      </div>
+
+      {/* Log new weight */}
+      <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
+        <h3 className="mb-4 font-bold">⚖️ Log Today's Weight</h3>
+        <div className="flex gap-3">
+          <input
+            type="number"
+            step="0.1"
+            min="20"
+            max="300"
+            value={newWeight}
+            onChange={(e) => setNewWeight(e.target.value)}
+            placeholder="e.g. 75.5"
+            className="flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm text-[#f7f0df] outline-none focus:border-violet-200/40"
+          />
+          <button
+            type="button"
+            onClick={addEntry}
+            disabled={saving || !newWeight}
+            className="rounded-xl bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-6 py-3 text-sm font-bold text-white disabled:opacity-50"
+          >
+            {saving ? "Saving…" : "Add Entry"}
+          </button>
         </div>
       </div>
 
@@ -428,28 +471,42 @@ function ProgressPage() {
   );
 }
 
-function HabitsPage() {
-  const [habits, setHabits] = useState([
-    { id: 1, name: "Drink 3L water", streak: 12, icon: "💧", done: true },
-    { id: 2, name: "8 hours sleep", streak: 8, icon: "😴", done: true },
-    { id: 3, name: "10 min meditation", streak: 5, icon: "🧘", done: false },
-    { id: 4, name: "No sugar", streak: 15, icon: "🚫", done: true },
-    { id: 5, name: "10K steps", streak: 3, icon: "🚶", done: false },
-    { id: 6, name: "Protein goal", streak: 9, icon: "🍗", done: true },
-  ]);
+const DEFAULT_HABITS = [
+  { id: 1, name: "Drink 3L water", streak: 0, icon: "💧", done: false },
+  { id: 2, name: "8 hours sleep", streak: 0, icon: "😴", done: false },
+  { id: 3, name: "10 min meditation", streak: 0, icon: "🧘", done: false },
+  { id: 4, name: "No sugar", streak: 0, icon: "🚫", done: false },
+  { id: 5, name: "10K steps", streak: 0, icon: "🚶", done: false },
+  { id: 6, name: "Protein goal", streak: 0, icon: "🍗", done: false },
+];
 
-  function toggle(id: number) {
-    setHabits(habits.map((h) => h.id === id ? { ...h, done: !h.done, streak: !h.done ? h.streak + 1 : h.streak } : h));
+function HabitsPage() {
+  const { user, updateUser } = useAuth();
+  const today = new Date().toISOString().split("T")[0];
+  const stored = (user as any)?.habits;
+  const [habits, setHabits] = useState(() => {
+    if (stored?.date === today) return stored.items;
+    // New day — reset done flags but keep streaks
+    const base = stored?.items || DEFAULT_HABITS;
+    return base.map((h: any) => ({ ...h, done: false }));
+  });
+
+  async function toggle(id: number) {
+    const updated = habits.map((h: any) =>
+      h.id === id ? { ...h, done: !h.done, streak: !h.done ? h.streak + 1 : Math.max(0, h.streak - 1) } : h
+    );
+    setHabits(updated);
+    await updateUser({ habits: { date: today, items: updated } } as any);
   }
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Daily Habits</h1>
-        <p className="text-sm text-[#f7f0df]/50">Build consistency, unlock achievements</p>
+        <p className="text-sm text-[#f7f0df]/50">Build consistency, unlock achievements · {today}</p>
       </div>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-        {habits.map((h) => (
+        {habits.map((h: any) => (
           <button key={h.id} type="button" onClick={() => toggle(h.id)} className={`rounded-2xl border p-6 text-left transition ${h.done ? "border-violet-200/40 bg-violet-200/12" : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"}`}>
             <div className="flex items-start justify-between">
               <span className="text-4xl">{h.icon}</span>
@@ -540,10 +597,35 @@ function SettingsPage() {
   const { user, updateUser, logout } = useAuth();
   const [tab, setTab] = useState<"profile" | "preferences" | "billing" | "privacy">("profile");
   const [form, setForm] = useState({ name: user?.name || "", email: user?.email || "", phone: user?.phone || "", age: String(user?.age || ""), height: String(user?.height || ""), weight: String(user?.weight || "") });
+  const [saved, setSaved] = useState(false);
 
-  function saveProfile() {
-    updateUser({ name: form.name, email: form.email, phone: form.phone, age: +form.age, height: +form.height, weight: +form.weight, avatar: form.name.split(" ").map((n) => n[0]).slice(-2).join("").toUpperCase() });
-    alert("Profile updated!");
+  async function saveProfile() {
+    await updateUser({ name: form.name, phone: form.phone, age: +form.age, height: +form.height, weight: +form.weight, avatar: (form.name.split(" ").map((n: string) => n[0]).join("").toUpperCase() + "XX").slice(0, 2) });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  }
+
+  function exportData() {
+    const blob = new Blob([JSON.stringify(user, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `tigerfitpro-data-${user?.id}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function deleteAccount() {
+    if (!confirm("Permanently delete your account and all data? This cannot be undone.")) return;
+    try {
+      if (auth.currentUser) {
+        await deleteDoc(doc(db, "users", auth.currentUser.uid));
+        await deleteUser(auth.currentUser);
+      }
+      logout();
+    } catch {
+      alert("Please sign out and sign back in before deleting your account, then try again.");
+    }
   }
 
   return (
@@ -583,7 +665,7 @@ function SettingsPage() {
             <label className="block"><span className="mb-2 block text-xs font-bold uppercase tracking-[0.2em] text-violet-100/70">Weight (kg)</span><input type="number" value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" /></label>
           </div>
           <div className="mt-6 flex gap-3">
-            <button type="button" onClick={saveProfile} className="rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-7 py-3 text-xs font-black uppercase tracking-[0.2em] text-white">Save Changes</button>
+            <button type="button" onClick={saveProfile} className={"rounded-full px-7 py-3 text-xs font-black uppercase tracking-[0.2em] text-white transition " + (saved ? "bg-emerald-500" : "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700")}>{saved ? "✓ Saved!" : "Save Changes"}</button>
             <button type="button" onClick={logout} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-7 py-3 text-xs font-black uppercase tracking-[0.2em] text-rose-200 hover:bg-rose-400/20">Sign Out</button>
           </div>
         </div>
@@ -632,11 +714,11 @@ function SettingsPage() {
         <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6 space-y-4">
           <div className="flex items-center justify-between">
             <div><p className="font-bold">Export My Data</p><p className="text-xs text-[#f7f0df]/50">Download all your data as JSON</p></div>
-            <button type="button" className="rounded-full border border-[#f7f0df]/18 bg-[#f7f0df]/8 px-5 py-2.5 text-xs font-bold">Export</button>
+            <button type="button" onClick={exportData} className="rounded-full border border-[#f7f0df]/18 bg-[#f7f0df]/8 px-5 py-2.5 text-xs font-bold hover:bg-violet-200/15">Export</button>
           </div>
           <div className="flex items-center justify-between border-t border-[#f7f0df]/10 pt-4">
             <div><p className="font-bold">Delete Account</p><p className="text-xs text-[#f7f0df]/50">Permanently delete all your data</p></div>
-            <button type="button" onClick={() => confirm("Delete your account?") && logout()} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-5 py-2.5 text-xs font-bold text-rose-200">Delete</button>
+            <button type="button" onClick={deleteAccount} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-5 py-2.5 text-xs font-bold text-rose-200 hover:bg-rose-400/20">Delete</button>
           </div>
           <p className="border-t border-[#f7f0df]/10 pt-4 text-xs text-[#f7f0df]/40">Version 2.1.0 · Built with 🐅 in India</p>
         </div>
