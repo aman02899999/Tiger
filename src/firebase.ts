@@ -10,8 +10,8 @@ const firebaseConfig = {
   projectId: "tiger-fitness-pro-2f047",
   storageBucket: "tiger-fitness-pro-2f047.firebasestorage.app",
   messagingSenderId: "1018363378380",
-  appId: "1:1018363378380:web:0d25be6fb035948a9de069",
-  measurementId: "G-N0ZPLT3JXY",
+  appId: "1:1018363378380:web:f8daadd0b7473a9c9de069",
+  measurementId: "G-E4HJPDWZSD",
 };
 
 const app = initializeApp(firebaseConfig);
