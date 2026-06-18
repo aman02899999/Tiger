@@ -678,14 +678,9 @@ function CourseGrid({
 // ─── CoursesSection (named export — for landing page) ────────────────────────
 
 export function CoursesSection() {
-  const { user } = useAuth();
   const [courses, setCourses] = useState<Course[]>(DEFAULT_COURSES);
   const [selected, setSelected] = useState<Course | null>(null);
-  const [enrollments, setEnrollments] = useState<Record<string, Enrollment>>({});
   const [levelFilter, setLevelFilter] = useState<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All');
-  const [showModal, setShowModal] = useState(false);
-  const [paymentDone, setPaymentDone] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   // Load courses from Firestore
   useEffect(() => {
@@ -699,9 +694,7 @@ export function CoursesSection() {
             setCourses(data);
           }
         },
-        () => {
-          setCourses(DEFAULT_COURSES);
-        }
+        () => { setCourses(DEFAULT_COURSES); }
       );
     } catch {
       setCourses(DEFAULT_COURSES);
@@ -709,52 +702,7 @@ export function CoursesSection() {
     return () => unsub?.();
   }, []);
 
-  // Load enrollments
-  useEffect(() => {
-    if (!user?.uid) return;
-    let unsub: (() => void) | undefined;
-    try {
-      unsub = onSnapshot(
-        collection(db, 'courseEnrollments', user.uid, 'courses'),
-        (snap) => {
-          const map: Record<string, Enrollment> = {};
-          snap.docs.forEach((d) => {
-            map[d.id] = d.data() as Enrollment;
-          });
-          setEnrollments(map);
-        },
-        () => {}
-      );
-    } catch {}
-    return () => unsub?.();
-  }, [user?.uid]);
-
   const filtered = levelFilter === 'All' ? courses : courses.filter((c) => c.level === levelFilter);
-
-  const handleEnroll = () => {
-    if (!user) return;
-    setShowModal(true);
-  };
-
-  const handlePaymentConfirm = async () => {
-    if (!user || !selected) return;
-    setLoading(true);
-    try {
-      const enrollment: Enrollment = {
-        enrolledAt: new Date().toISOString(),
-        courseId: selected.id,
-        ...(selected.pdfUrl ? { pdfUrl: selected.pdfUrl } : {}),
-      };
-      await setDoc(doc(db, 'courseEnrollments', user.uid, 'courses', selected.id), enrollment);
-      setEnrollments((prev) => ({ ...prev, [selected.id]: enrollment }));
-      setPaymentDone(true);
-      setShowModal(false);
-    } catch (err) {
-      console.error('Enrollment failed', err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <section id="courses" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#07040d]">
@@ -782,45 +730,22 @@ export function CoursesSection() {
         </div>
 
         {/* Grid */}
-        <CourseGrid courses={filtered} enrollments={enrollments} onSelect={setSelected} />
+        <CourseGrid courses={filtered} enrollments={{}} onSelect={setSelected} />
+        <div className="text-center mt-10">
+          <a href="#app" className="inline-block bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 text-white font-bold px-8 py-3 rounded-xl transition-all">
+            Sign In to Enroll →
+          </a>
+        </div>
       </div>
 
-      {/* Course Detail Modal */}
-      {selected && !showModal && (
+      {selected && (
         <CourseDetailModal
           course={selected}
-          enrollment={enrollments[selected.id] || null}
-          onClose={() => { setSelected(null); setPaymentDone(false); }}
-          onEnroll={handleEnroll}
-          enrolling={loading}
+          enrollment={null}
+          onClose={() => setSelected(null)}
+          onEnroll={() => { window.location.hash = "#app"; }}
+          enrolling={false}
         />
-      )}
-
-      {/* Payment Modal */}
-      {selected && showModal && (
-        <PaymentModal
-          course={selected}
-          onConfirm={handlePaymentConfirm}
-          onCancel={() => setShowModal(false)}
-          loading={loading}
-        />
-      )}
-
-      {/* Success Toast */}
-      {paymentDone && (
-        <div className="fixed bottom-6 right-6 z-[70] bg-green-900/90 border border-green-500/40 rounded-xl px-5 py-3 flex items-center gap-3 shadow-2xl">
-          <span className="text-green-400 text-xl">✅</span>
-          <div>
-            <p className="text-green-400 font-semibold text-sm">Enrollment Successful!</p>
-            <p className="text-[#f7f0df]/50 text-xs">Check your email for course materials.</p>
-          </div>
-          <button
-            onClick={() => setPaymentDone(false)}
-            className="ml-3 text-[#f7f0df]/30 hover:text-[#f7f0df]/60 text-sm"
-          >
-            ✕
-          </button>
-        </div>
       )}
     </section>
   );
