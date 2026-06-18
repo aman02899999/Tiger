@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "tiger-fitness-pro-2f047"
-  }
+  },
+  "targets": {
+    "tiger-fitness-pro-2f047": {
+      "hosting": {
+        "main": [
+          "tiger-fitness-pro-2f047-c4f21"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
