@@ -8,6 +8,9 @@ import LoginPage, { SignupPage } from "../auth/Login";
 import FitnessToolbox from "./Toolbox";
 import DietCalculator from "./DietCalculator";
 import { GoalRoadmap, Transformations, Referrals, Leaderboard } from "./Features";
+import BloodReportPage from "./BloodReport";
+import ChallengesPage from "./Challenges";
+import CoursesPage from "./Courses";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -29,6 +32,9 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
     { id: "progress", icon: "📈", label: "Progress" },
     { id: "habits", icon: "🎯", label: "Habits" },
+    { id: "blood", icon: "🩸", label: "Blood Report" },
+    { id: "challenges", icon: "🏆", label: "Challenges" },
+    { id: "courses", icon: "📚", label: "Courses" },
     { id: "family", icon: "👨‍👩‍", label: "Family" },
     { id: "premium", icon: "👑", label: "Premium" },
     { id: "settings", icon: "⚙️", label: "Settings" },
@@ -773,6 +779,9 @@ export default function SaaSApp() {
       {section === "leaderboard" && <Leaderboard />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
+      {section === "blood" && <BloodReportPage />}
+      {section === "challenges" && <ChallengesPage />}
+      {section === "courses" && <CoursesPage />}
       {section === "family" && <FamilyPage />}
       {section === "premium" && <PremiumPage />}
       {section === "settings" && <SettingsPage />}

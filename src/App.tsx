@@ -6,6 +6,8 @@ import AdminPanel from "./admin/AdminPanel";
 import SaaSApp from "./app/SaaSApp";
 import { AuthProvider } from "./auth/AuthSystem";
 import LegalPage, { type LegalType } from "./legal/LegalPages";
+import { CoursesSection } from "./app/Courses";
+import { ChallengesSection } from "./app/Challenges";
 
 type ChecklistItem = {
   label: string;
@@ -1033,6 +1035,8 @@ export default function App() {
         <About />
         <Features />
         <HowItWorks />
+        <ChallengesSection />
+        <CoursesSection />
         <BlogSection />
         <BlogImageGallery />
         <Newsletter />
