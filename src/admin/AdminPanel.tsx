@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from "firebase/firestore";
+import { storage, db } from "../firebase";
 import { blogs as defaultBlogs, type BlogPost } from "../data/blogs";
 import {
   loadData, saveData, generateId,
@@ -14,7 +17,7 @@ const ADMIN_PASSWORD = "tiger123";
 /* UI Components                                                     */
 /* ---------------------------------------------------------------- */
 
-function Button({ children, variant = "primary", onClick, className = "" }: { children: React.ReactNode; variant?: "primary" | "secondary" | "danger" | "ghost"; onClick?: () => void; className?: string }) {
+function Button({ children, variant = "primary", onClick, className = "", disabled = false }: { children: React.ReactNode; variant?: "primary" | "secondary" | "danger" | "ghost"; onClick?: () => void; className?: string; disabled?: boolean }) {
   const variants = {
     primary: "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 text-white shadow-[0_12px_40px_rgba(167,139,250,0.3)] hover:shadow-[0_18px_60px_rgba(167,139,250,0.4)]",
     secondary: "border border-[#f7f0df]/18 bg-[#f7f0df]/8 text-[#f7f0df] hover:bg-[#f7f0df]/14",
@@ -22,7 +25,7 @@ function Button({ children, variant = "primary", onClick, className = "" }: { ch
     ghost: "text-[#f7f0df]/60 hover:text-[#f7f0df] hover:bg-white/10",
   };
   return (
-    <button type="button" onClick={onClick} className={`rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition-all ${variants[variant]} ${className}`}>
+    <button type="button" onClick={onClick} disabled={disabled} className={`rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition-all disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${className}`}>
       {children}
     </button>
   );
@@ -354,6 +357,221 @@ function SubscribersManager() {
 }
 
 /* ---------------------------------------------------------------- */
+/* Courses Manager                                                   */
+/* ---------------------------------------------------------------- */
+
+type AdminCourse = {
+  id?: string;
+  title: string;
+  instructor: string;
+  description: string;
+  price: number;
+  level: string;
+  duration: string;
+  emoji: string;
+  pdfUrl?: string;
+  storagePath?: string;
+  published: boolean;
+};
+
+const EMPTY_COURSE: AdminCourse = { title: "", instructor: "", description: "", price: 999, level: "Beginner", duration: "4 weeks", emoji: "📚", published: false };
+
+function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => void }) {
+  const [courses, setCourses] = useState<AdminCourse[]>([]);
+  const [editing, setEditing] = useState<AdminCourse | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [pdfFile, setPdfFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "courses"), (snap) => {
+      setCourses(snap.docs.map((d) => ({ id: d.id, ...d.data() } as AdminCourse)));
+    });
+    return unsub;
+  }, []);
+
+  async function saveCourse() {
+    if (!editing) return;
+    setUploading(true);
+    try {
+      let pdfUrl = editing.pdfUrl;
+      let storagePath = editing.storagePath;
+
+      if (pdfFile) {
+        const path = `course-pdfs/${Date.now()}_${pdfFile.name}`;
+        const storageRef = ref(storage, path);
+        await new Promise<void>((resolve, reject) => {
+          const task = uploadBytesResumable(storageRef, pdfFile);
+          task.on("state_changed", (snap) => setProgress(Math.round(snap.bytesTransferred / snap.totalBytes * 100)), reject, async () => {
+            pdfUrl = await getDownloadURL(task.snapshot.ref);
+            storagePath = path;
+            resolve();
+          });
+        });
+        if (editing.storagePath && editing.storagePath !== storagePath) {
+          await deleteObject(ref(storage, editing.storagePath)).catch(() => {});
+        }
+      }
+
+      const data = { ...editing, pdfUrl, storagePath, updatedAt: serverTimestamp() };
+      delete (data as any).id;
+
+      if (editing.id) {
+        await updateDoc(doc(db, "courses", editing.id), data);
+        pushToast({ type: "success", message: "Course updated!" });
+      } else {
+        await addDoc(collection(db, "courses"), { ...data, createdAt: serverTimestamp() });
+        pushToast({ type: "success", message: "Course created!" });
+      }
+      setEditing(null);
+      setPdfFile(null);
+    } catch {
+      pushToast({ type: "error", message: "Save failed" });
+    } finally {
+      setUploading(false);
+      setProgress(0);
+    }
+  }
+
+  async function deleteCourse(c: AdminCourse) {
+    if (!c.id || !confirm(`Delete "${c.title}"?`)) return;
+    if (c.storagePath) await deleteObject(ref(storage, c.storagePath)).catch(() => {});
+    await deleteDoc(doc(db, "courses", c.id));
+    pushToast({ type: "success", message: "Deleted" });
+  }
+
+  return (
+    <div>
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-2xl font-black text-[#f7f0df]">📚 Courses Manager</h2>
+        <Button onClick={() => setEditing({ ...EMPTY_COURSE })}>+ New Course</Button>
+      </div>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {courses.map((c) => (
+          <div key={c.id} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
+            <div className="flex items-start justify-between gap-2">
+              <span className="text-3xl">{c.emoji}</span>
+              <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${c.published ? "bg-green-400/20 text-green-300" : "bg-yellow-400/20 text-yellow-300"}`}>{c.published ? "Live" : "Draft"}</span>
+            </div>
+            <h3 className="mt-2 font-bold text-[#f7f0df]">{c.title}</h3>
+            <p className="mt-1 text-xs text-[#f7f0df]/50">{c.instructor} · {c.level} · {c.duration}</p>
+            <p className="mt-1 text-sm font-bold text-violet-300">₹{c.price}</p>
+            {c.pdfUrl && <a href={c.pdfUrl} target="_blank" rel="noreferrer" className="mt-2 block text-xs text-blue-400 underline">View PDF →</a>}
+            <div className="mt-4 flex gap-2">
+              <Button variant="secondary" onClick={() => { setEditing(c); setPdfFile(null); }} className="flex-1 !text-xs !py-1.5">Edit</Button>
+              <Button variant="danger" onClick={() => deleteCourse(c)} className="flex-1 !text-xs !py-1.5">Delete</Button>
+            </div>
+          </div>
+        ))}
+        {courses.length === 0 && <p className="text-[#f7f0df]/40 col-span-3">No courses yet. Create one!</p>}
+      </div>
+
+      {editing && (
+        <Modal open title={editing.id ? "Edit Course" : "New Course"} onClose={() => setEditing(null)}>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              <Input label="Emoji" value={editing.emoji} onChange={(v) => setEditing({ ...editing, emoji: v })} placeholder="📚" />
+              <Input label="Level" value={editing.level} onChange={(v) => setEditing({ ...editing, level: v })} placeholder="Beginner" />
+            </div>
+            <Input label="Title" value={editing.title} onChange={(v) => setEditing({ ...editing, title: v })} placeholder="Course title" />
+            <Input label="Instructor" value={editing.instructor} onChange={(v) => setEditing({ ...editing, instructor: v })} placeholder="Instructor name" />
+            <Textarea label="Description" value={editing.description} onChange={(v) => setEditing({ ...editing, description: v })} placeholder="Course description..." />
+            <div className="grid grid-cols-2 gap-3">
+              <Input label="Price (₹)" type="number" value={String(editing.price)} onChange={(v) => setEditing({ ...editing, price: +v })} />
+              <Input label="Duration" value={editing.duration} onChange={(v) => setEditing({ ...editing, duration: v })} placeholder="4 weeks" />
+            </div>
+            <div>
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-[#f7f0df]/60">Course PDF</label>
+              <input type="file" accept=".pdf" onChange={(e) => setPdfFile(e.target.files?.[0] ?? null)} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 px-3 py-2 text-sm text-[#f7f0df]/70" />
+              {progress > 0 && <div className="mt-2 h-2 rounded-full bg-[#f7f0df]/10"><div className="h-full rounded-full bg-violet-400 transition-all" style={{ width: `${progress}%` }} /></div>}
+            </div>
+            <label className="flex items-center gap-2 text-sm text-[#f7f0df]/70 cursor-pointer">
+              <input type="checkbox" checked={editing.published} onChange={(e) => setEditing({ ...editing, published: e.target.checked })} className="rounded" />
+              Published (visible to users)
+            </label>
+            <div className="flex gap-3 pt-2">
+              <Button variant="secondary" onClick={() => setEditing(null)} className="flex-1">Cancel</Button>
+              <Button onClick={saveCourse} className="flex-1" disabled={uploading}>{uploading ? `Saving… ${progress}%` : "Save Course"}</Button>
+            </div>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
+/* Challenges Manager                                                */
+/* ---------------------------------------------------------------- */
+
+function ChallengesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => void }) {
+  const [entries, setEntries] = useState<{ challengeId: string; name: string; points: number; joinedAt: string }[]>([]);
+  const [selected, setSelected] = useState("fat-loss-30");
+
+  const CHALLENGE_IDS = [
+    { id: "fat-loss-30", label: "30-Day Fat Loss" },
+    { id: "summer-shred", label: "Summer Shred" },
+    { id: "beast-transformation", label: "Beast Transformation" },
+    { id: "sugar-detox-21", label: "21-Day Sugar Detox" },
+    { id: "monsoon-muscle", label: "Monsoon Muscle Builder" },
+  ];
+
+  useEffect(() => {
+    const unsub = onSnapshot(collection(db, "challengeEntries", selected, "participants"), (snap) => {
+      setEntries(snap.docs.map((d) => ({ challengeId: selected, name: d.data().name, points: d.data().points || 0, joinedAt: d.data().joinedAt || "" })));
+    });
+    return unsub;
+  }, [selected]);
+
+  async function removeParticipant(name: string) {
+    pushToast({ type: "success", message: `Removed ${name} (demo)` });
+  }
+
+  return (
+    <div>
+      <h2 className="mb-6 text-2xl font-black text-[#f7f0df]">🏆 Challenges Manager</h2>
+      <div className="mb-4 flex flex-wrap gap-2">
+        {CHALLENGE_IDS.map((c) => (
+          <button key={c.id} onClick={() => setSelected(c.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${selected === c.id ? "bg-orange-500 text-white" : "border border-[#f7f0df]/10 text-[#f7f0df]/50 hover:bg-[#f7f0df]/5"}`}>{c.label}</button>
+        ))}
+      </div>
+
+      <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 overflow-hidden">
+        <div className="px-5 py-3 border-b border-[#f7f0df]/10 flex justify-between items-center">
+          <span className="text-sm font-bold text-[#f7f0df]/70">Participants ({entries.length})</span>
+          <span className="text-xs text-[#f7f0df]/30">Live via Firestore</span>
+        </div>
+        {entries.length === 0 ? (
+          <p className="px-5 py-8 text-center text-[#f7f0df]/30 text-sm">No participants yet</p>
+        ) : (
+          <table className="w-full">
+            <thead className="border-b border-[#f7f0df]/10">
+              <tr className="text-left text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/30">
+                <th className="px-5 py-3">Name</th>
+                <th className="px-5 py-3">Points</th>
+                <th className="px-5 py-3">Joined</th>
+                <th className="px-5 py-3">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {entries.sort((a, b) => b.points - a.points).map((e, i) => (
+                <tr key={i} className="border-b border-[#f7f0df]/5 text-sm">
+                  <td className="px-5 py-3 text-[#f7f0df]">#{i+1} {e.name}</td>
+                  <td className="px-5 py-3 font-bold text-orange-300">{e.points} pts</td>
+                  <td className="px-5 py-3 text-[#f7f0df]/40 text-xs">{e.joinedAt?.slice(0, 10)}</td>
+                  <td className="px-5 py-3"><button onClick={() => removeParticipant(e.name)} className="text-xs text-rose-400 hover:underline">Remove</button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ---------------------------------------------------------------- */
 /* Main Admin Panel                                                  */
 /* ---------------------------------------------------------------- */
 
@@ -391,6 +609,8 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
   const sections = [
     { id: "dashboard", label: "Dashboard", icon: "📊" },
     { id: "blogs", label: "Blog Posts", icon: "📝" },
+    { id: "courses", label: "Courses", icon: "📚" },
+    { id: "challenges", label: "Challenges", icon: "🏆" },
     { id: "features", label: "App Features", icon: "⚡" },
     { id: "testimonials", label: "Testimonials", icon: "💬" },
     { id: "users", label: "Users", icon: "👥" },
@@ -492,6 +712,8 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
             </div>
           )}
           {activeSection === "blogs" && <BlogsManager pushToast={pushToast} />}
+          {activeSection === "courses" && <CoursesManager pushToast={pushToast} />}
+          {activeSection === "challenges" && <ChallengesManager pushToast={pushToast} />}
           {activeSection === "features" && <FeaturesManager />}
           {activeSection === "testimonials" && <TestimonialsManager />}
           {activeSection === "users" && <UsersManager />}
