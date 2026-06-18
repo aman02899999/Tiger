@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useCallback } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { blogs, type BlogPost, type BlogBlock } from "./data/blogs";

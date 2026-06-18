@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../auth/AuthSystem';
 import { db } from '../firebase';
-import { collection, getDocs, doc, setDoc, getDoc, onSnapshot } from 'firebase/firestore';
+import { collection, doc, setDoc, onSnapshot } from 'firebase/firestore';
 
 type Course = {
   id: string;
@@ -788,11 +788,11 @@ export default function CoursesPage() {
 
   // Load enrollments
   useEffect(() => {
-    if (!user?.uid) return;
+    if (!user?.id) return;
     let unsub: (() => void) | undefined;
     try {
       unsub = onSnapshot(
-        collection(db, 'courseEnrollments', user.uid, 'courses'),
+        collection(db, 'courseEnrollments', user.id, 'courses'),
         (snap) => {
           const map: Record<string, Enrollment> = {};
           snap.docs.forEach((d) => {
@@ -804,7 +804,7 @@ export default function CoursesPage() {
       );
     } catch {}
     return () => unsub?.();
-  }, [user?.uid]);
+  }, [user?.id]);
 
   const filtered = levelFilter === 'All' ? courses : courses.filter((c) => c.level === levelFilter);
 
@@ -824,7 +824,7 @@ export default function CoursesPage() {
         courseId: selected.id,
         ...(selected.pdfUrl ? { pdfUrl: selected.pdfUrl } : {}),
       };
-      await setDoc(doc(db, 'courseEnrollments', user.uid, 'courses', selected.id), enrollment);
+      await setDoc(doc(db, 'courseEnrollments', user.id, 'courses', selected.id), enrollment);
       setEnrollments((prev) => ({ ...prev, [selected.id]: enrollment }));
       setPaymentDone(true);
       setShowModal(false);

@@ -633,7 +633,7 @@ export default function BloodReportPage() {
     setUploadError("");
     setSaveError("");
     try {
-      const path = `blood-reports/${user.uid}/${Date.now()}_${file.name}`;
+      const path = `blood-reports/${user.id}/${Date.now()}_${file.name}`;
       const storageRef = ref(storage, path);
       const task = uploadBytesResumable(storageRef, file);
 
@@ -650,7 +650,7 @@ export default function BloodReportPage() {
               const url = await getDownloadURL(task.snapshot.ref);
               setReportUrl(url);
 
-              await addDoc(collection(db, "users", user.uid, "bloodReports"), {
+              await addDoc(collection(db, "users", user.id, "bloodReports"), {
                 url,
                 fileName: file.name,
                 fileType: file.type,

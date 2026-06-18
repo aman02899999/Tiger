@@ -141,7 +141,7 @@ export default function ChallengesPage() {
   useEffect(() => {
     if (!user) return;
     const unsubs = CHALLENGES.map((c) => {
-      const ref = doc(db, "challengeEntries", c.id, "participants", user.uid);
+      const ref = doc(db, "challengeEntries", c.id, "participants", user.id);
       return onSnapshot(ref, (snap) => {
         if (snap.exists()) {
           setMyEntries((prev) => ({ ...prev, [c.id]: snap.data() as { joinedAt: string; lastCheckin?: string } }));
@@ -149,7 +149,7 @@ export default function ChallengesPage() {
       });
     });
     return () => unsubs.forEach((u) => u());
-  }, [user?.uid]);
+  }, [user?.id]);
 
   useEffect(() => {
     const unsubs = CHALLENGES.map((c) => {
@@ -166,7 +166,7 @@ export default function ChallengesPage() {
     if (!user) return;
     setJoining(c.id);
     try {
-      const ref = doc(db, "challengeEntries", c.id, "participants", user.uid);
+      const ref = doc(db, "challengeEntries", c.id, "participants", user.id);
       await setDoc(ref, {
         name: user.name,
         avatar: (user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase() + "XX").slice(0, 2),
@@ -182,7 +182,7 @@ export default function ChallengesPage() {
   async function doCheckin(challengeId: string) {
     if (!user) return;
     const today = new Date().toISOString().slice(0, 10);
-    const ref = doc(db, "challengeEntries", challengeId, "participants", user.uid);
+    const ref = doc(db, "challengeEntries", challengeId, "participants", user.id);
     const snap = await getDoc(ref);
     if (!snap.exists()) return;
     const data = snap.data();
