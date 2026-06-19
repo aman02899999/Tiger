@@ -85,7 +85,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
           <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">{user?.avatar}</div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-6 lg:p-10">{children}</main>
+        <main className="flex-1 overflow-y-auto px-4 py-5 sm:p-6 lg:p-10">{children}</main>
       </div>
     </div>
   );
