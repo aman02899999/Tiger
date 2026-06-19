@@ -96,10 +96,14 @@ const howItWorks = [
 ];
 
 const testimonials = [
-  { name: "Rahul Sharma", role: "Lost 18kg in 4 months", text: "The wedding mode changed everything. I had 90 days before my wedding and the app built a complete roadmap. The damage control mode after cheat meals kept me sane.", avatar: "RS" },
-  { name: "Priya Mehta", role: "IT Professional, Mumbai", text: "Indian food scanner is insane. I just snap roti-sabzi-dal and it tells me exact protein, carbs, fat. The cheapest protein feature saves me thousands every month on supplements.", avatar: "PM" },
-  { name: "Arjun Kapoor", role: "Gym Enthusiast, Delhi", text: "Gym crowd predictor actually works. I now go during low-traffic hours. Sleep debt tracker warned me when I was overtraining before I even felt it. This app knows me better than I do.", avatar: "AK" },
-  { name: "Ananya Singh", role: "Homemaker, Jaipur", text: "Family health dashboard is a game changer. I track my kids nutrition, husband fitness, and parents health all in one place. The grocery budget planner keeps us within budget.", avatar: "AS" },
+  { name: "Rohit S.", role: "Lost 22kg · Mumbai", text: "Beast Calculator ne meri life badal di! 4 mahine mein pehchaana nahi jata ab. Indian meal plan ekdum sahi tha!", avatar: "RS" },
+  { name: "Ananya K.", role: "Lost 15kg · Delhi", text: "Pehli baar kisi app ne mujhe Indian foods ka proper macro breakdown diya. Dal, roti, sabzi sab ka calculation!", avatar: "AK" },
+  { name: "Siddharth M.", role: "+14kg Muscle · Pune", text: "Royal Pro ki 7-day meal plan follow ki. 6 mahine mein 14kg lean mass gain! Chawal aur paneer se!", avatar: "SM" },
+  { name: "Deepika R.", role: "Lost 18kg · Bangalore", text: "Body anatomy visualizer dekh ke samajh aaya mera body fat kitna tha. Streak system amazing hai!", avatar: "DR" },
+  { name: "Amit P.", role: "Athlete · Chennai", text: "₹499 mein itna sab kuch? Yaar ye toh London ka subscription bhi sharminda ho jaye iske samne!", avatar: "AP" },
+  { name: "Priyanka N.", role: "Lost 12kg · Hyderabad", text: "Before/after photos feature bahut emotional tha. 3 mahine baad apna photo dekha toh bilkul alag tha!", avatar: "PN" },
+  { name: "Kartik B.", role: "Lost 25kg · Kolkata", text: "Chawal, roti, sabzi sab ka calorie count! Finally ek app jo samajhta hai Indian eating. Game changer!", avatar: "KB" },
+  { name: "Vijay G.", role: "+20kg Bulk · Jaipur", text: "Doodh, paneer, eggs, chicken — sabka proper plan. 8 mahine mein 20kg muscle gain! Beast level!", avatar: "VG" },
 ];
 
 const faqs = [
@@ -113,9 +117,9 @@ const faqs = [
 ];
 
 const pricingPlans = [
-  { name: "Free", price: "₹0", period: "forever", description: "Start your transformation journey", features: ["Basic workout tracking", "Simple calorie counter", "5 AI sessions/month", "Community access"], cta: "Get Started Free", popular: false },
-  { name: "Pro", price: "₹199", period: "/month", description: "For serious transformations", features: ["Unlimited AI coaching", "Indian food scanner", "Energy prediction engine", "All 28+ Life Coach features", "Progress recognition AI", "Accountability partner"], cta: "Start Pro Trial", popular: true },
-  { name: "Elite Family", price: "₹399", period: "/month", description: "Complete household coverage", features: ["Everything in Pro", "Up to 8 family members", "Medical report analyzer", "Voice fitness coach", "Wedding mode + Travel mode", "Priority support"], cta: "Go Elite", popular: false },
+  { name: "Free", price: "₹0", period: "forever", description: "Start your fitness journey", features: ["Beast Score Calculator (0–100)", "BMI, BMR & TDEE Calculator", "Body Fat % Estimator", "Leaderboard Access", "WOD (Workout of the Day)", "Courses & Knowledge Store"], cta: "Get Started Free", popular: false },
+  { name: "Royal Pro", price: "₹499", period: "/month", description: "For serious transformations", features: ["Full 7-Day Indian Meal Plan", "50+ Veg & Non-Veg Foods", "12-Week Transformation Roadmap", "Progress Charts & Weight Graph", "Blood Report Analyser (20+ markers)", "108+ Expert PDF Guides", "10 Certification Courses", "Before/After Photo Upload"], cta: "Start Pro — ₹499/mo", popular: true },
+  { name: "Royal Elite", price: "₹1,999", period: "/month", description: "1-on-1 personal coaching", features: ["Everything in Royal Pro", "1-on-1 Personal Trainer Sessions", "Custom Diet Plan by Nutritionist", "Weekly Check-in Calls", "Priority Support & WhatsApp Access", "Monthly Body Composition Analysis", "Exclusive Elite Badge", "Early Access to New Features"], cta: "Go Elite — ₹1999/mo", popular: false },
 ];
 
 /* ---------------------------------------------------------------- */
