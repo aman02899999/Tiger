@@ -53,7 +53,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
             </div>
           </div>
 
-          <nav className="flex-1 space-y-1.5">
+          <nav className="flex-1 space-y-1.5 overflow-y-auto min-h-0 pr-1">
             {navItems.map((item) => (
               <button key={item.id} type="button" onClick={() => { setCurrentSection(item.id); setMobileOpen(false); }} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition ${currentSection === item.id ? "bg-violet-200/15 text-violet-100" : "text-[#f7f0df]/54 hover:bg-[#f7f0df]/5 hover:text-[#f7f0df]"}`}>
                 <span className="text-lg">{item.icon}</span>
@@ -85,7 +85,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
           <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">{user?.avatar}</div>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-6 lg:p-10">{children}</main>
+        <main className="flex-1 overflow-y-auto px-4 py-5 sm:p-6 lg:p-10">{children}</main>
       </div>
     </div>
   );
