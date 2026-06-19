@@ -98,7 +98,7 @@ const howItWorks = [
 const testimonials = [
   { name: "Rohit S.", role: "Lost 22kg · Mumbai", text: "Beast Calculator ne meri life badal di! 4 mahine mein pehchaana nahi jata ab. Indian meal plan ekdum sahi tha!", avatar: "RS" },
   { name: "Ananya K.", role: "Lost 15kg · Delhi", text: "Pehli baar kisi app ne mujhe Indian foods ka proper macro breakdown diya. Dal, roti, sabzi sab ka calculation!", avatar: "AK" },
-  { name: "Siddharth M.", role: "+14kg Muscle · Pune", text: "Royal Pro ki 7-day meal plan follow ki. 6 mahine mein 14kg lean mass gain! Chawal aur paneer se!", avatar: "SM" },
+  { name: "Siddharth M.", role: "+14kg Muscle · Pune", text: "Tiger Pro ki 7-day meal plan follow ki. 6 mahine mein 14kg lean mass gain! Chawal aur paneer se!", avatar: "SM" },
   { name: "Deepika R.", role: "Lost 18kg · Bangalore", text: "Body anatomy visualizer dekh ke samajh aaya mera body fat kitna tha. Streak system amazing hai!", avatar: "DR" },
   { name: "Amit P.", role: "Athlete · Chennai", text: "₹499 mein itna sab kuch? Yaar ye toh London ka subscription bhi sharminda ho jaye iske samne!", avatar: "AP" },
   { name: "Priyanka N.", role: "Lost 12kg · Hyderabad", text: "Before/after photos feature bahut emotional tha. 3 mahine baad apna photo dekha toh bilkul alag tha!", avatar: "PN" },
@@ -118,8 +118,8 @@ const faqs = [
 
 const pricingPlans = [
   { name: "Free", price: "₹0", period: "forever", description: "Start your fitness journey", features: ["Beast Score Calculator (0–100)", "BMI, BMR & TDEE Calculator", "Body Fat % Estimator", "Leaderboard Access", "WOD (Workout of the Day)", "Courses & Knowledge Store"], cta: "Get Started Free", popular: false },
-  { name: "Royal Pro", price: "₹499", period: "/month", description: "For serious transformations", features: ["Full 7-Day Indian Meal Plan", "50+ Veg & Non-Veg Foods", "12-Week Transformation Roadmap", "Progress Charts & Weight Graph", "Blood Report Analyser (20+ markers)", "108+ Expert PDF Guides", "10 Certification Courses", "Before/After Photo Upload"], cta: "Start Pro — ₹499/mo", popular: true },
-  { name: "Royal Elite", price: "₹1,999", period: "/month", description: "1-on-1 personal coaching", features: ["Everything in Royal Pro", "1-on-1 Personal Trainer Sessions", "Custom Diet Plan by Nutritionist", "Weekly Check-in Calls", "Priority Support & WhatsApp Access", "Monthly Body Composition Analysis", "Exclusive Elite Badge", "Early Access to New Features"], cta: "Go Elite — ₹1999/mo", popular: false },
+  { name: "Tiger Pro", price: "₹499", period: "/month", description: "For serious transformations", features: ["Full 7-Day Indian Meal Plan", "50+ Veg & Non-Veg Foods", "12-Week Transformation Roadmap", "Progress Charts & Weight Graph", "Blood Report Analyser (20+ markers)", "108+ Expert PDF Guides", "10 Certification Courses", "Before/After Photo Upload"], cta: "Start Tiger Pro — ₹499/mo", popular: true },
+  { name: "Tiger Elite", price: "₹1,999", period: "/month", description: "1-on-1 personal coaching", features: ["Everything in Tiger Pro", "1-on-1 Personal Trainer Sessions", "Custom Diet Plan by Nutritionist", "Weekly Check-in Calls", "Priority Support & WhatsApp Access", "Monthly Body Composition Analysis", "Exclusive Elite Badge", "Early Access to New Features"], cta: "Go Elite — ₹1999/mo", popular: false },
 ];
 
 /* ---------------------------------------------------------------- */
