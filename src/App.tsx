@@ -70,6 +70,12 @@ const optionAFeatures = [
   { title: "Voice Fitness Coach", tag: "Voice AI", desc: "Ask what should I eat now and get instant AI guidance." },
   { title: "Fitness GPS", tag: "Roadmap", desc: "Show roadmap from current weight to goal weight with milestones." },
   { title: "Accountability Partner AI", tag: "Daily coach", desc: "Daily check-ins that say what was missed and how to fix it today without guilt." },
+  { title: "Ayurveda Hub", tag: "37 conditions", desc: "Complete Ayurvedic protocols for 37 health conditions — herbs, formulations, diet, dosha analysis, and yoga." },
+  { title: "PDF Expert Library", tag: "22 guides", desc: "22 expert PDF guides covering cycles, nutrition, hormones, training, women's health, and recovery — ₹199 to ₹599 each." },
+  { title: "Physio & Rehab Protocols", tag: "Evidence-based", desc: "POLICE protocol and evidence-based rehab programs for shoulder, knee, back, ankle, hip, and elbow injuries." },
+  { title: "Blood Report AI — 40+ Markers", tag: "India clinical", desc: "Upload blood test PDF or enter values — get smart fitness, nutrition, and Ayurvedic recommendations per marker." },
+  { title: "Certification Courses", tag: "10 courses", desc: "CPT, Sports Nutrition, Fat Loss Specialist, Physio Diploma — RFC-certified LinkedIn-shareable digital badges." },
+  { title: "Smart Meal Planner", tag: "17 conditions", desc: "Formula-based 7-day Indian meal plan for 17 health conditions — veg, non-veg, vegan, goal-specific, budget-aware." },
 ];
 
 const premiumThemes: Record<ThemeKey, { name: string; glow: string; accent: string; label: string }> = {
@@ -83,9 +89,9 @@ const premiumThemes: Record<ThemeKey, { name: string; glow: string; accent: stri
 
 const heroStats = [
   { number: "50K+", label: "Active Users" },
-  { number: "28", label: "AI Features" },
+  { number: "35+", label: "Premium Features" },
   { number: "4.9★", label: "Play Store Rating" },
-  { number: "99%", label: "Uptime SLA" },
+  { number: "22", label: "Expert PDF Guides" },
 ];
 
 const howItWorks = [
@@ -117,9 +123,10 @@ const faqs = [
 ];
 
 const pricingPlans = [
-  { name: "Free", price: "₹0", period: "forever", description: "Start your fitness journey", features: ["Beast Score Calculator (0–100)", "BMI, BMR & TDEE Calculator", "Body Fat % Estimator", "Leaderboard Access", "WOD (Workout of the Day)", "Courses & Knowledge Store"], cta: "Get Started Free", popular: false },
-  { name: "Tiger Pro", price: "₹499", period: "/month", description: "For serious transformations", features: ["Full 7-Day Indian Meal Plan", "50+ Veg & Non-Veg Foods", "12-Week Transformation Roadmap", "Progress Charts & Weight Graph", "Blood Report Analyser (20+ markers)", "108+ Expert PDF Guides", "10 Certification Courses", "Before/After Photo Upload"], cta: "Start Tiger Pro — ₹499/mo", popular: true },
-  { name: "Tiger Elite", price: "₹1,999", period: "/month", description: "1-on-1 personal coaching", features: ["Everything in Tiger Pro", "1-on-1 Personal Trainer Sessions", "Custom Diet Plan by Nutritionist", "Weekly Check-in Calls", "Priority Support & WhatsApp Access", "Monthly Body Composition Analysis", "Exclusive Elite Badge", "Early Access to New Features"], cta: "Go Elite — ₹1999/mo", popular: false },
+  { name: "Free", price: "₹0", period: "forever", description: "Start your fitness journey", features: ["Beast Score Calculator (0–100)", "BMI, BMR & TDEE Calculator", "Body Fat % Estimator", "Leaderboard Access", "WOD (Workout of the Day)", "Courses & Knowledge Store", "Ayurveda Hub (view only)", "Community Leaderboard"], cta: "Get Started Free", popular: false },
+  { name: "Tiger Pro", price: "₹499", period: "/month", description: "For serious transformations", features: ["Full 7-Day Indian Meal Plan", "12-Week Transformation Roadmap", "Blood Report AI Analyser (40+ markers)", "Ayurveda Hub — Full Access", "Physio & Injury Rehab Protocols", "22 Expert PDF Guides", "10 Certification Courses", "Before/After Photo Upload", "Streak Freeze Protection", "PDF Export for meal plans"], cta: "Start Tiger Pro — ₹499/mo", popular: true },
+  { name: "Tiger Elite", price: "₹1,999", period: "/month", description: "1-on-1 personal coaching", features: ["Everything in Tiger Pro", "1-on-1 Personal Trainer Sessions", "Custom Meal Plan by Coach", "Weekly Check-in Calls", "Priority WhatsApp Support", "Advanced Body Composition Analysis", "Exclusive Elite Badge", "Early Feature Access"], cta: "Go Elite — ₹1999/mo", popular: false },
+  { name: "Tiger Annual", price: "₹4,999", period: "/year", description: "Best value — save ₹1,000", features: ["All Tiger Pro & Elite features", "12-month full access", "Exclusive RFC merchandise discount", "Certificate of completion", "Priority support all year", "Locked-in price guarantee"], cta: "Get Annual — ₹4,999/yr", popular: false },
 ];
 
 /* ---------------------------------------------------------------- */
@@ -394,7 +401,7 @@ function HowItWorks() {
   );
 }
 
-const annualPrices: Record<string, string> = { Free: "₹0", Pro: "₹119", "Elite Family": "₹239" };
+const annualPrices: Record<string, string> = { Free: "₹0", "Tiger Pro": "₹299", "Tiger Elite": "₹1,199", "Tiger Annual": "₹4,999" };
 
 function Pricing() {
   const [annual, setAnnual] = useState(false);
@@ -416,7 +423,7 @@ function Pricing() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {pricingPlans.map((plan) => {
             const isFree = plan.price === "₹0";
             const displayPrice = (annual && !isFree) ? annualPrices[plan.name] : plan.price;
