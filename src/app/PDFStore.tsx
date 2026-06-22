@@ -246,7 +246,7 @@ export default function PDFStorePage() {
     <div className="min-h-screen" style={{ background: "#07040d", color: "#f7f0df" }}>
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4" style={{ background: "linear-gradient(135deg, #d8b35a, #a78bfa, #e879f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4" style={{ background: "linear-gradient(135deg, #d8b35a, #a78bfa, #e879f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             PDF Guide Store
           </h1>
           <p className="text-lg opacity-70 max-w-2xl mx-auto">
@@ -293,7 +293,7 @@ export default function PDFStorePage() {
         {filtered.length === 0 ? (
           <div className="text-center py-20 opacity-50">No guides found</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
             {filtered.map((g) => (
               <GuideCard key={g.id} guide={g} onBuy={setSelectedGuide} />
             ))}

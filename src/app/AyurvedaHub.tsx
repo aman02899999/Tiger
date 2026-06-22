@@ -349,7 +349,7 @@ function DoshaQuiz() {
             style={{ borderColor: `${info.color}40`, background: `${info.color}15` }}
           >
             <p className="mb-1 text-sm uppercase tracking-widest text-[#f7f0df]/60">Your Dominant Dosha</p>
-            <h3 className="mb-2 text-4xl font-extrabold capitalize" style={{ color: info.color }}>
+            <h3 className="mb-2 text-2xl sm:text-3xl font-extrabold capitalize" style={{ color: info.color }}>
               {result}
             </h3>
             <p className="text-sm leading-relaxed text-[#f7f0df]/80">{info.desc}</p>
@@ -518,7 +518,7 @@ function AyurvedaContent() {
             Modern Application
           </span>
         </div>
-        <h1 className="text-3xl font-extrabold text-[#f7f0df] md:text-4xl">
+        <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#f7f0df]">
           Ayurveda Hub
         </h1>
         <p className="mt-2 max-w-2xl text-[#f7f0df]/60">

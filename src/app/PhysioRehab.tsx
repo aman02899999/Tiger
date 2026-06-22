@@ -157,7 +157,7 @@ function PoliceCard() {
         {POLICE.map((item) => (
           <div
             key={item.letter}
-            className="flex gap-3 rounded-xl border border-[#f7f0df]/8 bg-[#07040d]/60 p-4"
+            className="flex gap-3 rounded-xl border border-[#f7f0df]/8 bg-[#07040d]/60 p-3 sm:p-4"
           >
             <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-sm font-black text-white">
               {item.letter}
@@ -195,7 +195,7 @@ function InjuryProtocol({ injuryKey }: { injuryKey: InjuryKey }) {
         {p.phases.map((ph, i) => (
           <div
             key={i}
-            className="rounded-xl border border-[#f7f0df]/8 bg-[#07040d]/70 p-4"
+            className="rounded-xl border border-[#f7f0df]/8 bg-[#07040d]/70 p-3 sm:p-4"
           >
             <div className="mb-1 flex items-center gap-2">
               <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 text-xs font-bold text-white">
@@ -209,11 +209,11 @@ function InjuryProtocol({ injuryKey }: { injuryKey: InjuryKey }) {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
+        <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3 sm:p-4">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-emerald-400">Return-to-Sport Criteria</p>
           <p className="text-sm leading-relaxed text-[#f7f0df]/80">{p.returnCriteria}</p>
         </div>
-        <div className="rounded-xl border border-red-500/25 bg-red-500/8 p-4">
+        <div className="rounded-xl border border-red-500/25 bg-red-500/8 p-3 sm:p-4">
           <p className="mb-1 text-xs font-bold uppercase tracking-widest text-red-400">Red Flags</p>
           <p className="text-sm leading-relaxed text-[#f7f0df]/80">{p.redFlags}</p>
         </div>
@@ -289,7 +289,7 @@ export default function PhysioRehabPage() {
               Physiotherapy & Injury Rehab
             </span>
           </div>
-          <h1 className="text-3xl font-black text-[#f7f0df] sm:text-4xl">
+          <h1 className="text-xl sm:text-3xl font-black text-[#f7f0df] sm:text-4xl">
             Recover Smarter.{" "}
             <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-[#d8b35a] bg-clip-text text-transparent">
               Come Back Stronger.

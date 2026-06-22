@@ -119,11 +119,11 @@ function Dashboard() {
     <div className="space-y-6">
       <div>
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-100/70">Good morning,</p>
-        <h1 className="text-3xl font-black tracking-[-0.04em] sm:text-4xl">{user.name} 👋</h1>
+        <h1 className="text-xl sm:text-3xl md:text-4xl font-black tracking-[-0.04em]">{user.name} 👋</h1>
         <p className="mt-1 text-sm text-[#f7f0df]/50">{new Date().toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-2 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
           <div key={s.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5 backdrop-blur-xl">
             <div className="flex items-start justify-between">
@@ -253,7 +253,7 @@ function WorkoutsPage() {
       </div>
 
       {started ? (
-        <div className="rounded-3xl border border-violet-200/30 bg-gradient-to-br from-violet-200/15 to-fuchsia-400/8 p-10 text-center">
+        <div className="rounded-3xl border border-violet-200/30 bg-gradient-to-br from-violet-200/15 to-fuchsia-400/8 p-5 sm:p-10 text-center">
           <div className="text-6xl animate-pulse">💪</div>
           <h2 className="mt-6 text-3xl font-black">Workout in Progress</h2>
           <p className="mt-2 text-sm text-[#f7f0df]/60">Keep going! You're doing amazing.</p>
@@ -388,7 +388,7 @@ function ProgressPage() {
         <p className="text-sm text-[#f7f0df]/50">Your transformation journey, visualized</p>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
         {[
           { label: "Starting Weight", value: `${log[0]?.weight || "--"} kg`, icon: "⚖️" },
           { label: "Current Weight", value: `${log[log.length - 1]?.weight || "--"} kg`, icon: "📍" },
@@ -462,7 +462,7 @@ function ProgressPage() {
 
         <div className="rounded-2xl border border-violet-200/20 bg-violet-200/8 p-6">
           <h3 className="font-bold">🏆 Achievements</h3>
-          <div className="mt-4 grid grid-cols-3 gap-3">
+          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
             {[
               { icon: "💧", name: "Hydration King", unlocked: true },
               { icon: "🔥", name: "7-Day Streak", unlocked: true },
@@ -593,7 +593,7 @@ function PremiumPage() {
         <h1 className="text-3xl font-black tracking-[-0.04em]">Premium Plans</h1>
         <p className="text-sm text-[#f7f0df]/50">Unlock the full Tiger Fitness Pro experience</p>
       </div>
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 md:grid-cols-3">
         {[
           { name: "Free", price: "₹0", period: "forever", features: ["Basic workouts", "5 AI sessions/month", "Community access", "Basic tracking"], current: true },
           { name: "Pro", price: "₹199", period: "/month", features: ["Everything in Free", "Unlimited AI coaching", "Indian food scanner", "Wedding mode", "Progress recognition", "Accountability AI"], popular: true },

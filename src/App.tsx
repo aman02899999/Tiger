@@ -196,7 +196,7 @@ function Hero() {
               <span className="text-xs font-semibold uppercase tracking-[0.32em] text-violet-100">Now on Play Store</span>
             </div>
 
-            <h1 className="bg-gradient-to-br from-[#f7f0df] via-violet-100 to-[#d8b35a] bg-clip-text text-6xl font-black leading-[0.92] tracking-[-0.07em] text-transparent sm:text-7xl lg:text-8xl xl:text-9xl">
+            <h1 className="bg-gradient-to-br from-[#f7f0df] via-violet-100 to-[#d8b35a] bg-clip-text text-3xl sm:text-5xl font-black leading-[0.92] tracking-[-0.07em] text-transparent md:text-7xl lg:text-8xl xl:text-9xl">
               Train Smarter.<br />Transform Faster.
             </h1>
             <p className="mt-8 max-w-2xl text-lg leading-8 text-[#f7f0df]/76 sm:text-xl sm:leading-9">
@@ -248,7 +248,7 @@ function About() {
         <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
           <div className="motion-safe:animate-[fadeUp_900ms_ease-out_both]">
             <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Why Tiger?</p>
-            <h2 className="mt-5 text-4xl font-black tracking-[-0.05em] sm:text-5xl lg:text-6xl">
+            <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">
               Not just a fitness app.<br />
               <span className="bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-transparent">Your life operating system.</span>
             </h2>
@@ -330,7 +330,7 @@ function Features() {
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">28+ Premium Features</p>
-          <h2 className="mt-5 text-4xl font-black tracking-[-0.05em] sm:text-5xl lg:text-6xl">Everything you need to transform.</h2>
+          <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">Everything you need to transform.</h2>
           <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">From Indian food scanning to wedding roadmaps. From family health to voice coaching.</p>
         </div>
 
@@ -373,10 +373,10 @@ function HowItWorks() {
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">How It Works</p>
-          <h2 className="mt-5 text-4xl font-black tracking-[-0.05em] sm:text-5xl lg:text-6xl">4 steps to your best self.</h2>
+          <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">4 steps to your best self.</h2>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:gap-10">
+        <div className="mt-16 grid gap-4 sm:gap-8 md:grid-cols-2 lg:gap-10">
           {howItWorks.map((item, index) => (
             <div
               key={item.step}
@@ -411,7 +411,7 @@ function Pricing() {
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Pricing</p>
-          <h2 className="mt-5 text-4xl font-black tracking-[-0.05em] sm:text-5xl lg:text-6xl">One plan for your goal.</h2>
+          <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">One plan for your goal.</h2>
           <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">Cancel anytime. Start free, upgrade when ready.</p>
 
           <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-violet-200/24 bg-violet-200/8 px-5 py-2.5">
@@ -423,13 +423,13 @@ function Pricing() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-14 grid gap-3 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {pricingPlans.map((plan) => {
             const isFree = plan.price === "₹0";
             const displayPrice = (annual && !isFree) ? annualPrices[plan.name] : plan.price;
             const displayPeriod = isFree ? "forever" : annual ? "/mo, billed yearly" : "/month";
             return (
-            <div key={plan.name} className={"relative rounded-[2rem] border p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 " + (plan.popular ? "border-violet-300/40 bg-violet-200/10 shadow-[0_0_60px_rgba(167,139,250,0.15),inset_0_1px_0_rgba(255,255,255,0.06)]" : "border-[#f7f0df]/12 bg-[#0b0714]/60")}>
+            <div key={plan.name} className={"relative rounded-[2rem] border p-5 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 " + (plan.popular ? "border-violet-300/40 bg-violet-200/10 shadow-[0_0_60px_rgba(167,139,250,0.15),inset_0_1px_0_rgba(255,255,255,0.06)]" : "border-[#f7f0df]/12 bg-[#0b0714]/60")}>
               {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-5 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg">Most Popular</div>}
 
               <h3 className="text-2xl font-black text-[#f7f0df]">{plan.name}</h3>
@@ -465,12 +465,12 @@ function Testimonials() {
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Testimonials</p>
-          <h2 className="mt-5 text-4xl font-black tracking-[-0.05em] sm:text-5xl lg:text-6xl">Real stories. Real results.</h2>
+          <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">Real stories. Real results.</h2>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2">
+        <div className="mt-14 grid gap-4 sm:gap-6 md:grid-cols-2">
           {testimonials.map((t) => (
-            <div key={t.name} className="rounded-[2rem] border border-[#f7f0df]/12 bg-[#0b0714]/60 p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-violet-200/25">
+            <div key={t.name} className="rounded-[2rem] border border-[#f7f0df]/12 bg-[#0b0714]/60 p-5 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-violet-200/25">
               <div className="flex items-center gap-2 mb-4">
                 {[...Array(5)].map((_, i) => (<span key={i} className="text-[#d8b35a] text-lg">&#9733;</span>))}
               </div>
@@ -765,7 +765,7 @@ function BlogSection() {
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">The Tiger Blog</p>
-          <h2 className="mt-5 text-4xl font-black tracking-[-0.05em] sm:text-5xl lg:text-6xl">Fitness knowledge for modern Indians.</h2>
+          <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">Fitness knowledge for modern Indians.</h2>
           <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">20+ expert articles on nutrition, workouts, lifestyle, and performance marketing insights.</p>
         </div>
 
