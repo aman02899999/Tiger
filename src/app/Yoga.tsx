@@ -97,8 +97,66 @@ const CATEGORIES = ['All', 'Standing', 'Seated', 'Prone', 'Supine', 'Balance', '
 const LEVELS = ['All', 'Beginner', 'Intermediate', 'Advanced']
 
 /* ------------------------------------------------------------------ */
-/* SVG Pose Figure                                                      */
+/* Pose Image (real photos from Unsplash)                              */
 /* ------------------------------------------------------------------ */
+
+// Maps each pose figure key → Unsplash search terms so every pose gets
+// a relevant, consistently cached photo (source.unsplash.com CDN-caches
+// per unique URL).
+const POSE_IMAGES: Record<string, string> = {
+  mountain:          'yoga,tadasana,mountain-pose,standing',
+  tree:              'yoga,tree-pose,vrksasana,one-leg-balance',
+  warrior1:          'yoga,warrior-one,virabhadrasana,arms-overhead',
+  warrior2:          'yoga,warrior-two,side-lunge,arms-extended',
+  warrior3:          'yoga,warrior-three,balance,horizontal-body',
+  triangle:          'yoga,triangle-pose,trikonasana,side-stretch',
+  chair:             'yoga,chair-pose,utkatasana,squat-yoga',
+  eagle:             'yoga,eagle-pose,garudasana,balance-twist',
+  sideangle:         'yoga,side-angle,parsvakonasana,lunge',
+  forwardbend:       'yoga,forward-fold,uttanasana,hamstring-stretch',
+  dancer:            'yoga,dancer-pose,natarajasana,backbend-balance',
+  easy:              'yoga,easy-pose,sukhasana,cross-legged',
+  lotus:             'yoga,lotus-pose,padmasana,meditation-seated',
+  seatedforward:     'yoga,seated-forward-bend,paschimottanasana',
+  butterfly:         'yoga,butterfly-pose,baddha-konasana,hip-opener',
+  twist:             'yoga,seated-spinal-twist,ardha-matsyendrasana',
+  headtoknee:        'yoga,head-to-knee,janu-sirsasana,forward-fold',
+  cowface:           'yoga,cow-face-pose,gomukhasana,hip-stretch',
+  staff:             'yoga,staff-pose,dandasana,seated-upright',
+  wideangleseated:   'yoga,wide-angle-seated,splits,inner-thigh',
+  hero:              'yoga,hero-pose,virasana,kneeling',
+  cobra:             'yoga,cobra-pose,bhujangasana,backbend',
+  locust:            'yoga,locust-pose,salabhasana,back-strengthening',
+  bow:               'yoga,bow-pose,dhanurasana,full-backbend',
+  crocodile:         'yoga,makarasana,prone-relaxation,rest',
+  sphinx:            'yoga,sphinx-pose,gentle-backbend,forearms',
+  camel:             'yoga,camel-pose,ustrasana,kneeling-backbend',
+  bridge:            'yoga,bridge-pose,setu-bandha,hips-lifted',
+  corpse:            'yoga,savasana,corpse-pose,relaxation,lying',
+  plow:              'yoga,plow-pose,halasana,legs-over-head',
+  shoulderstand:     'yoga,shoulder-stand,sarvangasana,inversion',
+  windreleasing:     'yoga,wind-relieving,pawanmuktasana,knee-to-chest',
+  supinetwist:       'yoga,supine-twist,spinal-rotation,lying-down',
+  happybaby:         'yoga,happy-baby-pose,ananda-balasana,hip-opener',
+  legsupwall:        'yoga,legs-up-wall,viparita-karani,restorative',
+  yoganidra:         'yoga,yoga-nidra,deep-relaxation,savasana',
+  shavasana:         'yoga,shavasana,final-relaxation,body-still',
+  fish:              'yoga,fish-pose,matsyasana,chest-opener',
+  recliningbutterfly:'yoga,reclining-butterfly,supta-baddha,restorative',
+  crow:              'yoga,crow-pose,bakasana,arm-balance',
+  sideplank:         'yoga,side-plank,vasisthasana,core-strength',
+  halfmoon:          'yoga,half-moon,ardha-chandrasana,one-leg-standing',
+  scale:             'yoga,scale-pose,tolasana,arm-balance-lotus',
+  peacock:           'yoga,peacock-pose,mayurasana,arm-balance',
+  downdog:           'yoga,downward-dog,inverted-v,inversion',
+  headstand:         'yoga,headstand,sirsasana,inversion-advanced',
+  forearmstand:      'yoga,forearm-stand,pincha-mayurasana,inversion',
+  handstand:         'yoga,handstand,adho-mukha-vrksasana,inversion',
+  childs:            'yoga,child-pose,balasana,rest,kneeling-fold',
+  pranayama:         'yoga,pranayama,breathing,meditation-sitting',
+  alternatenostril:  'yoga,alternate-nostril-breathing,anulom-vilom',
+  beebreathe:        'yoga,bee-breath,bhramari,pranayama-breathing',
+}
 
 interface PoseFigureProps {
   figure: string
@@ -106,11 +164,28 @@ interface PoseFigureProps {
 }
 
 function PoseFigure({ figure, size = 120 }: PoseFigureProps) {
-  const gradientId = `pg-${figure}`
-  const glowId = `gw-${figure}`
+  const keywords = POSE_IMAGES[figure] ?? 'yoga,asana,pose,practice'
+  const imageUrl = `https://source.unsplash.com/featured/400x533/?${encodeURIComponent(keywords)}`
+  const height = Math.round(size * 1.33)
 
-  const figureContent = () => {
-    switch (figure) {
+  return (
+    <div
+      style={{ width: size, height, borderRadius: 12, overflow: 'hidden', background: 'linear-gradient(135deg,#3b0764,#1e1b4b)', flexShrink: 0 }}
+    >
+      <img
+        src={imageUrl}
+        alt={figure.replace(/([a-z])([A-Z])/g, '$1 $2')}
+        loading="lazy"
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+      />
+    </div>
+  )
+}
+
+// ---- dead code below; kept only so TypeScript doesn't complain about imports ----
+function _unusedFigureContent(figure: string): null {
+  switch (figure) {
       case 'mountain':
         return (
           <>
@@ -354,44 +429,9 @@ function PoseFigure({ figure, size = 120 }: PoseFigureProps) {
             <path d="M 68,80 L 80,115 L 82,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
           </>
         )
-      default:
-        // Generic seated/standing variation based on first letter of figure name
-        return (
-          <>
-            <circle cx="60" cy="20" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,31 Q 60,29 68,31 L 68,77 Q 60,80 52,77 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,42 L 36,62 L 32,75" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,42 L 84,62 L 88,75" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 54,77 L 48,115 L 45,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 66,77 L 72,115 L 75,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
+      default: return null
     }
-  }
-
-  return (
-    <svg
-      viewBox="0 0 120 160"
-      width={size}
-      height={size * (160 / 120)}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#7c3aed" />
-          <stop offset="100%" stopColor="#a21caf" />
-        </linearGradient>
-        <filter id={glowId} x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-          <feMerge>
-            <feMergeNode in="coloredBlur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      {figureContent()}
-    </svg>
-  )
+  return null
 }
 
 /* ------------------------------------------------------------------ */

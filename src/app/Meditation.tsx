@@ -10,9 +10,36 @@ try {
 
 // ─── SVG Figures ─────────────────────────────────────────────────────────────
 
+const MEDITATION_IMAGES: Record<string, string> = {
+  sitting_lotus:      'meditation,lotus-pose,cross-legged,seated-mindfulness',
+  breathing_deep:     'meditation,deep-breathing,pranayama,breath-awareness',
+  body_scan:          'meditation,body-scan,lying-down,relaxation,savasana',
+  loving_kindness:    'meditation,loving-kindness,metta,heart-meditation',
+  walking:            'meditation,walking-meditation,mindful-walking,kinhin',
+  visualization:      'meditation,visualization,guided-imagery,calm-mind',
+  focused_attention:  'meditation,focused-attention,mindfulness,concentration',
+  open_monitoring:    'meditation,open-awareness,mindfulness,sitting-peaceful',
+}
+
 const MeditationFigure: React.FC<{ pose: string; size?: number }> = ({ pose, size = 180 }) => {
-  const figures: Record<string, React.ReactNode> = {
-    sitting_lotus: (
+  const keywords = MEDITATION_IMAGES[pose] ?? 'meditation,mindfulness,calm,peaceful'
+  const imageUrl = `https://source.unsplash.com/featured/400x500/?${encodeURIComponent(keywords)}`
+  return (
+    <div style={{ width: size, height: Math.round(size * 1.25), borderRadius: 16, overflow: 'hidden', background: 'linear-gradient(135deg,#3b0764,#1e1b4b)', flexShrink: 0 }}>
+      <img
+        src={imageUrl}
+        alt={pose.replace(/_/g, ' ')}
+        loading="lazy"
+        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+      />
+    </div>
+  )
+}
+
+// dead code: old SVG figures (replaced by photos above)
+const _unusedSVGFigures: Record<string, React.ReactNode> = {
+  sitting_lotus: (
       <svg viewBox="0 0 200 250" width={size} height={size} xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="aura_lotus" cx="50%" cy="50%" r="50%">
@@ -257,9 +284,6 @@ const MeditationFigure: React.FC<{ pose: string; size?: number }> = ({ pose, siz
         <ellipse cx="100" cy="185" rx="35" ry="9" fill="url(#body_om)" opacity="0.75" />
       </svg>
     ),
-  };
-
-  return figures[pose] || figures['sitting_lotus'];
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
