@@ -11,6 +11,9 @@ import { GoalRoadmap, Transformations, Referrals, Leaderboard } from "./Features
 import BloodReportPage from "./BloodReport";
 import ChallengesPage from "./Challenges";
 import CoursesPage from "./Courses";
+import AyurvedaHubPage from "./AyurvedaHub";
+import PhysioRehabPage from "./PhysioRehab";
+import PDFStorePage from "./PDFStore";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -35,6 +38,9 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "blood", icon: "🩸", label: "Blood Report" },
     { id: "challenges", icon: "🏆", label: "Challenges" },
     { id: "courses", icon: "📚", label: "Courses" },
+    { id: "ayurveda", icon: "🌿", label: "Ayurveda Hub" },
+    { id: "physio", icon: "🦴", label: "Physio & Rehab" },
+    { id: "pdfstore", icon: "📄", label: "PDF Store" },
     { id: "family", icon: "👨‍👩‍", label: "Family" },
     { id: "premium", icon: "👑", label: "Premium" },
     { id: "settings", icon: "⚙️", label: "Settings" },
@@ -529,6 +535,22 @@ function HabitsPage() {
   );
 }
 
+function PDFStorePlaceholder() {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-3xl font-black tracking-[-0.04em]">PDF Store</h1>
+        <p className="text-sm text-[#f7f0df]/50">22 expert guides — loading soon</p>
+      </div>
+      <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-10 text-center">
+        <div className="text-5xl mb-4">📄</div>
+        <h2 className="text-xl font-bold mb-2">PDF Store Coming Soon</h2>
+        <p className="text-[#f7f0df]/60 max-w-md mx-auto">22 expert PDF guides covering nutrition, training, hormones, women's health, recovery and more. ₹199–₹599 each.</p>
+      </div>
+    </div>
+  );
+}
+
 function FamilyPage() {
   return (
     <div className="space-y-6">
@@ -782,6 +804,9 @@ export default function SaaSApp() {
       {section === "blood" && <BloodReportPage />}
       {section === "challenges" && <ChallengesPage />}
       {section === "courses" && <CoursesPage />}
+      {section === "ayurveda" && <AyurvedaHubPage />}
+      {section === "physio" && <PhysioRehabPage />}
+      {section === "pdfstore" && <PDFStorePage />}
       {section === "family" && <FamilyPage />}
       {section === "premium" && <PremiumPage />}
       {section === "settings" && <SettingsPage />}
