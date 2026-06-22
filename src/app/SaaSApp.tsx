@@ -14,6 +14,8 @@ import CoursesPage from "./Courses";
 import AyurvedaHubPage from "./AyurvedaHub";
 import PhysioRehabPage from "./PhysioRehab";
 import PDFStorePage from "./PDFStore";
+import YogaPage from "./Yoga";
+import MeditationPage from "./Meditation";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -41,6 +43,8 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "ayurveda", icon: "🌿", label: "Ayurveda Hub" },
     { id: "physio", icon: "🦴", label: "Physio & Rehab" },
     { id: "pdfstore", icon: "📄", label: "PDF Store" },
+    { id: "yoga", icon: "🧘", label: "Yoga Studio" },
+    { id: "meditation", icon: "🙏", label: "Meditation" },
     { id: "family", icon: "👨‍👩‍", label: "Family" },
     { id: "premium", icon: "👑", label: "Premium" },
     { id: "settings", icon: "⚙️", label: "Settings" },
@@ -807,6 +811,8 @@ export default function SaaSApp() {
       {section === "ayurveda" && <AyurvedaHubPage />}
       {section === "physio" && <PhysioRehabPage />}
       {section === "pdfstore" && <PDFStorePage />}
+      {section === "yoga" && <YogaPage />}
+      {section === "meditation" && <MeditationPage />}
       {section === "family" && <FamilyPage />}
       {section === "premium" && <PremiumPage />}
       {section === "settings" && <SettingsPage />}
