@@ -53,19 +53,23 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
   return (
     <div className="flex min-h-screen bg-[#07040d] text-[#f7f0df]">
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-40 w-72 transform border-r border-[#f7f0df]/10 bg-[#0b0714]/95 backdrop-blur-xl transition-transform lg:static lg:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}>
+      <aside className={`fixed inset-y-0 left-0 z-40 w-72 transform border-r border-violet-400/10 bg-[#0b0714]/98 backdrop-blur-2xl transition-transform lg:static lg:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`} style={{ boxShadow: "4px 0 40px rgba(0,0,0,0.6), inset -1px 0 0 rgba(167,139,250,0.08)" }}>
         <div className="flex h-full flex-col p-6">
+          {/* Logo / Brand */}
           <div className="mb-8 flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">TF</div>
+            <div className="relative grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511] shadow-[0_0_20px_rgba(167,139,250,0.4)]">
+              TF
+              <span className="absolute inset-0 rounded-xl" style={{ background: "linear-gradient(180deg,rgba(255,255,255,0.18) 0%,transparent 60%)" }} />
+            </div>
             <div>
               <p className="text-sm font-bold uppercase tracking-[0.24em] text-[#f7f0df]">Tiger Fit Pro</p>
-              <p className="text-[10px] uppercase tracking-[0.18em] text-[#f7f0df]/40">{user?.plan} Plan</p>
+              <p className="text-[10px] uppercase tracking-[0.18em] text-[#f7f0df]/65">{user?.plan} Plan</p>
             </div>
           </div>
 
           <nav className="flex-1 space-y-1.5 overflow-y-auto min-h-0 pr-1">
             {navItems.map((item) => (
-              <button key={item.id} type="button" onClick={() => { setCurrentSection(item.id); setMobileOpen(false); }} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition ${currentSection === item.id ? "bg-violet-200/15 text-violet-100" : "text-[#f7f0df]/54 hover:bg-[#f7f0df]/5 hover:text-[#f7f0df]"}`}>
+              <button key={item.id} type="button" onClick={() => { setCurrentSection(item.id); setMobileOpen(false); }} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${currentSection === item.id ? "bg-gradient-to-r from-violet-400/20 to-fuchsia-400/10 text-violet-100 shadow-[inset_0_1px_0_rgba(167,139,250,0.2),0_4px_12px_rgba(0,0,0,0.2)] border border-violet-400/20" : "text-[#f7f0df]/70 hover:bg-[#f7f0df]/6 hover:text-[#f7f0df] border border-transparent"}`}>
                 <span className="text-lg">{item.icon}</span>
                 {item.label}
               </button>
@@ -77,7 +81,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
               <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">{user?.avatar}</div>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-bold">{user?.name}</p>
-                <p className="truncate text-[10px] text-[#f7f0df]/40">{user?.email}</p>
+                <p className="truncate text-[10px] text-[#f7f0df]/65">{user?.email}</p>
               </div>
             </div>
             <button type="button" onClick={onLogout} className="mt-3 w-full rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 py-2 text-xs font-bold text-[#f7f0df]/60 hover:bg-rose-400/10 hover:text-rose-200">Sign Out</button>
@@ -129,13 +133,13 @@ function Dashboard() {
 
       <div className="grid gap-2 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5 backdrop-blur-xl">
+          <div key={s.label} className="glass-card rounded-2xl p-5 transition-all duration-300 hover:-translate-y-1 group">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#f7f0df]/44">{s.label}</p>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#f7f0df]/65">{s.label}</p>
                 <p className={`mt-2 bg-gradient-to-r ${s.color} bg-clip-text text-3xl font-black text-transparent`}>{s.value}</p>
               </div>
-              <span className="text-3xl">{s.icon}</span>
+              <span className="text-3xl transition-transform duration-300 group-hover:scale-110">{s.icon}</span>
             </div>
           </div>
         ))}
@@ -160,8 +164,8 @@ function Dashboard() {
               <div key={i} className="flex items-center gap-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 transition hover:bg-[#f7f0df]/10">
                 <span className="text-2xl">{task.icon}</span>
                 <div className="flex-1 min-w-0">
-                  <p className={`font-semibold ${task.done ? "text-[#f7f0df]/40 line-through" : "text-[#f7f0df]"}`}>{task.title}</p>
-                  <p className="text-xs text-[#f7f0df]/40">{task.time} · {task.duration}</p>
+                  <p className={`font-semibold ${task.done ? "text-[#f7f0df]/62 line-through" : "text-[#f7f0df]"}`}>{task.title}</p>
+                  <p className="text-xs text-[#f7f0df]/62">{task.time} · {task.duration}</p>
                 </div>
                 <div className={`grid h-7 w-7 place-items-center rounded-full border-2 ${task.done ? "border-violet-300 bg-violet-300 text-[#14050a]" : "border-[#f7f0df]/20"}`}>
                   {task.done && <span className="text-xs font-black">✓</span>}
@@ -178,7 +182,7 @@ function Dashboard() {
             <div className="mt-4 space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-[#f7f0df]/60">BMI</span>
-                <span className="font-bold">{bmi} <span className="text-xs font-normal text-[#f7f0df]/40">({bmiCategory})</span></span>
+                <span className="font-bold">{bmi} <span className="text-xs font-normal text-[#f7f0df]/62">({bmiCategory})</span></span>
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-[#f7f0df]/60">Weight</span>
@@ -277,7 +281,7 @@ function WorkoutsPage() {
               </div>
               <h3 className="mt-4 text-xl font-black">{p.title}</h3>
               <p className="mt-1 text-xs text-[#f7f0df]/50">{p.muscles}</p>
-              <div className="mt-4 flex items-center gap-4 text-xs text-[#f7f0df]/40">
+              <div className="mt-4 flex items-center gap-4 text-xs text-[#f7f0df]/62">
                 <span>⏱ {p.duration}</span>
                 <span>🎯 {p.exercises} exercises</span>
               </div>
@@ -302,7 +306,7 @@ function NutritionPage() {
 
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">Today's Calories</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">Today's Calories</p>
           <p className="mt-3 bg-gradient-to-r from-violet-200 to-fuchsia-400 bg-clip-text text-5xl font-black text-transparent">1,680</p>
           <p className="mt-1 text-xs text-[#f7f0df]/50">of 2,200 kcal goal</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
@@ -310,7 +314,7 @@ function NutritionPage() {
           </div>
         </div>
         <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">Protein</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">Protein</p>
           <p className="mt-3 bg-gradient-to-r from-emerald-300 to-cyan-400 bg-clip-text text-5xl font-black text-transparent">124g</p>
           <p className="mt-1 text-xs text-[#f7f0df]/50">of 150g goal</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
@@ -318,7 +322,7 @@ function NutritionPage() {
           </div>
         </div>
         <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">Water</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">Water</p>
           <p className="mt-3 bg-gradient-to-r from-[#d8b35a] to-orange-400 bg-clip-text text-5xl font-black text-transparent">2.4L</p>
           <p className="mt-1 text-xs text-[#f7f0df]/50">of 3L goal</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
@@ -351,7 +355,7 @@ function NutritionPage() {
           ].map((m) => (
             <div key={m.meal} className="flex items-center justify-between rounded-xl border border-[#f7f0df]/8 bg-[#f7f0df]/5 p-4">
               <div>
-                <p className="font-bold">{m.meal} <span className="text-xs text-[#f7f0df]/40">· {m.time}</span></p>
+                <p className="font-bold">{m.meal} <span className="text-xs text-[#f7f0df]/62">· {m.time}</span></p>
                 <p className="text-sm text-[#f7f0df]/50">{m.items}</p>
               </div>
               <span className="text-sm font-bold text-violet-100">{m.kcal} kcal</span>
@@ -399,7 +403,7 @@ function ProgressPage() {
           { label: isLoss ? "Total Lost" : "Total Gained", value: `${Math.abs(parseFloat(totalChange))} kg`, icon: isLoss ? "🎉" : "💪", color: isLoss ? "text-emerald-300" : "text-violet-300" },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">{s.label}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">{s.label}</p>
             <p className={`mt-3 text-3xl font-black ${s.color || "text-[#f7f0df]"}`}>{s.value}</p>
             <span className="text-2xl">{s.icon}</span>
           </div>
@@ -417,7 +421,7 @@ function ProgressPage() {
                   <div className="relative flex flex-1 w-full items-end">
                     <div className="w-full rounded-t-full bg-gradient-to-t from-violet-700 via-violet-300 to-[#f7f0df] transition-all" style={{ height: `${height}%` }} />
                   </div>
-                  <p className="mt-2 text-[10px] text-[#f7f0df]/40">{point.date}</p>
+                  <p className="mt-2 text-[10px] text-[#f7f0df]/62">{point.date}</p>
                   <p className="text-xs font-bold">{point.weight}</p>
                 </div>
               );
@@ -607,7 +611,7 @@ function PremiumPage() {
             {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-lg">MOST POPULAR</div>}
             <h3 className="text-2xl font-black">{p.name}</h3>
             <p className="mt-2 text-sm text-[#f7f0df]/50">{(p as any).description || ""}</p>
-            <div className="mt-6 flex items-end gap-1"><span className="text-5xl font-black">{p.price}</span><span className="pb-2 text-sm text-[#f7f0df]/48">{p.period}</span></div>
+            <div className="mt-6 flex items-end gap-1"><span className="text-5xl font-black">{p.price}</span><span className="pb-2 text-sm text-[#f7f0df]/65">{p.period}</span></div>
             {(p as any).current ? (
               <div className="mt-6 rounded-full border border-emerald-300/30 bg-emerald-300/10 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-emerald-200">Current Plan</div>
             ) : (
@@ -685,7 +689,7 @@ function SettingsPage() {
             <div>
               <p className="text-xl font-bold">{user?.name}</p>
               <p className="text-sm text-[#f7f0df]/50">{user?.email}</p>
-              <p className="mt-2 text-xs text-[#f7f0df]/40">Member since {user?.joinDate}</p>
+              <p className="mt-2 text-xs text-[#f7f0df]/62">Member since {user?.joinDate}</p>
             </div>
           </div>
           <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -752,7 +756,7 @@ function SettingsPage() {
             <div><p className="font-bold">Delete Account</p><p className="text-xs text-[#f7f0df]/50">Permanently delete all your data</p></div>
             <button type="button" onClick={deleteAccount} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-5 py-2.5 text-xs font-bold text-rose-200 hover:bg-rose-400/20">Delete</button>
           </div>
-          <p className="border-t border-[#f7f0df]/10 pt-4 text-xs text-[#f7f0df]/40">Version 2.1.0 · Built with 🐅 in India</p>
+          <p className="border-t border-[#f7f0df]/10 pt-4 text-xs text-[#f7f0df]/62">Version 2.1.0 · Built with 🐅 in India</p>
         </div>
       )}
     </div>
@@ -774,7 +778,7 @@ export default function SaaSApp() {
       <div className="flex min-h-screen items-center justify-center bg-[#07040d]">
         <div className="text-center">
           <div className="mx-auto h-14 w-14 animate-spin rounded-full border-4 border-violet-300/20 border-t-violet-300" />
-          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-[#f7f0df]/40">Loading…</p>
+          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-[#f7f0df]/62">Loading…</p>
         </div>
       </div>
     );

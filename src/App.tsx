@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, lazy, Suspense } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { blogs, type BlogPost, type BlogBlock } from "./data/blogs";
@@ -8,6 +8,26 @@ import { AuthProvider } from "./auth/AuthSystem";
 import LegalPage, { type LegalType } from "./legal/LegalPages";
 import { CoursesSection } from "./app/Courses";
 import { ChallengesSection } from "./app/Challenges";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+
+const HeroOrb = lazy(() => import("./components/HeroOrb"));
+
+function FadeUp({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 type ChecklistItem = {
   label: string;
@@ -190,36 +210,60 @@ function Hero() {
 
       <div className="relative z-10 flex min-h-screen flex-col px-6 sm:px-10 lg:px-16">
         <div className="flex flex-1 items-center py-16 lg:py-20">
-          <div className="max-w-4xl motion-safe:animate-[fadeUp_900ms_ease-out_both]">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-200/22 bg-violet-200/10 px-4 py-2">
-              <span className="h-2 w-2 rounded-full bg-violet-300 shadow-[0_0_16px_rgba(167,139,250,0.8)] animate-pulse" />
-              <span className="text-xs font-semibold uppercase tracking-[0.32em] text-violet-100">Now on Play Store</span>
-            </div>
+          <div className="grid w-full gap-12 lg:grid-cols-2 lg:items-center">
+            {/* Left: text */}
+            <motion.div
+              initial={{ opacity: 0, y: 36 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-200/22 bg-violet-200/10 px-4 py-2">
+                <span className="h-2 w-2 rounded-full bg-violet-300 shadow-[0_0_16px_rgba(167,139,250,0.8)] animate-pulse" />
+                <span className="text-xs font-semibold uppercase tracking-[0.32em] text-violet-100">Now on Play Store</span>
+              </div>
 
-            <h1 className="bg-gradient-to-br from-[#f7f0df] via-violet-100 to-[#d8b35a] bg-clip-text text-3xl sm:text-5xl font-black leading-[0.92] tracking-[-0.07em] text-transparent md:text-7xl lg:text-8xl xl:text-9xl">
-              Train Smarter.<br />Transform Faster.
-            </h1>
-            <p className="mt-8 max-w-2xl text-lg leading-8 text-[#f7f0df]/76 sm:text-xl sm:leading-9">
-              Most fitness apps only track workouts. <span className="font-semibold text-violet-100">Tiger Fitness Pro</span> improves your entire lifestyle — sleep, nutrition, stress, family health, and more. One AI-powered dashboard.
-            </p>
+              <h1 className="bg-gradient-to-br from-[#f7f0df] via-violet-100 to-[#d8b35a] bg-clip-text text-3xl sm:text-5xl font-black leading-[0.92] tracking-[-0.07em] text-transparent md:text-6xl xl:text-7xl">
+                Train Smarter.<br />Transform Faster.
+              </h1>
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-[#f7f0df]/80 sm:text-xl sm:leading-9">
+                Most fitness apps only track workouts. <span className="font-semibold text-violet-100">Tiger Fitness Pro</span> improves your entire lifestyle — sleep, nutrition, stress, family health, and more. One AI-powered dashboard.
+              </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <a href="#app" className="group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-8 py-5 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_22px_80px_rgba(167,139,250,0.36)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_110px_rgba(167,139,250,0.48)]">
-                <span className="relative z-10 flex items-center gap-3">
-                  🚀 Launch Web App
-                </span>
-              </a>
-              <a href="#features" className="inline-flex items-center justify-center rounded-full border border-[#f7f0df]/20 bg-[#f7f0df]/8 px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df] ring-1 ring-[#f7f0df]/12 backdrop-blur transition hover:bg-[#f7f0df]/14">Explore Features →</a>
-            </div>
+                <a href="#app" className="btn-gloss group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-8 py-5 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_22px_80px_rgba(167,139,250,0.36)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_110px_rgba(167,139,250,0.48)]">
+                  <span className="relative z-10 flex items-center gap-3">🚀 Launch Web App</span>
+                </a>
+                <a href="#features" className="inline-flex items-center justify-center rounded-full border border-[#f7f0df]/20 bg-[#f7f0df]/8 px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df] ring-1 ring-[#f7f0df]/12 backdrop-blur transition hover:bg-[#f7f0df]/14">Explore Features →</a>
+              </div>
 
-            <div className="mt-16 grid grid-cols-2 gap-5 sm:grid-cols-4">
-              {heroStats.map((stat, i) => (
-                <div key={stat.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/6 p-5 backdrop-blur-xl motion-safe:animate-[fadeUp_800ms_ease-out_both]" style={{ animationDelay: i * 120 + "ms" }}>
-                  <p className="text-2xl font-black tracking-[-0.06em] text-[#f7f0df]">{stat.number}</p>
-                  <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-[#f7f0df]/44">{stat.label}</p>
-                </div>
-              ))}
-            </div>
+              <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                {heroStats.map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    className="glass-card rounded-2xl p-5"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.4 + i * 0.1 }}
+                  >
+                    <p className="text-2xl font-black tracking-[-0.06em] text-[#f7f0df]">{stat.number}</p>
+                    <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-[#f7f0df]/70">{stat.label}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Right: 3D Orb — lazy-loaded, no SSR */}
+            <motion.div
+              className="relative hidden lg:flex items-center justify-center"
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            >
+              <div className="absolute inset-0 rounded-full bg-violet-500/10 blur-3xl" style={{ animation: "pulseGlow 4s ease-in-out infinite" }} />
+              <Suspense fallback={<div className="h-96 w-96 rounded-full bg-violet-500/5" />}>
+                <HeroOrb className="h-96 w-96 lg:h-[480px] lg:w-[480px]" />
+              </Suspense>
+            </motion.div>
           </div>
         </div>
 
@@ -278,7 +322,7 @@ function About() {
               <div className="relative">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#f7f0df]/44">Today's summary</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#f7f0df]/65">Today's summary</p>
                     <p className="mt-2 text-3xl font-black text-[#f7f0df]">{activeTheme.name}</p>
                   </div>
                   <div className={"grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br " + activeTheme.glow} />
@@ -344,15 +388,14 @@ function Features() {
           {filteredFeatures.map((feature, index) => (
             <div
               key={feature.title}
-              className="group rounded-[1.6rem] border border-[#f7f0df]/10 bg-black/18 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-violet-200/35 hover:bg-violet-200/8"
-              style={{ animationDelay: index * 40 + "ms" }}
+              className="group glass-card rounded-[1.6rem] p-6 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex items-start justify-between gap-3">
-                <span className="shrink-0 rounded-xl bg-violet-200/12 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-violet-100/78">{feature.tag}</span>
-                <span className="text-sm font-black text-[#f7f0df]/24">{String(index + 1).padStart(2, "0")}</span>
+                <span className="shrink-0 rounded-xl bg-violet-200/12 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-violet-100">{feature.tag}</span>
+                <span className="text-sm font-black text-[#f7f0df]/30">{String(index + 1).padStart(2, "0")}</span>
               </div>
               <h4 className="mt-5 text-xl font-black tracking-[-0.03em] text-[#f7f0df] group-hover:text-violet-100 transition-colors">{feature.title}</h4>
-              <p className="mt-3 text-sm leading-6 text-[#f7f0df]/58">{feature.desc}</p>
+              <p className="mt-3 text-sm leading-6 text-[#f7f0df]/72">{feature.desc}</p>
             </div>
           ))}
         </div>
@@ -378,22 +421,20 @@ function HowItWorks() {
 
         <div className="mt-16 grid gap-4 sm:gap-8 md:grid-cols-2 lg:gap-10">
           {howItWorks.map((item, index) => (
-            <div
-              key={item.step}
-              className="group relative rounded-[2rem] border border-[#f7f0df]/12 bg-[#0b0714]/70 p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-violet-200/30 hover:bg-[#0b0714]/90"
-              style={{ animationDelay: index * 150 + "ms" }}
-            >
-              <div className="flex items-start gap-6">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-violet-300/20 via-fuchsia-400/15 to-[#d8b35a]/15 border border-violet-200/20 text-3xl shadow-[0_0_36px_rgba(167,139,250,0.15)]">
-                  {item.icon}
-                </div>
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.34em] text-violet-200/70">{item.step}</p>
-                  <h3 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df] group-hover:text-violet-100 transition-colors">{item.title}</h3>
-                  <p className="mt-3 text-base leading-7 text-[#f7f0df]/58">{item.desc}</p>
+            <FadeUp key={item.step} delay={index * 0.1}>
+              <div className="group glass-card relative rounded-[2rem] p-8 transition-all duration-300 hover:-translate-y-1">
+                <div className="flex items-start gap-6">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-violet-300/20 via-fuchsia-400/15 to-[#d8b35a]/15 border border-violet-200/20 text-3xl shadow-[0_0_36px_rgba(167,139,250,0.15)] transition-transform duration-300 group-hover:scale-110">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.34em] text-violet-200/80">{item.step}</p>
+                    <h3 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df] group-hover:text-violet-100 transition-colors">{item.title}</h3>
+                    <p className="mt-3 text-base leading-7 text-[#f7f0df]/72">{item.desc}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </FadeUp>
           ))}
         </div>
       </div>
@@ -415,11 +456,11 @@ function Pricing() {
           <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">Cancel anytime. Start free, upgrade when ready.</p>
 
           <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-violet-200/24 bg-violet-200/8 px-5 py-2.5">
-            <span className={"text-sm font-semibold transition " + (!annual ? "text-violet-100" : "text-[#f7f0df]/44")}>Monthly</span>
+            <span className={"text-sm font-semibold transition " + (!annual ? "text-violet-100" : "text-[#f7f0df]/65")}>Monthly</span>
             <button type="button" onClick={() => setAnnual(!annual)} className={"relative h-7 w-[52px] rounded-full transition-colors duration-200 " + (annual ? "bg-violet-300" : "bg-[#f7f0df]/18")}>
               <span className={"absolute top-1 h-5 w-5 rounded-full bg-white shadow-md transition-transform duration-200 " + (annual ? "translate-x-[28px]" : "translate-x-1")} />
             </button>
-            <span className={"text-sm font-semibold transition " + (annual ? "text-violet-100" : "text-[#f7f0df]/44")}>Annual (Save 40%)</span>
+            <span className={"text-sm font-semibold transition " + (annual ? "text-violet-100" : "text-[#f7f0df]/65")}>Annual (Save 40%)</span>
           </div>
         </div>
 
@@ -437,7 +478,7 @@ function Pricing() {
 
               <div className="mt-6 flex items-end gap-1">
                 <span className="text-5xl font-black tracking-[-0.06em] text-[#f7f0df]">{displayPrice}</span>
-                <span className="pb-2 text-base font-medium text-[#f7f0df]/48">{displayPeriod}</span>
+                <span className="pb-2 text-base font-medium text-[#f7f0df]/65">{displayPeriod}</span>
               </div>
 
               <a href="#download" className={"mt-8 block rounded-full py-4 text-center text-sm font-black uppercase tracking-[0.18em] transition " + (plan.popular ? "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-600 text-white shadow-[0_16px_60px_rgba(167,139,250,0.3)] hover:shadow-[0_22px_80px_rgba(167,139,250,0.4)]" : "border border-[#f7f0df]/18 bg-[#f7f0df]/8 text-[#f7f0df] hover:bg-[#f7f0df]/14")}>{plan.cta}</a>
@@ -469,20 +510,22 @@ function Testimonials() {
         </div>
 
         <div className="mt-14 grid gap-4 sm:gap-6 md:grid-cols-2">
-          {testimonials.map((t) => (
-            <div key={t.name} className="rounded-[2rem] border border-[#f7f0df]/12 bg-[#0b0714]/60 p-5 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-violet-200/25">
-              <div className="flex items-center gap-2 mb-4">
-                {[...Array(5)].map((_, i) => (<span key={i} className="text-[#d8b35a] text-lg">&#9733;</span>))}
-              </div>
-              <p className="text-base leading-7 italic text-[#f7f0df]/74">&ldquo;{t.text}&rdquo;</p>
-              <div className="mt-6 flex items-center gap-4 border-t border-[#f7f0df]/10 pt-5">
-                <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">{t.avatar}</div>
-                <div>
-                  <p className="font-bold text-[#f7f0df]">{t.name}</p>
-                  <p className="text-xs font-medium text-[#f7f0df]/44">{t.role}</p>
+          {testimonials.map((t, i) => (
+            <FadeUp key={t.name} delay={i * 0.06}>
+              <div className="glass-card group rounded-[2rem] p-5 sm:p-8 transition-all duration-300 hover:-translate-y-1">
+                <div className="flex items-center gap-1 mb-4">
+                  {[...Array(5)].map((_, j) => (<span key={j} className="text-[#d8b35a] text-lg">&#9733;</span>))}
+                </div>
+                <p className="text-base leading-7 italic text-[#f7f0df]/82">&ldquo;{t.text}&rdquo;</p>
+                <div className="mt-6 flex items-center gap-4 border-t border-[#f7f0df]/10 pt-5">
+                  <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511] shadow-[0_0_20px_rgba(167,139,250,0.3)]">{t.avatar}</div>
+                  <div>
+                    <p className="font-bold text-[#f7f0df]">{t.name}</p>
+                    <p className="text-xs font-medium text-[#f7f0df]/70">{t.role}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </FadeUp>
           ))}
         </div>
       </div>
@@ -503,20 +546,20 @@ function FAQ() {
 
         <div className="mt-12 space-y-3">
           {faqs.map((faq, index) => (
-            <div key={faq.q} className="overflow-hidden rounded-[1.4rem] border border-[#f7f0df]/10 bg-[#0b0714]/60 backdrop-blur-xl transition-all duration-300">
+            <div key={faq.q} className="glass-card overflow-hidden rounded-[1.4rem] transition-all duration-300">
               <button
                 type="button"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 className="flex w-full items-center justify-between gap-4 p-6 text-left"
               >
                 <span className="text-base font-bold text-[#f7f0df]">{faq.q}</span>
-                <span className={"shrink-0 h-8 w-8 grid place-items-center rounded-full border transition-transform duration-300 " + (openIndex === index ? "rotate-180 border-violet-300 bg-violet-300/20" : "border-[#f7f0df]/16 bg-[#f7f0df]/5")}>
+                <span className={"shrink-0 h-8 w-8 grid place-items-center rounded-full border transition-all duration-300 " + (openIndex === index ? "rotate-180 border-violet-300 bg-violet-300/20" : "border-[#f7f0df]/16 bg-[#f7f0df]/5")}>
                   <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><path d="M6 9l6 6 6-6" /></svg>
                 </span>
               </button>
               <div className={"grid transition-all duration-300 ease-out " + (openIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
                 <div className="overflow-hidden">
-                  <p className="px-6 pb-6 text-sm leading-7 text-[#f7f0df]/58">{faq.a}</p>
+                  <p className="px-6 pb-6 text-sm leading-7 text-[#f7f0df]/78">{faq.a}</p>
                 </div>
               </div>
             </div>
@@ -679,8 +722,8 @@ function BlogViewer({ post, onClose }: { post: BlogPost; onClose: () => void }) 
         <div className="mb-8 flex flex-wrap items-center gap-3">
           <a href="#blog" onClick={onClose} className="text-sm font-semibold text-violet-100 hover:underline">← Back to Blog</a>
           <span className="rounded-full bg-violet-200/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-violet-100">{post.category}</span>
-          <span className="text-xs text-[#f7f0df]/44">{post.readTime}</span>
-          <span className="text-xs text-[#f7f0df]/44">{post.date}</span>
+          <span className="text-xs text-[#f7f0df]/65">{post.readTime}</span>
+          <span className="text-xs text-[#f7f0df]/65">{post.date}</span>
         </div>
         
         <div className="mb-6 overflow-hidden rounded-[2rem] border border-violet-200/15">
@@ -707,7 +750,7 @@ function BlogViewer({ post, onClose }: { post: BlogPost; onClose: () => void }) 
           <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">{post.author.split(" ").map(n => n[0]).slice(-2).join("")}</div>
           <div>
             <p className="text-sm font-bold text-[#f7f0df]">{post.author}</p>
-            <p className="text-xs text-[#f7f0df]/44">{post.date} · {post.readTime}</p>
+            <p className="text-xs text-[#f7f0df]/65">{post.date} · {post.readTime}</p>
           </div>
         </div>
         
@@ -968,10 +1011,10 @@ function Footer({ onAdminClick }: { onAdminClick: () => void }) {
               <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511]">TF</div>
               <span className="text-sm font-semibold uppercase tracking-[0.28em] text-[#f7f0df]/84">Tiger Fitness Pro</span>
             </div>
-            <p className="mt-5 text-sm leading-6 text-[#f7f0df]/44">India's most intelligent fitness and lifestyle coaching platform. Built for weddings, families, and everyday warriors.</p>
+            <p className="mt-5 text-sm leading-6 text-[#f7f0df]/65">India's most intelligent fitness and lifestyle coaching platform. Built for weddings, families, and everyday warriors.</p>
             <div className="mt-6 flex gap-3">
               {["T", "I", "Y", "D"].map((char, i) => (
-                <a key={i} href="#" className="grid h-10 w-10 place-items-center rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/44 transition hover:border-violet-300/40 hover:bg-violet-200/10 hover:text-violet-100">
+                <a key={i} href="#" className="grid h-10 w-10 place-items-center rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/65 transition hover:border-violet-300/40 hover:bg-violet-200/10 hover:text-violet-100">
                   <span className="text-xs font-bold">{char}</span>
                 </a>
               ))}
@@ -980,7 +1023,7 @@ function Footer({ onAdminClick }: { onAdminClick: () => void }) {
 
           {footerLinks.map((section) => (
             <div key={section.heading}>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f7f0df]/44">{section.heading}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f7f0df]/65">{section.heading}</p>
               <ul className="mt-4 space-y-2.5">
                 {section.links.map((link: any) => (
                   <li key={link.label}><a href={link.href} className="text-sm text-[#f7f0df]/54 transition hover:text-violet-100">{link.label}</a></li>
