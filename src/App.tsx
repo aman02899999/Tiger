@@ -380,7 +380,7 @@ function Features() {
 
         <div className="mt-10 flex flex-wrap justify-center gap-2">
           {filters.map((f) => (
-            <button key={f.key} type="button" onClick={() => setFilter(f.key)} className={"rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition " + (filter === f.key ? "bg-violet-200/20 text-violet-50 ring-1 ring-violet-200/30" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/54 hover:bg-[#f7f0df]/10")}>{f.label}</button>
+            <button key={f.key} type="button" onClick={() => setFilter(f.key)} className={"rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition " + (filter === f.key ? "bg-violet-200/20 text-violet-50 ring-1 ring-violet-200/30" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:bg-[#f7f0df]/10")}>{f.label}</button>
           ))}
         </div>
 
@@ -470,18 +470,18 @@ function Pricing() {
             const displayPrice = (annual && !isFree) ? annualPrices[plan.name] : plan.price;
             const displayPeriod = isFree ? "forever" : annual ? "/mo, billed yearly" : "/month";
             return (
-            <div key={plan.name} className={"relative rounded-[2rem] border p-5 sm:p-8 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 " + (plan.popular ? "border-violet-300/40 bg-violet-200/10 shadow-[0_0_60px_rgba(167,139,250,0.15),inset_0_1px_0_rgba(255,255,255,0.06)]" : "border-[#f7f0df]/12 bg-[#0b0714]/60")}>
+            <div key={plan.name} className={"relative rounded-[2rem] p-5 sm:p-8 transition-all duration-300 hover:-translate-y-1 " + (plan.popular ? "border border-violet-300/40 bg-violet-200/10 shadow-[0_0_80px_rgba(167,139,250,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl" : "glass-card")}>
               {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-5 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg">Most Popular</div>}
 
               <h3 className="text-2xl font-black text-[#f7f0df]">{plan.name}</h3>
-              <p className="mt-2 text-sm text-[#f7f0df]/52">{plan.description}</p>
+              <p className="mt-2 text-sm text-[#f7f0df]/68">{plan.description}</p>
 
               <div className="mt-6 flex items-end gap-1">
                 <span className="text-5xl font-black tracking-[-0.06em] text-[#f7f0df]">{displayPrice}</span>
                 <span className="pb-2 text-base font-medium text-[#f7f0df]/65">{displayPeriod}</span>
               </div>
 
-              <a href="#download" className={"mt-8 block rounded-full py-4 text-center text-sm font-black uppercase tracking-[0.18em] transition " + (plan.popular ? "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-600 text-white shadow-[0_16px_60px_rgba(167,139,250,0.3)] hover:shadow-[0_22px_80px_rgba(167,139,250,0.4)]" : "border border-[#f7f0df]/18 bg-[#f7f0df]/8 text-[#f7f0df] hover:bg-[#f7f0df]/14")}>{plan.cta}</a>
+              <a href="#download" className={"btn-gloss mt-8 block rounded-full py-4 text-center text-sm font-black uppercase tracking-[0.18em] transition " + (plan.popular ? "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-600 text-white shadow-[0_16px_60px_rgba(167,139,250,0.3)] hover:shadow-[0_22px_80px_rgba(167,139,250,0.4)]" : "border border-[#f7f0df]/18 bg-[#f7f0df]/8 text-[#f7f0df] hover:bg-[#f7f0df]/14")}>{plan.cta}</a>
 
               <ul className="mt-8 space-y-3">
                 {plan.features.map((feat) => (
@@ -625,7 +625,7 @@ function DownloadCTA() {
                   <span className={"mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full border text-sm transition " + (isChecked ? "border-violet-200 bg-violet-200 text-[#14050a]" : "border-[#f7f0df]/24 text-[#f7f0df]/60 group-hover:border-violet-200")}>{isChecked ? "\u2713" : index + 1}</span>
                   <div>
                     <span className="block text-lg font-bold text-[#f7f0df]">{item.label}</span>
-                    <span className="mt-1 block text-sm leading-6 text-[#f7f0df]/54">{item.detail}</span>
+                    <span className="mt-1 block text-sm leading-6 text-[#f7f0df]/68">{item.detail}</span>
                   </div>
                 </button>
               );
@@ -671,7 +671,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
       return (
         <div className="my-6 inline-flex items-baseline gap-3 rounded-2xl border border-violet-200/18 bg-violet-200/8 px-5 py-3">
           <span className="text-3xl font-black tracking-[-0.06em] bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-transparent">{block.value}</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f0df]/54">{block.label}</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f0df]/68">{block.label}</span>
         </div>
       );
     case "tip":
@@ -775,7 +775,7 @@ function BlogViewer({ post, onClose }: { post: BlogPost; onClose: () => void }) 
         
         <div className="mt-12 flex flex-wrap gap-2">
           {post.tags.map((tag) => (
-            <span key={tag} className="rounded-full border border-[#f7f0df]/14 bg-[#f7f0df]/5 px-3 py-1.5 text-xs font-semibold text-[#f7f0df]/54">#{tag.toLowerCase().replace(/\s+/g, "")}</span>
+            <span key={tag} className="rounded-full border border-[#f7f0df]/14 bg-[#f7f0df]/5 px-3 py-1.5 text-xs font-semibold text-[#f7f0df]/68">#{tag.toLowerCase().replace(/\s+/g, "")}</span>
           ))}
         </div>
       </article>
@@ -832,7 +832,7 @@ function BlogSection() {
               <div className="mb-5 flex flex-wrap items-center gap-3">
                 <span className="rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-4 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white">Featured Article</span>
                 <span className="rounded-full bg-[#f7f0df]/10 px-3 py-1.5 text-xs font-semibold text-[#f7f0df]/68">{featured.category}</span>
-                <span className="text-xs text-[#f7f0df]/50">{featured.readTime}</span>
+                <span className="text-xs text-[#f7f0df]/68">{featured.readTime}</span>
               </div>
               <h3 className="text-3xl font-black leading-[1.08] tracking-[-0.04em] text-[#f7f0df] sm:text-4xl lg:text-5xl">{featured.title}</h3>
               <p className="mt-4 max-w-2xl text-base leading-7 text-[#f7f0df]/62">{featured.seoDescription}</p>
@@ -863,7 +863,7 @@ function BlogSection() {
 
         <div className="mt-10 flex flex-wrap gap-2">
           {categories.map((cat) => (
-            <button key={cat} type="button" onClick={() => setFilter(cat)} className={"rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition " + (filter === cat ? "bg-violet-200/20 text-violet-50 ring-1 ring-violet-200/30" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/54 hover:bg-[#f7f0df]/10")}>{cat}</button>
+            <button key={cat} type="button" onClick={() => setFilter(cat)} className={"rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition " + (filter === cat ? "bg-violet-200/20 text-violet-50 ring-1 ring-violet-200/30" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:bg-[#f7f0df]/10")}>{cat}</button>
           ))}
         </div>
 
@@ -893,7 +893,7 @@ function BlogSection() {
                   <span className="text-[10px] font-semibold text-[#f7f0df]/40">{post.readTime}</span>
                 </div>
                 <h3 className="text-xl font-black leading-[1.15] tracking-[-0.02em] text-[#f7f0df] group-hover:text-violet-100 transition-colors">{post.title}</h3>
-                <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#f7f0df]/54">{post.seoDescription}</p>
+                <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#f7f0df]/68">{post.seoDescription}</p>
                 <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-violet-100/60 group-hover:text-violet-100 transition-colors">
                   Read article <span className="transition-transform group-hover:translate-x-1">→</span>
                 </div>
@@ -916,7 +916,7 @@ function BlogImageGallery() {
             <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">AI Visual Gallery</p>
             <h2 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-4xl">Premium visuals for every guide.</h2>
           </div>
-          <p className="max-w-md text-sm leading-6 text-[#f7f0df]/54">Every featured article includes an AI-generated image optimized for fast loading, mobile responsiveness, and accessibility.</p>
+          <p className="max-w-md text-sm leading-6 text-[#f7f0df]/68">Every featured article includes an AI-generated image optimized for fast loading, mobile responsiveness, and accessibility.</p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {imageBlogs.map((post) => (
@@ -1026,7 +1026,7 @@ function Footer({ onAdminClick }: { onAdminClick: () => void }) {
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f7f0df]/65">{section.heading}</p>
               <ul className="mt-4 space-y-2.5">
                 {section.links.map((link: any) => (
-                  <li key={link.label}><a href={link.href} className="text-sm text-[#f7f0df]/54 transition hover:text-violet-100">{link.label}</a></li>
+                  <li key={link.label}><a href={link.href} className="text-sm text-[#f7f0df]/68 transition hover:text-violet-100">{link.label}</a></li>
                 ))}
               </ul>
             </div>

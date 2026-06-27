@@ -128,7 +128,7 @@ function Dashboard() {
       <div>
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-violet-100/70">Good morning,</p>
         <h1 className="text-xl sm:text-3xl md:text-4xl font-black tracking-[-0.04em]">{user.name} 👋</h1>
-        <p className="mt-1 text-sm text-[#f7f0df]/50">{new Date().toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
+        <p className="mt-1 text-sm text-[#f7f0df]/68">{new Date().toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</p>
       </div>
 
       <div className="grid gap-2 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -178,7 +178,7 @@ function Dashboard() {
         {/* Quick Stats */}
         <div className="space-y-4">
           <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
-            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df]/50">Body Composition</h3>
+            <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df]/68">Body Composition</h3>
             <div className="mt-4 space-y-3">
               <div className="flex justify-between">
                 <span className="text-sm text-[#f7f0df]/60">BMI</span>
@@ -202,7 +202,7 @@ function Dashboard() {
           <div className="rounded-2xl border border-[#d8b35a]/20 bg-gradient-to-br from-[#d8b35a]/10 to-violet-200/8 p-6">
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#d8b35a]">💍 Wedding Mode</p>
             <p className="mt-2 text-xl font-black">87 days to go</p>
-            <p className="mt-1 text-xs text-[#f7f0df]/54">You're 72% to your goal</p>
+            <p className="mt-1 text-xs text-[#f7f0df]/68">You're 72% to your goal</p>
             <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
               <div className="h-full rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400" style={{ width: "72%" }} />
             </div>
@@ -255,7 +255,7 @@ function WorkoutsPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-3xl font-black tracking-[-0.04em]">Workouts</h1>
-          <p className="text-sm text-[#f7f0df]/50">AI-personalized based on your goals and recovery</p>
+          <p className="text-sm text-[#f7f0df]/68">AI-personalized based on your goals and recovery</p>
         </div>
         <div className="rounded-full bg-emerald-300/15 px-4 py-2 text-xs font-bold text-emerald-200">Energy: 82% · Go hard today!</div>
       </div>
@@ -280,7 +280,7 @@ function WorkoutsPage() {
                 <span className="rounded-full bg-violet-200/12 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-violet-100">{p.level}</span>
               </div>
               <h3 className="mt-4 text-xl font-black">{p.title}</h3>
-              <p className="mt-1 text-xs text-[#f7f0df]/50">{p.muscles}</p>
+              <p className="mt-1 text-xs text-[#f7f0df]/68">{p.muscles}</p>
               <div className="mt-4 flex items-center gap-4 text-xs text-[#f7f0df]/62">
                 <span>⏱ {p.duration}</span>
                 <span>🎯 {p.exercises} exercises</span>
@@ -301,14 +301,14 @@ function NutritionPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Nutrition Tracker</h1>
-        <p className="text-sm text-[#f7f0df]/50">Track meals, scan food, hit your macros</p>
+        <p className="text-sm text-[#f7f0df]/68">Track meals, scan food, hit your macros</p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">Today's Calories</p>
           <p className="mt-3 bg-gradient-to-r from-violet-200 to-fuchsia-400 bg-clip-text text-5xl font-black text-transparent">1,680</p>
-          <p className="mt-1 text-xs text-[#f7f0df]/50">of 2,200 kcal goal</p>
+          <p className="mt-1 text-xs text-[#f7f0df]/68">of 2,200 kcal goal</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
             <div className="h-full rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400" style={{ width: "76%" }} />
           </div>
@@ -316,7 +316,7 @@ function NutritionPage() {
         <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">Protein</p>
           <p className="mt-3 bg-gradient-to-r from-emerald-300 to-cyan-400 bg-clip-text text-5xl font-black text-transparent">124g</p>
-          <p className="mt-1 text-xs text-[#f7f0df]/50">of 150g goal</p>
+          <p className="mt-1 text-xs text-[#f7f0df]/68">of 150g goal</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
             <div className="h-full rounded-full bg-gradient-to-r from-emerald-300 to-cyan-400" style={{ width: "83%" }} />
           </div>
@@ -324,7 +324,7 @@ function NutritionPage() {
         <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">Water</p>
           <p className="mt-3 bg-gradient-to-r from-[#d8b35a] to-orange-400 bg-clip-text text-5xl font-black text-transparent">2.4L</p>
-          <p className="mt-1 text-xs text-[#f7f0df]/50">of 3L goal</p>
+          <p className="mt-1 text-xs text-[#f7f0df]/68">of 3L goal</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
             <div className="h-full rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400" style={{ width: "80%" }} />
           </div>
@@ -356,7 +356,7 @@ function NutritionPage() {
             <div key={m.meal} className="flex items-center justify-between rounded-xl border border-[#f7f0df]/8 bg-[#f7f0df]/5 p-4">
               <div>
                 <p className="font-bold">{m.meal} <span className="text-xs text-[#f7f0df]/62">· {m.time}</span></p>
-                <p className="text-sm text-[#f7f0df]/50">{m.items}</p>
+                <p className="text-sm text-[#f7f0df]/68">{m.items}</p>
               </div>
               <span className="text-sm font-bold text-violet-100">{m.kcal} kcal</span>
             </div>
@@ -393,7 +393,7 @@ function ProgressPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Progress</h1>
-        <p className="text-sm text-[#f7f0df]/50">Your transformation journey, visualized</p>
+        <p className="text-sm text-[#f7f0df]/68">Your transformation journey, visualized</p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
@@ -523,7 +523,7 @@ function HabitsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Daily Habits</h1>
-        <p className="text-sm text-[#f7f0df]/50">Build consistency, unlock achievements · {today}</p>
+        <p className="text-sm text-[#f7f0df]/68">Build consistency, unlock achievements · {today}</p>
       </div>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {habits.map((h: any) => (
@@ -535,7 +535,7 @@ function HabitsPage() {
               </div>
             </div>
             <p className="mt-4 font-bold">{h.name}</p>
-            <p className="mt-1 text-xs text-[#f7f0df]/50">🔥 {h.streak} day streak</p>
+            <p className="mt-1 text-xs text-[#f7f0df]/68">🔥 {h.streak} day streak</p>
           </button>
         ))}
       </div>
@@ -548,7 +548,7 @@ function PDFStorePlaceholder() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">PDF Store</h1>
-        <p className="text-sm text-[#f7f0df]/50">22 expert guides — loading soon</p>
+        <p className="text-sm text-[#f7f0df]/68">22 expert guides — loading soon</p>
       </div>
       <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-10 text-center">
         <div className="text-5xl mb-4">📄</div>
@@ -564,7 +564,7 @@ function FamilyPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Family Health</h1>
-        <p className="text-sm text-[#f7f0df]/50">Track your whole family in one place</p>
+        <p className="text-sm text-[#f7f0df]/68">Track your whole family in one place</p>
       </div>
       <div className="rounded-2xl border border-[#d8b35a]/20 bg-gradient-to-br from-[#d8b35a]/10 to-violet-200/8 p-6">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d8b35a]">👑 Elite Feature</p>
@@ -584,7 +584,7 @@ function FamilyPage() {
               <div className={`grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br ${m.color} text-lg font-black text-[#090511]`}>{m.avatar}</div>
               <div>
                 <p className="text-lg font-bold">{m.name}</p>
-                <p className="text-xs text-[#f7f0df]/50">{m.role}</p>
+                <p className="text-xs text-[#f7f0df]/68">{m.role}</p>
               </div>
             </div>
           </div>
@@ -599,7 +599,7 @@ function PremiumPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Premium Plans</h1>
-        <p className="text-sm text-[#f7f0df]/50">Unlock the full Tiger Fitness Pro experience</p>
+        <p className="text-sm text-[#f7f0df]/68">Unlock the full Tiger Fitness Pro experience</p>
       </div>
       <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 md:grid-cols-3">
         {[
@@ -610,7 +610,7 @@ function PremiumPage() {
           <div key={p.name} className={`relative rounded-2xl border p-8 ${p.popular ? "border-violet-300/40 bg-violet-200/10 shadow-[0_0_60px_rgba(167,139,250,0.15)]" : "border-[#f7f0df]/10 bg-[#f7f0df]/5"}`}>
             {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-lg">MOST POPULAR</div>}
             <h3 className="text-2xl font-black">{p.name}</h3>
-            <p className="mt-2 text-sm text-[#f7f0df]/50">{(p as any).description || ""}</p>
+            <p className="mt-2 text-sm text-[#f7f0df]/68">{(p as any).description || ""}</p>
             <div className="mt-6 flex items-end gap-1"><span className="text-5xl font-black">{p.price}</span><span className="pb-2 text-sm text-[#f7f0df]/65">{p.period}</span></div>
             {(p as any).current ? (
               <div className="mt-6 rounded-full border border-emerald-300/30 bg-emerald-300/10 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-emerald-200">Current Plan</div>
@@ -668,7 +668,7 @@ function SettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Settings</h1>
-        <p className="text-sm text-[#f7f0df]/50">Manage your account and preferences</p>
+        <p className="text-sm text-[#f7f0df]/68">Manage your account and preferences</p>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2">
@@ -678,7 +678,7 @@ function SettingsPage() {
           { id: "billing", label: "Billing" },
           { id: "privacy", label: "Privacy" },
         ].map((t) => (
-          <button key={t.id} type="button" onClick={() => setTab(t.id as any)} className={`whitespace-nowrap rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition ${tab === t.id ? "bg-violet-200/20 text-violet-50 ring-1 ring-violet-200/30" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/54"}`}>{t.label}</button>
+          <button key={t.id} type="button" onClick={() => setTab(t.id as any)} className={`whitespace-nowrap rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition ${tab === t.id ? "bg-violet-200/20 text-violet-50 ring-1 ring-violet-200/30" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68"}`}>{t.label}</button>
         ))}
       </div>
 
@@ -688,7 +688,7 @@ function SettingsPage() {
             <div className="grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-2xl font-black text-[#090511]">{user?.avatar}</div>
             <div>
               <p className="text-xl font-bold">{user?.name}</p>
-              <p className="text-sm text-[#f7f0df]/50">{user?.email}</p>
+              <p className="text-sm text-[#f7f0df]/68">{user?.email}</p>
               <p className="mt-2 text-xs text-[#f7f0df]/62">Member since {user?.joinDate}</p>
             </div>
           </div>
@@ -717,7 +717,7 @@ function SettingsPage() {
               { label: "AI Coach Messages", desc: "Daily personalized guidance", key: "aiCoach" as const },
             ].map((p) => (
               <div key={p.key} className="flex items-center justify-between rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
-                <div><p className="font-bold">{p.label}</p><p className="text-xs text-[#f7f0df]/50">{p.desc}</p></div>
+                <div><p className="font-bold">{p.label}</p><p className="text-xs text-[#f7f0df]/68">{p.desc}</p></div>
                 <label className="relative inline-flex cursor-pointer items-center"><input type="checkbox" defaultChecked={user?.preferences?.[p.key]} onChange={(e) => updateUser({ preferences: { ...user!.preferences, [p.key]: e.target.checked } })} className="peer sr-only" /><div className="h-7 w-[52px] rounded-full bg-[#f7f0df]/15 peer-checked:bg-violet-300 after:absolute after:top-1 after:left-1 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-[28px]" /></label>
               </div>
             ))}
@@ -731,7 +731,7 @@ function SettingsPage() {
           <div className="mt-4 flex items-center justify-between rounded-xl border border-violet-200/20 bg-violet-200/10 p-5">
             <div>
               <p className="text-xl font-black">{user?.plan} Plan</p>
-              <p className="text-xs text-[#f7f0df]/50">Next billing: July 1, 2025</p>
+              <p className="text-xs text-[#f7f0df]/68">Next billing: July 1, 2025</p>
             </div>
             <button type="button" className="rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Upgrade</button>
           </div>
@@ -739,7 +739,7 @@ function SettingsPage() {
           <div className="mt-4 flex items-center justify-between rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
             <div className="flex items-center gap-3">
               <div className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-br from-[#d8b35a] to-orange-400 text-xs font-black text-[#090511]">UPI</div>
-              <div><p className="font-bold">UPI ID</p><p className="text-xs text-[#f7f0df]/50">user@paytm</p></div>
+              <div><p className="font-bold">UPI ID</p><p className="text-xs text-[#f7f0df]/68">user@paytm</p></div>
             </div>
             <button type="button" className="text-xs font-bold text-violet-100">Change</button>
           </div>
@@ -749,11 +749,11 @@ function SettingsPage() {
       {tab === "privacy" && (
         <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <div><p className="font-bold">Export My Data</p><p className="text-xs text-[#f7f0df]/50">Download all your data as JSON</p></div>
+            <div><p className="font-bold">Export My Data</p><p className="text-xs text-[#f7f0df]/68">Download all your data as JSON</p></div>
             <button type="button" onClick={exportData} className="rounded-full border border-[#f7f0df]/18 bg-[#f7f0df]/8 px-5 py-2.5 text-xs font-bold hover:bg-violet-200/15">Export</button>
           </div>
           <div className="flex items-center justify-between border-t border-[#f7f0df]/10 pt-4">
-            <div><p className="font-bold">Delete Account</p><p className="text-xs text-[#f7f0df]/50">Permanently delete all your data</p></div>
+            <div><p className="font-bold">Delete Account</p><p className="text-xs text-[#f7f0df]/68">Permanently delete all your data</p></div>
             <button type="button" onClick={deleteAccount} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-5 py-2.5 text-xs font-bold text-rose-200 hover:bg-rose-400/20">Delete</button>
           </div>
           <p className="border-t border-[#f7f0df]/10 pt-4 text-xs text-[#f7f0df]/62">Version 2.1.0 · Built with 🐅 in India</p>
