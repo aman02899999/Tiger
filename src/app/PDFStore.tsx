@@ -47,6 +47,8 @@ const GUIDES: Guide[] = [
   { id: 20, title: "Anabolic Nutrition Bible — Indian Meal Plans On-Cycle", description: "Indian meal plans optimized for anabolic cycles: on-cycle and PCT nutrition", pages: "62+ pages", price: 399, category: "Anabolic", badge: "🆕", icon: "🍽️" },
   { id: 21, title: "Fitness & Mindset Guidance", description: "15 chapters covering fitness psychology and 5 exclusive bonuses", pages: "60+ pages", price: 299, category: "Flagship", icon: "🧠" },
   { id: 22, title: "Anabolic Full Guide", description: "Complete protein data tables, supplement tier table and anabolic overview", pages: "65+ pages", price: 299, category: "Flagship", icon: "📚" },
+  { id: 23, title: "100 Yoga Poses Complete Guide", description: "52+ poses with Sanskrit names, step-by-step instructions, breathing cues, benefits, contraindications and 6 goal-based sequences", pages: "100+ pages", price: 249, category: "Yoga", badge: "🆕", icon: "🧘" },
+  { id: 24, title: "Complete Meditation Guide & Roadmap", description: "7-stage beginner-to-advanced roadmap, 12 techniques with guided scripts, neuroscience deep-dive, 30-day challenge checklist and daily routines", pages: "80+ pages", price: 249, category: "Meditation", badge: "🆕", icon: "🙏" },
 ];
 
 const BUNDLES: Bundle[] = [
@@ -73,16 +75,16 @@ const BUNDLES: Bundle[] = [
   {
     id: "library",
     title: "Complete Library",
-    description: "All 22 PDF guides — the ultimate Tiger Fitness Pro collection",
-    originalPrice: 7448,
+    description: "All 24 PDF guides — the ultimate Tiger Fitness Pro collection",
+    originalPrice: 7946,
     price: 1999,
-    savings: "73%",
-    guides: "22 guides",
+    savings: "75%",
+    guides: "24 guides",
     icon: "🗂️",
   },
 ];
 
-const CATEGORIES = ["All", "Nutrition", "Training", "Hormones", "Women", "Recovery", "Anabolic", "Cycles", "Supplements", "Flagship"];
+const CATEGORIES = ["All", "Nutrition", "Training", "Hormones", "Women", "Recovery", "Anabolic", "Cycles", "Supplements", "Flagship", "Yoga", "Meditation"];
 
 function Toast({ message, onClose }: { message: string; onClose: () => void }) {
   return (

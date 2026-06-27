@@ -1,142 +1,120 @@
 @import "tailwindcss";
 
-@keyframes slowZoom {
-  from {
-    transform: scale(1.05);
-  }
+/* ── Gradient / Glass Design Tokens ─────────────────────────────── */
+:root {
+  --clr-bg:         #07040d;
+  --clr-surface:    #0b0714;
+  --clr-text:       #f7f0df;
+  --clr-gold:       #d8b35a;
+  --clr-violet:     #a78bfa;
+  --clr-fuchsia:    #e879f9;
 
-  to {
-    transform: scale(1.12);
-  }
+  /* Gradient presets */
+  --grad-hero:      linear-gradient(135deg, #3b0764 0%, #1e1b4b 40%, #07040d 100%);
+  --grad-gold-glow: linear-gradient(135deg, #d8b35a 0%, #f59e0b 50%, #d97706 100%);
+  --grad-violet:    linear-gradient(135deg, #c4b5fd 0%, #e879f9 50%, #7c3aed 100%);
+  --grad-card:      linear-gradient(160deg, rgba(167,139,250,0.08) 0%, rgba(232,121,249,0.04) 100%);
+  --grad-red-depth: linear-gradient(135deg, #7f1d1d 0%, #450a0a 60%, #07040d 100%);
+
+  /* Glass card */
+  --glass-bg:       rgba(247,240,223,0.04);
+  --glass-border:   rgba(167,139,250,0.18);
+  --glass-shadow:   0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+  --glass-shadow-hover: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(167,139,250,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+
+  /* Glossy button */
+  --btn-gloss:      linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 60%);
+}
+
+/* ── Utility: Glass Card ─────────────────────────────────────────── */
+.glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.glass-card:hover {
+  box-shadow: var(--glass-shadow-hover);
+  border-color: rgba(167,139,250,0.28);
+}
+
+/* ── Utility: Glossy Button ─────────────────────────────────────── */
+.btn-gloss {
+  position: relative;
+  overflow: hidden;
+}
+.btn-gloss::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--btn-gloss);
+  pointer-events: none;
+}
+.btn-gloss:active {
+  transform: translateY(1px) scale(0.98);
+  filter: brightness(0.9);
+}
+
+/* ── Utility: Gold Glow Border ──────────────────────────────────── */
+.border-gold-glow {
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  box-shadow: 0 0 0 1px rgba(216,179,90,0.3), 0 4px 24px rgba(216,179,90,0.1);
+}
+
+/* ── Animations ─────────────────────────────────────────────────── */
+@keyframes slowZoom {
+  from { transform: scale(1.05); }
+  to   { transform: scale(1.12); }
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes gridDrift {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 144px 144px;
-  }
+  from { background-position: 0 0; }
+  to   { background-position: 144px 144px; }
 }
 
 @keyframes floatGlow {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-
-  50% {
-    transform: translate3d(28px, -18px, 0) scale(1.08);
-  }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%       { transform: translate3d(28px, -18px, 0) scale(1.08); }
 }
 
 @keyframes scanLine {
-  0% {
-    transform: translateX(-110%);
-  }
-
-  100% {
-    transform: translateX(220%);
-  }
-}
-
-@keyframes stripeSlide {
-  from {
-    background-position: 0 0;
-  }
-
-  to {
-    background-position: 180px 0;
-  }
-}
-
-@keyframes pulseWidth {
-  0%,
-  100% {
-    width: 28%;
-  }
-
-  50% {
-    width: 82%;
-  }
-}
-
-@keyframes dashboardEnter {
-  from {
-    opacity: 0;
-    transform: translateY(28px) scale(0.96);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes barRise {
-  from {
-    height: 0;
-    opacity: 0.2;
-  }
-
-  to {
-    opacity: 1;
-  }
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(220%); }
 }
 
 @keyframes shineMove {
-  0%,
-  100% {
-    filter: brightness(1);
-  }
-
-  50% {
-    filter: brightness(1.55);
-  }
+  0%, 100% { filter: brightness(1); }
+  50%       { filter: brightness(1.55); }
 }
 
-@keyframes iconFloat {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-12px) rotate(-2deg);
-  }
+@keyframes orbDrift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+  33%       { transform: translate3d(40px, -30px, 0) scale(1.06) rotate(120deg); }
+  66%       { transform: translate3d(-20px, 20px, 0) scale(0.97) rotate(240deg); }
 }
 
-@keyframes phoneHover {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-1deg);
-  }
-
-  50% {
-    transform: translateY(-16px) rotate(1deg);
-  }
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
 }
 
-@keyframes floatCard {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(167,139,250,0.2); }
+  50%       { box-shadow: 0 0 60px rgba(167,139,250,0.5), 0 0 100px rgba(232,121,249,0.2); }
+}
 
-  50% {
-    transform: translateY(-18px);
+/* ── Reduced motion ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
