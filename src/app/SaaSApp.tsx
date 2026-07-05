@@ -23,6 +23,7 @@ import AICoachPage from "./AICoach";
 import GymPartnerPage from "./GymPartner";
 import { DailyChecklist, MoodCheckIn, WeeklyActivity, QuickActions } from "./DashboardWidgets";
 import StrengthLabPage from "./StrengthLab";
+import ProgressPhotosPage from "./ProgressPhotos";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -47,6 +48,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "aicoach", icon: "🤖", label: "AI Coach" },
     { id: "gympartner", icon: "🤝", label: "Let's Gym" },
     { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
+    { id: "progressphotos", icon: "📸", label: "Progress Photos" },
     { id: "progress", icon: "📈", label: "Progress" },
     { id: "habits", icon: "🎯", label: "Habits" },
     { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -803,6 +805,7 @@ export default function SaaSApp() {
       {section === "aicoach" && <AICoachPage />}
       {section === "gympartner" && <GymPartnerPage />}
       {section === "strengthlab" && <StrengthLabPage />}
+      {section === "progressphotos" && <ProgressPhotosPage />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
