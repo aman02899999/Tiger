@@ -21,6 +21,7 @@ import AchievementsPage, { addXP } from "./Achievements";
 import DailyRewardsPage from "./DailySpin";
 import AICoachPage from "./AICoach";
 import GymPartnerPage from "./GymPartner";
+import { DailyChecklist, MoodCheckIn, WeeklyActivity, QuickActions } from "./DashboardWidgets";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -118,7 +119,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
 /* Dashboard                                                         */
 /* ---------------------------------------------------------------- */
 
-function Dashboard() {
+function Dashboard({ onNavigate }: { onNavigate: (section: string) => void }) {
   const { user } = useAuth();
   if (!user) return null;
 
@@ -154,38 +155,16 @@ function Dashboard() {
         ))}
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        {/* Today's Plan */}
-        <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6 lg:col-span-2">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold">Today's Plan</h2>
-            <span className="rounded-full bg-violet-200/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-violet-100">AI Generated</span>
-          </div>
-          <div className="mt-5 space-y-3">
-            {[
-              { time: "6:30 AM", title: "Morning Meditation", duration: "10 min", icon: "🧘", done: true },
-              { time: "7:00 AM", title: "Push Strength Workout", duration: "45 min", icon: "💪", done: true },
-              { time: "9:00 AM", title: "High-Protein Breakfast", duration: "30 min", icon: "🍳", done: true },
-              { time: "1:00 PM", title: "Lunch: Dal + Rice + Paneer", duration: "30 min", icon: "🍛", done: false },
-              { time: "6:00 PM", title: "Evening Walk", duration: "30 min", icon: "🚶", done: false },
-              { time: "9:30 PM", title: "Sleep Routine", duration: "8 hrs", icon: "😴", done: false },
-            ].map((task, i) => (
-              <div key={i} className="flex items-center gap-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 transition hover:bg-[#f7f0df]/10">
-                <span className="text-2xl">{task.icon}</span>
-                <div className="flex-1 min-w-0">
-                  <p className={`font-semibold ${task.done ? "text-[#f7f0df]/62 line-through" : "text-[#f7f0df]"}`}>{task.title}</p>
-                  <p className="text-xs text-[#f7f0df]/62">{task.time} · {task.duration}</p>
-                </div>
-                <div className={`grid h-7 w-7 place-items-center rounded-full border-2 ${task.done ? "border-violet-300 bg-violet-300 text-[#14050a]" : "border-[#f7f0df]/20"}`}>
-                  {task.done && <span className="text-xs font-black">✓</span>}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Quick action launcher */}
+      <QuickActions onNavigate={onNavigate} />
 
-        {/* Quick Stats */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        {/* Interactive daily checklist */}
+        <DailyChecklist />
+
+        {/* Mood + Quick Stats */}
         <div className="space-y-4">
+          <MoodCheckIn />
           <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
             <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df]/68">Body Composition</h3>
             <div className="mt-4 space-y-3">
@@ -216,6 +195,16 @@ function Dashboard() {
               <div className="h-full rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400" style={{ width: "72%" }} />
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Weekly activity chart */}
+      <div className="grid gap-4 lg:grid-cols-3">
+        <WeeklyActivity />
+        <div className="rounded-2xl border border-[#d8b35a]/20 bg-gradient-to-br from-[#d8b35a]/10 to-violet-200/8 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#d8b35a]">🏆 Tiger Tip of the Day</p>
+          <p className="mt-3 text-sm leading-relaxed text-[#f7f0df]/80">Progressive overload is the #1 driver of results — aim to add a little weight or one more rep versus last week. Small wins compound.</p>
+          <button type="button" onClick={() => onNavigate("aicoach")} className="btn-gloss mt-4 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Ask the Coach →</button>
         </div>
       </div>
 
@@ -798,7 +787,7 @@ export default function SaaSApp() {
   // Logged in + onboarded → show app shell
   return (
     <AppShell currentSection={section} setCurrentSection={setSection} onLogout={logout}>
-      {section === "dashboard" && <Dashboard />}
+      {section === "dashboard" && <Dashboard onNavigate={setSection} />}
       {section === "workouts" && <WorkoutsPage />}
       {section === "nutrition" && <NutritionPage />}
       {section === "toolbox" && <FitnessToolbox />}
