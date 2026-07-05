@@ -33,10 +33,33 @@
   box-shadow: var(--glass-shadow);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  transition: box-shadow 220ms ease, border-color 220ms ease, transform 220ms ease;
 }
 .glass-card:hover {
   box-shadow: var(--glass-shadow-hover);
   border-color: rgba(167,139,250,0.28);
+}
+
+/* ── Global interaction polish (ui-ux-pro-max pass) ─────────────── */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+a[href],
+select,
+label > input[type="range"] {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+/* Keyboard-visible focus ring — does not show on mouse click */
+:focus-visible {
+  outline: 2px solid rgba(167,139,250,0.75);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+/* Tabular figures for numeric/stat/timer displays to prevent jitter */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── Utility: Glossy Button ─────────────────────────────────────── */
