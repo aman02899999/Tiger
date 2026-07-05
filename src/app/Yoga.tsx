@@ -26,14 +26,14 @@ interface Pose {
 const POSES: Pose[] = [
   // STANDING POSES
   { id: 1, name: "Tadasana", english: "Mountain Pose", category: "Standing", level: "Beginner", duration: "30–60 sec", benefits: ["Improves posture", "Strengthens thighs and ankles", "Firms abdomen", "Relieves sciatica", "Increases awareness"], muscles: ["Quadriceps", "Core", "Back"], contraindications: ["Headache", "Insomnia"], steps: ["Stand with feet together", "Distribute weight evenly", "Lift kneecaps, engage thighs", "Elongate spine, lift chest", "Arms alongside body, palms forward", "Breathe deeply for 30 seconds"], figure: "mountain" },
-  { id: 2, name: "Vrikshasana", english: "Tree Pose", category: "Standing", level: "Beginner", duration: "30–60 sec each side", benefits: ["Improves balance and stability", "Strengthens legs and core", "Opens hips", "Develops concentration", "Calms the mind"], muscles: ["Glutes", "Inner thighs", "Core"], contraindications: ["Vertigo", "High blood pressure (no arms overhead)"], steps: ["Stand in Tadasana", "Shift weight to right foot", "Place left foot on inner right thigh", "Bring palms together at heart", "Raise arms overhead if comfortable", "Hold 30 sec, switch sides"], figure: "tree" },
+  { id: 2, name: "Vrikshasana", english: "Tree Pose", category: "Standing", level: "Beginner", duration: "30–60 sec each side", benefits: ["Improves balance and stability", "Strengthens legs and core", "Opens hips", "Develops concentration", "Calms the mind"], muscles: ["Glutes", "Inner thighs", "Core"], contraindications: ["Vertigo", "High blood pressure (no arms overhead)"], steps: ["Stand tall with feet together and take one slow breath in and out", "Exhale and press all your weight into your right foot", "Place your left sole on your inner right thigh or calf — never on the knee", "Inhale and bring your palms together at your chest", "If steady, raise your arms overhead on your next inhale", "Breathe slowly for 30 seconds, then exhale, lower the foot and switch sides"], figure: "tree" },
   { id: 3, name: "Virabhadrasana I", english: "Warrior I", category: "Standing", level: "Beginner", duration: "30–45 sec each side", benefits: ["Builds strength and stamina", "Opens chest and lungs", "Strengthens shoulders, arms, thighs", "Develops focus and balance", "Energises entire body"], muscles: ["Quadriceps", "Hip flexors", "Shoulders"], contraindications: ["High blood pressure", "Heart problems", "Shoulder issues"], steps: ["From Tadasana, step right foot back 4 feet", "Turn right foot out 45°", "Bend left knee to 90°", "Raise arms overhead, palms facing", "Square hips forward", "Hold 5 breaths, switch sides"], figure: "warrior1" },
-  { id: 4, name: "Virabhadrasana II", english: "Warrior II", category: "Standing", level: "Beginner", duration: "30–45 sec each side", benefits: ["Strengthens legs and hips", "Opens chest and shoulders", "Increases stamina", "Relieves backache", "Stimulates abdominal organs"], muscles: ["Quadriceps", "Hamstrings", "Hip abductors"], contraindications: ["Neck problems (keep head forward)", "Diarrhoea"], steps: ["Stand with feet 4 feet apart", "Turn right foot out 90°, left foot in 15°", "Bend right knee over right ankle", "Extend arms parallel to floor", "Gaze over right fingertips", "Keep torso perpendicular to floor"], figure: "warrior2" },
-  { id: 5, name: "Virabhadrasana III", english: "Warrior III", category: "Standing", level: "Intermediate", duration: "20–30 sec each side", benefits: ["Tones entire body", "Improves balance and posture", "Strengthens ankles and legs", "Tones abdomen", "Develops concentration"], muscles: ["Hamstrings", "Glutes", "Core", "Shoulders"], contraindications: ["High blood pressure"], steps: ["Begin in Warrior I", "Shift weight to front foot", "Lean torso forward", "Lift back leg until parallel to floor", "Extend arms forward or alongside body", "Create one straight line from hands to heel"], figure: "warrior3" },
-  { id: 6, name: "Trikonasana", english: "Triangle Pose", category: "Standing", level: "Beginner", duration: "30–60 sec each side", benefits: ["Stretches legs, hips, spine", "Opens chest and shoulders", "Relieves stress and anxiety", "Strengthens thighs", "Improves digestion"], muscles: ["Hamstrings", "IT band", "Obliques", "Thoracic spine"], contraindications: ["Low blood pressure", "Migraine", "Neck injury (don't look up)"], steps: ["Stand with feet 4 feet apart", "Right foot out 90°, left in 15°", "Extend arms to T", "Reach right hand down to shin/floor", "Extend left arm straight up", "Look up at left hand"], figure: "triangle" },
+  { id: 4, name: "Virabhadrasana II", english: "Warrior II", category: "Standing", level: "Beginner", duration: "30–45 sec each side", benefits: ["Strengthens legs and hips", "Opens chest and shoulders", "Increases stamina", "Relieves backache", "Stimulates abdominal organs"], muscles: ["Quadriceps", "Hamstrings", "Hip abductors"], contraindications: ["Neck problems (keep head forward)", "Diarrhoea"], steps: ["Step your feet about 4 feet apart and breathe in deeply", "Turn your right foot out 90° and your left foot in slightly", "Exhale and bend your right knee until it stacks over the ankle", "Inhale and stretch your arms out parallel to the floor", "Fix your gaze softly over your right fingertips", "Hold for 5 slow breaths, keeping your torso upright — do not lean forward"], figure: "warrior2" },
+  { id: 5, name: "Virabhadrasana III", english: "Warrior III", category: "Standing", level: "Intermediate", duration: "20–30 sec each side", benefits: ["Tones entire body", "Improves balance and posture", "Strengthens ankles and legs", "Tones abdomen", "Develops concentration"], muscles: ["Hamstrings", "Glutes", "Core", "Shoulders"], contraindications: ["High blood pressure"], steps: ["Begin in Warrior I and take one steadying breath", "Exhale and shift all your weight onto your front foot", "Inhale and hinge your torso forward from the hips", "Exhale and lift your back leg until it is parallel to the floor", "Reach your arms forward or keep them alongside your body", "Breathe evenly for 20–30 seconds, keeping hips level in one straight line"], figure: "warrior3" },
+  { id: 6, name: "Trikonasana", english: "Triangle Pose", category: "Standing", level: "Beginner", duration: "30–60 sec each side", benefits: ["Stretches legs, hips, spine", "Opens chest and shoulders", "Relieves stress and anxiety", "Strengthens thighs", "Improves digestion"], muscles: ["Hamstrings", "IT band", "Obliques", "Thoracic spine"], contraindications: ["Low blood pressure", "Migraine", "Neck injury (don't look up)"], steps: ["Step your feet about 4 feet apart and stand tall on an inhale", "Turn your right foot out 90° and your left foot in slightly", "Inhale and stretch both arms out into a T shape", "Exhale and reach your right hand down to your shin or a block", "Inhale and extend your left arm straight up to the ceiling", "Breathe slowly for 5 breaths, looking up at your left hand (or forward if your neck complains)"], figure: "triangle" },
   { id: 7, name: "Utkatasana", english: "Chair Pose", category: "Standing", level: "Beginner", duration: "30–60 sec", benefits: ["Strengthens thighs, ankles, spine", "Stimulates heart and diaphragm", "Reduces flat feet", "Tones digestive organs", "Builds heat in body"], muscles: ["Quadriceps", "Glutes", "Core", "Back extensors"], contraindications: ["Low blood pressure", "Insomnia", "Knee injury"], steps: ["Stand in Tadasana", "Inhale, raise arms overhead", "Exhale, bend knees as if sitting on chair", "Keep knees behind toes", "Torso leans slightly forward", "Hold 5–10 breaths"], figure: "chair" },
-  { id: 8, name: "Garudasana", english: "Eagle Pose", category: "Standing", level: "Intermediate", duration: "30 sec each side", benefits: ["Strengthens calves, ankles, thighs", "Stretches shoulders and upper back", "Improves concentration", "Opens hips", "Challenges balance"], muscles: ["Calves", "Hip external rotators", "Shoulders"], contraindications: ["Knee injury"], steps: ["Stand in Tadasana", "Bend knees slightly", "Cross right thigh over left", "Wrap right foot behind left calf", "Cross left arm over right at elbows", "Wrap forearms, lift to eye level"], figure: "eagle" },
-  { id: 9, name: "Parsvakonasana", english: "Extended Side Angle", category: "Standing", level: "Beginner", duration: "30–45 sec each side", benefits: ["Strengthens legs and knees", "Stretches groin and spine", "Stimulates abdominal organs", "Increases stamina", "Stretches chest and lungs"], muscles: ["Hip flexors", "Obliques", "Quadriceps"], contraindications: ["High blood pressure", "Insomnia"], steps: ["From Warrior II", "Bring right forearm to right thigh", "Or right hand to floor outside right foot", "Extend left arm overhead in line with body", "Turn gaze up to left arm", "Create straight line from left foot to left hand"], figure: "sideangle" },
+  { id: 8, name: "Garudasana", english: "Eagle Pose", category: "Standing", level: "Intermediate", duration: "30 sec each side", benefits: ["Strengthens calves, ankles, thighs", "Stretches shoulders and upper back", "Improves concentration", "Opens hips", "Challenges balance"], muscles: ["Calves", "Hip external rotators", "Shoulders"], contraindications: ["Knee injury"], steps: ["Stand tall and take one slow breath to find your balance", "Exhale and bend both knees slightly", "Cross your right thigh over your left thigh", "Hook your right foot behind your left calf if you can", "Inhale and cross your left arm over your right, wrapping the forearms", "Lift the elbows to eye level and breathe evenly for 30 seconds, then unwind and switch sides"], figure: "eagle" },
+  { id: 9, name: "Parsvakonasana", english: "Extended Side Angle", category: "Standing", level: "Beginner", duration: "30–45 sec each side", benefits: ["Strengthens legs and knees", "Stretches groin and spine", "Stimulates abdominal organs", "Increases stamina", "Stretches chest and lungs"], muscles: ["Hip flexors", "Obliques", "Quadriceps"], contraindications: ["High blood pressure", "Insomnia"], steps: ["Set up in Warrior II and take one full breath", "Exhale and rest your right forearm on your right thigh", "Or, if flexible, place your right hand on the floor outside the foot", "Inhale and sweep your left arm overhead in line with your body", "Turn your gaze up toward the left arm and keep breathing", "Hold 5 slow breaths, making one straight line from left foot to left fingertips"], figure: "sideangle" },
   { id: 10, name: "Uttanasana", english: "Standing Forward Bend", category: "Standing", level: "Beginner", duration: "30–60 sec", benefits: ["Calms brain and nervous system", "Relieves stress and anxiety", "Stretches hamstrings and calves", "Stimulates liver and kidneys", "Improves digestion"], muscles: ["Hamstrings", "Calves", "Back extensors"], contraindications: ["Back injury (bend knees)", "Glaucoma"], steps: ["Stand in Tadasana", "Exhale, hinge from hips", "Bring chest toward thighs", "Let head hang freely", "Fingertips to floor or shins", "Hold 5–10 breaths"], figure: "forwardbend" },
 
   // SEATED POSES
@@ -53,7 +53,7 @@ const POSES: Pose[] = [
   { id: 22, name: "Salabhasana", english: "Locust Pose", category: "Prone", level: "Beginner", duration: "30–60 sec", benefits: ["Strengthens entire back body", "Tones buttocks", "Stimulates abdominal organs", "Improves posture", "Reduces stress"], muscles: ["Erector spinae", "Glutes", "Hamstrings", "Shoulders"], contraindications: ["Back injury", "Headache", "Pregnancy"], steps: ["Lie prone, arms alongside body palms down", "Inhale, simultaneously lift head, arms, chest, legs off floor", "Look forward or slightly down", "Reach actively through legs", "Squeeze glutes and inner thighs", "Hold 5 breaths, lower on exhale"], figure: "locust" },
   { id: 23, name: "Dhanurasana", english: "Bow Pose", category: "Prone", level: "Intermediate", duration: "20–30 sec", benefits: ["Opens chest, neck, shoulders", "Stretches entire front of body", "Strengthens back muscles", "Stimulates reproductive organs", "Relieves stress"], muscles: ["Back extensors", "Hip flexors", "Chest", "Quads"], contraindications: ["Low blood pressure", "Migraine", "Insomnia", "Serious lower back/neck injury"], steps: ["Lie prone", "Bend knees, bring heels toward buttocks", "Reach back and hold ankles", "Inhale, lift chest and thighs off floor", "Pull ankles to create bow shape", "Hold 5 breaths"], figure: "bow" },
   { id: 24, name: "Makarasana", english: "Crocodile Pose", category: "Prone", level: "Beginner", duration: "5–10 min", benefits: ["Deep relaxation for back muscles", "Relieves back pain", "Allows spinal decompression", "Calms nervous system", "Excellent counter pose for backbends"], muscles: ["Back muscles (relaxed)", "Neck muscles"], contraindications: ["Pregnancy"], steps: ["Lie prone", "Cross forearms under forehead", "Rest forehead on crossed forearms", "Legs slightly apart, toes pointing out", "Breathe slowly and deeply", "Complete relaxation for 5–10 min"], figure: "crocodile" },
-  { id: 25, name: "Sphinx Pose", english: "Salamba Bhujangasana", category: "Prone", level: "Beginner", duration: "1–5 min", benefits: ["Gentle backbend for beginners", "Strengthens spine and glutes", "Stretches chest and shoulders", "Stimulates abdominal organs", "Invigorates the body"], muscles: ["Lower back", "Glutes", "Chest"], contraindications: ["Back injury"], steps: ["Lie prone", "Place forearms on floor, elbows under shoulders", "Press forearms down, lift chest", "Keep hips and thighs on floor", "Roll shoulders back", "Hold 1–5 min with easy breathing"], figure: "sphinx" },
+  { id: 25, name: "Salamba Bhujangasana", english: "Sphinx Pose", category: "Prone", level: "Beginner", duration: "1–5 min", benefits: ["Gentle backbend for beginners", "Strengthens spine and glutes", "Stretches chest and shoulders", "Stimulates abdominal organs", "Invigorates the body"], muscles: ["Lower back", "Glutes", "Chest"], contraindications: ["Back injury"], steps: ["Lie prone", "Place forearms on floor, elbows under shoulders", "Press forearms down, lift chest", "Keep hips and thighs on floor", "Roll shoulders back", "Hold 1–5 min with easy breathing"], figure: "sphinx" },
   { id: 26, name: "Ustrasana", english: "Camel Pose", category: "Prone", level: "Intermediate", duration: "30–60 sec", benefits: ["Deep chest and front body opener", "Strengthens back", "Improves posture", "Stimulates thyroid and adrenal glands", "Builds confidence"], muscles: ["Hip flexors", "Chest", "Shoulders", "Back extensors"], contraindications: ["High/low blood pressure", "Migraine", "Insomnia", "Serious neck or back injury"], steps: ["Kneel with knees hip-width apart", "Place hands on lower back", "Gently arch back", "Reach for heels one hand at a time", "Open chest to ceiling", "Tuck chin slightly or release head back"], figure: "camel" },
   { id: 27, name: "Setu Bandha Sarvangasana", english: "Bridge Pose", category: "Supine", level: "Beginner", duration: "30–60 sec", benefits: ["Stretches chest, neck, spine", "Calms the brain", "Reduces anxiety and mild depression", "Strengthens legs and glutes", "Stimulates thyroid"], muscles: ["Glutes", "Hamstrings", "Back extensors", "Core"], contraindications: ["Neck injury"], steps: ["Lie on back, knees bent, feet flat", "Arms alongside body", "Exhale, press feet down", "Lift hips toward ceiling", "Clasp hands under back if comfortable", "Hold 5 breaths"], figure: "bridge" },
   { id: 28, name: "Natarajasana", english: "Dancer's Pose", category: "Standing", level: "Advanced", duration: "20–30 sec each side", benefits: ["Develops balance and concentration", "Stretches shoulders and chest", "Strengthens legs", "Improves posture", "Energises entire body"], muscles: ["Hamstrings", "Hip flexors", "Shoulders", "Core"], contraindications: ["Low blood pressure", "Ankle injury"], steps: ["Stand in Tadasana", "Shift weight to right foot", "Bend left knee, hold left ankle with left hand", "Extend right arm forward", "Lift left leg up and back", "Lean torso slightly forward", "Create the bow shape"], figure: "dancer" },
@@ -90,7 +90,6 @@ const POSES: Pose[] = [
   { id: 49, name: "Kapalabhati Pranayama", english: "Skull-Shining Breath", category: "Pranayama", level: "Intermediate", duration: "3–5 min", benefits: ["Detoxifies lungs and blood", "Strengthens abdominal muscles", "Clears nasal passages", "Energises and uplifts", "Activates sympathetic nervous system"], muscles: ["Diaphragm", "Abdominals"], contraindications: ["Pregnancy", "Menstruation", "High blood pressure", "Heart conditions"], steps: ["Sit in comfortable position", "Inhale deeply", "Exhale sharply through nose (active)", "Inhalation is passive recoil", "Start with 30 rounds/minute", "Work up to 120 rounds/minute"], figure: "pranayama" },
   { id: 50, name: "Anulom Vilom", english: "Alternate Nostril Breathing", category: "Pranayama", level: "Beginner", duration: "5–10 min", benefits: ["Balances left and right brain hemispheres", "Reduces stress and anxiety", "Purifies nadis (energy channels)", "Improves respiratory health", "Calms the mind instantly"], muscles: ["Respiratory muscles", "Diaphragm"], contraindications: ["Severe respiratory illness"], steps: ["Sit comfortably, spine erect", "Right hand: thumb closes right nostril", "Inhale left 4 counts", "Close both nostrils, hold 16 counts (optional)", "Open right nostril, exhale 8 counts", "Repeat other side — that's 1 round"], figure: "alternatenostril" },
   { id: 51, name: "Bhramari Pranayama", english: "Bee Breath", category: "Pranayama", level: "Beginner", duration: "5–10 min", benefits: ["Immediately calms nervous system", "Relieves anxiety and anger", "Reduces blood pressure", "Enhances concentration", "Soothes migraines and sinuses"], muscles: ["Diaphragm", "Facial muscles"], contraindications: ["Ear infection"], steps: ["Sit comfortably", "Close ears with thumbs", "Place fingers on forehead and eyes", "Inhale deeply", "Exhale making humming sound", "Feel vibration in skull — 5–10 rounds"], figure: "beebreathe" },
-  { id: 52, name: "Shavasana with Yoga Nidra", english: "Conscious Relaxation", category: "Restorative", level: "Beginner", duration: "15–45 min", benefits: ["Complete mind-body restoration", "Integration of all prior asanas", "Deep healing state", "Reduces cortisol by 40%", "Profound stress relief"], muscles: ["All muscles relaxed"], contraindications: ["None — suitable for everyone"], steps: ["Lie flat on back", "Eyes closed, jaw relaxed", "Feet fall naturally open", "Begin with 5 deep breaths", "Scan body from feet to crown", "Allow complete dissolution of effort"], figure: "shavasana" },
 ]
 
 const CATEGORIES = ['All', 'Standing', 'Seated', 'Prone', 'Supine', 'Balance', 'Inversion', 'Restorative', 'Pranayama']
@@ -102,47 +101,71 @@ const LEVELS = ['All', 'Beginner', 'Intermediate', 'Advanced']
 
 const U = (id: string) => `https://images.unsplash.com/photo-${id}?w=800&q=80&auto=format&fit=crop`
 
-// Curated pool of real human yoga/stretching photographs.
+// Curated pool of 28 distinct, long-stable Unsplash photos of real humans
+// practising yoga / stretching. Every <img> keeps a gradient fallback, so a
+// missing photo degrades gracefully.
 const PHOTOS = {
-  warriorDock:  U('1544367567-0f2fcb009e0b'), // warrior pose on a dock at sunset
-  meditateRock: U('1506126613408-eca07ce68773'), // seated meditation on a cliff
-  classFlow:    U('1545205597-3d9d02c29597'), // group yoga class mid-flow
-  matStretch:   U('1552196563-55cd4e45efb3'), // deep stretch on a mat
-  studioPose:   U('1575052814086-f385e2e2ad1b'), // studio asana practice
-  homeMat:      U('1588286840104-8957b019727f'), // home practice on mat
-  calmSeated:   U('1599901860904-17e6ed7083a0'), // calm seated breathing
-  spinalTwist:  U('1593811167562-9cef47bfc4d7'), // seated spinal twist
-  balanceOut:   U('1573384666979-2ffcf4ac5397'), // outdoor balance posture
-  sunriseFlow:  U('1510894347713-fc3ed26fd2e2'), // sunrise silhouette flow
-  parkAsana:    U('1562088287-bde35a1ea917'), // asana in the park
-  strongHold:   U('1518611012118-696072aa579a'), // strength hold in gym light
-  floorWork:    U('1603988363607-e1e4a66962c6'), // supine floor work
-  deepBend:     U('1602827114685-efbb2717da9f'), // deep forward bend
+  warriorDock:   U('1544367567-0f2fcb009e0b'), // warrior pose on a dock at sunset
+  meditateRock:  U('1506126613408-eca07ce68773'), // seated meditation on a cliff
+  classFlow:     U('1545205597-3d9d02c29597'), // group yoga class mid-flow
+  matStretch:    U('1552196563-55cd4e45efb3'), // deep stretch on a mat
+  studioPose:    U('1575052814086-f385e2e2ad1b'), // studio asana practice
+  homeMat:       U('1588286840104-8957b019727f'), // home practice on mat
+  calmSeated:    U('1599901860904-17e6ed7083a0'), // calm seated breathing
+  spinalTwist:   U('1593811167562-9cef47bfc4d7'), // seated spinal twist
+  balanceOut:    U('1573384666979-2ffcf4ac5397'), // outdoor balance posture
+  sunriseFlow:   U('1510894347713-fc3ed26fd2e2'), // sunrise silhouette flow
+  parkAsana:     U('1562088287-bde35a1ea917'), // asana in the park
+  strongHold:    U('1518611012118-696072aa579a'), // strength hold in gym light
+  floorWork:     U('1603988363607-e1e4a66962c6'), // supine floor work
+  deepBend:      U('1602827114685-efbb2717da9f'), // deep forward bend
+  lotusCalm:     U('1544966503-7cc5ac882d5f'), // cross-legged meditation close-up
+  studioLunge:   U('1573590330099-d6c7355ec595'), // studio standing asana
+  wheelBackbend: U('1524863479829-916d8e77f114'), // deep backbend / chest opener
+  gymStretch:    U('1571019613454-1cb2f99b2d8b'), // athletic floor stretch
+  hamstringPull: U('1571019614242-c5c5dee9f50b'), // seated hamstring stretch
+  fieldWarrior:  U('1552286450-4a669f880062'), // warrior stance in open field
+  duskYoga:      U('1554344728-77cf90d9ed26'), // yoga at dusk, golden light
+  studioAsana2:  U('1599447421416-3414500d18a5'), // studio asana, soft light
+  balanceAsana:  U('1599447292180-45fd84092ef4'), // one-leg balance in studio
+  bridgeLift:    U('1532798442725-41036acc7489'), // hip bridge / backbend lift
+  silhouetteStretch: U('1447452001602-7090c7ab2db3'), // silhouette stretch at sunrise
+  outdoorFold:   U('1445384763658-0400939829cd'), // outdoor standing fold
+  headstandWall: U('1516526995003-435ccce2be97'), // inversion practice
+  beachWarrior:  U('1526401485004-46910ecc8e51'), // warrior pose on the beach
 }
 
-// figure key -> demonstration photo
+// figure key -> demonstration photo.
+// Assigned so that no two poses within the same category share a photo.
 const POSE_PHOTOS: Record<string, string> = {
+  // Standing (11 distinct)
   mountain: PHOTOS.studioPose, tree: PHOTOS.balanceOut, warrior1: PHOTOS.warriorDock,
-  warrior2: PHOTOS.warriorDock, warrior3: PHOTOS.balanceOut, triangle: PHOTOS.classFlow,
-  chair: PHOTOS.strongHold, eagle: PHOTOS.studioPose, sideangle: PHOTOS.classFlow,
+  warrior2: PHOTOS.fieldWarrior, warrior3: PHOTOS.beachWarrior, triangle: PHOTOS.classFlow,
+  chair: PHOTOS.strongHold, eagle: PHOTOS.studioLunge, sideangle: PHOTOS.studioAsana2,
   forwardbend: PHOTOS.deepBend, dancer: PHOTOS.sunriseFlow,
-  easy: PHOTOS.calmSeated, lotus: PHOTOS.meditateRock, seatedforward: PHOTOS.matStretch,
-  butterfly: PHOTOS.calmSeated, twist: PHOTOS.spinalTwist, headtoknee: PHOTOS.matStretch,
-  cowface: PHOTOS.spinalTwist, staff: PHOTOS.homeMat, wideangleseated: PHOTOS.matStretch,
-  hero: PHOTOS.calmSeated,
-  cobra: PHOTOS.homeMat, locust: PHOTOS.floorWork, bow: PHOTOS.homeMat,
-  crocodile: PHOTOS.floorWork, sphinx: PHOTOS.homeMat, camel: PHOTOS.studioPose,
-  bridge: PHOTOS.floorWork, corpse: PHOTOS.floorWork, plow: PHOTOS.floorWork,
-  shoulderstand: PHOTOS.floorWork, windreleasing: PHOTOS.floorWork,
-  supinetwist: PHOTOS.floorWork, happybaby: PHOTOS.floorWork, legsupwall: PHOTOS.floorWork,
-  yoganidra: PHOTOS.floorWork, shavasana: PHOTOS.floorWork, fish: PHOTOS.floorWork,
-  recliningbutterfly: PHOTOS.floorWork,
-  crow: PHOTOS.strongHold, sideplank: PHOTOS.strongHold, halfmoon: PHOTOS.balanceOut,
-  scale: PHOTOS.meditateRock, peacock: PHOTOS.strongHold,
-  downdog: PHOTOS.classFlow, headstand: PHOTOS.sunriseFlow, forearmstand: PHOTOS.sunriseFlow,
+  // Seated (10 distinct)
+  easy: PHOTOS.calmSeated, lotus: PHOTOS.lotusCalm, seatedforward: PHOTOS.matStretch,
+  butterfly: PHOTOS.meditateRock, twist: PHOTOS.spinalTwist, headtoknee: PHOTOS.hamstringPull,
+  cowface: PHOTOS.gymStretch, staff: PHOTOS.homeMat, wideangleseated: PHOTOS.outdoorFold,
+  hero: PHOTOS.parkAsana,
+  // Prone (6 distinct)
+  cobra: PHOTOS.wheelBackbend, locust: PHOTOS.floorWork, bow: PHOTOS.bridgeLift,
+  crocodile: PHOTOS.duskYoga, sphinx: PHOTOS.homeMat, camel: PHOTOS.balanceAsana,
+  // Supine (8 distinct)
+  bridge: PHOTOS.bridgeLift, corpse: PHOTOS.silhouetteStretch, plow: PHOTOS.matStretch,
+  shoulderstand: PHOTOS.gymStretch, windreleasing: PHOTOS.homeMat,
+  supinetwist: PHOTOS.spinalTwist, happybaby: PHOTOS.floorWork, legsupwall: PHOTOS.calmSeated,
+  // Balance (5 distinct)
+  crow: PHOTOS.strongHold, sideplank: PHOTOS.balanceAsana, halfmoon: PHOTOS.balanceOut,
+  scale: PHOTOS.lotusCalm, peacock: PHOTOS.studioLunge,
+  // Inversion (4 distinct)
+  downdog: PHOTOS.duskYoga, headstand: PHOTOS.headstandWall, forearmstand: PHOTOS.sunriseFlow,
   handstand: PHOTOS.parkAsana,
-  childs: PHOTOS.matStretch,
-  pranayama: PHOTOS.meditateRock, alternatenostril: PHOTOS.calmSeated, beebreathe: PHOTOS.calmSeated,
+  // Restorative (4 distinct)
+  childs: PHOTOS.matStretch, fish: PHOTOS.wheelBackbend,
+  recliningbutterfly: PHOTOS.meditateRock, yoganidra: PHOTOS.silhouetteStretch,
+  // Pranayama (3 distinct)
+  pranayama: PHOTOS.lotusCalm, alternatenostril: PHOTOS.calmSeated, beebreathe: PHOTOS.studioPose,
 }
 
 /* ------------------------------------------------------------------ */
@@ -731,9 +754,18 @@ export default function YogaPage() {
     <div className="min-h-screen bg-[#07040d] text-[#f7f0df] font-sans">
       {/* ---- Hero Header ---- */}
       <div
-        className="relative px-4 pt-12 pb-8 text-center"
+        className="relative px-4 pt-12 pb-8 text-center overflow-hidden"
         style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 60%)' }}
       >
+        {/* Real demonstration hero photo */}
+        <img
+          src={PHOTOS.sunriseFlow}
+          alt="A person practising yoga at sunrise, flowing through an asana sequence"
+          loading="lazy"
+          onError={(e) => { e.currentTarget.style.display = 'none' }}
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#07040d]/55 via-[#07040d]/70 to-[#07040d]" />
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-violet-700/10 blur-3xl" />
           <div className="absolute top-10 left-1/4 h-40 w-40 rounded-full bg-fuchsia-600/10 blur-2xl" />
@@ -775,6 +807,26 @@ export default function YogaPage() {
               <span className="text-[11px] font-bold text-[#d8b35a]">Pro — Full Library Unlocked</span>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* ---- How to use this section ---- */}
+      <div className="mx-auto max-w-4xl px-4 pb-6 -mt-2">
+        <div className="glass-card rounded-2xl p-5">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How this works — 3 simple steps</p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              { n: '1', t: 'Choose a pose', d: 'Browse the library or a guided flow. Tap any pose to open its full guide with a real demonstration photo.' },
+              { n: '2', t: 'Follow the steps', d: 'Each pose has numbered, one-at-a-time instructions plus breathing cues — just do them in order.' },
+              { n: '3', t: 'Hold with the timer', d: 'Start the built-in hold timer, breathe steadily, and mark the pose done to track your progress.' },
+            ].map((s) => (
+              <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
+                <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
+                <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
+                <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

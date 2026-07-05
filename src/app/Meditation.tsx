@@ -15,6 +15,15 @@ const MEDITATION_IMAGES: Record<string, { id: string; alt: string }> = {
   visualization:     { id: 'photo-1441974231531-c6227db76b6e', alt: 'Sunlight streaming through a calm green forest' },
   focused_attention: { id: 'photo-1552196563-55cd4e45efb3',    alt: 'Woman in seated meditation practicing focused attention in a bright studio' },
   open_monitoring:   { id: 'photo-1469474968028-56623f02e42e', alt: 'Golden light over mountain landscape evoking open awareness' },
+  hero_meditation:   { id: 'photo-1447452001602-7090c7ab2db3', alt: 'Two people meditating cross-legged in silhouette at sunset' },
+  calm_home:         { id: 'photo-1593811167562-9cef47bfc4d7', alt: 'Woman meditating calmly in a quiet living room at home' },
+  candle_calm:       { id: 'photo-1518241353330-0f7941c2d9b5', alt: 'Person meditating in soft candlelight with hands resting' },
+  studio_seated:     { id: 'photo-1599901860904-17e6ed7083a0', alt: 'Woman seated upright in meditation posture indoors' },
+  mat_rest:          { id: 'photo-1591228127791-8e2eaef098d3', alt: 'Person resting in meditation on a yoga mat' },
+  lake_still:        { id: 'photo-1474418397713-7ede21d49118', alt: 'Person meditating in stillness beside a calm lake' },
+  sunrise_energy:    { id: 'photo-1470137237906-d8a4f71e1966', alt: 'Person greeting the sunrise in silhouette during morning meditation' },
+  beach_breath:      { id: 'photo-1532798442725-41036acc7489', alt: 'Woman practicing slow breathing meditation on a quiet beach' },
+  sunset_pose:       { id: 'photo-1524863479829-916d8e77f114', alt: 'Woman in a steady meditation pose against a sunset sky' },
 };
 
 const FALLBACK_GRADIENT = 'linear-gradient(135deg, #3b0764 0%, #1e1b4b 55%, #0f0720 100%)';
@@ -80,6 +89,8 @@ interface GuidedSession {
   premium: boolean;
   figure: string;
   description: string;
+  benefit: string; // plain-words one-liner
+  steps: string[]; // numbered, one action per step
   benefits: string[];
 }
 
@@ -98,40 +109,130 @@ interface BreathTechnique {
 
 const guidedSessions: GuidedSession[] = [
   { id: 'stress-sos', title: 'Stress Relief SOS', category: 'Stress', minutes: 8, level: 'Beginner', premium: false, figure: 'breathing_deep',
-    description: 'A rapid nervous-system reset combining extended exhales and grounding awareness. Perfect between meetings or after a hard training block.',
+    description: 'A fast 8-minute reset for a stressed body — long slow exhales plus grounding through your feet and hands.',
+    benefit: 'In plain words: 8 minutes of long exhales that calm your body down fast.',
+    steps: [
+      'Sit on a chair, feet flat on the floor, hands on thighs.',
+      'Close your eyes or look softly at the floor.',
+      'Breathe in through the nose for 4 seconds, out for 6 seconds — repeat for 5 minutes.',
+      'If a thought pulls you away, name it "thinking" and go back to the exhale.',
+      'Finish with 3 minutes just feeling your feet on the ground.',
+    ],
     benefits: ['Lowers cortisol fast', 'Releases jaw & shoulder tension', 'Restores clear thinking'] },
   { id: 'deep-sleep', title: 'Deep Sleep Descent', category: 'Sleep', minutes: 20, level: 'Beginner', premium: false, figure: 'body_scan',
-    description: 'A slow, voice-paced body scan that walks you down through the hypnagogic border into deep, restorative sleep.',
+    description: 'A slow 20-minute body scan done lying in bed that walks you down into sleep, one body region at a time.',
+    benefit: 'In plain words: relax each body part in order until you drift off.',
+    steps: [
+      'Lie on your back in bed, arms at your sides, eyes closed.',
+      'Take 3 slow breaths, letting each exhale be longer than the inhale.',
+      'Move attention slowly from the top of your head down to your toes, ~1 minute per region.',
+      'At each region, soften the muscles as you breathe out.',
+      'If thoughts appear, let them pass and return to the body part you were on.',
+      'It is fine to fall asleep before the end — that is the goal.',
+    ],
     benefits: ['Faster sleep onset', 'Deeper slow-wave sleep', 'Quieted racing mind'] },
   { id: 'laser-focus', title: 'Laser Focus Primer', category: 'Focus', minutes: 10, level: 'Beginner', premium: false, figure: 'focused_attention',
-    description: 'Single-point breath concentration to prime attention networks before deep work, study, or competition.',
+    description: 'Ten minutes of single-point breath counting to warm up your attention before deep work, study, or competition.',
+    benefit: 'In plain words: count breaths for 10 minutes so your mind stops jumping around.',
+    steps: [
+      'Sit upright on a chair, back straight but relaxed, eyes closed.',
+      'Feel the air moving at the tip of your nose.',
+      'Count each exhale silently: 1, 2, 3… up to 10, then start over.',
+      'If you lose count or drift into thought, calmly start again at 1.',
+      'At 10 minutes, open your eyes and go straight to your task.',
+    ],
     benefits: ['Sharper sustained attention', 'Reduced task-switching', 'Pre-performance calm'] },
-  { id: 'anxiety-anchor', title: 'Anxiety Anchor', category: 'Anxiety', minutes: 12, level: 'Beginner', premium: true, figure: 'sitting_lotus',
-    description: 'Ground through the five senses, then anchor in the breath. Built on clinically-validated protocols for acute anxiety.',
+  { id: 'anxiety-anchor', title: 'Anxiety Anchor', category: 'Anxiety', minutes: 12, level: 'Beginner', premium: true, figure: 'calm_home',
+    description: 'A 12-minute grounding routine: name what your five senses notice, then anchor in slow breathing.',
+    benefit: 'In plain words: use your senses to get out of your head, then breathe slowly.',
+    steps: [
+      'Sit anywhere you feel safe; keep your eyes open with a soft gaze.',
+      'Name 5 things you can see, 4 you can feel, 3 you can hear, 2 you can smell, 1 you can taste.',
+      'Now close your eyes and place a hand on your belly.',
+      'Breathe in for 4 seconds and out for 6 seconds for the rest of the session.',
+      'When anxious thoughts come, treat them like passing traffic — noticed, not followed.',
+    ],
     benefits: ['Interrupts panic spirals', 'Re-engages the prefrontal cortex', 'Builds felt safety'] },
   { id: 'gratitude-glow', title: 'Gratitude Glow', category: 'Gratitude', minutes: 10, level: 'Beginner', premium: true, figure: 'loving_kindness',
-    description: 'A heart-centered practice savoring three genuine gratitudes, amplifying positive affect that lasts for hours.',
+    description: 'Ten minutes savoring three real things you are grateful for — one at a time, in full detail.',
+    benefit: 'In plain words: replay three good things slowly and let the feeling sink in.',
+    steps: [
+      'Sit comfortably, close your eyes, and place one hand over your heart.',
+      'Take 5 slow breaths to settle.',
+      'Bring up one genuine gratitude and picture it for ~2 minutes: who, where, how it felt.',
+      'Repeat with a second, then a third gratitude.',
+      'If your mind wanders, return to the picture, not the words.',
+    ],
     benefits: ['Elevates baseline mood', 'Strengthens relationships', 'Counters negativity bias'] },
-  { id: 'full-body-scan', title: 'Full Body Scan', category: 'Body Scan', minutes: 25, level: 'Beginner', premium: true, figure: 'body_scan',
-    description: 'The classic MBSR sweep — crown to toes — releasing stored tension region by region.',
+  { id: 'full-body-scan', title: 'Full Body Scan', category: 'Body Scan', minutes: 25, level: 'Beginner', premium: true, figure: 'mat_rest',
+    description: 'The classic 25-minute MBSR sweep — crown to toes — done awake on a mat to release stored muscle tension.',
+    benefit: 'In plain words: notice and relax every part of your body while staying awake.',
+    steps: [
+      'Lie on a mat (not your bed), arms slightly away from your body, eyes closed.',
+      'Start at the crown of your head and sweep attention downward.',
+      'Pause at each region — face, neck, shoulders, arms, chest, belly, hips, legs, feet.',
+      'Just notice sensations: warmth, tingling, tightness. No need to change anything.',
+      'On each exhale, let that region soften.',
+      'End by feeling the whole body breathing as one for 2 minutes.',
+    ],
     benefits: ['Deep muscular release', 'Improved interoception', 'Chronic pain relief'] },
-  { id: 'morning-ignite', title: 'Morning Energy Ignite', category: 'Morning Energy', minutes: 7, level: 'Beginner', premium: true, figure: 'walking',
-    description: 'Energizing breath waves and intention-setting to switch on your day — the meditative espresso shot.',
+  { id: 'morning-ignite', title: 'Morning Energy Ignite', category: 'Morning Energy', minutes: 7, level: 'Beginner', premium: true, figure: 'sunrise_energy',
+    description: 'Seven minutes of brisk breath waves plus one clear intention — a caffeine-free way to switch your day on.',
+    benefit: 'In plain words: quick energizing breaths and one sentence about what today is for.',
+    steps: [
+      'Sit tall near a window or outside, eyes open, gaze toward the light.',
+      'Take 10 brisk breaths: sharp inhale through the nose, relaxed exhale.',
+      'Rest for 30 seconds breathing normally; repeat the wave 3 times.',
+      'Silently finish this sentence once: "Today matters because…".',
+      'Stand up, stretch your arms overhead, and start your day.',
+    ],
     benefits: ['Natural alertness boost', 'Clear daily intention', 'Positive momentum'] },
-  { id: 'metta-heart', title: 'Loving-Kindness Heart Opener', category: 'Compassion', minutes: 15, level: 'Intermediate', premium: true, figure: 'loving_kindness',
-    description: 'Classical metta — radiating goodwill from self to loved ones to all beings, softening self-criticism.',
+  { id: 'metta-heart', title: 'Loving-Kindness Heart Opener', category: 'Compassion', minutes: 15, level: 'Intermediate', premium: true, figure: 'candle_calm',
+    description: 'Fifteen minutes of classical metta — repeating kind phrases for yourself, a loved one, a stranger, and everyone.',
+    benefit: 'In plain words: practice wishing people well until it becomes a habit.',
+    steps: [
+      'Sit comfortably, close your eyes, and let your face relax.',
+      'Silently repeat for yourself: "May I be happy. May I be healthy. May I be safe."',
+      'After ~4 minutes, picture a loved one and repeat the phrases for them.',
+      'Then a neutral person (a cashier, a neighbour), then someone difficult.',
+      'Finish by extending the phrases to all beings everywhere.',
+      'If the feeling is not there, that is fine — the repetition is the practice.',
+    ],
     benefits: ['Increases self-compassion', 'Dissolves resentment', 'Boosts positive emotion 25%'] },
   { id: 'athlete-visual', title: 'Athlete Visualization Lab', category: 'Performance', minutes: 12, level: 'Intermediate', premium: true, figure: 'visualization',
-    description: 'Olympic-style mental rehearsal — run your lift, race, or match in vivid multi-sensory detail to prime neural pathways.',
+    description: 'Twelve minutes of mental rehearsal — run your lift, race, or match in vivid multi-sensory detail.',
+    benefit: 'In plain words: rehearse your performance in your head so your body already knows it.',
+    steps: [
+      'Sit or lie down somewhere quiet; close your eyes.',
+      'Take 5 slow breaths to settle your body.',
+      'Picture the venue: what you see, hear, and smell before you start.',
+      'Run the performance in real time — every movement, in first person.',
+      'If it goes wrong in your mind, rewind and replay it going right.',
+      'Finish by repeating once: "I am calm, prepared, and ready."',
+    ],
     benefits: ['Primes motor pathways', 'Pre-competition composure', 'Confidence under pressure'] },
   { id: 'walking-nature', title: 'Mindful Nature Walk', category: 'Movement', minutes: 15, level: 'Beginner', premium: true, figure: 'walking',
-    description: 'Guided kinhin for outdoors — synchronize breath and steps, letting the landscape hold your attention.',
+    description: 'A 15-minute slow walk outdoors where each step and breath is the meditation — no sitting required.',
+    benefit: 'In plain words: walk slowly, feel every step, and let nature hold your attention.',
+    steps: [
+      'Find a quiet path; stand still and take 3 breaths before you start.',
+      'Walk at half your normal pace, phone away.',
+      'Feel each footfall land: heel, then arch, then toes.',
+      'Breathe in for 2–3 steps, out for 2–3 steps.',
+      'Keep your gaze soft and slightly ahead; when the mind wanders, return to your feet.',
+    ],
     benefits: ['Meditation for restless minds', 'Doubles as active recovery', 'Deepens nature connection'] },
-  { id: 'yoga-nidra-31', title: 'Yoga Nidra: 31 Points', category: 'Deep Rest', minutes: 30, level: 'Intermediate', premium: true, figure: 'body_scan',
-    description: 'Rotate consciousness through 31 body points at the edge of sleep — 30 minutes here rivals 2 hours of napping.',
-    benefits: ['Profound nervous-system rest', 'Accelerates recovery', 'Subconscious intention work'] },
   { id: 'open-sky', title: 'Open Sky Awareness', category: 'Insight', minutes: 20, level: 'Advanced', premium: true, figure: 'open_monitoring',
-    description: 'Open monitoring — rest as vast awareness itself while thoughts and sounds drift through like clouds.',
+    description: 'Twenty minutes of open monitoring — rest as wide-open awareness while thoughts and sounds drift through like clouds.',
+    benefit: 'In plain words: instead of focusing on one thing, watch everything come and go.',
+    steps: [
+      'Sit upright, hands resting on thighs, eyes closed or half-open.',
+      'Spend 5 minutes settling on the breath first.',
+      'Then let go of the breath as an anchor — attend to whatever arises.',
+      'Note each experience lightly: "sound", "thought", "itch" — and let it pass.',
+      'Do not chase or push away anything; stay as the observer.',
+      'If you get lost, return briefly to the breath, then open up again.',
+    ],
     benefits: ['Non-reactive equanimity', 'Insight into thought patterns', 'Effortless presence'] },
 ];
 
@@ -959,8 +1060,8 @@ export function MeditationSection() {
         {/* hero photo strip */}
         <div className="absolute inset-y-0 right-0 w-1/2 hidden lg:block" aria-hidden="true" style={{ background: FALLBACK_GRADIENT }}>
           <img
-            src={IMG(MEDITATION_IMAGES.sitting_lotus.id, 1200)}
-            alt=""
+            src={IMG(MEDITATION_IMAGES.hero_meditation.id, 1200)}
+            alt={MEDITATION_IMAGES.hero_meditation.alt}
             loading="lazy"
             className="w-full h-full object-cover opacity-40"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
@@ -1004,6 +1105,24 @@ export function MeditationSection() {
             <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62 mt-1">{t.label}</div>
           </div>
         ))}
+      </div>
+
+      {/* How this works — 3 steps */}
+      <div className="glass-card rounded-2xl p-5 mb-8">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How this works — 3 simple steps</p>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {[
+            { n: '1', t: 'Pick a technique or session', d: 'Choose a breathing technique (like Box Breathing) or a guided session from the library that matches how you feel.' },
+            { n: '2', t: 'Follow the animated circle', d: 'Watch the glowing circle expand and shrink. Breathe in as it grows, out as it shrinks — the phase and seconds show on screen.' },
+            { n: '3', t: 'Build your daily streak', d: 'Finish a session to log your minutes. Come back each day to grow your streak and calm your mind over time.' },
+          ].map((s) => (
+            <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
+              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Sticky Nav */}
