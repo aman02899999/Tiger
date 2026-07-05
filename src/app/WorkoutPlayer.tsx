@@ -1,0 +1,286 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+
+/* ---------------------------------------------------------------- */
+/* Live Workout Player — guided session with work/rest timers,       */
+/* progress ring, pause/skip, and a confetti completion screen.      */
+/* ---------------------------------------------------------------- */
+
+export interface WorkoutExercise {
+  name: string;
+  seconds: number;
+  rest: number;
+  tip: string;
+  emoji: string;
+}
+
+export const WORKOUT_ROUTINES: Record<string, WorkoutExercise[]> = {
+  push: [
+    { name: "Push-Ups", seconds: 40, rest: 20, tip: "Keep your core tight, elbows at 45°", emoji: "🙌" },
+    { name: "Incline DB Press", seconds: 45, rest: 25, tip: "Squeeze chest at the top, slow negative", emoji: "🏋️" },
+    { name: "Overhead Press", seconds: 40, rest: 25, tip: "Brace glutes, don't arch the lower back", emoji: "💪" },
+    { name: "Lateral Raises", seconds: 35, rest: 20, tip: "Lead with elbows, stop at shoulder height", emoji: "🦅" },
+    { name: "Dips", seconds: 40, rest: 25, tip: "Lean slightly forward to hit the chest", emoji: "⬇️" },
+    { name: "Diamond Push-Ups", seconds: 30, rest: 20, tip: "Hands under chest, elbows tucked", emoji: "💎" },
+    { name: "DB Flyes", seconds: 40, rest: 20, tip: "Slight elbow bend, feel the stretch", emoji: "🦋" },
+    { name: "Tricep Extensions", seconds: 35, rest: 0, tip: "Lock elbows in place, full stretch", emoji: "🔨" },
+  ],
+  pull: [
+    { name: "Pull-Ups / Rows", seconds: 40, rest: 25, tip: "Drive elbows down, chest to bar", emoji: "🧗" },
+    { name: "Bent-Over Rows", seconds: 45, rest: 25, tip: "Flat back, pull to belly button", emoji: "🏋️" },
+    { name: "Lat Pulldown", seconds: 40, rest: 20, tip: "Depress shoulders before pulling", emoji: "⬇️" },
+    { name: "Face Pulls", seconds: 35, rest: 20, tip: "Pull to forehead, external rotation", emoji: "😤" },
+    { name: "Bicep Curls", seconds: 40, rest: 20, tip: "No swinging — control the negative", emoji: "💪" },
+    { name: "Hammer Curls", seconds: 35, rest: 20, tip: "Neutral grip, squeeze at the top", emoji: "🔨" },
+    { name: "Shrugs", seconds: 30, rest: 0, tip: "Hold the top for 2 seconds", emoji: "🤷" },
+  ],
+  legs: [
+    { name: "Squats", seconds: 45, rest: 30, tip: "Knees track over toes, hit depth", emoji: "🏋️" },
+    { name: "Romanian Deadlifts", seconds: 45, rest: 30, tip: "Hinge at hips, feel the hamstrings", emoji: "🍑" },
+    { name: "Walking Lunges", seconds: 40, rest: 25, tip: "Long stride, knee kisses the floor", emoji: "🚶" },
+    { name: "Leg Press", seconds: 40, rest: 25, tip: "Don't lock knees at the top", emoji: "🦵" },
+    { name: "Leg Curls", seconds: 35, rest: 20, tip: "Squeeze hamstrings, slow tempo", emoji: "🌀" },
+    { name: "Calf Raises", seconds: 40, rest: 20, tip: "Full stretch at bottom, pause at top", emoji: "🐐" },
+    { name: "Bulgarian Split Squats", seconds: 40, rest: 25, tip: "Torso upright, front foot flat", emoji: "🇧🇬" },
+    { name: "Glute Bridges", seconds: 35, rest: 20, tip: "Squeeze glutes hard at lockout", emoji: "🌉" },
+    { name: "Wall Sit Finisher", seconds: 45, rest: 0, tip: "Thighs parallel — embrace the burn", emoji: "🧱" },
+  ],
+  core: [
+    { name: "Plank", seconds: 45, rest: 15, tip: "Straight line head to heels", emoji: "🪵" },
+    { name: "Crunches", seconds: 40, rest: 15, tip: "Curl up with abs, not your neck", emoji: "🔥" },
+    { name: "Russian Twists", seconds: 35, rest: 15, tip: "Rotate from the torso, feet up", emoji: "🌪️" },
+    { name: "Leg Raises", seconds: 35, rest: 20, tip: "Press lower back into the floor", emoji: "🦵" },
+    { name: "Side Plank (L+R)", seconds: 40, rest: 15, tip: "Stack hips, don't let them sag", emoji: "📐" },
+    { name: "Mountain Climbers", seconds: 30, rest: 0, tip: "Fast knees, stable shoulders", emoji: "⛰️" },
+  ],
+  hiit: [
+    { name: "Jumping Jacks", seconds: 30, rest: 15, tip: "Light on your feet, full range", emoji: "🤸" },
+    { name: "Burpees", seconds: 30, rest: 20, tip: "Chest to floor, explode up", emoji: "💥" },
+    { name: "High Knees", seconds: 30, rest: 15, tip: "Knees to hip height, pump arms", emoji: "🏃" },
+    { name: "Squat Jumps", seconds: 30, rest: 20, tip: "Land soft, sink into the squat", emoji: "🦘" },
+    { name: "Mountain Climbers", seconds: 30, rest: 15, tip: "Core braced, drive those knees", emoji: "⛰️" },
+    { name: "Skater Hops", seconds: 30, rest: 15, tip: "Push off the outside leg", emoji: "⛸️" },
+    { name: "Plank Jacks", seconds: 30, rest: 15, tip: "Hips level, hop feet wide", emoji: "🪵" },
+    { name: "Sprint in Place", seconds: 25, rest: 20, tip: "Max effort — empty the tank", emoji: "💨" },
+    { name: "Burpees Round 2", seconds: 25, rest: 15, tip: "Finish strong, keep form clean", emoji: "💥" },
+    { name: "Star Jumps Finisher", seconds: 25, rest: 0, tip: "Explode wide, last push!", emoji: "⭐" },
+  ],
+  yoga: [
+    { name: "Child's Pose", seconds: 45, rest: 5, tip: "Deep breaths, melt into the floor", emoji: "🧘" },
+    { name: "Cat-Cow Flow", seconds: 40, rest: 5, tip: "Move with the breath", emoji: "🐱" },
+    { name: "Downward Dog", seconds: 45, rest: 5, tip: "Pedal the feet, long spine", emoji: "🐕" },
+    { name: "Low Lunge (L)", seconds: 40, rest: 5, tip: "Sink hips forward, open chest", emoji: "🌙" },
+    { name: "Low Lunge (R)", seconds: 40, rest: 5, tip: "Even hips, breathe into the stretch", emoji: "🌙" },
+    { name: "Pigeon Pose (L)", seconds: 45, rest: 5, tip: "Square the hips, fold forward", emoji: "🕊️" },
+    { name: "Pigeon Pose (R)", seconds: 45, rest: 5, tip: "Release tension with each exhale", emoji: "🕊️" },
+    { name: "Seated Forward Fold", seconds: 45, rest: 5, tip: "Hinge from hips, soft knees ok", emoji: "🙇" },
+    { name: "Supine Twist (L)", seconds: 40, rest: 5, tip: "Both shoulders on the floor", emoji: "🌀" },
+    { name: "Supine Twist (R)", seconds: 40, rest: 5, tip: "Let gravity do the work", emoji: "🌀" },
+    { name: "Legs Up the Wall", seconds: 50, rest: 5, tip: "Total surrender, slow breathing", emoji: "🦵" },
+    { name: "Savasana", seconds: 60, rest: 0, tip: "Complete stillness — you earned it", emoji: "🧘" },
+  ],
+};
+
+function ConfettiBurst() {
+  const pieces = useMemo(
+    () =>
+      Array.from({ length: 60 }, (_, i) => ({
+        left: (i * 137.5) % 100,
+        delay: (i % 12) * 0.12,
+        duration: 2.2 + ((i * 7) % 10) / 8,
+        color: ["#d8b35a", "#a78bfa", "#e879f9", "#f7f0df", "#34d399"][i % 5],
+        size: 6 + ((i * 3) % 8),
+        rotate: (i * 47) % 360,
+      })),
+    []
+  );
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      {pieces.map((p, i) => (
+        <span
+          key={i}
+          className="absolute top-[-20px] block"
+          style={{
+            left: `${p.left}%`,
+            width: p.size,
+            height: p.size * 0.6,
+            background: p.color,
+            transform: `rotate(${p.rotate}deg)`,
+            animation: `confettiFall ${p.duration}s ${p.delay}s ease-in forwards`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function ProgressRing({ progress, label, sub }: { progress: number; label: string; sub: string }) {
+  const R = 84;
+  const C = 2 * Math.PI * R;
+  return (
+    <div className="relative mx-auto h-56 w-56">
+      <svg viewBox="0 0 200 200" className="h-full w-full -rotate-90">
+        <circle cx="100" cy="100" r={R} fill="none" stroke="rgba(247,240,223,0.08)" strokeWidth="10" />
+        <circle
+          cx="100" cy="100" r={R} fill="none"
+          stroke="url(#wpGrad)" strokeWidth="10" strokeLinecap="round"
+          strokeDasharray={C} strokeDashoffset={C * (1 - progress)}
+          style={{ transition: "stroke-dashoffset 0.95s linear" }}
+        />
+        <defs>
+          <linearGradient id="wpGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#c4b5fd" />
+            <stop offset="50%" stopColor="#e879f9" />
+            <stop offset="100%" stopColor="#d8b35a" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="text-5xl font-black tabular-nums">{label}</span>
+        <span className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">{sub}</span>
+      </div>
+    </div>
+  );
+}
+
+export default function WorkoutPlayer({
+  planId,
+  planTitle,
+  onFinish,
+  onExit,
+}: {
+  planId: string;
+  planTitle: string;
+  onFinish: (xp: number) => void;
+  onExit: () => void;
+}) {
+  const routine = WORKOUT_ROUTINES[planId] ?? WORKOUT_ROUTINES.core;
+  const [idx, setIdx] = useState(0);
+  const [phase, setPhase] = useState<"work" | "rest" | "done">("work");
+  const [remaining, setRemaining] = useState(routine[0].seconds);
+  const [paused, setPaused] = useState(false);
+  const finishedRef = useRef(false);
+
+  const exercise = routine[idx];
+  const totalSeconds = routine.reduce((s, e) => s + e.seconds + e.rest, 0);
+  const xpEarned = 50 + routine.length * 10;
+
+  useEffect(() => {
+    if (paused || phase === "done") return;
+    const t = setInterval(() => setRemaining((r) => r - 1), 1000);
+    return () => clearInterval(t);
+  }, [paused, phase]);
+
+  useEffect(() => {
+    if (remaining > 0 || phase === "done") return;
+    if (phase === "work" && exercise.rest > 0) {
+      setPhase("rest");
+      setRemaining(exercise.rest);
+    } else if (idx < routine.length - 1) {
+      setIdx(idx + 1);
+      setPhase("work");
+      setRemaining(routine[idx + 1].seconds);
+    } else {
+      setPhase("done");
+    }
+  }, [remaining, phase, idx, exercise.rest, routine]);
+
+  useEffect(() => {
+    if (phase === "done" && !finishedRef.current) {
+      finishedRef.current = true;
+      onFinish(xpEarned);
+    }
+  }, [phase, onFinish, xpEarned]);
+
+  function skip() {
+    if (phase === "work" && exercise.rest > 0) {
+      setPhase("rest");
+      setRemaining(exercise.rest);
+    } else if (idx < routine.length - 1) {
+      setIdx(idx + 1);
+      setPhase("work");
+      setRemaining(routine[idx + 1].seconds);
+    } else {
+      setPhase("done");
+    }
+  }
+
+  const phaseSeconds = phase === "work" ? exercise.seconds : exercise.rest;
+  const progress = phaseSeconds > 0 ? remaining / phaseSeconds : 0;
+
+  if (phase === "done") {
+    return (
+      <div className="relative overflow-hidden rounded-3xl border border-[#d8b35a]/30 bg-gradient-to-br from-violet-950/60 via-[#0b0714] to-[#07040d] p-8 sm:p-14 text-center">
+        <ConfettiBurst />
+        <div className="text-7xl">🏆</div>
+        <h2 className="mt-6 text-4xl font-black tracking-[-0.03em]">Workout Complete!</h2>
+        <p className="mt-3 text-sm text-[#f7f0df]/70">{planTitle} · {routine.length} exercises · ~{Math.round(totalSeconds / 60)} min</p>
+        <div className="mx-auto mt-8 inline-flex items-center gap-3 rounded-full border border-[#d8b35a]/40 bg-[#d8b35a]/10 px-8 py-4">
+          <span className="text-2xl">⚡</span>
+          <span className="text-xl font-black text-[#d8b35a]">+{xpEarned} XP earned</span>
+        </div>
+        <div className="mt-10">
+          <button type="button" onClick={onExit} className="btn-gloss rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-10 py-4 text-xs font-black uppercase tracking-[0.2em] text-white">
+            Back to Workouts
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-3xl border border-violet-200/20 bg-gradient-to-br from-violet-950/40 via-[#0b0714] to-[#07040d] p-6 sm:p-10">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100/70">{planTitle}</p>
+          <p className="mt-1 text-sm text-[#f7f0df]/65">Exercise {idx + 1} of {routine.length}</p>
+        </div>
+        <button type="button" onClick={onExit} className="rounded-full border border-[#f7f0df]/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">
+          ✕ End
+        </button>
+      </div>
+
+      {/* overall progress bar */}
+      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-[#f7f0df]/10">
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-400 to-[#d8b35a] transition-all duration-700"
+          style={{ width: `${((idx + (phase === "rest" ? 0.7 : progress > 0 ? 1 - progress : 0)) / routine.length) * 100}%` }}
+        />
+      </div>
+
+      <div className="mt-8 text-center">
+        <div className={`text-6xl ${paused ? "" : "animate-bounce"}`} style={{ animationDuration: "2s" }}>{exercise.emoji}</div>
+        <h2 className="mt-4 text-3xl font-black tracking-[-0.02em]">
+          {phase === "work" ? exercise.name : "Rest & Breathe"}
+        </h2>
+        <p className="mt-2 text-sm text-[#f7f0df]/68">
+          {phase === "work" ? `💡 ${exercise.tip}` : `Up next: ${routine[Math.min(idx + (exercise.rest > 0 && phase === "rest" ? 1 : 0), routine.length - 1)].name}`}
+        </p>
+      </div>
+
+      <div className="mt-8">
+        <ProgressRing
+          progress={progress}
+          label={`${remaining}`}
+          sub={phase === "work" ? "seconds — go!" : "rest"}
+        />
+      </div>
+
+      <div className="mt-8 flex items-center justify-center gap-4">
+        <button
+          type="button"
+          onClick={() => setPaused(!paused)}
+          className="btn-gloss rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-10 py-4 text-xs font-black uppercase tracking-[0.2em] text-white"
+        >
+          {paused ? "▶ Resume" : "⏸ Pause"}
+        </button>
+        <button
+          type="button"
+          onClick={skip}
+          className="rounded-full border border-[#f7f0df]/20 bg-[#f7f0df]/6 px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#f7f0df]/80 hover:bg-[#f7f0df]/12"
+        >
+          Skip →
+        </button>
+      </div>
+    </div>
+  );
+}

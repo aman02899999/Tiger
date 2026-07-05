@@ -16,6 +16,8 @@ import PhysioRehabPage from "./PhysioRehab";
 import PDFStorePage from "./PDFStore";
 import YogaPage from "./Yoga";
 import MeditationPage from "./Meditation";
+import WorkoutPlayer from "./WorkoutPlayer";
+import AchievementsPage, { addXP } from "./Achievements";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -35,6 +37,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "transform", icon: "📸", label: "Transform" },
     { id: "referrals", icon: "💰", label: "Referrals" },
     { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
+    { id: "achievements", icon: "🏅", label: "Achievements" },
     { id: "progress", icon: "📈", label: "Progress" },
     { id: "habits", icon: "🎯", label: "Habits" },
     { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -244,10 +247,13 @@ function WorkoutsPage() {
 
   function startWorkout(planId: string) {
     setStarted(planId);
-    setTimeout(() => {
-      setStarted(null);
-      if (user) updateUser({ stats: { ...user.stats, totalWorkouts: user.stats.totalWorkouts + 1 }, streak: user.streak + 1 });
-    }, 3000);
+  }
+
+  function finishWorkout(xp: number) {
+    if (user) {
+      addXP(user.email, xp);
+      updateUser({ stats: { ...user.stats, totalWorkouts: user.stats.totalWorkouts + 1 }, streak: user.streak + 1 });
+    }
   }
 
   return (
@@ -261,16 +267,12 @@ function WorkoutsPage() {
       </div>
 
       {started ? (
-        <div className="rounded-3xl border border-violet-200/30 bg-gradient-to-br from-violet-200/15 to-fuchsia-400/8 p-5 sm:p-10 text-center">
-          <div className="text-6xl animate-pulse">💪</div>
-          <h2 className="mt-6 text-3xl font-black">Workout in Progress</h2>
-          <p className="mt-2 text-sm text-[#f7f0df]/60">Keep going! You're doing amazing.</p>
-          <div className="mt-6 mx-auto max-w-sm">
-            <div className="h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
-              <div className="h-full rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 animate-pulse" style={{ width: "33%" }} />
-            </div>
-          </div>
-        </div>
+        <WorkoutPlayer
+          planId={started}
+          planTitle={plans.find((p) => p.id === started)?.title ?? "Workout"}
+          onFinish={finishWorkout}
+          onExit={() => setStarted(null)}
+        />
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {plans.map((p) => (
@@ -807,6 +809,7 @@ export default function SaaSApp() {
       {section === "transform" && <Transformations />}
       {section === "referrals" && <Referrals />}
       {section === "leaderboard" && <Leaderboard />}
+      {section === "achievements" && <AchievementsPage />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
