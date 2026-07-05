@@ -49,7 +49,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Chin Tucks",
         dose: "3 sets × 10 reps · 5s hold",
         hold: 5,
-        image: IMG("photo-1544367567-0f2fcb009e0b"),
+        image: IMG("photo-1571019613454-1cb2f99b2d8b"),
         alt: "Person practicing controlled head and neck positioning during mobility work",
         steps: [
           "Sit or stand tall with shoulders relaxed and eyes level.",
@@ -77,7 +77,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Isometric Neck Holds",
         dose: "2 sets × 5 reps each direction · 6s hold",
         hold: 6,
-        image: IMG("photo-1571019613454-1cb2f99b2d8b"),
+        image: IMG("photo-1518611012118-696072aa579a"),
         alt: "Athlete performing controlled isometric hold during a stretching session",
         steps: [
           "Place your palm against your forehead.",
@@ -105,7 +105,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Levator Scapulae Stretch",
         dose: "3 reps each side · 30s hold",
         hold: 30,
-        image: IMG("photo-1552196563-55cd4e45efb3"),
+        image: IMG("photo-1541534741688-6078c6bfb5c5"),
         alt: "Person performing a deep side neck and shoulder stretch on a mat",
         steps: [
           "Sit tall and anchor one hand under your thigh or behind your back.",
@@ -133,7 +133,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Thoracic Extension over Foam Roller",
         dose: "2 sets × 10 reps · slow tempo",
         hold: 20,
-        image: IMG("photo-1518611012118-696072aa579a"),
+        image: IMG("photo-1607962837359-5e7e89f86776"),
         alt: "Athlete performing spinal extension mobility work on the gym floor",
         steps: [
           "Lie on your back with a foam roller across your mid-back, knees bent.",
@@ -163,7 +163,7 @@ const BODY_PARTS: BodyPart[] = [
     label: "Shoulder",
     icon: "💪",
     blurb: "Rotator cuff capacity, scapular control and overhead tolerance.",
-    image: IMG("photo-1607962837359-5e7e89f86776"),
+    image: IMG("photo-1574680096145-d05b474e2155"),
     alt: "Person training the shoulder with a resistance band in a rehabilitation setting",
     exercises: [
       {
@@ -171,7 +171,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Pendulum Swings",
         dose: "2 sets × 60s each direction",
         hold: 60,
-        image: IMG("photo-1599901860904-17e6ed7083a0"),
+        image: IMG("photo-1522898467493-49726bf28798"),
         alt: "Physiotherapist guiding a patient through assisted shoulder movement",
         steps: [
           "Lean forward, supporting yourself on a table with the healthy arm.",
@@ -199,7 +199,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Band External Rotation",
         dose: "3 sets × 12–15 reps · 2s eccentric",
         hold: 45,
-        image: IMG("photo-1607962837359-5e7e89f86776"),
+        image: IMG("photo-1517836357463-d25dfeac3438"),
         alt: "Close-up of a resistance band external rotation exercise for the rotator cuff",
         steps: [
           "Anchor a light band at elbow height; stand side-on with elbow bent 90°.",
@@ -227,7 +227,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Serratus Wall Slides",
         dose: "3 sets × 10 reps · slow",
         hold: 30,
-        image: IMG("photo-1518611012118-696072aa579a"),
+        image: IMG("photo-1573384666979-2b8ac2a5e623"),
         alt: "Athlete performing controlled arm elevation work against resistance",
         steps: [
           "Stand facing a wall, forearms on the wall at shoulder height.",
@@ -255,7 +255,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Prone Y-T-W Raises",
         dose: "3 sets × 8 reps each letter · 3s hold",
         hold: 3,
-        image: IMG("photo-1574680096145-d05b474e2155"),
+        image: IMG("photo-1552196563-55cd4e45efb3"),
         alt: "Woman performing prone posterior shoulder strengthening on a mat",
         steps: [
           "Lie face down with the forehead resting on a folded towel.",
@@ -283,7 +283,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Cross-Body & Sleeper Stretch",
         dose: "3 reps each · 30s hold",
         hold: 30,
-        image: IMG("photo-1571019613454-1cb2f99b2d8b"),
+        image: IMG("photo-1540206395-68808572332f"),
         alt: "Person stretching the posterior shoulder with a cross-body arm stretch",
         steps: [
           "Cross-body: pull the affected arm across your chest with the other hand.",
@@ -313,7 +313,7 @@ const BODY_PARTS: BodyPart[] = [
     label: "Lower Back",
     icon: "🧘",
     blurb: "Spine-sparing core endurance and graded return to hinging and load.",
-    image: IMG("photo-1544367567-0f2fcb009e0b"),
+    image: IMG("photo-1599901860904-17e6ed7083a0"),
     alt: "Person practicing spinal mobility and core control on a yoga mat",
     exercises: [
       {
@@ -321,7 +321,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "McGill Curl-Up",
         dose: "3 sets × 6 reps · 10s hold",
         hold: 10,
-        image: IMG("photo-1518611012118-696072aa579a"),
+        image: IMG("photo-1434682881908-b43d0467b798"),
         alt: "Athlete performing an abdominal bracing exercise lying on the floor",
         steps: [
           "Lie on your back, one knee bent, hands under the natural arch of the lower back.",
@@ -349,7 +349,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Bird Dog",
         dose: "3 sets × 8 reps each side · 8s hold",
         hold: 8,
-        image: IMG("photo-1574680096145-d05b474e2155"),
+        image: IMG("photo-1518310383802-640c2de311b2"),
         alt: "Woman on all fours performing the bird dog spinal stability exercise",
         steps: [
           "Start on all fours, hands under shoulders, knees under hips.",
@@ -377,7 +377,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Glute Bridge",
         dose: "3 sets × 12 reps · 3s top hold",
         hold: 3,
-        image: IMG("photo-1571019613454-1cb2f99b2d8b"),
+        image: IMG("photo-1544033527-b192daee1f5b"),
         alt: "Person performing a hip bridge exercise on an exercise mat",
         steps: [
           "Lie on your back, knees bent, feet hip-width and close to the hips.",
@@ -405,7 +405,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Side Plank",
         dose: "3 sets × 20–30s each side",
         hold: 30,
-        image: IMG("photo-1517836357463-d25dfeac3438"),
+        image: IMG("photo-1517963879433-6ad2b056d712"),
         alt: "Athlete holding a side plank position during a core training session",
         steps: [
           "Lie on your side, elbow under the shoulder, knees bent (short lever).",
@@ -433,7 +433,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Hip Hinge Pattern (Dowel Drill)",
         dose: "3 sets × 10 reps · slow",
         hold: 30,
-        image: IMG("photo-1541534741688-6078c6bfb5c5"),
+        image: IMG("photo-1571019614242-c5c5dee9f50b"),
         alt: "Person practicing a hip hinge movement pattern in the gym",
         steps: [
           "Hold a dowel or broomstick along your spine: head, mid-back, and tailbone touching.",
@@ -463,7 +463,7 @@ const BODY_PARTS: BodyPart[] = [
     label: "Knee",
     icon: "🦵",
     blurb: "Quad capacity, load tolerance and single-leg confidence.",
-    image: IMG("photo-1434682881908-b43d0467b798"),
+    image: IMG("photo-1532798442725-41036acc7489"),
     alt: "Athlete performing a deep lower-body stretch outdoors",
     exercises: [
       {
@@ -471,7 +471,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Quad Sets & Terminal Knee Extension",
         dose: "3 sets × 15 reps · 5s hold",
         hold: 5,
-        image: IMG("photo-1518611012118-696072aa579a"),
+        image: IMG("photo-1506126613408-eca07ce68773"),
         alt: "Person activating the thigh muscles during floor-based rehabilitation",
         steps: [
           "Sit with the leg straight and a rolled towel under the knee.",
@@ -499,7 +499,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Straight Leg Raise",
         dose: "3 sets × 10 reps · 3s hold",
         hold: 3,
-        image: IMG("photo-1571019613454-1cb2f99b2d8b"),
+        image: IMG("photo-1549476464-37392f717541"),
         alt: "Person lying on a mat performing a controlled straight leg raise",
         steps: [
           "Lie on your back with the affected leg straight, other knee bent.",
@@ -527,7 +527,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Wall Sit (Isometric)",
         dose: "3–5 sets × 30–45s hold",
         hold: 45,
-        image: IMG("photo-1517836357463-d25dfeac3438"),
+        image: IMG("photo-1544367567-0f2fcb009e0b"),
         alt: "Athlete holding a static wall sit position against a gym wall",
         steps: [
           "Lean against a wall, feet about 40 cm from it, hip-width apart.",
@@ -555,7 +555,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Eccentric Step-Down",
         dose: "3 sets × 8 reps each leg · 3s lowering",
         hold: 60,
-        image: IMG("photo-1540206395-68808572332f"),
+        image: IMG("photo-1571019613454-1cb2f99b2d8b"),
         alt: "Runner descending steps demonstrating controlled single-leg loading",
         steps: [
           "Stand on a low step (10–15 cm) on the affected leg.",
@@ -585,7 +585,7 @@ const BODY_PARTS: BodyPart[] = [
     label: "Ankle",
     icon: "🦶",
     blurb: "Calf-tendon loading, dorsiflexion range and single-leg balance.",
-    image: IMG("photo-1540206395-68808572332f"),
+    image: IMG("photo-1518611012118-696072aa579a"),
     alt: "Runner on outdoor steps showing ankle loading during push-off",
     exercises: [
       {
@@ -593,7 +593,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Ankle Alphabet & Pumps",
         dose: "2 sets × full A–Z · pumps 2×20",
         hold: 60,
-        image: IMG("photo-1544367567-0f2fcb009e0b"),
+        image: IMG("photo-1541534741688-6078c6bfb5c5"),
         alt: "Person seated on a mat mobilizing the foot and ankle",
         steps: [
           "Sit with the leg supported and the foot hanging free.",
@@ -621,7 +621,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Calf Raises (Bent & Straight Knee)",
         dose: "3 sets × 12 reps · 2s down",
         hold: 30,
-        image: IMG("photo-1541534741688-6078c6bfb5c5"),
+        image: IMG("photo-1607962837359-5e7e89f86776"),
         alt: "Athlete rising onto the balls of the feet during calf strengthening",
         steps: [
           "Stand tall holding light fingertip support on a wall or rail.",
@@ -649,7 +649,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Single-Leg Balance Series",
         dose: "3 sets × 30s each leg",
         hold: 30,
-        image: IMG("photo-1522898467493-49726bf28798"),
+        image: IMG("photo-1574680096145-d05b474e2155"),
         alt: "Person balancing on one leg during an outdoor mobility session",
         steps: [
           "Stand on the affected leg with a soft knee, near support if needed.",
@@ -677,7 +677,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Knee-to-Wall Dorsiflexion",
         dose: "3 sets × 10 reps each side · 5s hold",
         hold: 5,
-        image: IMG("photo-1552196563-55cd4e45efb3"),
+        image: IMG("photo-1522898467493-49726bf28798"),
         alt: "Person in a lunge position mobilizing the front ankle toward a wall",
         steps: [
           "Face a wall in a small lunge, front foot 8–10 cm away from it.",
@@ -707,7 +707,7 @@ const BODY_PARTS: BodyPart[] = [
     label: "Wrist",
     icon: "✋",
     blurb: "Grip strength, forearm tendon capacity and load tolerance for pressing.",
-    image: IMG("photo-1573384666979-2b8ac2a5e623"),
+    image: IMG("photo-1517836357463-d25dfeac3438"),
     alt: "Physiotherapist mobilizing a patient's wrist and forearm",
     exercises: [
       {
@@ -743,7 +743,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Eccentric Wrist Curls",
         dose: "3 sets × 12 reps · 4s lowering",
         hold: 45,
-        image: IMG("photo-1541534741688-6078c6bfb5c5"),
+        image: IMG("photo-1552196563-55cd4e45efb3"),
         alt: "Close-up of forearm training with a light dumbbell in the gym",
         steps: [
           "Sit with the forearm supported on a bench, hand over the edge, light dumbbell in hand.",
@@ -771,7 +771,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Pronation / Supination Rotations",
         dose: "3 sets × 10 reps each way · slow",
         hold: 30,
-        image: IMG("photo-1607962837359-5e7e89f86776"),
+        image: IMG("photo-1540206395-68808572332f"),
         alt: "Person rotating the forearm with light resistance during rehab training",
         steps: [
           "Hold a hammer or light dumbbell loaded at one end, elbow bent 90° at your side.",
@@ -799,7 +799,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Progressive Grip Training",
         dose: "3 sets × 10 squeezes · 5s hold",
         hold: 5,
-        image: IMG("photo-1517836357463-d25dfeac3438"),
+        image: IMG("photo-1599901860904-17e6ed7083a0"),
         alt: "Athlete gripping training equipment during a strength session",
         steps: [
           "Start with a soft ball or rolled towel in the palm.",
@@ -829,7 +829,7 @@ const BODY_PARTS: BodyPart[] = [
     label: "Hip",
     icon: "🏃",
     blurb: "Glute strength, hip mobility and lateral stability for running and lifting.",
-    image: IMG("photo-1522898467493-49726bf28798"),
+    image: IMG("photo-1434682881908-b43d0467b798"),
     alt: "Person in an outdoor deep hip stretch during a mobility session",
     exercises: [
       {
@@ -837,7 +837,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Clamshells",
         dose: "3 sets × 15 reps each side · 2s hold",
         hold: 2,
-        image: IMG("photo-1574680096145-d05b474e2155"),
+        image: IMG("photo-1518310383802-640c2de311b2"),
         alt: "Woman lying on her side performing a hip strengthening exercise",
         steps: [
           "Lie on your side, hips and knees bent about 45°, heels together.",
@@ -865,7 +865,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Half-Kneeling Hip Flexor Stretch",
         dose: "3 reps each side · 30s hold",
         hold: 30,
-        image: IMG("photo-1522898467493-49726bf28798"),
+        image: IMG("photo-1544033527-b192daee1f5b"),
         alt: "Person holding a deep lunge stretch for the front of the hip",
         steps: [
           "Kneel on one knee with the other foot forward (use a cushion under the knee).",
@@ -893,7 +893,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Lateral Band Walks",
         dose: "3 sets × 12 steps each way",
         hold: 45,
-        image: IMG("photo-1607962837359-5e7e89f86776"),
+        image: IMG("photo-1517963879433-6ad2b056d712"),
         alt: "Athlete stepping sideways against a resistance band around the legs",
         steps: [
           "Place a mini-band just above the knees (easier) or ankles (harder).",
@@ -921,7 +921,7 @@ const BODY_PARTS: BodyPart[] = [
         name: "Single-Leg Romanian Deadlift",
         dose: "3 sets × 8 reps each leg · slow",
         hold: 60,
-        image: IMG("photo-1541534741688-6078c6bfb5c5"),
+        image: IMG("photo-1571019614242-c5c5dee9f50b"),
         alt: "Person performing a single-leg hinge exercise with control in the gym",
         steps: [
           "Stand on one leg with a soft knee, other foot lightly touching behind (kickstand).",
@@ -1344,11 +1344,31 @@ export default function PhysioRehabPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3 text-xs font-bold uppercase tracking-[0.2em]">
               <span className="rounded-full border border-[#d8b35a]/40 bg-[#d8b35a]/10 px-3 py-1 text-[#d8b35a]">7 body regions</span>
-              <span className="rounded-full border border-fuchsia-500/40 bg-fuchsia-500/10 px-3 py-1 text-fuchsia-300">29 exercises</span>
+              <span className="rounded-full border border-fuchsia-500/40 bg-fuchsia-500/10 px-3 py-1 text-fuchsia-300">30 exercises</span>
               <span className="rounded-full border border-violet-500/40 bg-violet-500/10 px-3 py-1 text-violet-300">3 stages each</span>
             </div>
           </div>
         </header>
+
+        {/* How this works — 3 steps */}
+        <section>
+          <div className="glass-card rounded-2xl p-5">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How this works — 3 simple steps</p>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                { n: "1", t: "Select the body part that hurts", d: "Tap the region below — neck, shoulder, back, knee and more. Each card lists the symptoms it helps." },
+                { n: "2", t: "Do the exercises in order", d: "Follow the numbered steps with the real demonstration photo. Use the hold timer and only go as far as a gentle stretch — never sharp pain." },
+                { n: "3", t: "Progress through the stages", d: "Start at Early recovery. As pain settles and movement improves, move up to Mid then Late stage exercises." },
+              ].map((s) => (
+                <div key={s.n} className="rounded-xl border border-[#f7f0df]/8 bg-[#f7f0df]/5 p-4">
+                  <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
+                  <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* Body part selector */}
         <section>
