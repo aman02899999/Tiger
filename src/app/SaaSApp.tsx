@@ -18,6 +18,8 @@ import YogaPage from "./Yoga";
 import MeditationPage from "./Meditation";
 import WorkoutPlayer from "./WorkoutPlayer";
 import AchievementsPage, { addXP } from "./Achievements";
+import DailyRewardsPage from "./DailySpin";
+import AICoachPage from "./AICoach";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -38,6 +40,8 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "referrals", icon: "💰", label: "Referrals" },
     { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
     { id: "achievements", icon: "🏅", label: "Achievements" },
+    { id: "dailyrewards", icon: "🎡", label: "Daily Rewards" },
+    { id: "aicoach", icon: "🤖", label: "AI Coach" },
     { id: "progress", icon: "📈", label: "Progress" },
     { id: "habits", icon: "🎯", label: "Habits" },
     { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -810,6 +814,8 @@ export default function SaaSApp() {
       {section === "referrals" && <Referrals />}
       {section === "leaderboard" && <Leaderboard />}
       {section === "achievements" && <AchievementsPage />}
+      {section === "dailyrewards" && <DailyRewardsPage />}
+      {section === "aicoach" && <AICoachPage />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
