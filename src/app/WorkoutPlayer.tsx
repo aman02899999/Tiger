@@ -114,30 +114,53 @@ function ConfettiBurst() {
 }
 
 function ProgressRing({ progress, label, sub }: { progress: number; label: string; sub: string }) {
-  const R = 84;
-  const C = 2 * Math.PI * R;
   return (
     <div className="relative mx-auto h-56 w-56">
-      <svg viewBox="0 0 200 200" className="h-full w-full -rotate-90">
-        <circle cx="100" cy="100" r={R} fill="none" stroke="rgba(247,240,223,0.08)" strokeWidth="10" />
-        <circle
-          cx="100" cy="100" r={R} fill="none"
-          stroke="url(#wpGrad)" strokeWidth="10" strokeLinecap="round"
-          strokeDasharray={C} strokeDashoffset={C * (1 - progress)}
-          style={{ transition: "stroke-dashoffset 0.95s linear" }}
-        />
-        <defs>
-          <linearGradient id="wpGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#c4b5fd" />
-            <stop offset="50%" stopColor="#e879f9" />
-            <stop offset="100%" stopColor="#d8b35a" />
-          </linearGradient>
-        </defs>
-      </svg>
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background: `conic-gradient(#c4b5fd 0deg, #e879f9 ${progress * 180}deg, #d8b35a ${progress * 360}deg, rgba(247,240,223,0.08) ${progress * 360}deg)`,
+          transition: "background 0.95s linear",
+        }}
+      />
+      <div className="absolute inset-[10px] rounded-full bg-[#0b0714]" />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-5xl font-black tabular-nums">{label}</span>
         <span className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">{sub}</span>
       </div>
+    </div>
+  );
+}
+
+/* Real human demonstration photos (Unsplash CDN, free source) */
+const EXERCISE_PHOTOS: [RegExp, string][] = [
+  [/push-?up|dip|press|flye|extension/i, "photo-1571019613454-1cb2f99b2d8b"],
+  [/pull|row|lat|curl|shrug|face pull/i, "photo-1541534741688-6078c6bfb5c5"],
+  [/squat|lunge|leg|calf|glute|wall sit|deadlift/i, "photo-1517963879433-6ad2b056d712"],
+  [/plank|crunch|twist|raise|climber|core/i, "photo-1544033527-b192daee1f5b"],
+  [/jack|burpee|knee|hop|sprint|jump|star/i, "photo-1434682881908-b43d0467b798"],
+  [/pose|dog|fold|pigeon|savasana|child|cat|twist|wall/i, "photo-1518310383802-640c2de311b2"],
+];
+
+function exercisePhoto(name: string): string {
+  const hit = EXERCISE_PHOTOS.find(([re]) => re.test(name));
+  const id = hit ? hit[1] : "photo-1517836357463-d25dfeac3438";
+  return `https://images.unsplash.com/${id}?w=900&q=80&auto=format&fit=crop`;
+}
+
+function ExercisePhoto({ name }: { name: string }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  return (
+    <div className="relative mx-auto mt-6 h-44 w-full max-w-xl overflow-hidden rounded-2xl border border-[#f7f0df]/10">
+      <img
+        src={exercisePhoto(name)}
+        alt={`Demonstration: ${name}`}
+        loading="lazy"
+        onError={() => setFailed(true)}
+        className="h-full w-full object-cover"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0714]/70 via-transparent to-transparent" />
     </div>
   );
 }
@@ -255,6 +278,7 @@ export default function WorkoutPlayer({
         <p className="mt-2 text-sm text-[#f7f0df]/68">
           {phase === "work" ? `💡 ${exercise.tip}` : `Up next: ${routine[Math.min(idx + (exercise.rest > 0 && phase === "rest" ? 1 : 0), routine.length - 1)].name}`}
         </p>
+        {phase === "work" && <ExercisePhoto name={exercise.name} />}
       </div>
 
       <div className="mt-8">
