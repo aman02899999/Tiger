@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useAuth } from '../auth/AuthSystem'
 
 /* ------------------------------------------------------------------ */
@@ -97,345 +97,278 @@ const CATEGORIES = ['All', 'Standing', 'Seated', 'Prone', 'Supine', 'Balance', '
 const LEVELS = ['All', 'Beginner', 'Intermediate', 'Advanced']
 
 /* ------------------------------------------------------------------ */
-/* Pose Image (real photos from Unsplash)                              */
+/* Real demonstration photography (Unsplash CDN)                       */
 /* ------------------------------------------------------------------ */
 
-// Maps each pose figure key → Unsplash search terms so every pose gets
-// a relevant, consistently cached photo (source.unsplash.com CDN-caches
-// per unique URL).
-const POSE_IMAGES: Record<string, string> = {
-  mountain:          'yoga,tadasana,mountain-pose,standing',
-  tree:              'yoga,tree-pose,vrksasana,one-leg-balance',
-  warrior1:          'yoga,warrior-one,virabhadrasana,arms-overhead',
-  warrior2:          'yoga,warrior-two,side-lunge,arms-extended',
-  warrior3:          'yoga,warrior-three,balance,horizontal-body',
-  triangle:          'yoga,triangle-pose,trikonasana,side-stretch',
-  chair:             'yoga,chair-pose,utkatasana,squat-yoga',
-  eagle:             'yoga,eagle-pose,garudasana,balance-twist',
-  sideangle:         'yoga,side-angle,parsvakonasana,lunge',
-  forwardbend:       'yoga,forward-fold,uttanasana,hamstring-stretch',
-  dancer:            'yoga,dancer-pose,natarajasana,backbend-balance',
-  easy:              'yoga,easy-pose,sukhasana,cross-legged',
-  lotus:             'yoga,lotus-pose,padmasana,meditation-seated',
-  seatedforward:     'yoga,seated-forward-bend,paschimottanasana',
-  butterfly:         'yoga,butterfly-pose,baddha-konasana,hip-opener',
-  twist:             'yoga,seated-spinal-twist,ardha-matsyendrasana',
-  headtoknee:        'yoga,head-to-knee,janu-sirsasana,forward-fold',
-  cowface:           'yoga,cow-face-pose,gomukhasana,hip-stretch',
-  staff:             'yoga,staff-pose,dandasana,seated-upright',
-  wideangleseated:   'yoga,wide-angle-seated,splits,inner-thigh',
-  hero:              'yoga,hero-pose,virasana,kneeling',
-  cobra:             'yoga,cobra-pose,bhujangasana,backbend',
-  locust:            'yoga,locust-pose,salabhasana,back-strengthening',
-  bow:               'yoga,bow-pose,dhanurasana,full-backbend',
-  crocodile:         'yoga,makarasana,prone-relaxation,rest',
-  sphinx:            'yoga,sphinx-pose,gentle-backbend,forearms',
-  camel:             'yoga,camel-pose,ustrasana,kneeling-backbend',
-  bridge:            'yoga,bridge-pose,setu-bandha,hips-lifted',
-  corpse:            'yoga,savasana,corpse-pose,relaxation,lying',
-  plow:              'yoga,plow-pose,halasana,legs-over-head',
-  shoulderstand:     'yoga,shoulder-stand,sarvangasana,inversion',
-  windreleasing:     'yoga,wind-relieving,pawanmuktasana,knee-to-chest',
-  supinetwist:       'yoga,supine-twist,spinal-rotation,lying-down',
-  happybaby:         'yoga,happy-baby-pose,ananda-balasana,hip-opener',
-  legsupwall:        'yoga,legs-up-wall,viparita-karani,restorative',
-  yoganidra:         'yoga,yoga-nidra,deep-relaxation,savasana',
-  shavasana:         'yoga,shavasana,final-relaxation,body-still',
-  fish:              'yoga,fish-pose,matsyasana,chest-opener',
-  recliningbutterfly:'yoga,reclining-butterfly,supta-baddha,restorative',
-  crow:              'yoga,crow-pose,bakasana,arm-balance',
-  sideplank:         'yoga,side-plank,vasisthasana,core-strength',
-  halfmoon:          'yoga,half-moon,ardha-chandrasana,one-leg-standing',
-  scale:             'yoga,scale-pose,tolasana,arm-balance-lotus',
-  peacock:           'yoga,peacock-pose,mayurasana,arm-balance',
-  downdog:           'yoga,downward-dog,inverted-v,inversion',
-  headstand:         'yoga,headstand,sirsasana,inversion-advanced',
-  forearmstand:      'yoga,forearm-stand,pincha-mayurasana,inversion',
-  handstand:         'yoga,handstand,adho-mukha-vrksasana,inversion',
-  childs:            'yoga,child-pose,balasana,rest,kneeling-fold',
-  pranayama:         'yoga,pranayama,breathing,meditation-sitting',
-  alternatenostril:  'yoga,alternate-nostril-breathing,anulom-vilom',
-  beebreathe:        'yoga,bee-breath,bhramari,pranayama-breathing',
+const U = (id: string) => `https://images.unsplash.com/photo-${id}?w=800&q=80&auto=format&fit=crop`
+
+// Curated pool of real human yoga/stretching photographs.
+const PHOTOS = {
+  warriorDock:  U('1544367567-0f2fcb009e0b'), // warrior pose on a dock at sunset
+  meditateRock: U('1506126613408-eca07ce68773'), // seated meditation on a cliff
+  classFlow:    U('1545205597-3d9d02c29597'), // group yoga class mid-flow
+  matStretch:   U('1552196563-55cd4e45efb3'), // deep stretch on a mat
+  studioPose:   U('1575052814086-f385e2e2ad1b'), // studio asana practice
+  homeMat:      U('1588286840104-8957b019727f'), // home practice on mat
+  calmSeated:   U('1599901860904-17e6ed7083a0'), // calm seated breathing
+  spinalTwist:  U('1593811167562-9cef47bfc4d7'), // seated spinal twist
+  balanceOut:   U('1573384666979-2ffcf4ac5397'), // outdoor balance posture
+  sunriseFlow:  U('1510894347713-fc3ed26fd2e2'), // sunrise silhouette flow
+  parkAsana:    U('1562088287-bde35a1ea917'), // asana in the park
+  strongHold:   U('1518611012118-696072aa579a'), // strength hold in gym light
+  floorWork:    U('1603988363607-e1e4a66962c6'), // supine floor work
+  deepBend:     U('1602827114685-efbb2717da9f'), // deep forward bend
 }
 
-interface PoseFigureProps {
-  figure: string
-  size?: number
+// figure key -> demonstration photo
+const POSE_PHOTOS: Record<string, string> = {
+  mountain: PHOTOS.studioPose, tree: PHOTOS.balanceOut, warrior1: PHOTOS.warriorDock,
+  warrior2: PHOTOS.warriorDock, warrior3: PHOTOS.balanceOut, triangle: PHOTOS.classFlow,
+  chair: PHOTOS.strongHold, eagle: PHOTOS.studioPose, sideangle: PHOTOS.classFlow,
+  forwardbend: PHOTOS.deepBend, dancer: PHOTOS.sunriseFlow,
+  easy: PHOTOS.calmSeated, lotus: PHOTOS.meditateRock, seatedforward: PHOTOS.matStretch,
+  butterfly: PHOTOS.calmSeated, twist: PHOTOS.spinalTwist, headtoknee: PHOTOS.matStretch,
+  cowface: PHOTOS.spinalTwist, staff: PHOTOS.homeMat, wideangleseated: PHOTOS.matStretch,
+  hero: PHOTOS.calmSeated,
+  cobra: PHOTOS.homeMat, locust: PHOTOS.floorWork, bow: PHOTOS.homeMat,
+  crocodile: PHOTOS.floorWork, sphinx: PHOTOS.homeMat, camel: PHOTOS.studioPose,
+  bridge: PHOTOS.floorWork, corpse: PHOTOS.floorWork, plow: PHOTOS.floorWork,
+  shoulderstand: PHOTOS.floorWork, windreleasing: PHOTOS.floorWork,
+  supinetwist: PHOTOS.floorWork, happybaby: PHOTOS.floorWork, legsupwall: PHOTOS.floorWork,
+  yoganidra: PHOTOS.floorWork, shavasana: PHOTOS.floorWork, fish: PHOTOS.floorWork,
+  recliningbutterfly: PHOTOS.floorWork,
+  crow: PHOTOS.strongHold, sideplank: PHOTOS.strongHold, halfmoon: PHOTOS.balanceOut,
+  scale: PHOTOS.meditateRock, peacock: PHOTOS.strongHold,
+  downdog: PHOTOS.classFlow, headstand: PHOTOS.sunriseFlow, forearmstand: PHOTOS.sunriseFlow,
+  handstand: PHOTOS.parkAsana,
+  childs: PHOTOS.matStretch,
+  pranayama: PHOTOS.meditateRock, alternatenostril: PHOTOS.calmSeated, beebreathe: PHOTOS.calmSeated,
 }
 
-function PoseFigure({ figure, size = 120 }: PoseFigureProps) {
-  const keywords = POSE_IMAGES[figure] ?? 'yoga,asana,pose,practice'
-  const imageUrl = `https://source.unsplash.com/featured/400x533/?${encodeURIComponent(keywords)}`
-  const height = Math.round(size * 1.33)
+/* ------------------------------------------------------------------ */
+/* Breathing cues                                                       */
+/* ------------------------------------------------------------------ */
+
+const BREATH_BY_CATEGORY: Record<string, string> = {
+  Standing: 'Inhale to lengthen the spine, exhale to deepen into the shape. Steady ujjayi breath — 4 counts in, 4 counts out.',
+  Seated: 'Slow diaphragmatic breathing. Inhale to grow tall, exhale to soften and release deeper into the pose.',
+  Prone: 'Inhale to lift and open the chest, exhale to ground the hips. Never hold the breath in a backbend.',
+  Supine: 'Long, quiet exhales — let each out-breath be slightly longer than the in-breath to switch on the parasympathetic system.',
+  Balance: 'Fix your gaze (drishti) and keep the breath smooth and shallow-steady. If the breath shakes, the pose shakes.',
+  Inversion: 'Calm, even breathing through the nose. Exhale fully to engage the core before lifting.',
+  Restorative: 'Effortless natural breath. Count 4 in, 6 out, letting the body grow heavier with every exhale.',
+  Pranayama: 'The breath IS the practice — follow the counted rhythm in the steps precisely.',
+}
+
+const BREATH_OVERRIDES: Record<string, string> = {
+  pranayama: 'Sharp, active exhale from the belly; passive inhale. Rest with natural breath between rounds.',
+  alternatenostril: 'Inhale 4 counts through one nostril, exhale 8 counts through the other. Keep the count silky and unforced.',
+  beebreathe: 'Deep nasal inhale, then a long humming exhale — feel the vibration behind the eyes and in the skull.',
+  cobra: 'Inhale to rise, breathe evenly at the top, exhale to lower with control.',
+  downdog: 'Five slow ujjayi breaths, pressing the mat away on each exhale.',
+  corpse: 'Release all control of the breath. Simply observe it arriving and leaving.',
+}
+
+const breathCue = (pose: Pose) => BREATH_OVERRIDES[pose.figure] ?? BREATH_BY_CATEGORY[pose.category] ?? BREATH_BY_CATEGORY.Seated
+
+/* ------------------------------------------------------------------ */
+/* Curated flows                                                        */
+/* ------------------------------------------------------------------ */
+
+interface FlowStep { poseId: number; seconds: number }
+interface Flow {
+  id: string
+  name: string
+  tagline: string
+  level: string
+  accent: string
+  steps: FlowStep[]
+}
+
+const FLOWS: Flow[] = [
+  {
+    id: 'morning', name: 'Morning Awakening', tagline: 'Wake the spine, fire up circulation and set the tone for the day.',
+    level: 'Beginner', accent: '#d8b35a',
+    steps: [
+      { poseId: 1, seconds: 45 }, { poseId: 10, seconds: 45 }, { poseId: 41, seconds: 60 },
+      { poseId: 3, seconds: 45 }, { poseId: 4, seconds: 45 }, { poseId: 21, seconds: 30 },
+      { poseId: 45, seconds: 60 },
+    ],
+  },
+  {
+    id: 'stress', name: 'Stress Relief Evening', tagline: 'Down-shift the nervous system and melt the day away.',
+    level: 'Beginner', accent: '#a78bfa',
+    steps: [
+      { poseId: 45, seconds: 90 }, { poseId: 14, seconds: 120 }, { poseId: 33, seconds: 90 },
+      { poseId: 34, seconds: 90 }, { poseId: 35, seconds: 240 }, { poseId: 29, seconds: 300 },
+    ],
+  },
+  {
+    id: 'flex', name: 'Deep Flexibility', tagline: 'Long holds that open hamstrings, hips and the whole back line.',
+    level: 'Intermediate', accent: '#e879f9',
+    steps: [
+      { poseId: 10, seconds: 60 }, { poseId: 13, seconds: 90 }, { poseId: 16, seconds: 60 },
+      { poseId: 19, seconds: 120 }, { poseId: 6, seconds: 60 }, { poseId: 17, seconds: 60 },
+      { poseId: 47, seconds: 180 },
+    ],
+  },
+  {
+    id: 'strength', name: 'Strength & Balance', tagline: 'Warrior lines, arm balances and single-leg control.',
+    level: 'Advanced', accent: '#f59e0b',
+    steps: [
+      { poseId: 7, seconds: 45 }, { poseId: 5, seconds: 30 }, { poseId: 38, seconds: 30 },
+      { poseId: 37, seconds: 30 }, { poseId: 36, seconds: 20 }, { poseId: 28, seconds: 30 },
+      { poseId: 45, seconds: 60 },
+    ],
+  },
+  {
+    id: 'breath', name: 'Breath & Stillness', tagline: 'Pranayama-led reset — the fastest route to a quiet mind.',
+    level: 'Beginner', accent: '#34d399',
+    steps: [
+      { poseId: 11, seconds: 120 }, { poseId: 50, seconds: 300 }, { poseId: 51, seconds: 180 },
+      { poseId: 48, seconds: 600 },
+    ],
+  },
+]
+
+const fmtTotal = (secs: number) => {
+  const m = Math.round(secs / 60)
+  return m >= 1 ? `${m} min` : `${secs} sec`
+}
+
+/* ------------------------------------------------------------------ */
+/* Pose Image — real photo with graceful gradient fallback             */
+/* ------------------------------------------------------------------ */
+
+function PoseImage({ figure, alt, className = '' }: { figure: string; alt: string; className?: string }) {
+  const [failed, setFailed] = useState(false)
+  const src = POSE_PHOTOS[figure]
 
   return (
-    <div
-      style={{ width: size, height, borderRadius: 12, overflow: 'hidden', background: 'linear-gradient(135deg,#3b0764,#1e1b4b)', flexShrink: 0 }}
-    >
-      <img
-        src={imageUrl}
-        alt={figure.replace(/([a-z])([A-Z])/g, '$1 $2')}
-        loading="lazy"
-        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
-      />
+    <div className={`relative overflow-hidden ${className}`}>
+      {/* Gradient placeholder — always behind the photo, shown alone if the photo fails */}
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-950 via-[#1e1b4b] to-fuchsia-950 flex items-center justify-center">
+        <svg className="h-10 w-10 text-violet-400/62" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c0 0-4 3-4 7s4 7 4 7 4-3 4-7-4-7-4-7z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 10c0 0-2 2-2 5s3 5 9 5 9-2 9-5-2-5-2-5" />
+        </svg>
+      </div>
+      {src && !failed && (
+        <img
+          src={src}
+          alt={alt}
+          loading="lazy"
+          onError={() => setFailed(true)}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
+      {/* Dark scrim so overlaid text keeps contrast */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0f0a1e]/85 via-transparent to-transparent" />
     </div>
   )
 }
 
-// ---- dead code below; kept only so TypeScript doesn't complain about imports ----
-function _unusedFigureContent(figure: string): null {
-  switch (figure) {
-      case 'mountain':
-        return (
-          <>
-            <circle cx="60" cy="18" r="12" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,30 Q 60,28 68,30 L 70,80 Q 60,83 50,80 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,35 L 38,65 L 35,75" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,35 L 82,65 L 85,75" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 54,80 L 50,115 L 48,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 66,80 L 70,115 L 72,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'tree':
-        return (
-          <>
-            <circle cx="60" cy="18" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 53,29 Q 60,27 67,29 L 67,75 Q 60,78 53,75 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 53,35 L 52,8" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 67,35 L 68,8" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 55,75 L 50,120 L 48,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 65,75 L 52,100 L 48,115" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'warrior1':
-        return (
-          <>
-            <circle cx="60" cy="15" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 53,26 Q 60,24 67,26 L 68,72 Q 60,75 52,72 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 53,30 L 45,5" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 67,30 L 75,5" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 55,72 L 45,100 L 40,140" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 65,72 L 80,110 L 90,140" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'warrior2':
-        return (
-          <>
-            <circle cx="60" cy="18" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 53,29 Q 60,27 67,29 L 67,75 Q 60,78 53,75 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 53,35 L 20,35" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 67,35 L 100,35" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 55,75 L 35,120 L 25,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 65,75 L 85,120 L 95,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'downdog':
-        return (
-          <>
-            <circle cx="60" cy="55" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 50,62 L 70,62 L 80,30 L 40,30 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 40,30 L 18,55" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 80,30 L 102,55" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 40,30 L 28,70 L 25,100" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 80,30 L 92,70 L 95,100" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'childs':
-        return (
-          <>
-            <circle cx="28" cy="120" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 38,112 L 85,100 L 90,80 L 55,75 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 38,112 L 15,115" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 38,112 L 15,108" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 87,95 L 88,140" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 90,85 L 92,138" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'cobra':
-        return (
-          <>
-            <circle cx="60" cy="35" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 48,46 L 72,46 L 78,90 Q 60,95 42,90 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 48,50 L 30,75" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 72,50 L 90,75" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 50,90 L 45,130 L 42,155" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 70,90 L 75,130 L 78,155" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'bridge':
-        return (
-          <>
-            <circle cx="60" cy="145" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 48,132 L 72,132 L 75,105 Q 60,95 45,105 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 48,132 L 30,140" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 72,132 L 90,140" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 50,105 L 45,70 L 42,40" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 70,105 L 75,70 L 78,40" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'seatedforward':
-        return (
-          <>
-            <circle cx="35" cy="55" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 44,62 L 70,50 L 85,30 Q 78,25 65,28 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 44,62 L 20,75" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 44,62 L 18,70" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 72,50 L 80,75 L 85,110" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 78,48 L 86,73 L 90,108" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'lotus':
-        return (
-          <>
-            <circle cx="60" cy="20" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,31 Q 60,29 68,31 L 70,75 Q 60,78 50,75 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,45 L 40,65" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,45 L 80,65" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 54,75 L 30,95 L 20,80" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 66,75 L 90,95 L 100,80" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'warrior3':
-        return (
-          <>
-            <circle cx="30" cy="50" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 40,55 L 80,55 L 80,70 L 40,70 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 40,60 L 10,60" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 40,65 L 10,65" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 70,62 L 95,40 L 110,30" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 62,62 L 62,110 L 62,145" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'triangle':
-        return (
-          <>
-            <circle cx="48" cy="30" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 40,40 Q 50,38 58,40 L 60,75 Q 50,78 40,75 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 40,50 L 25,85" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 58,50 L 85,20" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 42,75 L 25,120 L 15,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 58,75 L 80,120 L 90,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'chair':
-        return (
-          <>
-            <circle cx="60" cy="15" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,26 Q 60,24 68,26 L 66,68 Q 60,72 54,68 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,30 L 46,8" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,30 L 74,8" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 54,68 L 48,110 L 46,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 66,68 L 72,110 L 74,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'eagle':
-        return (
-          <>
-            <circle cx="60" cy="18" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,29 Q 60,27 68,29 L 67,75 Q 60,78 53,75 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,38 L 68,38 L 68,28 L 52,28" fill="none" stroke={`url(#${gradientId})`} strokeWidth="4" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 60,75 L 55,115 L 53,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 60,75 L 65,115 L 67,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'sideangle':
-        return (
-          <>
-            <circle cx="40" cy="30" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 32,40 Q 42,38 50,40 L 55,80 Q 42,85 32,80 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 32,50 L 25,90" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 50,50 L 90,15" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 35,80 L 20,120 L 12,155" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 52,80 L 80,115 L 95,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'forwardbend':
-        return (
-          <>
-            <circle cx="60" cy="55" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 50,62 Q 60,60 70,62 L 68,95 Q 60,98 52,95 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 50,70 L 35,100" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 70,70 L 85,100" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 52,95 L 48,130 L 46,155" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,95 L 72,130 L 74,155" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'easy':
-        return (
-          <>
-            <circle cx="60" cy="22" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,33 Q 60,31 68,33 L 68,78 Q 60,81 52,78 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,50 L 38,65" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,50 L 82,65" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 52,78 L 30,100 L 20,90" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,78 L 90,100 L 100,90" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'butterfly':
-        return (
-          <>
-            <circle cx="60" cy="22" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,33 Q 60,31 68,33 L 68,80 Q 60,83 52,80 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,50 L 40,65" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,50 L 80,65" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 52,80 L 25,110 L 15,100" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,80 L 95,110 L 105,100" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'twist':
-        return (
-          <>
-            <circle cx="60" cy="22" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,33 Q 60,31 70,33 L 72,78 Q 62,83 50,80 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,45 L 35,60" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 70,45 L 90,40" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 52,80 L 45,120 L 40,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 70,78 L 80,110 L 85,140" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'corpse':
-        return (
-          <>
-            <circle cx="20" cy="65" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 30,58 L 100,58 L 100,72 L 30,72 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 35,58 L 30,40" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 70,58 L 75,40" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 90,72 L 92,110 L 88,145" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 100,72 L 105,110 L 102,145" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'crow':
-        return (
-          <>
-            <circle cx="60" cy="28" r="10" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 50,38 Q 60,36 70,38 L 72,75 Q 60,80 48,75 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 48,50 L 30,90 L 25,110" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 72,50 L 90,90 L 95,110" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 50,75 L 38,100" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 70,75 L 82,100" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      case 'pranayama':
-      case 'alternatenostril':
-      case 'beebreathe':
-        return (
-          <>
-            <circle cx="60" cy="22" r="11" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,33 Q 60,31 68,33 L 68,80 Q 60,83 52,80 Z" fill={`url(#${gradientId})`} filter={`url(#${glowId})`} stroke="rgba(167,139,250,0.4)" strokeWidth="1" />
-            <path d="M 52,45 L 72,38 L 80,28" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,45 L 75,58" fill="none" stroke={`url(#${gradientId})`} strokeWidth="5" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 52,80 L 40,115 L 38,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-            <path d="M 68,80 L 80,115 L 82,150" fill="none" stroke={`url(#${gradientId})`} strokeWidth="6" strokeLinecap="round" filter={`url(#${glowId})`} />
-          </>
-        )
-      default: return null
-    }
-  return null
+/* ------------------------------------------------------------------ */
+/* Hold Timer — countdown with animated progress ring                  */
+/* ------------------------------------------------------------------ */
+
+const TIMER_PRESETS = [30, 60, 120, 300]
+
+function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
+  const [target, setTarget] = useState(initialSeconds)
+  const [remaining, setRemaining] = useState(initialSeconds)
+  const [running, setRunning] = useState(false)
+
+  useEffect(() => {
+    if (!running) return
+    const t = setInterval(() => {
+      setRemaining((r) => {
+        if (r <= 1) { setRunning(false); return 0 }
+        return r - 1
+      })
+    }, 1000)
+    return () => clearInterval(t)
+  }, [running])
+
+  const pick = (s: number) => { setTarget(s); setRemaining(s); setRunning(false) }
+  const reset = () => { setRemaining(target); setRunning(false) }
+
+  const done = remaining === 0
+  const progress = target > 0 ? (target - remaining) / target : 0
+  const R = 52
+  const C = 2 * Math.PI * R
+  const mm = Math.floor(remaining / 60)
+  const ss = String(remaining % 60).padStart(2, '0')
+
+  return (
+    <div className="glass-card rounded-2xl p-5">
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a] mb-4">Hold Timer</p>
+      <div className="flex items-center gap-6">
+        {/* Progress ring */}
+        <div className="relative h-32 w-32 flex-shrink-0">
+          <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
+            <circle cx="60" cy="60" r={R} fill="none" stroke="rgba(247,240,223,0.1)" strokeWidth="8" />
+            <circle
+              cx="60" cy="60" r={R} fill="none"
+              stroke={done ? '#34d399' : 'url(#holdRingGrad)'} strokeWidth="8" strokeLinecap="round"
+              strokeDasharray={C} strokeDashoffset={C * (1 - progress)}
+              style={{ transition: 'stroke-dashoffset 1s linear' }}
+            />
+            <defs>
+              <linearGradient id="holdRingGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#a78bfa" />
+                <stop offset="100%" stopColor="#e879f9" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <span className={`text-2xl font-black tracking-[-0.04em] tabular-nums ${done ? 'text-emerald-300' : 'text-[#f7f0df]'}`}>
+              {done ? 'Om' : `${mm}:${ss}`}
+            </span>
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#f7f0df]/62">
+              {done ? 'complete' : running ? 'holding' : 'ready'}
+            </span>
+          </div>
+        </div>
+
+        <div className="flex-1 space-y-3">
+          <div className="flex flex-wrap gap-1.5">
+            {TIMER_PRESETS.map((s) => (
+              <button
+                key={s}
+                onClick={() => pick(s)}
+                className={`rounded-full px-3 py-1 text-xs font-bold transition-all ${
+                  target === s
+                    ? 'bg-violet-600 text-white shadow-md shadow-violet-900/40'
+                    : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:text-[#f7f0df]'
+                }`}
+              >
+                {s < 60 ? `${s}s` : `${s / 60}m`}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => (done ? reset() : setRunning((r) => !r))}
+              className="btn-gloss flex-1 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 py-2.5 text-sm font-bold text-white shadow-lg shadow-violet-900/40 hover:from-violet-500 hover:to-fuchsia-500 transition-all"
+            >
+              {done ? 'Again' : running ? 'Pause' : 'Start Hold'}
+            </button>
+            <button
+              onClick={reset}
+              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[#f7f0df]/70 hover:bg-white/10 hover:text-[#f7f0df] transition-all"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 /* ------------------------------------------------------------------ */
-/* Level Badge                                                          */
+/* Small UI atoms                                                       */
 /* ------------------------------------------------------------------ */
 
 function LevelBadge({ level }: { level: string }) {
@@ -445,15 +378,11 @@ function LevelBadge({ level }: { level: string }) {
     Advanced: 'bg-red-500/20 text-red-300 border border-red-500/30',
   }
   return (
-    <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wider ${styles[level] ?? styles.Beginner}`}>
+    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-[0.2em] ${styles[level] ?? styles.Beginner}`}>
       {level}
     </span>
   )
 }
-
-/* ------------------------------------------------------------------ */
-/* Lock Overlay for Pro-gated Poses                                     */
-/* ------------------------------------------------------------------ */
 
 function LockOverlay({ onUpgrade }: { onUpgrade: () => void }) {
   return (
@@ -464,10 +393,10 @@ function LockOverlay({ onUpgrade }: { onUpgrade: () => void }) {
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
         </div>
-        <p className="text-xs font-medium text-[#f7f0df]/70">Pro Plan Required</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/70">Pro Plan Required</p>
         <button
           onClick={(e) => { e.stopPropagation(); onUpgrade() }}
-          className="mt-1 rounded-full bg-gradient-to-r from-violet-600 to-purple-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-violet-900/40 transition-all duration-200 hover:from-violet-500 hover:to-purple-500 hover:shadow-violet-700/50"
+          className="btn-gloss mt-1 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-violet-900/40 transition-all duration-200 hover:from-violet-500 hover:to-fuchsia-500"
         >
           Upgrade to Pro
         </button>
@@ -482,73 +411,66 @@ function LockOverlay({ onUpgrade }: { onUpgrade: () => void }) {
 
 interface PoseCardProps {
   pose: Pose
-  isPro: boolean
   isPracticed: boolean
   locked: boolean
   onClick: () => void
   onUpgrade: () => void
 }
 
-function PoseCard({ pose, isPro: _isPro, isPracticed, locked, onClick, onUpgrade }: PoseCardProps) {
+function PoseCard({ pose, isPracticed, locked, onClick, onUpgrade }: PoseCardProps) {
   return (
     <div
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border transition-all duration-300 ${
-        locked
-          ? 'border-violet-500/10 cursor-default'
-          : 'border-violet-500/20 cursor-pointer hover:border-violet-500/50 hover:shadow-xl hover:shadow-violet-900/30 hover:-translate-y-1'
-      } bg-[#0f0a1e]`}
+      className={`group glass-card relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 ${
+        locked ? 'cursor-default' : 'cursor-pointer hover:shadow-xl hover:shadow-violet-900/30 hover:-translate-y-1'
+      }`}
       onClick={!locked ? onClick : undefined}
     >
-      {/* Practiced indicator */}
       {isPracticed && !locked && (
-        <div className="absolute right-3 top-3 z-20 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/20 ring-1 ring-emerald-500/50">
-          <svg className="h-3.5 w-3.5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+        <div className="absolute right-3 top-3 z-20 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/30 ring-1 ring-emerald-400/60">
+          <svg className="h-3.5 w-3.5 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
       )}
 
-      {/* SVG illustration area */}
-      <div className={`relative flex items-center justify-center py-5 ${locked ? 'blur-sm select-none pointer-events-none' : ''}`}
-        style={{ background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.12) 0%, transparent 70%)' }}>
-        <PoseFigure figure={pose.figure} size={70} />
+      {/* Real demonstration photo */}
+      <div className={locked ? 'blur-sm select-none pointer-events-none' : ''}>
+        <PoseImage figure={pose.figure} alt={`${pose.english} (${pose.name}) demonstration`} className="aspect-[4/3] w-full" />
       </div>
 
-      {/* Content */}
-      <div className={`flex flex-col gap-2 px-4 pb-4 ${locked ? 'blur-sm select-none pointer-events-none' : ''}`}>
+      <div className={`flex flex-1 flex-col gap-2 px-4 pb-4 pt-3 ${locked ? 'blur-sm select-none pointer-events-none' : ''}`}>
         <div className="flex items-start justify-between gap-1">
           <div>
-            <p className="text-xs font-semibold text-[#d8b35a] tracking-wide">{pose.name}</p>
-            <p className="text-[11px] text-[#f7f0df]/50 leading-tight">{pose.english}</p>
+            <p className="text-sm font-black tracking-[-0.04em] text-[#d8b35a]">{pose.name}</p>
+            <p className="text-[11px] text-[#f7f0df]/62 leading-tight">{pose.english}</p>
           </div>
           <LevelBadge level={pose.level} />
         </div>
 
         <div className="flex items-center gap-1.5">
-          <span className="rounded-full bg-violet-500/10 px-2 py-0.5 text-[10px] text-violet-300 border border-violet-500/20">
+          <span className="rounded-full bg-violet-500/10 px-2 py-0.5 text-[10px] font-bold text-violet-300 border border-violet-500/25">
             {pose.category}
           </span>
-          <span className="text-[10px] text-[#f7f0df]/40">{pose.duration}</span>
+          <span className="text-[10px] text-[#f7f0df]/62">{pose.duration}</span>
         </div>
 
         <ul className="mt-0.5 space-y-0.5">
-          {pose.benefits.slice(0, 3).map((b, i) => (
-            <li key={i} className="flex items-center gap-1.5 text-[10px] text-[#f7f0df]/55">
-              <span className="h-1 w-1 rounded-full bg-violet-400 flex-shrink-0" />
+          {pose.benefits.slice(0, 2).map((b, i) => (
+            <li key={i} className="flex items-center gap-1.5 text-[10px] text-[#f7f0df]/62">
+              <span className="h-1 w-1 rounded-full bg-fuchsia-400 flex-shrink-0" />
               {b}
             </li>
           ))}
         </ul>
       </div>
 
-      {/* Lock overlay */}
       {locked && <LockOverlay onUpgrade={onUpgrade} />}
     </div>
   )
 }
 
 /* ------------------------------------------------------------------ */
-/* Detail Modal                                                         */
+/* Detail Modal — photo, instructions, breathing cue, hold timer       */
 /* ------------------------------------------------------------------ */
 
 interface DetailModalProps {
@@ -559,61 +481,69 @@ interface DetailModalProps {
 }
 
 function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailModalProps) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      {/* Backdrop */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose} role="dialog" aria-modal="true" aria-label={`${pose.english} details`}>
       <div className="absolute inset-0 bg-[#07040d]/80 backdrop-blur-md" />
 
-      {/* Modal */}
       <div
-        className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border border-violet-500/20 bg-[#0f0a1e] shadow-2xl shadow-violet-900/40"
+        className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border-gold-glow bg-[#0f0a1e] shadow-2xl shadow-violet-900/40"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-[#f7f0df]/60 transition-colors hover:bg-white/10 hover:text-[#f7f0df]"
+          aria-label="Close"
+          className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-[#f7f0df]/70 transition-colors hover:bg-black/60 hover:text-[#f7f0df]"
         >
           <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        {/* Header */}
-        <div
-          className="relative flex flex-col items-center gap-1 px-8 pt-8 pb-6"
-          style={{ background: 'radial-gradient(ellipse at top, rgba(124,58,237,0.15) 0%, transparent 65%)' }}
-        >
-          <div className="mb-2">
-            <PoseFigure figure={pose.figure} size={100} />
-          </div>
-          <h2 className="text-2xl font-bold text-[#d8b35a] tracking-wide">{pose.name}</h2>
-          <p className="text-sm text-[#f7f0df]/60">{pose.english}</p>
-          <div className="mt-2 flex items-center gap-2 flex-wrap justify-center">
+        {/* Large hero photo */}
+        <PoseImage figure={pose.figure} alt={`${pose.english} (${pose.name}) full demonstration`} className="h-64 w-full sm:h-80" />
+
+        {/* Title block overlapping the photo scrim */}
+        <div className="relative -mt-20 px-8">
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a]">{pose.name}</h2>
+          <p className="text-sm text-[#f7f0df]/70">{pose.english}</p>
+          <div className="mt-2 flex flex-wrap items-center gap-2">
             <LevelBadge level={pose.level} />
-            <span className="rounded-full bg-violet-500/15 border border-violet-500/30 px-3 py-0.5 text-xs text-violet-300">{pose.category}</span>
-            <span className="text-xs text-[#f7f0df]/40">{pose.duration}</span>
+            <span className="rounded-full bg-violet-500/15 border border-violet-500/30 px-3 py-0.5 text-xs font-bold text-violet-300">{pose.category}</span>
+            <span className="text-xs text-[#f7f0df]/62">Hold: {pose.duration}</span>
           </div>
         </div>
 
-        {/* Body */}
-        <div className="px-8 pb-8 space-y-6">
+        <div className="px-8 pb-8 pt-6 space-y-6">
+          {/* Hold timer */}
+          <HoldTimer initialSeconds={60} />
+
+          {/* Breathing cue */}
+          <section className="rounded-2xl border border-fuchsia-500/25 bg-fuchsia-500/5 px-5 py-4">
+            <h3 className="mb-1.5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12c3 0 3-4 6-4s3 8 6 8 3-4 6-4" />
+              </svg>
+              Breathing Cue
+            </h3>
+            <p className="text-sm text-[#f7f0df]/80 leading-relaxed">{breathCue(pose)}</p>
+          </section>
+
           {/* Steps */}
           <section>
-            <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-[#f7f0df]">
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-violet-600 text-[10px] font-bold text-white">1</span>
-              Step-by-Step Instructions
-            </h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Step-by-Step Instructions</h3>
             <ol className="space-y-2">
               {pose.steps.map((step, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-violet-500/20 text-[10px] font-bold text-violet-300 border border-violet-500/30">
                     {i + 1}
                   </span>
-                  <span className="text-sm text-[#f7f0df]/75">{step}</span>
+                  <span className="text-sm text-[#f7f0df]/80">{step}</span>
                 </li>
               ))}
             </ol>
@@ -621,10 +551,10 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
           {/* Benefits */}
           <section>
-            <h3 className="mb-3 text-sm font-semibold text-[#f7f0df]">Benefits</h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Benefits</h3>
             <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
               {pose.benefits.map((b, i) => (
-                <li key={i} className="flex items-center gap-2 text-sm text-[#f7f0df]/70">
+                <li key={i} className="flex items-center gap-2 text-sm text-[#f7f0df]/75">
                   <svg className="h-4 w-4 flex-shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
@@ -636,10 +566,10 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
           {/* Muscles */}
           <section>
-            <h3 className="mb-3 text-sm font-semibold text-[#f7f0df]">Muscles Engaged</h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Muscles Engaged</h3>
             <div className="flex flex-wrap gap-2">
               {pose.muscles.map((m, i) => (
-                <span key={i} className="rounded-full bg-violet-500/15 border border-violet-500/30 px-3 py-1 text-xs text-violet-300">
+                <span key={i} className="rounded-full bg-violet-500/15 border border-violet-500/30 px-3 py-1 text-xs font-bold text-violet-300">
                   {m}
                 </span>
               ))}
@@ -648,45 +578,96 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
           {/* Contraindications */}
           {pose.contraindications.length > 0 && pose.contraindications[0] !== '' && (
-            <section>
-              <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 px-4 py-3">
-                <h3 className="mb-2 flex items-center gap-2 text-sm font-semibold text-amber-300">
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  Contraindications
-                </h3>
-                <ul className="space-y-1">
-                  {pose.contraindications.map((c, i) => (
-                    <li key={i} className="text-sm text-amber-200/60">{c}</li>
-                  ))}
-                </ul>
-              </div>
+            <section className="rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3">
+              <h3 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-300">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                Contraindications
+              </h3>
+              <ul className="space-y-1">
+                {pose.contraindications.map((c, i) => (
+                  <li key={i} className="text-sm text-amber-200/75">{c}</li>
+                ))}
+              </ul>
             </section>
           )}
 
           {/* Mark as practiced */}
           <button
             onClick={onTogglePracticed}
-            className={`w-full rounded-2xl py-3 text-sm font-semibold transition-all duration-200 ${
+            className={`btn-gloss w-full rounded-2xl py-3 text-sm font-bold transition-all duration-200 ${
               isPracticed
                 ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/30'
-                : 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-900/40 hover:from-violet-500 hover:to-purple-500'
+                : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-900/40 hover:from-violet-500 hover:to-fuchsia-500'
             }`}
           >
-            {isPracticed ? (
-              <span className="flex items-center justify-center gap-2">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-                Practiced — Mark as Incomplete
-              </span>
-            ) : (
-              'Mark as Practiced'
-            )}
+            {isPracticed ? 'Practiced — Mark as Incomplete' : 'Mark as Practiced'}
           </button>
         </div>
       </div>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ */
+/* Flow Card                                                            */
+/* ------------------------------------------------------------------ */
+
+function FlowCard({ flow, onSelectPose }: { flow: Flow; onSelectPose: (p: Pose) => void }) {
+  const [open, setOpen] = useState(false)
+  const total = flow.steps.reduce((s, st) => s + st.seconds, 0)
+  const poses = flow.steps
+    .map((st) => ({ step: st, pose: POSES.find((p) => p.id === st.poseId) }))
+    .filter((x): x is { step: FlowStep; pose: Pose } => Boolean(x.pose))
+
+  return (
+    <div className="glass-card rounded-2xl overflow-hidden">
+      <button onClick={() => setOpen((o) => !o)} className="w-full px-5 py-4 text-left" aria-expanded={open}>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="h-10 w-1.5 rounded-full flex-shrink-0" style={{ background: `linear-gradient(180deg, ${flow.accent}, transparent)` }} />
+            <div className="min-w-0">
+              <h3 className="text-base font-black tracking-[-0.04em] text-[#f7f0df] truncate">{flow.name}</h3>
+              <p className="text-xs text-[#f7f0df]/62 truncate">{flow.tagline}</p>
+            </div>
+          </div>
+          <div className="flex flex-shrink-0 items-center gap-2">
+            <span className="hidden sm:inline"><LevelBadge level={flow.level} /></span>
+            <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold tabular-nums" style={{ color: flow.accent }}>
+              {poses.length} poses · {fmtTotal(total)}
+            </span>
+            <svg className={`h-4 w-4 text-[#f7f0df]/62 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      </button>
+
+      {open && (
+        <div className="border-t border-white/10 px-5 py-4">
+          <ol className="space-y-2">
+            {poses.map(({ step, pose }, i) => (
+              <li key={i}>
+                <button
+                  onClick={() => onSelectPose(pose)}
+                  className="flex w-full items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2 text-left transition-all hover:border-violet-500/40 hover:bg-white/[0.06]"
+                >
+                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-[#07040d]" style={{ background: flow.accent }}>
+                    {i + 1}
+                  </span>
+                  <PoseImage figure={pose.figure} alt={`${pose.english} thumbnail`} className="h-10 w-14 flex-shrink-0 rounded-lg" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-sm font-bold text-[#f7f0df]">{pose.english}</span>
+                    <span className="block truncate text-[11px] text-[#f7f0df]/62">{pose.name}</span>
+                  </span>
+                  <span className="flex-shrink-0 text-xs font-bold tabular-nums text-[#d8b35a]">{fmtTotal(step.seconds)}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </div>
   )
 }
@@ -700,32 +681,32 @@ function UpgradeModal({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-[#07040d]/80 backdrop-blur-md" />
       <div
-        className="relative z-10 w-full max-w-md rounded-3xl border border-violet-500/30 bg-[#0f0a1e] p-8 shadow-2xl shadow-violet-900/50 text-center"
+        className="relative z-10 w-full max-w-md rounded-3xl border-gold-glow bg-[#0f0a1e] p-8 shadow-2xl shadow-violet-900/50 text-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-purple-700 shadow-lg shadow-violet-900/50">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-700 shadow-lg shadow-violet-900/50">
           <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         </div>
-        <h2 className="mb-2 text-2xl font-bold text-[#f7f0df]">Unlock All 52 Poses</h2>
-        <p className="mb-6 text-sm text-[#f7f0df]/55">
-          Upgrade to Tiger Fitness Pro to access the complete Sacred Asana Library, personalised sequences, and guided audio.
+        <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Unlock All 52 Poses</h2>
+        <p className="mb-6 text-sm text-[#f7f0df]/62">
+          Upgrade to Tiger Fitness Pro to access the complete Sacred Asana Library, curated flows, hold timers and guided breathing.
         </p>
         <div className="mb-6 space-y-2">
-          {['All 52 Yoga Poses & Pranayama', 'Step-by-step guided instructions', 'Practice tracking & streaks', 'Custom yoga sequences', 'Audio-guided sessions'].map((f, i) => (
+          {['All 52 Yoga Poses & Pranayama', 'Real photo demonstrations', 'Hold timers & breathing cues', 'Curated flows & sequences', 'Practice tracking & streaks'].map((f, i) => (
             <div key={i} className="flex items-center gap-3 rounded-xl bg-violet-500/5 border border-violet-500/15 px-4 py-2">
               <svg className="h-4 w-4 flex-shrink-0 text-[#d8b35a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              <span className="text-sm text-[#f7f0df]/70">{f}</span>
+              <span className="text-sm text-[#f7f0df]/75">{f}</span>
             </div>
           ))}
         </div>
-        <button className="w-full rounded-2xl bg-gradient-to-r from-violet-600 to-purple-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-900/40 transition-all hover:from-violet-500 hover:to-purple-500">
+        <button className="btn-gloss w-full rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-900/40 transition-all hover:from-violet-500 hover:to-fuchsia-500">
           Upgrade to Pro — ₹999/month
         </button>
-        <button onClick={onClose} className="mt-3 text-xs text-[#f7f0df]/30 hover:text-[#f7f0df]/60 transition-colors">
+        <button onClick={onClose} className="mt-3 text-xs text-[#f7f0df]/62 hover:text-[#f7f0df] transition-colors">
           Maybe later
         </button>
       </div>
@@ -756,26 +737,17 @@ export default function YogaPage() {
   const [levelFilter, setLevelFilter] = useState('All')
   const [search, setSearch] = useState('')
 
-  const savePracticed = useCallback((next: Set<number>) => {
-    setPracticed(next)
-    localStorage.setItem('tiger_yoga_practiced', JSON.stringify([...next]))
-  }, [])
-
   const togglePracticed = useCallback((id: number) => {
     setPracticed((prev) => {
       const next = new Set(prev)
       if (next.has(id)) next.delete(id)
       else next.add(id)
-      localStorage.setItem('tiger_yoga_practiced', JSON.stringify([...next]))
+      try { localStorage.setItem('tiger_yoga_practiced', JSON.stringify([...next])) } catch { /* private mode */ }
       return next
     })
   }, [])
 
-  useEffect(() => {
-    // keep savePracticed stable – nothing to do here
-  }, [savePracticed])
-
-  const filtered = POSES.filter((p) => {
+  const filtered = useMemo(() => POSES.filter((p) => {
     if (categoryFilter !== 'All' && p.category !== categoryFilter) return false
     if (levelFilter !== 'All' && p.level !== levelFilter) return false
     if (search) {
@@ -783,7 +755,7 @@ export default function YogaPage() {
       return p.name.toLowerCase().includes(q) || p.english.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
     }
     return true
-  })
+  }), [categoryFilter, levelFilter, search])
 
   const practicedCount = practiced.size
 
@@ -794,62 +766,79 @@ export default function YogaPage() {
         className="relative px-4 pt-12 pb-8 text-center"
         style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 60%)' }}
       >
-        {/* Decorative circles */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-violet-700/10 blur-3xl" />
-          <div className="absolute top-10 left-1/4 h-40 w-40 rounded-full bg-purple-600/8 blur-2xl" />
-          <div className="absolute top-10 right-1/4 h-40 w-40 rounded-full bg-violet-500/8 blur-2xl" />
+          <div className="absolute top-10 left-1/4 h-40 w-40 rounded-full bg-fuchsia-600/10 blur-2xl" />
+          <div className="absolute top-10 right-1/4 h-40 w-40 rounded-full bg-violet-500/10 blur-2xl" />
         </div>
 
         <div className="relative">
-          {/* Lotus icon */}
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600/30 to-purple-700/30 border border-violet-500/30 shadow-lg shadow-violet-900/30">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600/30 to-fuchsia-700/30 border border-violet-500/30 shadow-lg shadow-violet-900/30">
             <svg className="h-7 w-7 text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c0 0-4 3-4 7s4 7 4 7 4-3 4-7-4-7-4-7z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 10c0 0-2 2-2 5s3 5 9 5 9-2 9-5-2-5-2-5" />
             </svg>
           </div>
 
-          <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
-            <span className="bg-gradient-to-r from-[#d8b35a] via-[#f7f0df] to-violet-300 bg-clip-text text-transparent">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Tiger Fitness Pro — Yoga Studio</p>
+          <h1 className="text-4xl font-black tracking-[-0.04em] sm:text-5xl">
+            <span className="bg-gradient-to-r from-[#d8b35a] via-[#f7f0df] to-[#e879f9] bg-clip-text text-transparent">
               Sacred Asana Library
             </span>
           </h1>
-          <p className="mt-2 text-sm text-[#f7f0df]/50 tracking-widest uppercase">
-            52 Poses &nbsp;•&nbsp; Ancient Wisdom &nbsp;•&nbsp; Modern Practice
+          <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62">
+            52 Poses &nbsp;•&nbsp; 5 Curated Flows &nbsp;•&nbsp; Ancient Wisdom, Modern Practice
           </p>
 
           {/* Progress bar */}
           <div className="mx-auto mt-6 max-w-xs">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-xs text-[#f7f0df]/50">Practice Progress</span>
-              <span className="text-xs font-semibold text-[#d8b35a]">{practicedCount} / 52 Mastered</span>
+              <span className="text-xs text-[#f7f0df]/62">Practice Progress</span>
+              <span className="text-xs font-bold text-[#d8b35a]">{practicedCount} / 52 Mastered</span>
             </div>
             <div className="h-2 w-full rounded-full bg-white/5 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-violet-600 to-[#d8b35a] transition-all duration-700"
+                className="h-full rounded-full bg-gradient-to-r from-violet-600 via-[#e879f9] to-[#d8b35a] transition-all duration-700"
                 style={{ width: `${(practicedCount / 52) * 100}%` }}
               />
             </div>
           </div>
 
-          {/* Pro badge */}
           {isPro && (
             <div className="mx-auto mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#d8b35a]/10 border border-[#d8b35a]/30 px-3 py-1">
               <svg className="h-3.5 w-3.5 text-[#d8b35a]" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
-              <span className="text-[11px] font-semibold text-[#d8b35a]">Pro — Full Library Unlocked</span>
+              <span className="text-[11px] font-bold text-[#d8b35a]">Pro — Full Library Unlocked</span>
             </div>
           )}
         </div>
       </div>
 
+      {/* ---- Curated Flows ---- */}
+      <div className="mx-auto max-w-4xl px-4 pb-2">
+        <div className="mb-4 flex items-end justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Curated Sequences</p>
+            <h2 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Guided Flows</h2>
+          </div>
+          <p className="text-xs text-[#f7f0df]/62">Tap a flow to see its pose chain</p>
+        </div>
+        <div className="space-y-3">
+          {FLOWS.map((flow) => (
+            <FlowCard key={flow.id} flow={flow} onSelectPose={(p) => {
+              const locked = !isPro && p.id > 6
+              if (locked) setShowUpgrade(true)
+              else setSelectedPose(p)
+            }} />
+          ))}
+        </div>
+      </div>
+
       {/* ---- Filters ---- */}
-      <div className="sticky top-0 z-30 bg-[#07040d]/90 backdrop-blur-md border-b border-white/5 px-4 py-3 space-y-3">
-        {/* Search */}
+      <div className="sticky top-0 z-30 mt-8 bg-[#07040d]/90 backdrop-blur-md border-b border-white/5 px-4 py-3 space-y-3">
         <div className="relative mx-auto max-w-2xl">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#f7f0df]/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#f7f0df]/62" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -857,10 +846,10 @@ export default function YogaPage() {
             placeholder="Search poses by name or category..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl bg-white/5 border border-white/8 pl-9 pr-4 py-2.5 text-sm text-[#f7f0df] placeholder-[#f7f0df]/25 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
+            className="w-full rounded-xl bg-white/5 border border-white/10 pl-9 pr-4 py-2.5 text-sm text-[#f7f0df] placeholder-[#f7f0df]/62 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
           />
           {search && (
-            <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f7f0df]/30 hover:text-[#f7f0df]/60">
+            <button onClick={() => setSearch('')} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f7f0df]/62 hover:text-[#f7f0df]">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -868,16 +857,15 @@ export default function YogaPage() {
           )}
         </div>
 
-        {/* Category pills */}
-        <div className="flex gap-1.5 overflow-x-auto pb-1 scrollbar-hide max-w-2xl mx-auto">
+        <div className="flex gap-1.5 overflow-x-auto pb-1 max-w-2xl mx-auto">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategoryFilter(cat)}
-              className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-medium transition-all duration-200 ${
+              className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 ${
                 categoryFilter === cat
                   ? 'bg-violet-600 text-white shadow-md shadow-violet-900/40'
-                  : 'bg-white/5 text-[#f7f0df]/50 border border-white/8 hover:bg-white/10 hover:text-[#f7f0df]/80'
+                  : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:bg-white/10 hover:text-[#f7f0df]'
               }`}
             >
               {cat}
@@ -885,16 +873,15 @@ export default function YogaPage() {
           ))}
         </div>
 
-        {/* Level pills */}
         <div className="flex gap-1.5 max-w-2xl mx-auto">
           {LEVELS.map((lvl) => (
             <button
               key={lvl}
               onClick={() => setLevelFilter(lvl)}
-              className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-medium transition-all duration-200 ${
+              className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 ${
                 levelFilter === lvl
                   ? 'bg-[#d8b35a]/20 text-[#d8b35a] border border-[#d8b35a]/40'
-                  : 'bg-white/5 text-[#f7f0df]/50 border border-white/8 hover:bg-white/10 hover:text-[#f7f0df]/80'
+                  : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:bg-white/10 hover:text-[#f7f0df]'
               }`}
             >
               {lvl}
@@ -907,10 +894,10 @@ export default function YogaPage() {
       <div className="mx-auto max-w-7xl px-4 py-6">
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <svg className="mb-4 h-12 w-12 text-violet-500/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
+            <svg className="mb-4 h-12 w-12 text-violet-500/62" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <p className="text-[#f7f0df]/40 text-sm">No poses match your search.</p>
+            <p className="text-[#f7f0df]/62 text-sm">No poses match your search.</p>
             <button
               onClick={() => { setSearch(''); setCategoryFilter('All'); setLevelFilter('All') }}
               className="mt-3 text-xs text-violet-400 hover:text-violet-300 underline underline-offset-2"
@@ -920,17 +907,14 @@ export default function YogaPage() {
           </div>
         ) : (
           <>
-            <p className="mb-4 text-xs text-[#f7f0df]/35">
-              Showing {filtered.length} of 52 poses
-            </p>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+            <p className="mb-4 text-xs text-[#f7f0df]/62">Showing {filtered.length} of 52 poses</p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {filtered.map((pose) => {
                 const locked = !isPro && pose.id > 6
                 return (
                   <PoseCard
                     key={pose.id}
                     pose={pose}
-                    isPro={isPro}
                     isPracticed={practiced.has(pose.id)}
                     locked={locked}
                     onClick={() => setSelectedPose(pose)}
@@ -943,7 +927,6 @@ export default function YogaPage() {
         )}
       </div>
 
-      {/* ---- Detail Modal ---- */}
       {selectedPose && (
         <DetailModal
           pose={selectedPose}
@@ -953,7 +936,6 @@ export default function YogaPage() {
         />
       )}
 
-      {/* ---- Upgrade Modal ---- */}
       {showUpgrade && <UpgradeModal onClose={() => setShowUpgrade(false)} />}
     </div>
   )
@@ -970,50 +952,44 @@ export function YogaSection() {
   return (
     <section className="bg-[#07040d] py-16 px-4">
       <div className="mx-auto max-w-6xl">
-        {/* Section header */}
         <div className="mb-10 text-center">
-          <p className="mb-2 text-xs font-semibold tracking-widest text-violet-400 uppercase">Yoga Library</p>
-          <h2 className="text-3xl font-black text-[#f7f0df] sm:text-4xl">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Yoga Library</p>
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#f7f0df] sm:text-4xl">
             Sacred{' '}
-            <span className="bg-gradient-to-r from-[#d8b35a] to-violet-300 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#d8b35a] to-[#e879f9] bg-clip-text text-transparent">
               Asana Library
             </span>
           </h2>
-          <p className="mt-3 text-sm text-[#f7f0df]/50 max-w-lg mx-auto">
-            52 curated yoga poses with step-by-step guidance, benefits, and muscle activation. Begin your practice today.
+          <p className="mt-3 text-sm text-[#f7f0df]/62 max-w-lg mx-auto">
+            52 curated yoga poses with real demonstrations, step-by-step guidance, breathing cues and hold timers.
           </p>
         </div>
 
-        {/* Grid */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
           {freePoses.map((pose) => (
             <div
               key={pose.id}
               onClick={() => setSelectedPose(pose)}
-              className="group flex flex-col items-center gap-2 rounded-2xl border border-violet-500/20 bg-[#0f0a1e] p-4 cursor-pointer transition-all duration-300 hover:border-violet-500/40 hover:-translate-y-1 hover:shadow-lg hover:shadow-violet-900/30"
+              className="group glass-card flex flex-col items-center gap-2 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-violet-900/30"
             >
-              <div className="relative" style={{ background: 'radial-gradient(ellipse at center, rgba(124,58,237,0.1) 0%, transparent 70%)' }}>
-                <PoseFigure figure={pose.figure} size={55} />
+              <PoseImage figure={pose.figure} alt={`${pose.english} demonstration`} className="aspect-square w-full" />
+              <div className="px-2 pb-3 text-center">
+                <p className="text-xs font-black tracking-[-0.04em] text-[#d8b35a] leading-tight">{pose.name}</p>
+                <p className="text-[10px] text-[#f7f0df]/62 leading-tight">{pose.english}</p>
+                <div className="mt-1.5 flex justify-center"><LevelBadge level={pose.level} /></div>
               </div>
-              <div className="text-center">
-                <p className="text-xs font-semibold text-[#d8b35a] leading-tight">{pose.name}</p>
-                <p className="text-[9px] text-[#f7f0df]/40 leading-tight">{pose.english}</p>
-              </div>
-              <LevelBadge level={pose.level} />
             </div>
           ))}
         </div>
 
-        {/* CTA */}
         <div className="mt-8 text-center">
-          <p className="text-sm text-[#f7f0df]/40">
+          <p className="text-sm text-[#f7f0df]/62">
             Showing 6 of 52 poses &nbsp;•&nbsp;{' '}
-            <span className="text-violet-400">Upgrade to Pro to unlock all</span>
+            <span className="text-violet-300 font-bold">Upgrade to Pro to unlock all</span>
           </p>
         </div>
       </div>
 
-      {/* Quick modal from section */}
       {selectedPose && (
         <DetailModal
           pose={selectedPose}

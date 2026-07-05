@@ -20,6 +20,7 @@ import WorkoutPlayer from "./WorkoutPlayer";
 import AchievementsPage, { addXP } from "./Achievements";
 import DailyRewardsPage from "./DailySpin";
 import AICoachPage from "./AICoach";
+import GymPartnerPage from "./GymPartner";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -42,6 +43,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "achievements", icon: "🏅", label: "Achievements" },
     { id: "dailyrewards", icon: "🎡", label: "Daily Rewards" },
     { id: "aicoach", icon: "🤖", label: "AI Coach" },
+    { id: "gympartner", icon: "🤝", label: "Let's Gym" },
     { id: "progress", icon: "📈", label: "Progress" },
     { id: "habits", icon: "🎯", label: "Habits" },
     { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -816,6 +818,7 @@ export default function SaaSApp() {
       {section === "achievements" && <AchievementsPage />}
       {section === "dailyrewards" && <DailyRewardsPage />}
       {section === "aicoach" && <AICoachPage />}
+      {section === "gympartner" && <GymPartnerPage />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
