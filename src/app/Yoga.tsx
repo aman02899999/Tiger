@@ -247,12 +247,7 @@ function PoseImage({ figure, alt, className = '' }: { figure: string; alt: strin
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {/* Gradient placeholder — always behind the photo, shown alone if the photo fails */}
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-950 via-[#1e1b4b] to-fuchsia-950 flex items-center justify-center">
-        <svg className="h-10 w-10 text-violet-400/62" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c0 0-4 3-4 7s4 7 4 7 4-3 4-7-4-7-4-7z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 10c0 0-2 2-2 5s3 5 9 5 9-2 9-5-2-5-2-5" />
-        </svg>
-      </div>
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-950 via-[#1e1b4b] to-fuchsia-950" />
       {src && !failed && (
         <img
           src={src}
@@ -295,8 +290,6 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
 
   const done = remaining === 0
   const progress = target > 0 ? (target - remaining) / target : 0
-  const R = 52
-  const C = 2 * Math.PI * R
   const mm = Math.floor(remaining / 60)
   const ss = String(remaining % 60).padStart(2, '0')
 
@@ -306,21 +299,14 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
       <div className="flex items-center gap-6">
         {/* Progress ring */}
         <div className="relative h-32 w-32 flex-shrink-0">
-          <svg viewBox="0 0 120 120" className="h-full w-full -rotate-90">
-            <circle cx="60" cy="60" r={R} fill="none" stroke="rgba(247,240,223,0.1)" strokeWidth="8" />
-            <circle
-              cx="60" cy="60" r={R} fill="none"
-              stroke={done ? '#34d399' : 'url(#holdRingGrad)'} strokeWidth="8" strokeLinecap="round"
-              strokeDasharray={C} strokeDashoffset={C * (1 - progress)}
-              style={{ transition: 'stroke-dashoffset 1s linear' }}
-            />
-            <defs>
-              <linearGradient id="holdRingGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stopColor="#a78bfa" />
-                <stop offset="100%" stopColor="#e879f9" />
-              </linearGradient>
-            </defs>
-          </svg>
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: `conic-gradient(${done ? '#34d399' : '#a78bfa'} 0deg, ${done ? '#34d399' : '#e879f9'} ${progress * 360}deg, rgba(247,240,223,0.1) ${progress * 360}deg)`,
+              transition: 'background 1s linear',
+            }}
+          />
+          <div className="absolute inset-2 rounded-full bg-[#0b0714]" />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className={`text-2xl font-black tracking-[-0.04em] tabular-nums ${done ? 'text-emerald-300' : 'text-[#f7f0df]'}`}>
               {done ? 'Om' : `${mm}:${ss}`}
@@ -389,9 +375,7 @@ function LockOverlay({ onUpgrade }: { onUpgrade: () => void }) {
     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl bg-[#07040d]/70 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-3 px-4 text-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-600/30 ring-2 ring-violet-500/40">
-          <svg className="h-6 w-6 text-violet-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
+          <span aria-hidden="true">🔒</span>
         </div>
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/70">Pro Plan Required</p>
         <button
@@ -427,9 +411,7 @@ function PoseCard({ pose, isPracticed, locked, onClick, onUpgrade }: PoseCardPro
     >
       {isPracticed && !locked && (
         <div className="absolute right-3 top-3 z-20 flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500/30 ring-1 ring-emerald-400/60">
-          <svg className="h-3.5 w-3.5 text-emerald-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
+          <span aria-hidden="true">✓</span>
         </div>
       )}
 
@@ -500,9 +482,7 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
           aria-label="Close"
           className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-[#f7f0df]/70 transition-colors hover:bg-black/60 hover:text-[#f7f0df]"
         >
-          <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <span aria-hidden="true">✕</span>
         </button>
 
         {/* Large hero photo */}
@@ -526,9 +506,7 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
           {/* Breathing cue */}
           <section className="rounded-2xl border border-fuchsia-500/25 bg-fuchsia-500/5 px-5 py-4">
             <h3 className="mb-1.5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3 12c3 0 3-4 6-4s3 8 6 8 3-4 6-4" />
-              </svg>
+              <span aria-hidden="true">〰️</span>
               Breathing Cue
             </h3>
             <p className="text-sm text-[#f7f0df]/80 leading-relaxed">{breathCue(pose)}</p>
@@ -555,9 +533,7 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
             <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
               {pose.benefits.map((b, i) => (
                 <li key={i} className="flex items-center gap-2 text-sm text-[#f7f0df]/75">
-                  <svg className="h-4 w-4 flex-shrink-0 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
+                  <span aria-hidden="true">✓</span>
                   {b}
                 </li>
               ))}
@@ -580,9 +556,7 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
           {pose.contraindications.length > 0 && pose.contraindications[0] !== '' && (
             <section className="rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3">
               <h3 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-300">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
+                <span aria-hidden="true">⚠️</span>
                 Contraindications
               </h3>
               <ul className="space-y-1">
@@ -637,9 +611,7 @@ function FlowCard({ flow, onSelectPose }: { flow: Flow; onSelectPose: (p: Pose) 
             <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold tabular-nums" style={{ color: flow.accent }}>
               {poses.length} poses · {fmtTotal(total)}
             </span>
-            <svg className={`h-4 w-4 text-[#f7f0df]/62 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
+            <span aria-hidden="true">▾</span>
           </div>
         </div>
       </button>
@@ -685,9 +657,7 @@ function UpgradeModal({ onClose }: { onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-700 shadow-lg shadow-violet-900/50">
-          <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+          <span aria-hidden="true">👑</span>
         </div>
         <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Unlock All 52 Poses</h2>
         <p className="mb-6 text-sm text-[#f7f0df]/62">
@@ -696,9 +666,7 @@ function UpgradeModal({ onClose }: { onClose: () => void }) {
         <div className="mb-6 space-y-2">
           {['All 52 Yoga Poses & Pranayama', 'Real photo demonstrations', 'Hold timers & breathing cues', 'Curated flows & sequences', 'Practice tracking & streaks'].map((f, i) => (
             <div key={i} className="flex items-center gap-3 rounded-xl bg-violet-500/5 border border-violet-500/15 px-4 py-2">
-              <svg className="h-4 w-4 flex-shrink-0 text-[#d8b35a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
+              <span aria-hidden="true">✓</span>
               <span className="text-sm text-[#f7f0df]/75">{f}</span>
             </div>
           ))}
@@ -774,10 +742,7 @@ export default function YogaPage() {
 
         <div className="relative">
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600/30 to-fuchsia-700/30 border border-violet-500/30 shadow-lg shadow-violet-900/30">
-            <svg className="h-7 w-7 text-violet-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3c0 0-4 3-4 7s4 7 4 7 4-3 4-7-4-7-4-7z" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 10c0 0-2 2-2 5s3 5 9 5 9-2 9-5-2-5-2-5" />
-            </svg>
+            <span aria-hidden="true">🪷</span>
           </div>
 
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Tiger Fitness Pro — Yoga Studio</p>
@@ -806,9 +771,7 @@ export default function YogaPage() {
 
           {isPro && (
             <div className="mx-auto mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#d8b35a]/10 border border-[#d8b35a]/30 px-3 py-1">
-              <svg className="h-3.5 w-3.5 text-[#d8b35a]" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
+              <span aria-hidden="true">★</span>
               <span className="text-[11px] font-bold text-[#d8b35a]">Pro — Full Library Unlocked</span>
             </div>
           )}
@@ -838,9 +801,7 @@ export default function YogaPage() {
       {/* ---- Filters ---- */}
       <div className="sticky top-0 z-30 mt-8 bg-[#07040d]/90 backdrop-blur-md border-b border-white/5 px-4 py-3 space-y-3">
         <div className="relative mx-auto max-w-2xl">
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#f7f0df]/62" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <span aria-hidden="true">🔍</span>
           <input
             type="text"
             placeholder="Search poses by name or category..."
@@ -850,9 +811,7 @@ export default function YogaPage() {
           />
           {search && (
             <button onClick={() => setSearch('')} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f7f0df]/62 hover:text-[#f7f0df]">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <span aria-hidden="true">✕</span>
             </button>
           )}
         </div>
@@ -894,9 +853,7 @@ export default function YogaPage() {
       <div className="mx-auto max-w-7xl px-4 py-6">
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <svg className="mb-4 h-12 w-12 text-violet-500/62" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            <span aria-hidden="true">🔍</span>
             <p className="text-[#f7f0df]/62 text-sm">No poses match your search.</p>
             <button
               onClick={() => { setSearch(''); setCategoryFilter('All'); setLevelFilter('All') }}

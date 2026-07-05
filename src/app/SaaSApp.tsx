@@ -242,13 +242,14 @@ function WorkoutsPage() {
   const { user, updateUser } = useAuth();
   const [started, setStarted] = useState<string | null>(null);
 
+  const photo = (id: string) => `https://images.unsplash.com/${id}?w=800&q=80&auto=format&fit=crop`;
   const plans = [
-    { id: "push", title: "Push Strength", duration: "45 min", level: "Intermediate", muscles: "Chest, Shoulders, Triceps", icon: "💪", exercises: 8 },
-    { id: "pull", title: "Pull Power", duration: "40 min", level: "Intermediate", muscles: "Back, Biceps, Forearms", icon: "🏋️", exercises: 7 },
-    { id: "legs", title: "Leg Day Domination", duration: "50 min", level: "Advanced", muscles: "Quads, Hamstrings, Glutes", icon: "🦵", exercises: 9 },
-    { id: "core", title: "Core Crusher", duration: "25 min", level: "Beginner", muscles: "Abs, Obliques, Lower Back", icon: "🔥", exercises: 6 },
-    { id: "hiit", title: "HIIT Cardio Blast", duration: "30 min", level: "Advanced", muscles: "Full Body", icon: "⚡", exercises: 10 },
-    { id: "yoga", title: "Recovery Yoga", duration: "35 min", level: "All Levels", muscles: "Flexibility & Balance", icon: "🧘", exercises: 12 },
+    { id: "push", title: "Push Strength", duration: "45 min", level: "Intermediate", muscles: "Chest, Shoulders, Triceps", icon: "💪", exercises: 8, image: photo("photo-1571019613454-1cb2f99b2d8b") },
+    { id: "pull", title: "Pull Power", duration: "40 min", level: "Intermediate", muscles: "Back, Biceps, Forearms", icon: "🏋️", exercises: 7, image: photo("photo-1541534741688-6078c6bfb5c5") },
+    { id: "legs", title: "Leg Day Domination", duration: "50 min", level: "Advanced", muscles: "Quads, Hamstrings, Glutes", icon: "🦵", exercises: 9, image: photo("photo-1517963879433-6ad2b056d712") },
+    { id: "core", title: "Core Crusher", duration: "25 min", level: "Beginner", muscles: "Abs, Obliques, Lower Back", icon: "🔥", exercises: 6, image: photo("photo-1544033527-b192daee1f5b") },
+    { id: "hiit", title: "HIIT Cardio Blast", duration: "30 min", level: "Advanced", muscles: "Full Body", icon: "⚡", exercises: 10, image: photo("photo-1434682881908-b43d0467b798") },
+    { id: "yoga", title: "Recovery Yoga", duration: "35 min", level: "All Levels", muscles: "Flexibility & Balance", icon: "🧘", exercises: 12, image: photo("photo-1518310383802-640c2de311b2") },
   ];
 
   function startWorkout(planId: string) {
@@ -282,10 +283,15 @@ function WorkoutsPage() {
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {plans.map((p) => (
-            <div key={p.id} className="group rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6 transition-all hover:-translate-y-1 hover:border-violet-200/30">
+            <div key={p.id} className="group overflow-hidden rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 transition-all hover:-translate-y-1 hover:border-violet-200/30">
+              <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-violet-950 to-fuchsia-950">
+                <img src={p.image} alt={`${p.title} demonstration`} loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0714]/80 via-transparent to-transparent" />
+                <span className="absolute right-3 top-3 rounded-full bg-black/50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-violet-100 backdrop-blur">{p.level}</span>
+              </div>
+              <div className="p-6 pt-4">
               <div className="flex items-start justify-between">
                 <span className="text-5xl">{p.icon}</span>
-                <span className="rounded-full bg-violet-200/12 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-violet-100">{p.level}</span>
               </div>
               <h3 className="mt-4 text-xl font-black">{p.title}</h3>
               <p className="mt-1 text-xs text-[#f7f0df]/68">{p.muscles}</p>
@@ -296,6 +302,7 @@ function WorkoutsPage() {
               <button type="button" onClick={() => startWorkout(p.id)} className="mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.18em] text-white shadow-[0_12px_40px_rgba(167,139,250,0.25)] transition-all hover:shadow-[0_18px_60px_rgba(167,139,250,0.4)]">
                 Start Workout
               </button>
+              </div>
             </div>
           ))}
         </div>
@@ -551,21 +558,6 @@ function HabitsPage() {
   );
 }
 
-function PDFStorePlaceholder() {
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-black tracking-[-0.04em]">PDF Store</h1>
-        <p className="text-sm text-[#f7f0df]/68">22 expert guides — loading soon</p>
-      </div>
-      <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-10 text-center">
-        <div className="text-5xl mb-4">📄</div>
-        <h2 className="text-xl font-bold mb-2">PDF Store Coming Soon</h2>
-        <p className="text-[#f7f0df]/60 max-w-md mx-auto">22 expert PDF guides covering nutrition, training, hormones, women's health, recovery and more. ₹199–₹599 each.</p>
-      </div>
-    </div>
-  );
-}
 
 function FamilyPage() {
   return (

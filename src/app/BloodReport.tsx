@@ -875,29 +875,23 @@ function RangeBar({ range, value, color }: { range: MarkerRange; value: number; 
 /* ================================================================== */
 
 function ScoreRing({ score }: { score: number }) {
-  const radius = 62;
-  const circ = 2 * Math.PI * radius;
   const color = score >= 80 ? "#34d399" : score >= 60 ? "#d8b35a" : "#fb7185";
   const rating = score >= 80 ? "Strong" : score >= 60 ? "Fair" : "Needs Attention";
   return (
     <div style={{ position: "relative", width: 150, height: 150, flexShrink: 0 }}>
-      <svg width={150} height={150} style={{ transform: "rotate(-90deg)" }}>
-        <circle cx={75} cy={75} r={radius} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={11} />
-        <motion.circle
-          cx={75}
-          cy={75}
-          r={radius}
-          fill="none"
-          stroke={color}
-          strokeWidth={11}
-          strokeLinecap="round"
-          strokeDasharray={circ}
-          initial={{ strokeDashoffset: circ }}
-          animate={{ strokeDashoffset: circ - (score / 100) * circ }}
-          transition={{ duration: 1.1, ease: "easeOut" }}
-          style={{ filter: `drop-shadow(0 0 8px ${color}80)` }}
-        />
-      </svg>
+      <motion.div
+        initial={{ ["--ring" as string]: "0deg" }}
+        animate={{ ["--ring" as string]: `${(score / 100) * 360}deg` }}
+        transition={{ duration: 1.1, ease: "easeOut" }}
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "50%",
+          background: `conic-gradient(${color} var(--ring), rgba(255,255,255,0.08) var(--ring))`,
+          filter: `drop-shadow(0 0 8px ${color}80)`,
+        }}
+      />
+      <div style={{ position: "absolute", inset: 11, borderRadius: "50%", background: "#0b0714" }} />
       <div
         style={{
           position: "absolute",

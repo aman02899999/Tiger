@@ -782,8 +782,6 @@ const MeditationTimer: React.FC<{ onComplete: (minutes: number) => void }> = ({ 
 
   const total = targetMin * 60;
   const progress = total > 0 ? (total - secondsLeft) / total : 0;
-  const R = 88;
-  const C = 2 * Math.PI * R;
   const mm = Math.floor(secondsLeft / 60);
   const ss = secondsLeft % 60;
 
@@ -795,24 +793,16 @@ const MeditationTimer: React.FC<{ onComplete: (minutes: number) => void }> = ({ 
       <div className="flex flex-col sm:flex-row items-center gap-8">
         {/* progress ring */}
         <div className="relative shrink-0" style={{ width: 200, height: 200 }}>
-          <svg width="200" height="200" viewBox="0 0 200 200" role="img" aria-label={`Timer: ${mm} minutes ${ss} seconds remaining`}>
-            <defs>
-              <linearGradient id="medRing" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#a78bfa" />
-                <stop offset="55%" stopColor="#e879f9" />
-                <stop offset="100%" stopColor="#d8b35a" />
-              </linearGradient>
-            </defs>
-            <circle cx="100" cy="100" r={R} fill="none" stroke="rgba(167,139,250,0.15)" strokeWidth="10" />
-            <circle
-              cx="100" cy="100" r={R} fill="none"
-              stroke="url(#medRing)" strokeWidth="10" strokeLinecap="round"
-              strokeDasharray={C}
-              strokeDashoffset={C * (1 - progress)}
-              transform="rotate(-90 100 100)"
-              style={{ transition: 'stroke-dashoffset 1s linear' }}
-            />
-          </svg>
+          <div
+            role="img"
+            aria-label={`Timer: ${mm} minutes ${ss} seconds remaining`}
+            className="absolute inset-0 rounded-full"
+            style={{
+              background: `conic-gradient(#a78bfa 0deg, #e879f9 ${progress * 198}deg, #d8b35a ${progress * 360}deg, rgba(167,139,250,0.15) ${progress * 360}deg)`,
+              transition: 'background 1s linear',
+            }}
+          />
+          <div className="absolute inset-[10px] rounded-full bg-[#0b0714]" />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <div className="text-4xl font-black tracking-[-0.04em] text-[#f7f0df]">
               {mm}:{String(ss).padStart(2, '0')}
