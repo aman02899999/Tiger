@@ -963,6 +963,7 @@ export function MeditationSection() {
   const isPro = user?.plan === 'Pro' || user?.plan === 'Elite';
 
   const [activeSection, setActiveSection] = useState('studio');
+  const [openSession, setOpenSession] = useState<GuidedSession | null>(null);
   const [expandedTechnique, setExpandedTechnique] = useState<string | null>(null);
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [expandedStage, setExpandedStage] = useState<number | null>(0);
@@ -1272,15 +1273,14 @@ export function MeditationSection() {
                     <button
                       onClick={() => {
                         if (locked) { window.location.hash = '#premium'; return; }
-                        setActiveSection('studio');
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        setOpenSession(s);
                       }}
                       className="btn-gloss w-full py-2.5 rounded-xl font-bold text-sm"
                       style={locked
                         ? { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(232,121,249,0.35)', color: '#e879f9' }
                         : { background: 'linear-gradient(135deg, #a78bfa, #e879f9)', color: '#07040d' }}
                     >
-                      {locked ? 'Unlock with Pro' : 'Begin Session →'}
+                      {locked ? 'Unlock with Pro' : 'View Guided Practice →'}
                     </button>
                   </div>
                 </div>
@@ -1693,6 +1693,52 @@ export function MeditationSection() {
             </div>
           </div>
         </ProGate>
+      )}
+
+      {/* Guided-practice modal — honest written steps + a timer link (no fake video) */}
+      {openSession && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onClick={() => setOpenSession(null)}>
+          <div className="glass-card max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-[#0b0714]/95" onClick={(e) => e.stopPropagation()}>
+            <div className="relative h-44 shrink-0" style={{ background: FALLBACK_GRADIENT }}>
+              <img
+                src={IMG((MEDITATION_IMAGES[openSession.figure] ?? MEDITATION_IMAGES.sitting_lotus).id, 900)}
+                alt={(MEDITATION_IMAGES[openSession.figure] ?? MEDITATION_IMAGES.sitting_lotus).alt}
+                loading="lazy"
+                className="h-full w-full rounded-t-3xl object-cover"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              />
+              <div className="absolute inset-0 rounded-t-3xl" style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(11,7,20,0.95) 100%)' }} />
+              <button onClick={() => setOpenSession(null)} className="absolute right-3 top-3 rounded-full border border-[#f7f0df]/20 bg-black/40 px-3 py-1.5 text-xs text-[#f7f0df]/80 hover:bg-black/60">✕</button>
+              <div className="absolute bottom-3 left-5 right-5">
+                <span className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#07040d]" style={{ background: 'linear-gradient(135deg,#d8b35a,#b8943a)' }}>Guided written practice</span>
+                <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">{openSession.title}</h2>
+                <p className="text-xs font-bold text-[#f7f0df]/70">{openSession.minutes} min · {openSession.level} · {openSession.category}</p>
+              </div>
+            </div>
+            <div className="p-6">
+              <p className="text-sm text-[#f7f0df]/80">{openSession.description}</p>
+              <div className="mt-5">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a78bfa]">Follow these steps</p>
+                <ol className="mt-3 space-y-2.5">
+                  {openSession.steps.map((st, i) => (
+                    <li key={i} className="flex gap-3 text-sm text-[#f7f0df]/82">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] font-black text-[#07040d]" style={{ background: 'linear-gradient(135deg,#a78bfa,#e879f9)' }}>{i + 1}</span>
+                      {st}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+              <button
+                onClick={() => { setOpenSession(null); setActiveSection('studio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                className="btn-gloss mt-6 w-full rounded-xl py-3 text-sm font-bold text-[#07040d]"
+                style={{ background: 'linear-gradient(135deg,#a78bfa,#e879f9)' }}
+              >
+                ⏱ Start the breathing timer for this practice
+              </button>
+              <p className="mt-2 text-center text-[11px] text-[#f7f0df]/55">Read the steps, then use the breathing coach &amp; timer to practise. This is a written guide, not a video.</p>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
