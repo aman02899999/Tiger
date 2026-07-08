@@ -30,6 +30,7 @@ import HeartHealthPage from "./HeartHealth";
 import ConsistencyHub from "./ConsistencyHub";
 import WorkoutBuilderPage from "./WorkoutBuilder";
 import RecipeHubPage from "./RecipeHub";
+import BodyMetricsPage from "./BodyMetrics";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -64,6 +65,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     ]},
     { group: "📈 Progress", items: [
       { id: "progress", icon: "📈", label: "Progress" },
+      { id: "bodymetrics", icon: "📐", label: "Body Metrics" },
       { id: "consistency", icon: "🔥", label: "Consistency" },
       { id: "progressphotos", icon: "📸", label: "Progress Photos" },
       { id: "habits", icon: "🎯", label: "Habits" },
@@ -857,6 +859,7 @@ export default function SaaSApp() {
       {section === "gympartner" && <GymPartnerPage />}
       {section === "workoutbuilder" && <WorkoutBuilderPage />}
       {section === "strengthlab" && <StrengthLabPage />}
+      {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
       {section === "progressphotos" && <ProgressPhotosPage />}
       {section === "macrobuilder" && <MacroBuilderPage />}
