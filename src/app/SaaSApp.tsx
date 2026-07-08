@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { deleteUser } from "firebase/auth";
 import { deleteDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase";
@@ -31,6 +31,7 @@ import ConsistencyHub from "./ConsistencyHub";
 import WorkoutBuilderPage from "./WorkoutBuilder";
 import RecipeHubPage from "./RecipeHub";
 import BodyMetricsPage from "./BodyMetrics";
+import QuestsPage from "./Quests";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -40,6 +41,8 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
   const { user } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQ, setSearchQ] = useState("");
 
   const navGroups = [
     { group: "🏋️ Training", items: [
@@ -74,6 +77,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { group: "🎮 Rewards & Social", items: [
       { id: "achievements", icon: "🏅", label: "Achievements" },
       { id: "dailyrewards", icon: "🎡", label: "Daily Rewards" },
+      { id: "quests", icon: "⚔️", label: "Quests & Share" },
       { id: "challenges", icon: "🏆", label: "Challenges" },
       { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
       { id: "gympartner", icon: "🤝", label: "Let's Gym" },
@@ -91,6 +95,32 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     ]},
   ];
 
+  const allItems = useMemo(
+    () => [{ id: "dashboard", icon: "📊", label: "Dashboard", group: "" }, ...navGroups.flatMap((g) => g.items.map((i) => ({ ...i, group: g.group })))],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+  const searchResults = useMemo(() => {
+    const q = searchQ.trim().toLowerCase();
+    return q ? allItems.filter((i) => i.label.toLowerCase().includes(q) || i.group.toLowerCase().includes(q)) : allItems;
+  }, [searchQ, allItems]);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setSearchOpen((o) => !o); }
+      if (e.key === "Escape") setSearchOpen(false);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  function go(id: string) {
+    setCurrentSection(id);
+    setSearchOpen(false);
+    setSearchQ("");
+    setMobileOpen(false);
+  }
+
   return (
     <div className="flex min-h-screen bg-[#07040d] text-[#f7f0df]">
       {/* Sidebar */}
@@ -107,6 +137,12 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
               <p className="text-[10px] uppercase tracking-[0.18em] text-[#f7f0df]/65">{user?.plan} Plan</p>
             </div>
           </div>
+
+          <button type="button" onClick={() => setSearchOpen(true)} className="mb-3 flex w-full items-center gap-2 rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 px-4 py-2.5 text-sm text-[#f7f0df]/60 transition hover:bg-[#f7f0df]/10">
+            <span>🔍</span>
+            <span className="flex-1 text-left">Search…</span>
+            <kbd className="rounded border border-[#f7f0df]/15 px-1.5 py-0.5 text-[10px] font-bold text-[#f7f0df]/55">⌘K</kbd>
+          </button>
 
           <nav className="flex-1 space-y-1 overflow-y-auto min-h-0 pr-1">
             {/* Pinned Dashboard */}
@@ -157,6 +193,32 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       </aside>
 
       {mobileOpen && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setMobileOpen(false)} />}
+
+      {/* Global search (⌘K) */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-[60] flex items-start justify-center bg-black/70 p-4 pt-24 backdrop-blur-sm" onClick={() => setSearchOpen(false)}>
+          <div className="glass-card w-full max-w-lg overflow-hidden rounded-2xl bg-[#0b0714]/95" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-3 border-b border-[#f7f0df]/10 px-4 py-3">
+              <span className="text-lg">🔍</span>
+              <input autoFocus value={searchQ} onChange={(e) => setSearchQ(e.target.value)} placeholder="Jump to any section…" className="flex-1 bg-transparent text-sm outline-none placeholder:text-[#f7f0df]/45" />
+              <kbd className="rounded border border-[#f7f0df]/15 px-1.5 py-0.5 text-[10px] font-bold text-[#f7f0df]/55">ESC</kbd>
+            </div>
+            <div className="max-h-80 overflow-y-auto p-2">
+              {searchResults.length === 0 ? (
+                <p className="p-6 text-center text-sm text-[#f7f0df]/60">No sections match "{searchQ}"</p>
+              ) : (
+                searchResults.map((item) => (
+                  <button key={item.id} type="button" onClick={() => go(item.id)} className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm transition ${currentSection === item.id ? "bg-violet-400/15 text-violet-100" : "text-[#f7f0df]/80 hover:bg-[#f7f0df]/8"}`}>
+                    <span className="text-lg">{item.icon}</span>
+                    <span className="flex-1 font-semibold">{item.label}</span>
+                    {item.group && <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/45">{item.group.replace(/^[^ ]+ /, "")}</span>}
+                  </button>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main */}
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -855,6 +917,7 @@ export default function SaaSApp() {
       {section === "leaderboard" && <Leaderboard />}
       {section === "achievements" && <AchievementsPage />}
       {section === "dailyrewards" && <DailyRewardsPage />}
+      {section === "quests" && <QuestsPage />}
       {section === "aicoach" && <AICoachPage />}
       {section === "gympartner" && <GymPartnerPage />}
       {section === "workoutbuilder" && <WorkoutBuilderPage />}
