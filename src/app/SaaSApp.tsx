@@ -35,39 +35,52 @@ import HeartHealthPage from "./HeartHealth";
 function AppShell({ children, onLogout, currentSection, setCurrentSection }: any) {
   const { user } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
 
-  const navItems = [
-    { id: "dashboard", icon: "📊", label: "Dashboard" },
-    { id: "workouts", icon: "💪", label: "Workouts" },
-    { id: "nutrition", icon: "🍛", label: "Nutrition" },
-    { id: "diet", icon: "🥗", label: "Auto Diet" },
-    { id: "toolbox", icon: "🧰", label: "Toolbox" },
-    { id: "roadmap", icon: "🗺️", label: "Roadmap" },
-    { id: "transform", icon: "📸", label: "Transform" },
-    { id: "referrals", icon: "💰", label: "Referrals" },
-    { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
-    { id: "achievements", icon: "🏅", label: "Achievements" },
-    { id: "dailyrewards", icon: "🎡", label: "Daily Rewards" },
-    { id: "aicoach", icon: "🤖", label: "AI Coach" },
-    { id: "gympartner", icon: "🤝", label: "Let's Gym" },
-    { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
-    { id: "progressphotos", icon: "📸", label: "Progress Photos" },
-    { id: "macrobuilder", icon: "🍽️", label: "Macro Builder" },
-    { id: "sleeprecovery", icon: "😴", label: "Sleep & Recovery" },
-    { id: "hearthealth", icon: "🫀", label: "Heart & Breathing" },
-    { id: "progress", icon: "📈", label: "Progress" },
-    { id: "habits", icon: "🎯", label: "Habits" },
-    { id: "blood", icon: "🩸", label: "Blood Report" },
-    { id: "challenges", icon: "🏆", label: "Challenges" },
-    { id: "courses", icon: "📚", label: "Courses" },
-    { id: "ayurveda", icon: "🌿", label: "Ayurveda Hub" },
-    { id: "physio", icon: "🦴", label: "Physio & Rehab" },
-    { id: "pdfstore", icon: "📄", label: "PDF Store" },
-    { id: "yoga", icon: "🧘", label: "Yoga Studio" },
-    { id: "meditation", icon: "🙏", label: "Meditation" },
-    { id: "family", icon: "👨‍👩‍", label: "Family" },
-    { id: "premium", icon: "👑", label: "Premium" },
-    { id: "settings", icon: "⚙️", label: "Settings" },
+  const navGroups = [
+    { group: "🏋️ Training", items: [
+      { id: "workouts", icon: "💪", label: "Workouts" },
+      { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
+      { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
+      { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
+    ]},
+    { group: "🍽️ Nutrition", items: [
+      { id: "nutrition", icon: "🍛", label: "Nutrition Tracker" },
+      { id: "macrobuilder", icon: "🍽️", label: "Macro Builder" },
+      { id: "diet", icon: "🥗", label: "Auto Diet" },
+    ]},
+    { group: "🧘 Wellness", items: [
+      { id: "yoga", icon: "🧘", label: "Yoga Studio" },
+      { id: "meditation", icon: "🙏", label: "Meditation" },
+      { id: "hearthealth", icon: "🫀", label: "Heart & Breathing" },
+      { id: "sleeprecovery", icon: "😴", label: "Sleep & Recovery" },
+      { id: "physio", icon: "🦴", label: "Physio & Rehab" },
+      { id: "ayurveda", icon: "🌿", label: "Ayurveda Hub" },
+    ]},
+    { group: "📈 Progress", items: [
+      { id: "progress", icon: "📈", label: "Progress" },
+      { id: "progressphotos", icon: "📸", label: "Progress Photos" },
+      { id: "habits", icon: "🎯", label: "Habits" },
+      { id: "blood", icon: "🩸", label: "Blood Report" },
+    ]},
+    { group: "🎮 Rewards & Social", items: [
+      { id: "achievements", icon: "🏅", label: "Achievements" },
+      { id: "dailyrewards", icon: "🎡", label: "Daily Rewards" },
+      { id: "challenges", icon: "🏆", label: "Challenges" },
+      { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
+      { id: "gympartner", icon: "🤝", label: "Let's Gym" },
+      { id: "referrals", icon: "💰", label: "Referrals" },
+    ]},
+    { group: "📚 Learn & Coach", items: [
+      { id: "aicoach", icon: "🤖", label: "AI Coach" },
+      { id: "courses", icon: "📚", label: "Courses" },
+      { id: "pdfstore", icon: "📄", label: "PDF Store" },
+    ]},
+    { group: "⚙️ Account", items: [
+      { id: "family", icon: "👨‍👩‍", label: "Family" },
+      { id: "premium", icon: "👑", label: "Premium" },
+      { id: "settings", icon: "⚙️", label: "Settings" },
+    ]},
   ];
 
   return (
@@ -87,13 +100,39 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
             </div>
           </div>
 
-          <nav className="flex-1 space-y-1.5 overflow-y-auto min-h-0 pr-1">
-            {navItems.map((item) => (
-              <button key={item.id} type="button" onClick={() => { setCurrentSection(item.id); setMobileOpen(false); }} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${currentSection === item.id ? "bg-gradient-to-r from-violet-400/20 to-fuchsia-400/10 text-violet-100 shadow-[inset_0_1px_0_rgba(167,139,250,0.2),0_4px_12px_rgba(0,0,0,0.2)] border border-violet-400/20" : "text-[#f7f0df]/70 hover:bg-[#f7f0df]/6 hover:text-[#f7f0df] border border-transparent"}`}>
-                <span className="text-lg">{item.icon}</span>
-                {item.label}
-              </button>
-            ))}
+          <nav className="flex-1 space-y-1 overflow-y-auto min-h-0 pr-1">
+            {/* Pinned Dashboard */}
+            <button type="button" onClick={() => { setCurrentSection("dashboard"); setMobileOpen(false); }} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${currentSection === "dashboard" ? "bg-gradient-to-r from-violet-400/20 to-fuchsia-400/10 text-violet-100 shadow-[inset_0_1px_0_rgba(167,139,250,0.2),0_4px_12px_rgba(0,0,0,0.2)] border border-violet-400/20" : "text-[#f7f0df]/70 hover:bg-[#f7f0df]/6 hover:text-[#f7f0df] border border-transparent"}`}>
+              <span className="text-lg">📊</span>
+              Dashboard
+            </button>
+
+            {navGroups.map((g) => {
+              const hasActive = g.items.some((i) => i.id === currentSection);
+              const open = collapsedGroups[g.group] === undefined ? true : collapsedGroups[g.group];
+              return (
+                <div key={g.group} className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setCollapsedGroups((prev) => ({ ...prev, [g.group]: !open }))}
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#f7f0df]/55 transition hover:text-[#f7f0df]/80"
+                  >
+                    <span className={hasActive ? "text-violet-200/90" : ""}>{g.group}</span>
+                    <span className={`text-[9px] transition-transform ${open ? "rotate-90" : ""}`}>▶</span>
+                  </button>
+                  {open && (
+                    <div className="mt-0.5 space-y-1">
+                      {g.items.map((item) => (
+                        <button key={item.id} type="button" onClick={() => { setCurrentSection(item.id); setMobileOpen(false); }} className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${currentSection === item.id ? "bg-gradient-to-r from-violet-400/20 to-fuchsia-400/10 text-violet-100 shadow-[inset_0_1px_0_rgba(167,139,250,0.2),0_4px_12px_rgba(0,0,0,0.2)] border border-violet-400/20" : "text-[#f7f0df]/70 hover:bg-[#f7f0df]/6 hover:text-[#f7f0df] border border-transparent"}`}>
+                          <span className="text-base">{item.icon}</span>
+                          {item.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </nav>
 
           <div className="rounded-2xl border border-violet-200/20 bg-violet-200/8 p-4">
