@@ -28,6 +28,7 @@ import MacroBuilderPage from "./MacroBuilder";
 import SleepRecoveryPage from "./SleepRecovery";
 import HeartHealthPage from "./HeartHealth";
 import ConsistencyHub from "./ConsistencyHub";
+import WorkoutBuilderPage from "./WorkoutBuilder";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -41,6 +42,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
   const navGroups = [
     { group: "🏋️ Training", items: [
       { id: "workouts", icon: "💪", label: "Workouts" },
+      { id: "workoutbuilder", icon: "🗒️", label: "Workout Builder" },
       { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
       { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
@@ -851,6 +853,7 @@ export default function SaaSApp() {
       {section === "dailyrewards" && <DailyRewardsPage />}
       {section === "aicoach" && <AICoachPage />}
       {section === "gympartner" && <GymPartnerPage />}
+      {section === "workoutbuilder" && <WorkoutBuilderPage />}
       {section === "strengthlab" && <StrengthLabPage />}
       {section === "consistency" && <ConsistencyHub />}
       {section === "progressphotos" && <ProgressPhotosPage />}
