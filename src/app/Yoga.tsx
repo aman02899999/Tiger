@@ -104,68 +104,115 @@ const U = (id: string) => `https://images.unsplash.com/photo-${id}?w=800&q=80&au
 // Curated pool of 28 distinct, long-stable Unsplash photos of real humans
 // practising yoga / stretching. Every <img> keeps a gradient fallback, so a
 // missing photo degrades gracefully.
-const PHOTOS = {
-  warriorDock:   U('1544367567-0f2fcb009e0b'), // warrior pose on a dock at sunset
-  meditateRock:  U('1506126613408-eca07ce68773'), // seated meditation on a cliff
-  classFlow:     U('1545205597-3d9d02c29597'), // group yoga class mid-flow
-  matStretch:    U('1552196563-55cd4e45efb3'), // deep stretch on a mat
-  studioPose:    U('1575052814086-f385e2e2ad1b'), // studio asana practice
-  homeMat:       U('1588286840104-8957b019727f'), // home practice on mat
-  calmSeated:    U('1599901860904-17e6ed7083a0'), // calm seated breathing
-  spinalTwist:   U('1593811167562-9cef47bfc4d7'), // seated spinal twist
-  balanceOut:    U('1573384666979-2ffcf4ac5397'), // outdoor balance posture
-  sunriseFlow:   U('1510894347713-fc3ed26fd2e2'), // sunrise silhouette flow
-  parkAsana:     U('1562088287-bde35a1ea917'), // asana in the park
-  strongHold:    U('1518611012118-696072aa579a'), // strength hold in gym light
-  floorWork:     U('1603988363607-e1e4a66962c6'), // supine floor work
-  deepBend:      U('1602827114685-efbb2717da9f'), // deep forward bend
-  lotusCalm:     U('1544966503-7cc5ac882d5f'), // cross-legged meditation close-up
-  studioLunge:   U('1573590330099-d6c7355ec595'), // studio standing asana
-  wheelBackbend: U('1524863479829-916d8e77f114'), // deep backbend / chest opener
-  gymStretch:    U('1571019613454-1cb2f99b2d8b'), // athletic floor stretch
-  hamstringPull: U('1571019614242-c5c5dee9f50b'), // seated hamstring stretch
-  fieldWarrior:  U('1552286450-4a669f880062'), // warrior stance in open field
-  duskYoga:      U('1554344728-77cf90d9ed26'), // yoga at dusk, golden light
-  studioAsana2:  U('1599447421416-3414500d18a5'), // studio asana, soft light
-  balanceAsana:  U('1599447292180-45fd84092ef4'), // one-leg balance in studio
-  bridgeLift:    U('1532798442725-41036acc7489'), // hip bridge / backbend lift
-  silhouetteStretch: U('1447452001602-7090c7ab2db3'), // silhouette stretch at sunrise
-  outdoorFold:   U('1445384763658-0400939829cd'), // outdoor standing fold
-  headstandWall: U('1516526995003-435ccce2be97'), // inversion practice
-  beachWarrior:  U('1526401485004-46910ecc8e51'), // warrior pose on the beach
+const PHOTOS: Record<string, string> = {
+  p0: U('1544367567-0f2fcb009e0b'),
+  p1: U('1506126613408-eca07ce68773'),
+  p2: U('1545205597-3d9d02c29597'),
+  p3: U('1552196563-55cd4e45efb3'),
+  p4: U('1575052814086-f385e2e2ad1b'),
+  p5: U('1588286840104-8957b019727f'),
+  p6: U('1599901860904-17e6ed7083a0'),
+  p7: U('1593811167562-9cef47bfc4d7'),
+  p8: U('1573384666979-2ffcf4ac5397'),
+  p9: U('1510894347713-fc3ed26fd2e2'),
+  p10: U('1562088287-bde35a1ea917'),
+  p11: U('1518611012118-696072aa579a'),
+  p12: U('1603988363607-e1e4a66962c6'),
+  p13: U('1602827114685-efbb2717da9f'),
+  p14: U('1544966503-7cc5ac882d5f'),
+  p15: U('1573590330099-d6c7355ec595'),
+  p16: U('1524863479829-916d8e77f114'),
+  p17: U('1571019613454-1cb2f99b2d8b'),
+  p18: U('1571019614242-c5c5dee9f50b'),
+  p19: U('1552286450-4a669f880062'),
+  p20: U('1554344728-77cf90d9ed26'),
+  p21: U('1599447421416-3414500d18a5'),
+  p22: U('1599447292180-45fd84092ef4'),
+  p23: U('1532798442725-41036acc7489'),
+  p24: U('1447452001602-7090c7ab2db3'),
+  p25: U('1445384763658-0400939829cd'),
+  p26: U('1516526995003-435ccce2be97'),
+  p27: U('1526401485004-46910ecc8e51'),
+  p28: U('1591291621164-2c6367723315'),
+  p29: U('1600881333168-2ef49b341f30'),
+  p30: U('1601925260368-ae2f83cf8b7f'),
+  p31: U('1591258370814-01609b341790'),
+  p32: U('1620188467120-5042ed1eb5da'),
+  p33: U('1607914660217-754fdd90041d'),
+  p34: U('1506629905607-c60f6c3b83f8'),
+  p35: U('1550345332-09e3ac987658'),
+  p36: U('1518310383802-640c2de311b2'),
+  p37: U('1594381898411-846e7d193883'),
+  p38: U('1540206395-68808572332f'),
+  p39: U('1508050919630-b135e936a37f'),
+  p40: U('1600334129128-685c5582fd35'),
+  p41: U('1518459031867-a89b944bffe4'),
+  p42: U('1549576490-b0b4831ef60a'),
+  p43: U('1517637633369-e4cc28755e01'),
+  p44: U('1476480862126-209bfaa8edc8'),
+  p45: U('1607962837359-5e7e89f86776'),
+  p46: U('1517836357463-d25dfeac3438'),
+  p47: U('1544216428-729d3c9b71e0'),
+  p48: U('1571902943202-507ec2618e8f'),
+  p49: U('1518609878373-06d740f60d8b'),
+  p50: U('1540479859555-17af45c78602'),
+  p51: U('1519758965836-2980f3b0a4b3'),
 }
 
 // figure key -> demonstration photo.
 // Assigned so that no two poses within the same category share a photo.
 const POSE_PHOTOS: Record<string, string> = {
-  // Standing (11 distinct)
-  mountain: PHOTOS.studioPose, tree: PHOTOS.balanceOut, warrior1: PHOTOS.warriorDock,
-  warrior2: PHOTOS.fieldWarrior, warrior3: PHOTOS.beachWarrior, triangle: PHOTOS.classFlow,
-  chair: PHOTOS.strongHold, eagle: PHOTOS.studioLunge, sideangle: PHOTOS.studioAsana2,
-  forwardbend: PHOTOS.deepBend, dancer: PHOTOS.sunriseFlow,
-  // Seated (10 distinct)
-  easy: PHOTOS.calmSeated, lotus: PHOTOS.lotusCalm, seatedforward: PHOTOS.matStretch,
-  butterfly: PHOTOS.meditateRock, twist: PHOTOS.spinalTwist, headtoknee: PHOTOS.hamstringPull,
-  cowface: PHOTOS.gymStretch, staff: PHOTOS.homeMat, wideangleseated: PHOTOS.outdoorFold,
-  hero: PHOTOS.parkAsana,
-  // Prone (6 distinct)
-  cobra: PHOTOS.wheelBackbend, locust: PHOTOS.floorWork, bow: PHOTOS.bridgeLift,
-  crocodile: PHOTOS.duskYoga, sphinx: PHOTOS.homeMat, camel: PHOTOS.balanceAsana,
-  // Supine (8 distinct)
-  bridge: PHOTOS.bridgeLift, corpse: PHOTOS.silhouetteStretch, plow: PHOTOS.matStretch,
-  shoulderstand: PHOTOS.gymStretch, windreleasing: PHOTOS.homeMat,
-  supinetwist: PHOTOS.spinalTwist, happybaby: PHOTOS.floorWork, legsupwall: PHOTOS.calmSeated,
-  // Balance (5 distinct)
-  crow: PHOTOS.strongHold, sideplank: PHOTOS.balanceAsana, halfmoon: PHOTOS.balanceOut,
-  scale: PHOTOS.lotusCalm, peacock: PHOTOS.studioLunge,
-  // Inversion (4 distinct)
-  downdog: PHOTOS.duskYoga, headstand: PHOTOS.headstandWall, forearmstand: PHOTOS.sunriseFlow,
-  handstand: PHOTOS.parkAsana,
-  // Restorative (4 distinct)
-  childs: PHOTOS.matStretch, fish: PHOTOS.wheelBackbend,
-  recliningbutterfly: PHOTOS.meditateRock, yoganidra: PHOTOS.silhouetteStretch,
-  // Pranayama (3 distinct)
-  pranayama: PHOTOS.lotusCalm, alternatenostril: PHOTOS.calmSeated, beebreathe: PHOTOS.studioPose,
+  mountain: PHOTOS.p0,
+  tree: PHOTOS.p1,
+  warrior1: PHOTOS.p2,
+  warrior2: PHOTOS.p3,
+  warrior3: PHOTOS.p4,
+  triangle: PHOTOS.p5,
+  chair: PHOTOS.p6,
+  eagle: PHOTOS.p7,
+  sideangle: PHOTOS.p8,
+  forwardbend: PHOTOS.p9,
+  dancer: PHOTOS.p10,
+  easy: PHOTOS.p11,
+  lotus: PHOTOS.p12,
+  seatedforward: PHOTOS.p13,
+  butterfly: PHOTOS.p14,
+  twist: PHOTOS.p15,
+  headtoknee: PHOTOS.p16,
+  cowface: PHOTOS.p17,
+  staff: PHOTOS.p18,
+  wideangleseated: PHOTOS.p19,
+  hero: PHOTOS.p20,
+  cobra: PHOTOS.p21,
+  locust: PHOTOS.p22,
+  bow: PHOTOS.p23,
+  crocodile: PHOTOS.p24,
+  sphinx: PHOTOS.p25,
+  camel: PHOTOS.p26,
+  bridge: PHOTOS.p27,
+  corpse: PHOTOS.p28,
+  plow: PHOTOS.p29,
+  shoulderstand: PHOTOS.p30,
+  windreleasing: PHOTOS.p31,
+  supinetwist: PHOTOS.p32,
+  happybaby: PHOTOS.p33,
+  legsupwall: PHOTOS.p34,
+  crow: PHOTOS.p35,
+  sideplank: PHOTOS.p36,
+  halfmoon: PHOTOS.p37,
+  scale: PHOTOS.p38,
+  peacock: PHOTOS.p39,
+  downdog: PHOTOS.p40,
+  headstand: PHOTOS.p41,
+  forearmstand: PHOTOS.p42,
+  handstand: PHOTOS.p43,
+  childs: PHOTOS.p44,
+  fish: PHOTOS.p45,
+  recliningbutterfly: PHOTOS.p46,
+  yoganidra: PHOTOS.p47,
+  pranayama: PHOTOS.p48,
+  alternatenostril: PHOTOS.p49,
+  beebreathe: PHOTOS.p50,
 }
 
 /* ------------------------------------------------------------------ */
@@ -759,7 +806,7 @@ export default function YogaPage() {
       >
         {/* Real demonstration hero photo */}
         <img
-          src={PHOTOS.sunriseFlow}
+          src={PHOTOS.p9}
           alt="A person practising yoga at sunrise, flowing through an asana sequence"
           loading="lazy"
           onError={(e) => { e.currentTarget.style.display = 'none' }}
