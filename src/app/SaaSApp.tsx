@@ -25,6 +25,7 @@ import { DailyChecklist, MoodCheckIn, WeeklyActivity, QuickActions } from "./Das
 import StrengthLabPage from "./StrengthLab";
 import ProgressPhotosPage from "./ProgressPhotos";
 import MacroBuilderPage from "./MacroBuilder";
+import SleepRecoveryPage from "./SleepRecovery";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -51,6 +52,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
     { id: "progressphotos", icon: "📸", label: "Progress Photos" },
     { id: "macrobuilder", icon: "🍽️", label: "Macro Builder" },
+    { id: "sleeprecovery", icon: "😴", label: "Sleep & Recovery" },
     { id: "progress", icon: "📈", label: "Progress" },
     { id: "habits", icon: "🎯", label: "Habits" },
     { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -809,6 +811,7 @@ export default function SaaSApp() {
       {section === "strengthlab" && <StrengthLabPage />}
       {section === "progressphotos" && <ProgressPhotosPage />}
       {section === "macrobuilder" && <MacroBuilderPage />}
+      {section === "sleeprecovery" && <SleepRecoveryPage />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
