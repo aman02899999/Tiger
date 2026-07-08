@@ -29,6 +29,7 @@ import SleepRecoveryPage from "./SleepRecovery";
 import HeartHealthPage from "./HeartHealth";
 import ConsistencyHub from "./ConsistencyHub";
 import WorkoutBuilderPage from "./WorkoutBuilder";
+import RecipeHubPage from "./RecipeHub";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -50,6 +51,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { group: "🍽️ Nutrition", items: [
       { id: "nutrition", icon: "🍛", label: "Nutrition Tracker" },
       { id: "macrobuilder", icon: "🍽️", label: "Macro Builder" },
+      { id: "recipehub", icon: "👨‍🍳", label: "Recipe Hub" },
       { id: "diet", icon: "🥗", label: "Auto Diet" },
     ]},
     { group: "🧘 Wellness", items: [
@@ -858,6 +860,7 @@ export default function SaaSApp() {
       {section === "consistency" && <ConsistencyHub />}
       {section === "progressphotos" && <ProgressPhotosPage />}
       {section === "macrobuilder" && <MacroBuilderPage />}
+      {section === "recipehub" && <RecipeHubPage />}
       {section === "sleeprecovery" && <SleepRecoveryPage />}
       {section === "hearthealth" && <HeartHealthPage />}
       {section === "progress" && <ProgressPage />}
