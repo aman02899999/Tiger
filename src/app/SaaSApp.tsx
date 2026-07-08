@@ -26,6 +26,7 @@ import StrengthLabPage from "./StrengthLab";
 import ProgressPhotosPage from "./ProgressPhotos";
 import MacroBuilderPage from "./MacroBuilder";
 import SleepRecoveryPage from "./SleepRecovery";
+import HeartHealthPage from "./HeartHealth";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -53,6 +54,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { id: "progressphotos", icon: "📸", label: "Progress Photos" },
     { id: "macrobuilder", icon: "🍽️", label: "Macro Builder" },
     { id: "sleeprecovery", icon: "😴", label: "Sleep & Recovery" },
+    { id: "hearthealth", icon: "🫀", label: "Heart & Breathing" },
     { id: "progress", icon: "📈", label: "Progress" },
     { id: "habits", icon: "🎯", label: "Habits" },
     { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -812,6 +814,7 @@ export default function SaaSApp() {
       {section === "progressphotos" && <ProgressPhotosPage />}
       {section === "macrobuilder" && <MacroBuilderPage />}
       {section === "sleeprecovery" && <SleepRecoveryPage />}
+      {section === "hearthealth" && <HeartHealthPage />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
