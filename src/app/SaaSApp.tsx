@@ -32,6 +32,7 @@ import WorkoutBuilderPage from "./WorkoutBuilder";
 import RecipeHubPage from "./RecipeHub";
 import BodyMetricsPage from "./BodyMetrics";
 import QuestsPage from "./Quests";
+import DataBackupPage from "./DataBackup";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -90,6 +91,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     ]},
     { group: "⚙️ Account", items: [
       { id: "family", icon: "👨‍👩‍", label: "Family" },
+      { id: "databackup", icon: "💾", label: "Data & Backup" },
       { id: "premium", icon: "👑", label: "Premium" },
       { id: "settings", icon: "⚙️", label: "Settings" },
     ]},
@@ -940,6 +942,7 @@ export default function SaaSApp() {
       {section === "yoga" && <YogaPage />}
       {section === "meditation" && <MeditationPage />}
       {section === "family" && <FamilyPage />}
+      {section === "databackup" && <DataBackupPage />}
       {section === "premium" && <PremiumPage />}
       {section === "settings" && <SettingsPage />}
     </AppShell>

@@ -1,0 +1,13 @@
+{
+  "name": "Tiger Fitness Pro",
+  "short_name": "Tiger Fit",
+  "description": "AI-powered fitness & lifestyle coaching — workouts, nutrition, wellness, and progress tracking.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#07040d",
+  "theme_color": "#07040d",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/images/tiger-fitness-luxury-hero.jpg", "sizes": "512x512", "type": "image/jpeg", "purpose": "any" }
+  ]
+}
