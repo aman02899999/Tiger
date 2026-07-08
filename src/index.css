@@ -133,6 +133,21 @@ button:disabled {
   50%       { box-shadow: 0 0 60px rgba(167,139,250,0.5), 0 0 100px rgba(232,121,249,0.2); }
 }
 
+/* Beating heart — pulse used by the Heart Health breathing trainer */
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  15%       { transform: scale(1.25); }
+  30%       { transform: scale(1); }
+  45%       { transform: scale(1.18); }
+  60%       { transform: scale(1); }
+}
+
+/* Expanding ripple rings behind the breathing orb */
+@keyframes breathRipple {
+  0%   { transform: scale(0.6); opacity: 0.55; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
 @keyframes confettiFall {
   0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0.4; }
