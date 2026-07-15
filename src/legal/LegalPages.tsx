@@ -7,14 +7,14 @@ const legalContent: Record<LegalType, { title: string; updated: string; sections
     title: "Terms of Service",
     updated: "June 15, 2025",
     sections: [
-      { h: "1. Acceptance of Terms", p: ["By accessing or using Tiger Fitness Pro (\"the Service\"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.", "These terms apply to all users, including without limitation users who are browsers, vendors, customers, merchants, and contributors of content."] },
-      { h: "2. Description of Service", p: ["Tiger Fitness Pro provides AI-powered fitness coaching, nutrition tracking, workout planning, and family health management as a Software-as-a-Service (SaaS) platform.", "We reserve the right to modify, suspend, or discontinue the Service at any time with or without notice."] },
+      { h: "1. Acceptance of Terms", p: ["By accessing or using The Titan Fitness (\"the Service\"), you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.", "These terms apply to all users, including without limitation users who are browsers, vendors, customers, merchants, and contributors of content."] },
+      { h: "2. Description of Service", p: ["The Titan Fitness provides AI-powered fitness coaching, nutrition tracking, workout planning, and family health management as a Software-as-a-Service (SaaS) platform.", "We reserve the right to modify, suspend, or discontinue the Service at any time with or without notice."] },
       { h: "3. Account Responsibilities", p: ["You are responsible for maintaining the confidentiality of your account credentials.", "You agree to accept responsibility for all activities that occur under your account.", "You must notify us immediately of any unauthorized use of your account."] },
       { h: "4. Subscription & Payments", p: ["Free tier access is available indefinitely with limited features.", "Paid subscriptions (Pro, Elite) are billed monthly or annually in advance.", "Refunds are handled per our Refund Policy. Auto-renewal can be cancelled anytime from Settings."] },
-      { h: "5. Health Disclaimer", p: ["The Service provides wellness guidance, not medical advice. Always consult qualified medical professionals before starting any fitness or diet program.", "Tiger Fitness Pro is not liable for injuries, health issues, or outcomes resulting from use of the Service."] },
+      { h: "5. Health Disclaimer", p: ["The Service provides wellness guidance, not medical advice. Always consult qualified medical professionals before starting any fitness or diet program.", "The Titan Fitness is not liable for injuries, health issues, or outcomes resulting from use of the Service."] },
       { h: "6. User Content", p: ["You retain ownership of content you upload (photos, progress data).", "By uploading, you grant us a license to use content solely for providing and improving the Service."] },
       { h: "7. Termination", p: ["We may terminate or suspend your account for violations of these Terms.", "You may delete your account anytime from Settings > Privacy."] },
-      { h: "8. Contact", p: ["For questions about these Terms, email legal@tigerfitpro.in or write to Tiger Fitness Pro, Bengaluru, Karnataka, India."] },
+      { h: "8. Contact", p: ["For questions about these Terms, email legal@tigerfitpro.in or write to The Titan Fitness, Bengaluru, Karnataka, India."] },
     ],
   },
   privacy: {
@@ -28,7 +28,7 @@ const legalContent: Record<LegalType, { title: string; updated: string; sections
       { h: "5. Your Rights", p: ["Access: Request a copy of all your data anytime.", "Rectification: Update or correct inaccurate information.", "Erasure: Request account deletion from Settings > Privacy.", "Portability: Export all your data in JSON format.", "Withdraw consent for marketing communications anytime."] },
       { h: "6. Children's Privacy", p: ["The Service is intended for users aged 16 and above.", "We do not knowingly collect data from children under 16. If discovered, we delete such data immediately."] },
       { h: "7. Changes to This Policy", p: ["We will notify you of material changes via email or in-app notification at least 30 days before they take effect."] },
-      { h: "8. Contact", p: ["Privacy concerns? Email privacy@tigerfitpro.in or write to our Data Protection Officer at Tiger Fitness Pro, Bengaluru, Karnataka, India."] },
+      { h: "8. Contact", p: ["Privacy concerns? Email privacy@tigerfitpro.in or write to our Data Protection Officer at The Titan Fitness, Bengaluru, Karnataka, India."] },
     ],
   },
   refund: {
@@ -47,11 +47,11 @@ const legalContent: Record<LegalType, { title: string; updated: string; sections
     title: "Medical Disclaimer",
     updated: "June 15, 2025",
     sections: [
-      { h: "1. Not Medical Advice", p: ["Tiger Fitness Pro provides general wellness and fitness guidance only.", "The Service is NOT a substitute for professional medical advice, diagnosis, or treatment.", "Always seek the advice of your physician or qualified health provider with any questions regarding a medical condition."] },
+      { h: "1. Not Medical Advice", p: ["The Titan Fitness provides general wellness and fitness guidance only.", "The Service is NOT a substitute for professional medical advice, diagnosis, or treatment.", "Always seek the advice of your physician or qualified health provider with any questions regarding a medical condition."] },
       { h: "2. Health Predictions", p: ["Features like Health Risk Prediction, Metabolic Age, and Injury Risk Predictor are wellness screening tools only.", "These features use general algorithms and DO NOT constitute medical diagnosis.", "Any elevated risk scores should be discussed with your doctor, not acted upon independently."] },
       { h: "3. Medical Report Analysis", p: ["AI explanations of blood tests and medical reports are for educational purposes only.", "We are not licensed medical professionals and cannot interpret your results clinically.", "Always consult your doctor for actual medical interpretation and decisions."] },
       { h: "4. Diet & Nutrition", p: ["Diet recommendations are general guidelines. Individual nutritional needs vary.", "Consult a registered dietitian for personalized medical nutrition therapy.", "If you have conditions like diabetes, PCOS, or thyroid disorders, work with your doctor on diet changes."] },
-      { h: "5. Exercise Safety", p: ["Stop any exercise that causes pain, dizziness, or discomfort.", "Consult your doctor before starting any new exercise program, especially if you have heart conditions, joint issues, or are pregnant.", "Tiger Fitness Pro is not liable for injuries during exercise."] },
+      { h: "5. Exercise Safety", p: ["Stop any exercise that causes pain, dizziness, or discomfort.", "Consult your doctor before starting any new exercise program, especially if you have heart conditions, joint issues, or are pregnant.", "The Titan Fitness is not liable for injuries during exercise."] },
       { h: "6. Reporting Issues", p: ["If you experience any adverse effects from following our recommendations, stop immediately and consult a healthcare professional.", "Report any concerns to safety@tigerfitpro.in."] },
     ],
   },
@@ -78,11 +78,11 @@ export default function LegalPage({ type, onBack }: { type: LegalType; onBack: (
       <header className="border-b border-[#f7f0df]/10 bg-[#0b0714]/60 backdrop-blur-xl sticky top-0 z-40">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <button type="button" onClick={onBack} className="flex items-center gap-2 text-sm text-[#f7f0df]/60 hover:text-[#f7f0df]">
-            ← Back to Tiger Fitness Pro
+            ← Back to The Titan Fitness
           </button>
           <div className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">TF</div>
-            <span className="text-xs font-semibold uppercase tracking-[0.24em]">Tiger Fitness Pro</span>
+            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">TT</div>
+            <span className="text-xs font-semibold uppercase tracking-[0.24em]">The Titan Fitness</span>
           </div>
         </div>
       </header>
@@ -127,8 +127,8 @@ export default function LegalPage({ type, onBack }: { type: LegalType; onBack: (
 
       <footer className="border-t border-[#f7f0df]/10 bg-[#06040d] px-6 py-8">
         <div className="mx-auto max-w-5xl flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-xs text-[#f7f0df]/32">© 2025 Tiger Fitness Pro · Bengaluru, India</p>
-          <p className="text-xs text-[#f7f0df]/32">Made with 🐅 for a healthier India</p>
+          <p className="text-xs text-[#f7f0df]/32">© 2025 The Titan Fitness · Bengaluru, India</p>
+          <p className="text-xs text-[#f7f0df]/32">Made with ⚡ for a healthier India</p>
         </div>
       </footer>
     </div>

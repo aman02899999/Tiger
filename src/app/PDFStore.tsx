@@ -75,7 +75,7 @@ const BUNDLES: Bundle[] = [
   {
     id: "library",
     title: "Complete Library",
-    description: "All 24 PDF guides — the ultimate Tiger Fitness Pro collection",
+    description: "All 24 PDF guides — the ultimate The Titan Fitness collection",
     originalPrice: 7946,
     price: 1999,
     savings: "75%",
@@ -252,7 +252,7 @@ export default function PDFStorePage() {
             PDF Guide Store
           </h1>
           <p className="text-lg opacity-70 max-w-2xl mx-auto">
-            Evidence-based protocols by Tiger Fitness Pro — India's most trusted fitness guides
+            Evidence-based protocols by The Titan Fitness — India's most trusted fitness guides
           </p>
         </div>
 

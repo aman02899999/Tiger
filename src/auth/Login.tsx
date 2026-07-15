@@ -48,8 +48,8 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
         <div className="absolute inset-0 bg-gradient-to-br from-violet-700/90 via-[#0b0714]/85 to-[#07040d]/95" />
         <div className="relative z-10 flex flex-col justify-between p-16">
           <div className="flex items-center gap-3">
-            <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511]">TF</div>
-            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90">Tiger Fitness Pro</span>
+            <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511]">TT</div>
+            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90">The Titan Fitness</span>
           </div>
           <div>
             <h1 className="text-5xl font-black leading-[1.05] tracking-[-0.05em]">
@@ -67,7 +67,7 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
               ))}
             </div>
           </div>
-          <p className="text-xs text-[#f7f0df]/40">© 2025 Tiger Fitness Pro · Made with 🐅 in India</p>
+          <p className="text-xs text-[#f7f0df]/40">© 2025 The Titan Fitness · Made with ⚡ in India</p>
         </div>
       </div>
 
@@ -76,8 +76,8 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
         <div className="w-full max-w-md">
           <div className="mb-8">
             <div className="flex items-center gap-3 lg:hidden mb-8">
-              <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">TF</div>
-              <span className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90">Tiger Fitness Pro</span>
+              <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">TT</div>
+              <span className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90">The Titan Fitness</span>
             </div>
             <h2 className="text-4xl font-black tracking-[-0.05em]">Welcome back.</h2>
             <p className="mt-2 text-sm text-[#f7f0df]/50">Sign in to continue your transformation.</p>
@@ -154,8 +154,8 @@ export function SignupPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSu
         <div className="absolute inset-0 bg-gradient-to-br from-violet-700/90 via-[#0b0714]/85 to-[#07040d]/95" />
         <div className="relative z-10 flex flex-col justify-between p-16">
           <div className="flex items-center gap-3">
-            <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511]">TF</div>
-            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90">Tiger Fitness Pro</span>
+            <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511]">TT</div>
+            <span className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90">The Titan Fitness</span>
           </div>
           <div>
             <h1 className="text-5xl font-black leading-[1.05] tracking-[-0.05em]">
@@ -177,8 +177,8 @@ export function SignupPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSu
         <div className="w-full max-w-md">
           <div className="mb-8">
             <div className="flex items-center gap-3 lg:hidden mb-8">
-              <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">TF</div>
-              <span className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90">Tiger Fitness Pro</span>
+              <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">TT</div>
+              <span className="text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90">The Titan Fitness</span>
             </div>
             <h2 className="text-4xl font-black tracking-[-0.05em]">Create account.</h2>
             <p className="mt-2 text-sm text-[#f7f0df]/50">Join 50,000+ Indians. Free forever.</p>

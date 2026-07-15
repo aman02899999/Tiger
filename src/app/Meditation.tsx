@@ -1018,7 +1018,7 @@ export function MeditationSection() {
           <div className="text-center p-8 max-w-md">
             <div className="text-5xl mb-4">🔒</div>
             <h3 className="text-2xl font-black tracking-[-0.04em] text-[#d8b35a] mb-2">{sectionName} — Pro Feature</h3>
-            <p className="text-[#f7f0df]/70 mb-6">Unlock the complete meditation curriculum, guided scripts, and personalized roadmap with Tiger Pro.</p>
+            <p className="text-[#f7f0df]/70 mb-6">Unlock the complete meditation curriculum, guided scripts, and personalized roadmap with Titan Pro.</p>
             <button
               onClick={() => { window.location.hash = '#premium'; }}
               className="btn-gloss px-8 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold rounded-xl hover:from-violet-500 hover:to-fuchsia-500 transition-all shadow-lg shadow-violet-900/40"

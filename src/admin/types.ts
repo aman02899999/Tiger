@@ -95,16 +95,16 @@ export const defaultPricingPlans: PricingPlan[] = [
 ];
 
 export const defaultFAQs: FAQItem[] = [
-  { id: "fa1", q: "Is Tiger Fitness Pro free?", a: "Basic features are free forever. Premium Elite membership unlocks AI coaching, medical report analysis, family dashboard, wedding mode, voice coach, and 28+ advanced features starting at ₹199/month." },
+  { id: "fa1", q: "Is The Titan Fitness free?", a: "Basic features are free forever. Premium Elite membership unlocks AI coaching, medical report analysis, family dashboard, wedding mode, voice coach, and 28+ advanced features starting at ₹199/month." },
   { id: "fa2", q: "How does Indian food scanner work?", a: "Our AI model was trained specifically on common Indian dishes — roti, dal, rice, sabzi, paneer, idli, dosa, biryani, and more. Just take a photo and get calories, protein, carbs, and fat estimates instantly." },
   { id: "fa3", q: "What is Energy Prediction Engine?", a: "Every morning, we analyze your sleep quality, stress levels, recent training load, nutrition, and recovery status. We give you a Today's Energy percentage and automatically adjust your workout intensity accordingly." },
 ];
 
 export const defaultHowItWorks: HowItWorksStep[] = [
-  { id: "h1", step: "01", title: "Download & Set Up", desc: "Sign up in 30 seconds. Enter your goal, current stats, and lifestyle data. The Tiger Life Coach learns you instantly.", icon: "🐅" },
+  { id: "h1", step: "01", title: "Download & Set Up", desc: "Sign up in 30 seconds. Enter your goal, current stats, and lifestyle data. The Titan Life Coach learns you instantly.", icon: "⚡" },
   { id: "h2", step: "02", title: "Get Your AI Plan", desc: "Receive personalized workout, nutrition, sleep, hydration, and stress management plan — every morning, adjusted for today's energy.", icon: "🧠" },
   { id: "h3", step: "03", title: "Scan & Track", desc: "Snap photos of Indian food for instant macros. Log workouts, sleep, and moods. The AI adapts in real time.", icon: "📸" },
-  { id: "h4", step: "04", title: "Transform Together", desc: "Watch your Tiger Score climb. Unlock achievements. Share family health dashboard. Reach your goal with an accountability partner AI.", icon: "🏆" },
+  { id: "h4", step: "04", title: "Transform Together", desc: "Watch your Titan Score climb. Unlock achievements. Share family health dashboard. Reach your goal with an accountability partner AI.", icon: "🏆" },
 ];
 
 export const defaultHeroStats: HeroStat[] = [

@@ -29,7 +29,7 @@ const LEVELS = [
   { name: "Beast", icon: "🦁", min: 1600 },
   { name: "Titan", icon: "⚡", min: 2800 },
   { name: "Legend", icon: "👑", min: 4500 },
-  { name: "Tiger God", icon: "🐯", min: 7000 },
+  { name: "Titan God", icon: "⚡", min: 7000 },
 ];
 
 interface Badge {

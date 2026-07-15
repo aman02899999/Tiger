@@ -85,7 +85,7 @@ function SpinWheel({ email }: { email: string }) {
         </div>
         {/* hub */}
         <div className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-[#d8b35a]/60 bg-[#0b0714] text-2xl shadow-[0_0_24px_rgba(216,179,90,0.4)]">
-          🐯
+          ⚡
         </div>
       </div>
 

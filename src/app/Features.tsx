@@ -321,7 +321,7 @@ export function Leaderboard() {
               <div className="grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-2xl font-black text-[#090511]">{u.avatar}</div>
               <p className="mt-4 text-lg font-bold">{u.name}</p>
               <p className="mt-2 bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-4xl font-black text-transparent">{u.score.toLocaleString()}</p>
-              <p className="text-xs text-[#f7f0df]/50">Tiger Score</p>
+              <p className="text-xs text-[#f7f0df]/50">Titan Score</p>
               <p className="mt-2 text-sm">🔥 {u.streak} day streak</p>
             </div>
           </div>
@@ -369,7 +369,7 @@ export function Leaderboard() {
       <div className="rounded-2xl border border-[#d8b35a]/20 bg-gradient-to-br from-[#d8b35a]/10 to-violet-200/8 p-6">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d8b35a]">🏆 Monthly Prize</p>
         <h3 className="mt-2 text-2xl font-black">₹15,000 Supplement Stack</h3>
-        <p className="mt-2 text-sm text-[#f7f0df]/66">Top 3 users with highest Tiger Score win premium supplement stacks worth ₹15,000. Tiger Score includes daily activity, streak maintenance, transformation uploads, and goal completion.</p>
+        <p className="mt-2 text-sm text-[#f7f0df]/66">Top 3 users with highest Titan Score win premium supplement stacks worth ₹15,000. Titan Score includes daily activity, streak maintenance, transformation uploads, and goal completion.</p>
         <p className="mt-4 text-xs text-[#f7f0df]/40">Leaderboard resets on the 1st of every month. Winners announced on the 3rd.</p>
       </div>
     </div>

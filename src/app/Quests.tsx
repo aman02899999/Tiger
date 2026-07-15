@@ -133,7 +133,7 @@ function ShareCard() {
     ctx.textAlign = "center";
     ctx.fillStyle = "#d8b35a";
     ctx.font = "bold 40px sans-serif";
-    ctx.fillText("TIGER FITNESS PRO", W / 2, 150);
+    ctx.fillText("THE TITAN FITNESS", W / 2, 150);
 
     ctx.fillStyle = "#f7f0df";
     ctx.font = "900 84px sans-serif";
@@ -163,9 +163,9 @@ function ShareCard() {
 
     // footer
     ctx.fillStyle = "#f7f0df"; ctx.font = "900 60px sans-serif";
-    ctx.fillText("🐯 Stronger every day", W / 2, 900);
+    ctx.fillText("⚡ Stronger every day", W / 2, 900);
     ctx.fillStyle = "rgba(247,240,223,0.5)"; ctx.font = "bold 30px sans-serif";
-    ctx.fillText("tiger-fitness-pro.web.app", W / 2, 970);
+    ctx.fillText("The Titan Fitness", W / 2, 970);
   }
 
   function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
@@ -185,7 +185,7 @@ function ShareCard() {
     if (!cv) return;
     const a = document.createElement("a");
     a.href = cv.toDataURL("image/png");
-    a.download = "tiger-fitness-progress.png";
+    a.download = "the-titan-fitness-progress.png";
     a.click();
   }
 
