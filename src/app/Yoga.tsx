@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useAuth } from '../auth/AuthSystem'
+import { useCheckout } from './Checkout'
 
 /* ------------------------------------------------------------------ */
 /* Types                                                                */
@@ -719,6 +720,7 @@ function FlowCard({ flow, onSelectPose }: { flow: Flow; onSelectPose: (p: Pose) 
 /* ------------------------------------------------------------------ */
 
 function UpgradeModal({ onClose }: { onClose: () => void }) {
+  const { openCheckout } = useCheckout()
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
       <div className="absolute inset-0 bg-[#07040d]/80 backdrop-blur-md" />
@@ -741,8 +743,11 @@ function UpgradeModal({ onClose }: { onClose: () => void }) {
             </div>
           ))}
         </div>
-        <button className="btn-gloss w-full rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-900/40 transition-all hover:from-violet-500 hover:to-fuchsia-500">
-          Upgrade to Pro — ₹999/month
+        <button
+          onClick={() => { onClose(); openCheckout('pro') }}
+          className="btn-gloss w-full rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-900/40 transition-all hover:from-violet-500 hover:to-fuchsia-500"
+        >
+          Upgrade to Pro — ₹199/month
         </button>
         <button onClick={onClose} className="mt-3 text-xs text-[#f7f0df]/62 hover:text-[#f7f0df] transition-colors">
           Maybe later

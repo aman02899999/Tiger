@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useAuth } from '../auth/AuthSystem';
+import { useCheckout } from './Checkout';
 
 // ─── Photography (Unsplash CDN, with gradient fallback) ──────────────────────
 
@@ -960,6 +961,7 @@ const MeditationTimer: React.FC<{ onComplete: (minutes: number) => void }> = ({ 
 
 export function MeditationSection() {
   const { user } = useAuth();
+  const { openCheckout } = useCheckout();
   const isPro = user?.plan === 'Pro' || user?.plan === 'Elite';
 
   const [activeSection, setActiveSection] = useState('studio');
@@ -1020,10 +1022,10 @@ export function MeditationSection() {
             <h3 className="text-2xl font-black tracking-[-0.04em] text-[#d8b35a] mb-2">{sectionName} — Pro Feature</h3>
             <p className="text-[#f7f0df]/70 mb-6">Unlock the complete meditation curriculum, guided scripts, and personalized roadmap with Titan Pro.</p>
             <button
-              onClick={() => { window.location.hash = '#premium'; }}
+              onClick={() => openCheckout('pro')}
               className="btn-gloss px-8 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold rounded-xl hover:from-violet-500 hover:to-fuchsia-500 transition-all shadow-lg shadow-violet-900/40"
             >
-              Upgrade to Pro — ₹499/month
+              Upgrade to Pro — ₹199/month
             </button>
           </div>
         </div>
@@ -1272,7 +1274,7 @@ export function MeditationSection() {
                     </div>
                     <button
                       onClick={() => {
-                        if (locked) { window.location.hash = '#premium'; return; }
+                        if (locked) { openCheckout('pro'); return; }
                         setOpenSession(s);
                       }}
                       className="btn-gloss w-full py-2.5 rounded-xl font-bold text-sm"

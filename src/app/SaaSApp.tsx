@@ -33,6 +33,7 @@ import RecipeHubPage from "./RecipeHub";
 import BodyMetricsPage from "./BodyMetrics";
 import QuestsPage from "./Quests";
 import DataBackupPage from "./DataBackup";
+import { CheckoutProvider, useCheckout, PLANS, type PlanId } from "./Checkout";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -670,6 +671,7 @@ function HabitsPage() {
 
 
 function FamilyPage() {
+  const { openCheckout } = useCheckout();
   return (
     <div className="space-y-6">
       <div>
@@ -680,7 +682,7 @@ function FamilyPage() {
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d8b35a]">👑 Elite Feature</p>
         <h2 className="mt-2 text-xl font-black">Unlock Family Dashboard</h2>
         <p className="mt-1 text-sm text-[#f7f0df]/60">Track parents, spouse, and kids. Upgrade to Elite plan.</p>
-        <button type="button" className="mt-4 rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400 px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-[#090511]">Upgrade to Elite · ₹399/mo</button>
+        <button type="button" onClick={() => openCheckout("elite")} className="btn-gloss mt-4 rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400 px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-[#090511]">Upgrade to Elite · ₹399/mo</button>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         {[
@@ -704,36 +706,186 @@ function FamilyPage() {
   );
 }
 
-function PremiumPage() {
+function LaunchCountdown() {
+  // Fixed 7-day window from first render this session; purely a UI urgency device.
+  const [target] = useState(() => Date.now() + 1000 * 60 * 60 * 24 * 7);
+  const [left, setLeft] = useState(target - Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setLeft(Math.max(0, target - Date.now())), 1000);
+    return () => clearInterval(t);
+  }, [target]);
+  const d = Math.floor(left / 86400000);
+  const h = Math.floor((left % 86400000) / 3600000);
+  const m = Math.floor((left % 3600000) / 60000);
+  const s = Math.floor((left % 60000) / 1000);
   return (
-    <div className="space-y-6">
+    <div className="flex items-center gap-1.5 font-black tabular-nums">
+      {[["d", d], ["h", h], ["m", m], ["s", s]].map(([label, v]) => (
+        <span key={label as string} className="rounded-lg bg-black/30 px-2 py-1 text-sm">{String(v).padStart(2, "0")}<span className="ml-0.5 text-[9px] font-normal opacity-70">{label}</span></span>
+      ))}
+    </div>
+  );
+}
+
+const COMPARISON_ROWS: { label: string; free: boolean | string; pro: boolean | string; elite: boolean | string }[] = [
+  { label: "Guided workouts & Strength Lab", free: true, pro: true, elite: true },
+  { label: "AI Coach conversations", free: "5/month", pro: "Unlimited", elite: "Unlimited" },
+  { label: "Full Yoga & Meditation libraries", free: "Preview only", pro: true, elite: true },
+  { label: "Macro Builder & Recipe Hub", free: true, pro: true, elite: true },
+  { label: "Blood Report analyzer", free: false, pro: true, elite: true },
+  { label: "Progress Photos & Body Metrics", free: true, pro: true, elite: true },
+  { label: "PDF guide store discounts", free: false, pro: "10% off", elite: "25% off" },
+  { label: "Family members tracked", free: "1", pro: "1", elite: "Up to 8" },
+  { label: "Priority support", free: false, pro: false, elite: true },
+];
+
+function ComparisonCell({ v }: { v: boolean | string }) {
+  if (v === true) return <span className="text-emerald-300">✓</span>;
+  if (v === false) return <span className="text-[#f7f0df]/30">—</span>;
+  return <span className="text-xs font-semibold text-[#f7f0df]/80">{v}</span>;
+}
+
+const FAQ_ITEMS = [
+  { q: "Can I cancel anytime?", a: "Yes — cancel from Settings → Billing with one tap. You keep access until the end of your current billing period, no questions asked." },
+  { q: "Is there a refund policy?", a: "Every paid plan is covered by a 7-day money-back guarantee. If Pro or Elite isn't for you, we refund in full." },
+  { q: "What happens to my data if I downgrade?", a: "Nothing is deleted. Your logs, photos, and progress stay saved — Pro-only sections simply lock again until you re-upgrade." },
+  { q: "Does Lifetime really mean forever?", a: "Yes. One payment unlocks Elite features for as long as The Titan Fitness exists — no recurring charges, ever." },
+];
+
+function PremiumPage() {
+  const { user } = useAuth();
+  const { openCheckout } = useCheckout();
+  const [cycle, setCycle] = useState<"monthly" | "annual">("monthly");
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const tiers = [
+    { id: "free" as const, name: "Free", tagline: "Get started", features: ["Basic workouts", "5 AI Coach chats/month", "Community access", "Basic tracking"] },
+    { id: "pro" as const, name: "Pro", tagline: "Most popular", popular: true, features: ["Everything in Free", "Unlimited AI Coach", "Full Yoga & Meditation libraries", "Blood Report analyzer", "Indian food scanner", "10% off PDF guides"] },
+    { id: "elite" as const, name: "Elite Family", tagline: "Best for households", features: ["Everything in Pro", "Up to 8 family members", "Medical report analyzer", "Voice fitness coach", "Priority support", "25% off PDF guides"] },
+  ];
+
+  return (
+    <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Premium Plans</h1>
         <p className="text-sm text-[#f7f0df]/68">Unlock the full The Titan Fitness experience</p>
       </div>
+
+      {/* Urgency banner */}
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[#d8b35a]/30 bg-gradient-to-r from-[#d8b35a]/15 to-fuchsia-400/10 px-5 py-4 text-[#f7f0df]">
+        <p className="text-sm font-bold">🔥 Launch Offer — use code <span className="text-[#d8b35a]">LAUNCH20</span> for 20% off any plan</p>
+        <LaunchCountdown />
+      </div>
+
+      {/* Billing cycle toggle */}
+      <div className="flex justify-center">
+        <div className="inline-flex items-center gap-1 rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/5 p-1">
+          <button type="button" onClick={() => setCycle("monthly")} className={`rounded-full px-5 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${cycle === "monthly" ? "bg-violet-500 text-white" : "text-[#f7f0df]/62"}`}>Monthly</button>
+          <button type="button" onClick={() => setCycle("annual")} className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${cycle === "annual" ? "bg-violet-500 text-white" : "text-[#f7f0df]/62"}`}>
+            Annual <span className="rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] text-emerald-300">Save 37%</span>
+          </button>
+        </div>
+      </div>
+
       <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 md:grid-cols-3">
+        {tiers.map((p) => {
+          const isCurrent = (p.id === "free" && user?.plan === "Free") || (p.id === "pro" && user?.plan === "Pro") || (p.id === "elite" && user?.plan === "Elite");
+          const priceVal = p.id === "free" ? 0 : cycle === "annual" ? PLANS[p.id as PlanId].annual : PLANS[p.id as PlanId].monthly;
+          return (
+            <div key={p.name} className={`relative rounded-2xl border p-8 ${p.popular ? "border-violet-300/40 bg-violet-200/10 shadow-[0_0_60px_rgba(167,139,250,0.15)]" : "border-[#f7f0df]/10 bg-[#f7f0df]/5"}`}>
+              {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-lg">MOST POPULAR</div>}
+              <h3 className="text-2xl font-black">{p.name}</h3>
+              <p className="mt-2 text-sm text-[#f7f0df]/68">{p.tagline}</p>
+              <div className="mt-6 flex items-end gap-1">
+                <span className="text-5xl font-black">₹{priceVal}</span>
+                {p.id !== "free" && <span className="pb-2 text-sm text-[#f7f0df]/65">/{cycle === "annual" ? "yr" : "mo"}</span>}
+              </div>
+              {isCurrent ? (
+                <div className="mt-6 rounded-full border border-emerald-300/30 bg-emerald-300/10 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-emerald-200">Current Plan</div>
+              ) : p.id === "free" ? (
+                <div className="mt-6 rounded-full border border-[#f7f0df]/12 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-[#f7f0df]/50">Always Free</div>
+              ) : (
+                <button type="button" onClick={() => openCheckout(p.id as PlanId, cycle)} className="btn-gloss mt-6 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.18em] text-white">
+                  {p.id === "elite" ? "Upgrade to Elite" : "Upgrade to Pro"}
+                </button>
+              )}
+              <ul className="mt-6 space-y-2.5">
+                {p.features.map((f) => <li key={f} className="flex items-start gap-2 text-sm text-[#f7f0df]/68"><span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-300" />{f}</li>)}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Lifetime deal */}
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#d8b35a]/30 bg-gradient-to-r from-[#d8b35a]/12 via-violet-300/8 to-fuchsia-400/10 p-6">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#d8b35a]">⚡ One-Time Offer</p>
+          <h3 className="mt-1 text-xl font-black">Lifetime Elite — pay once, own it forever</h3>
+          <p className="mt-1 text-sm text-[#f7f0df]/68">No renewals, no rising prices. Everything in Elite Family, forever.</p>
+        </div>
+        <div className="flex items-center gap-4">
+          <div className="text-right">
+            <p className="text-3xl font-black text-[#d8b35a]">₹{PLANS.lifetime.lifetime}</p>
+            <p className="text-[11px] text-[#f7f0df]/55">one-time</p>
+          </div>
+          <button type="button" onClick={() => openCheckout("lifetime")} className="btn-gloss rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400 px-6 py-3 text-xs font-black uppercase tracking-[0.18em] text-[#090511]">Get Lifetime</button>
+        </div>
+      </div>
+
+      {/* Feature comparison table */}
+      <div className="overflow-x-auto rounded-2xl border border-[#f7f0df]/10">
+        <table className="w-full min-w-[560px] border-collapse text-sm">
+          <thead>
+            <tr className="border-b border-[#f7f0df]/10 bg-[#f7f0df]/5">
+              <th className="p-4 text-left font-bold text-[#f7f0df]/80">Feature</th>
+              <th className="p-4 text-center font-bold text-[#f7f0df]/80">Free</th>
+              <th className="p-4 text-center font-bold text-violet-200">Pro</th>
+              <th className="p-4 text-center font-bold text-[#d8b35a]">Elite</th>
+            </tr>
+          </thead>
+          <tbody>
+            {COMPARISON_ROWS.map((r, i) => (
+              <tr key={r.label} className={i % 2 === 0 ? "bg-[#f7f0df]/[0.02]" : ""}>
+                <td className="p-4 text-[#f7f0df]/75">{r.label}</td>
+                <td className="p-4 text-center"><ComparisonCell v={r.free} /></td>
+                <td className="p-4 text-center"><ComparisonCell v={r.pro} /></td>
+                <td className="p-4 text-center"><ComparisonCell v={r.elite} /></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Trust / testimonials */}
+      <div className="grid gap-4 sm:grid-cols-3">
         {[
-          { name: "Free", price: "₹0", period: "forever", features: ["Basic workouts", "5 AI sessions/month", "Community access", "Basic tracking"], current: true },
-          { name: "Pro", price: "₹199", period: "/month", features: ["Everything in Free", "Unlimited AI coaching", "Indian food scanner", "Wedding mode", "Progress recognition", "Accountability AI"], popular: true },
-          { name: "Elite Family", price: "₹399", period: "/month", features: ["Everything in Pro", "Up to 8 family members", "Medical report analyzer", "Voice fitness coach", "Travel mode", "Priority support"], },
-        ].map((p) => (
-          <div key={p.name} className={`relative rounded-2xl border p-8 ${p.popular ? "border-violet-300/40 bg-violet-200/10 shadow-[0_0_60px_rgba(167,139,250,0.15)]" : "border-[#f7f0df]/10 bg-[#f7f0df]/5"}`}>
-            {p.popular && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-4 py-1 text-[10px] font-black uppercase tracking-[0.2em] text-white shadow-lg">MOST POPULAR</div>}
-            <h3 className="text-2xl font-black">{p.name}</h3>
-            <p className="mt-2 text-sm text-[#f7f0df]/68">{(p as any).description || ""}</p>
-            <div className="mt-6 flex items-end gap-1"><span className="text-5xl font-black">{p.price}</span><span className="pb-2 text-sm text-[#f7f0df]/65">{p.period}</span></div>
-            {(p as any).current ? (
-              <div className="mt-6 rounded-full border border-emerald-300/30 bg-emerald-300/10 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-emerald-200">Current Plan</div>
-            ) : (
-              <button type="button" className="mt-6 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.18em] text-white">
-                {p.name === "Elite Family" ? "Upgrade to Elite" : "Start Pro Trial"}
-              </button>
-            )}
-            <ul className="mt-6 space-y-2.5">
-              {p.features.map((f) => <li key={f} className="flex items-start gap-2 text-sm text-[#f7f0df]/68"><span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-300" />{f}</li>)}
-            </ul>
+          { name: "Rohit V.", text: "Upgraded to Pro during a launch sale — the full Yoga library alone was worth it.", stars: 5 },
+          { name: "Priya S.", text: "Elite Family means my parents finally track their health too. Worth every rupee.", stars: 5 },
+          { name: "Arjun K.", text: "Went Lifetime on day one. No regrets — new features keep shipping for free.", stars: 5 },
+        ].map((t) => (
+          <div key={t.name} className="glass-card rounded-2xl p-5">
+            <p className="text-sm text-[#d8b35a]">{"★".repeat(t.stars)}</p>
+            <p className="mt-2 text-sm italic text-[#f7f0df]/75">"{t.text}"</p>
+            <p className="mt-3 text-xs font-bold text-[#f7f0df]/60">— {t.name}</p>
           </div>
         ))}
+      </div>
+
+      {/* FAQ */}
+      <div className="glass-card rounded-2xl p-6">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Frequently asked questions</p>
+        <div className="space-y-2">
+          {FAQ_ITEMS.map((f, i) => (
+            <div key={f.q} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5">
+              <button type="button" onClick={() => setOpenFaq(openFaq === i ? null : i)} className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold">
+                {f.q}
+                <span className={`text-xs transition-transform ${openFaq === i ? "rotate-180" : ""}`}>▾</span>
+              </button>
+              {openFaq === i && <p className="px-4 pb-3 text-xs leading-relaxed text-[#f7f0df]/68">{f.a}</p>}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -878,6 +1030,14 @@ function SettingsPage() {
 /* ---------------------------------------------------------------- */
 
 export default function SaaSApp() {
+  return (
+    <CheckoutProvider>
+      <SaaSAppInner />
+    </CheckoutProvider>
+  );
+}
+
+function SaaSAppInner() {
   const { user, authLoading, logout } = useAuth();
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [section, setSection] = useState("dashboard");
