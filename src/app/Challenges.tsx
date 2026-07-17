@@ -12,7 +12,7 @@ const CHALLENGES = [
     emoji: "🔥",
     description: "Burn fat with structured workouts and a calorie deficit plan over 30 days.",
     entryFee: 299,
-    prize: "₹5,000 Cash + TigerFit Trophy",
+    prize: "₹5,000 Cash + TitanFit Trophy",
     duration: "30 Days",
     difficulty: "Intermediate",
     category: "Fat Loss",

@@ -99,10 +99,10 @@ const optionAFeatures = [
 ];
 
 const premiumThemes: Record<ThemeKey, { name: string; glow: string; accent: string; label: string }> = {
-  ember: { name: "Tiger Ember", glow: "from-orange-400 via-rose-500 to-violet-700", accent: "bg-orange-300", label: "Play Store launch" },
+  ember: { name: "Titan Ember", glow: "from-orange-400 via-rose-500 to-violet-700", accent: "bg-orange-300", label: "Play Store launch" },
   royal: { name: "Royal Violet", glow: "from-fuchsia-400 via-violet-500 to-sky-500", accent: "bg-fuchsia-300", label: "Premium SaaS mode" },
   matrix: { name: "Neon Lift", glow: "from-lime-300 via-emerald-400 to-cyan-500", accent: "bg-emerald-300", label: "Growth analytics" },
-  tigerLife: { name: "Tiger Life Coach", glow: "from-violet-300 via-fuchsia-500 to-[#d8b35a]", accent: "bg-violet-300", label: "Lifestyle OS" },
+  tigerLife: { name: "Titan Life Coach", glow: "from-violet-300 via-fuchsia-500 to-[#d8b35a]", accent: "bg-violet-300", label: "Lifestyle OS" },
 };
 
 /* Dashboard data available for expansion */
@@ -115,16 +115,16 @@ const heroStats = [
 ];
 
 const howItWorks = [
-  { step: "01", title: "Download & Set Up", desc: "Sign up in 30 seconds. Enter your goal, current stats, and lifestyle data. The Tiger Life Coach learns you instantly.", icon: "🐅" },
+  { step: "01", title: "Download & Set Up", desc: "Sign up in 30 seconds. Enter your goal, current stats, and lifestyle data. The Titan Life Coach learns you instantly.", icon: "⚡" },
   { step: "02", title: "Get Your AI Plan", desc: "Receive personalized workout, nutrition, sleep, hydration, and stress management plan — every morning, adjusted for today's energy.", icon: "🧠" },
   { step: "03", title: "Scan & Track", desc: "Snap photos of Indian food for instant macros. Log workouts, sleep, and moods. The AI adapts in real time.", icon: "📸" },
-  { step: "04", title: "Transform Together", desc: "Watch your Tiger Score climb. Unlock achievements. Share family health dashboard. Reach your goal with an accountability partner AI.", icon: "🏆" },
+  { step: "04", title: "Transform Together", desc: "Watch your Titan Score climb. Unlock achievements. Share family health dashboard. Reach your goal with an accountability partner AI.", icon: "🏆" },
 ];
 
 const testimonials = [
   { name: "Rohit S.", role: "Lost 22kg · Mumbai", text: "Beast Calculator ne meri life badal di! 4 mahine mein pehchaana nahi jata ab. Indian meal plan ekdum sahi tha!", avatar: "RS" },
   { name: "Ananya K.", role: "Lost 15kg · Delhi", text: "Pehli baar kisi app ne mujhe Indian foods ka proper macro breakdown diya. Dal, roti, sabzi sab ka calculation!", avatar: "AK" },
-  { name: "Siddharth M.", role: "+14kg Muscle · Pune", text: "Tiger Pro ki 7-day meal plan follow ki. 6 mahine mein 14kg lean mass gain! Chawal aur paneer se!", avatar: "SM" },
+  { name: "Siddharth M.", role: "+14kg Muscle · Pune", text: "Titan Pro ki 7-day meal plan follow ki. 6 mahine mein 14kg lean mass gain! Chawal aur paneer se!", avatar: "SM" },
   { name: "Deepika R.", role: "Lost 18kg · Bangalore", text: "Body anatomy visualizer dekh ke samajh aaya mera body fat kitna tha. Streak system amazing hai!", avatar: "DR" },
   { name: "Amit P.", role: "Athlete · Chennai", text: "₹499 mein itna sab kuch? Yaar ye toh London ka subscription bhi sharminda ho jaye iske samne!", avatar: "AP" },
   { name: "Priyanka N.", role: "Lost 12kg · Hyderabad", text: "Before/after photos feature bahut emotional tha. 3 mahine baad apna photo dekha toh bilkul alag tha!", avatar: "PN" },
@@ -133,7 +133,7 @@ const testimonials = [
 ];
 
 const faqs = [
-  { q: "Is Tiger Fitness Pro free?", a: "Basic features are free forever. Premium Elite membership unlocks AI coaching, medical report analysis, family dashboard, wedding mode, voice coach, and 28+ advanced features starting at ₹199/month." },
+  { q: "Is The Titan Fitness free?", a: "Basic features are free forever. Premium Elite membership unlocks AI coaching, medical report analysis, family dashboard, wedding mode, voice coach, and 28+ advanced features starting at ₹199/month." },
   { q: "How does Indian food scanner work?", a: "Our AI model was trained specifically on common Indian dishes — roti, dal, rice, sabzi, paneer, idli, dosa, biryani, and more. Just take a photo and get calories, protein, carbs, and fat estimates instantly." },
   { q: "What is Energy Prediction Engine?", a: "Every morning, we analyze your sleep quality, stress levels, recent training load, nutrition, and recovery status. We give you a Today's Energy percentage and automatically adjust your workout intensity accordingly." },
   { q: "Can my whole family use it?", a: "Yes! Our Family Health Dashboard lets you track parents, spouse, and children under one account. Each person gets personalized recommendations while you see everyone's health overview." },
@@ -144,9 +144,9 @@ const faqs = [
 
 const pricingPlans = [
   { name: "Free", price: "₹0", period: "forever", description: "Start your fitness journey", features: ["Beast Score Calculator (0–100)", "BMI, BMR & TDEE Calculator", "Body Fat % Estimator", "Leaderboard Access", "WOD (Workout of the Day)", "Courses & Knowledge Store", "Ayurveda Hub (view only)", "Community Leaderboard"], cta: "Get Started Free", popular: false },
-  { name: "Tiger Pro", price: "₹499", period: "/month", description: "For serious transformations", features: ["Full 7-Day Indian Meal Plan", "12-Week Transformation Roadmap", "Blood Report AI Analyser (40+ markers)", "Ayurveda Hub — Full Access", "Physio & Injury Rehab Protocols", "22 Expert PDF Guides", "10 Certification Courses", "Before/After Photo Upload", "Streak Freeze Protection", "PDF Export for meal plans"], cta: "Start Tiger Pro — ₹499/mo", popular: true },
-  { name: "Tiger Elite", price: "₹1,999", period: "/month", description: "1-on-1 personal coaching", features: ["Everything in Tiger Pro", "1-on-1 Personal Trainer Sessions", "Custom Meal Plan by Coach", "Weekly Check-in Calls", "Priority WhatsApp Support", "Advanced Body Composition Analysis", "Exclusive Elite Badge", "Early Feature Access"], cta: "Go Elite — ₹1999/mo", popular: false },
-  { name: "Tiger Annual", price: "₹4,999", period: "/year", description: "Best value — save ₹1,000", features: ["All Tiger Pro & Elite features", "12-month full access", "Exclusive RFC merchandise discount", "Certificate of completion", "Priority support all year", "Locked-in price guarantee"], cta: "Get Annual — ₹4,999/yr", popular: false },
+  { name: "Titan Pro", price: "₹499", period: "/month", description: "For serious transformations", features: ["Full 7-Day Indian Meal Plan", "12-Week Transformation Roadmap", "Blood Report AI Analyser (40+ markers)", "Ayurveda Hub — Full Access", "Physio & Injury Rehab Protocols", "22 Expert PDF Guides", "10 Certification Courses", "Before/After Photo Upload", "Streak Freeze Protection", "PDF Export for meal plans"], cta: "Start Titan Pro — ₹499/mo", popular: true },
+  { name: "Titan Elite", price: "₹1,999", period: "/month", description: "1-on-1 personal coaching", features: ["Everything in Titan Pro", "1-on-1 Personal Trainer Sessions", "Custom Meal Plan by Coach", "Weekly Check-in Calls", "Priority WhatsApp Support", "Advanced Body Composition Analysis", "Exclusive Elite Badge", "Early Feature Access"], cta: "Go Elite — ₹1999/mo", popular: false },
+  { name: "Titan Annual", price: "₹4,999", period: "/year", description: "Best value — save ₹1,000", features: ["All Titan Pro & Elite features", "12-month full access", "Exclusive RFC merchandise discount", "Certificate of completion", "Priority support all year", "Locked-in price guarantee"], cta: "Get Annual — ₹4,999/yr", popular: false },
 ];
 
 /* ---------------------------------------------------------------- */
@@ -170,8 +170,8 @@ function Nav() {
     <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[#07040d]/85 backdrop-blur-2xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
         <a href="#hero" className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511] shadow-[0_0_44px_rgba(167,139,250,0.48)]">TF</div>
-          <span className="hidden text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90 sm:block">Tiger Fitness Pro</span>
+          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511] shadow-[0_0_44px_rgba(167,139,250,0.48)]">TT</div>
+          <span className="hidden text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90 sm:block">The Titan Fitness</span>
         </a>
 
         <div className="hidden items-center gap-1 lg:flex">
@@ -226,7 +226,7 @@ function Hero() {
                 Train Smarter.<br />Transform Faster.
               </h1>
               <p className="mt-8 max-w-2xl text-lg leading-8 text-[#f7f0df]/80 sm:text-xl sm:leading-9">
-                Most fitness apps only track workouts. <span className="font-semibold text-violet-100">Tiger Fitness Pro</span> improves your entire lifestyle — sleep, nutrition, stress, family health, and more. One AI-powered dashboard.
+                Most fitness apps only track workouts. <span className="font-semibold text-violet-100">The Titan Fitness</span> improves your entire lifestyle — sleep, nutrition, stress, family health, and more. One AI-powered dashboard.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -291,13 +291,13 @@ function About() {
       <div className="relative mx-auto max-w-7xl">
         <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
           <div className="motion-safe:animate-[fadeUp_900ms_ease-out_both]">
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Why Tiger?</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Why Titan?</p>
             <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">
               Not just a fitness app.<br />
               <span className="bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-transparent">Your life operating system.</span>
             </h2>
             <p className="mt-6 max-w-lg text-lg leading-8 text-[#f7f0df]/68">
-              Tiger Fitness Pro combines AI-powered coaching with India-first intelligence. From wedding transformations to family health dashboards, from Indian food scanning to damage control after cheat meals — we cover the entire lifestyle.
+              The Titan Fitness combines AI-powered coaching with India-first intelligence. From wedding transformations to family health dashboards, from Indian food scanning to damage control after cheat meals — we cover the entire lifestyle.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               {(Object.keys(premiumThemes) as ThemeKey[]).map((key) => (
@@ -442,7 +442,7 @@ function HowItWorks() {
   );
 }
 
-const annualPrices: Record<string, string> = { Free: "₹0", "Tiger Pro": "₹299", "Tiger Elite": "₹1,199", "Tiger Annual": "₹4,999" };
+const annualPrices: Record<string, string> = { Free: "₹0", "Titan Pro": "₹299", "Titan Elite": "₹1,199", "Titan Annual": "₹4,999" };
 
 function Pricing() {
   const [annual, setAnnual] = useState(false);
@@ -591,7 +591,7 @@ function DownloadCTA() {
             Ready to transform<br />
             <span className="bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-transparent">your lifestyle?</span>
           </h2>
-          <p className="mt-6 text-lg leading-8 text-[#f7f0df]/66">Download Tiger Fitness Pro. Join 50K+ Indians already transforming with our AI Life Coach.</p>
+          <p className="mt-6 text-lg leading-8 text-[#f7f0df]/66">Download The Titan Fitness. Join 50K+ Indians already transforming with our AI Life Coach.</p>
           
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a href="#app" className="group flex items-center gap-3 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-9 py-5 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_22px_80px_rgba(167,139,250,0.36)] transition-all hover:-translate-y-0.5 hover:shadow-[0_30px_110px_rgba(167,139,250,0.48)]">
@@ -677,7 +677,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
     case "tip":
       return (
         <div className="my-6 rounded-2xl border border-[#d8b35a]/18 bg-[#d8b35a]/8 p-5">
-          <p className="text-sm font-bold text-[#d8b35a] mb-1">Tiger Tip</p>
+          <p className="text-sm font-bold text-[#d8b35a] mb-1">Titan Tip</p>
           <p className="text-sm leading-7 text-[#f7f0df]/70">{block.text}</p>
         </div>
       );
@@ -687,7 +687,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
           <p className="text-2xl font-black text-[#f7f0df]">{block.title}</p>
           <p className="mt-3 max-w-lg text-sm leading-7 text-[#f7f0df]/66">{block.subtitle}</p>
           <a href="#download" className="mt-5 inline-flex rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-7 py-3.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_60px_rgba(167,139,250,0.3)] transition-all hover:-translate-y-0.5">
-            Download Tiger Fitness Pro
+            Download The Titan Fitness
           </a>
         </div>
       );
@@ -807,7 +807,7 @@ function BlogSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(167,139,250,0.14),transparent_40%)]" />
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">The Tiger Blog</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">The Titan Blog</p>
           <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">Fitness knowledge for modern Indians.</h2>
           <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">20+ expert articles on nutrition, workouts, lifestyle, and performance marketing insights.</p>
         </div>
@@ -976,7 +976,7 @@ function Newsletter() {
           <p className="mt-5 text-base leading-7 text-[#f7f0df]/66">One email per week. Workouts, Indian diet charts, science, and exclusive discounts. No spam, ever.</p>
           {submitted ? (
             <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-emerald-300/30 bg-emerald-300/12 px-6 py-4 text-emerald-200">
-              <span className="text-xl">🐅</span>
+              <span className="text-xl">⚡</span>
               <span className="font-bold">You're in! Check your inbox for a welcome gift.</span>
             </div>
           ) : (
@@ -1008,8 +1008,8 @@ function Footer({ onAdminClick }: { onAdminClick: () => void }) {
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3">
-              <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511]">TF</div>
-              <span className="text-sm font-semibold uppercase tracking-[0.28em] text-[#f7f0df]/84">Tiger Fitness Pro</span>
+              <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511]">TT</div>
+              <span className="text-sm font-semibold uppercase tracking-[0.28em] text-[#f7f0df]/84">The Titan Fitness</span>
             </div>
             <p className="mt-5 text-sm leading-6 text-[#f7f0df]/65">India's most intelligent fitness and lifestyle coaching platform. Built for weddings, families, and everyday warriors.</p>
             <div className="mt-6 flex gap-3">
@@ -1034,8 +1034,8 @@ function Footer({ onAdminClick }: { onAdminClick: () => void }) {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-[#f7f0df]/10 pt-8 sm:flex-row">
-          <p className="text-xs text-[#f7f0df]/32">© 2025 Tiger Fitness Pro. All rights reserved.</p>
-          <p className="text-xs text-[#f7f0df]/32">Made with 🐅 in India</p>
+          <p className="text-xs text-[#f7f0df]/32">© 2025 The Titan Fitness. All rights reserved.</p>
+          <p className="text-xs text-[#f7f0df]/32">Made with ⚡ in India</p>
           <button type="button" onClick={onAdminClick} className="rounded-full border border-[#f7f0df]/8 bg-[#f7f0df]/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#f7f0df]/30 transition hover:border-violet-200/30 hover:text-violet-100">
             🔐 Admin Panel
           </button>

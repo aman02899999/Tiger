@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { TorusKnot, MeshDistortMaterial, Environment } from "@react-three/drei";
+import { TorusKnot, MeshDistortMaterial } from "@react-three/drei";
 import type { Mesh } from "three";
 
 function RotatingKnot() {
@@ -15,11 +15,12 @@ function RotatingKnot() {
     <TorusKnot ref={mesh} args={[1, 0.32, 200, 24, 2, 5]}>
       <MeshDistortMaterial
         color="#7c3aed"
-        roughness={0.1}
-        metalness={0.9}
+        roughness={0.25}
+        metalness={0.7}
         distort={0.25}
         speed={1.8}
-        envMapIntensity={2}
+        emissive="#4c1d95"
+        emissiveIntensity={0.35}
       />
     </TorusKnot>
   );
@@ -33,11 +34,13 @@ export default function HeroOrb({ className = "" }: { className?: string }) {
         gl={{ antialias: true, alpha: true }}
         dpr={[1, 1.5]}
       >
-        <ambientLight intensity={0.4} />
-        <pointLight position={[4, 4, 4]} intensity={60} color="#c4b5fd" />
-        <pointLight position={[-4, -2, 2]} intensity={40} color="#d8b35a" />
-        <pointLight position={[0, -4, -2]} intensity={20} color="#e879f9" />
-        <Environment preset="night" />
+        {/* No <Environment> — it fetches an HDR from a CDN and would crash the
+            app if the network blocks it. Lights alone give the metallic look. */}
+        <ambientLight intensity={0.6} />
+        <pointLight position={[4, 4, 4]} intensity={70} color="#c4b5fd" />
+        <pointLight position={[-4, -2, 2]} intensity={50} color="#d8b35a" />
+        <pointLight position={[0, -4, -2]} intensity={30} color="#e879f9" />
+        <pointLight position={[0, 3, 3]} intensity={25} color="#ffffff" />
         <RotatingKnot />
       </Canvas>
     </div>

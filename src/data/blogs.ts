@@ -29,12 +29,12 @@ const commonCta: BlogBlock = {
   type: "cta",
   title: "Ready to transform your lifestyle?",
   subtitle:
-    "Download Tiger Fitness Pro and get AI-powered workouts, Indian food scanning, and 28+ premium features. Join 50,000+ Indians transforming today.",
+    "Download The Titan Fitness and get AI-powered workouts, Indian food scanning, and 28+ premium features. Join 50,000+ Indians transforming today.",
 };
 
 const commonDisclaimer: BlogBlock = {
   type: "tip",
-  text: "Disclaimer: This article is for informational purposes only. Always consult a certified fitness professional or doctor before starting any diet or exercise program. Tiger Fitness Pro provides wellness guidance, not medical advice.",
+  text: "Disclaimer: This article is for informational purposes only. Always consult a certified fitness professional or doctor before starting any diet or exercise program. The Titan Fitness provides wellness guidance, not medical advice.",
 };
 
 export const blogs: BlogPost[] = [
@@ -44,9 +44,9 @@ export const blogs: BlogPost[] = [
     category: "App Reviews",
     readTime: "9 min read",
     date: "June 15, 2025",
-    author: "Tiger Editorial",
+    author: "Titan Editorial",
     seoDescription:
-      "Discover the top AI fitness apps in India for 2025. We compare features, pricing, Indian food tracking, and why Tiger Fitness Pro leads the pack.",
+      "Discover the top AI fitness apps in India for 2025. We compare features, pricing, Indian food tracking, and why The Titan Fitness leads the pack.",
     tags: ["AI Fitness", "India", "App Review", "2025"],
     heroEmoji: "🤖",
     blocks: [
@@ -55,21 +55,21 @@ export const blogs: BlogPost[] = [
       { type: "p", text: "Not every app with a chatbot is AI-powered. Real AI fitness coaching should analyze your sleep, nutrition, recovery, stress levels, and historical data to adapt your plan daily. Static PDF plans and generic templates do not count." },
       { type: "h2", text: "Top 5 AI Fitness Apps in India (Ranked)" },
       { type: "ol", items: [
-        "Tiger Fitness Pro — Best overall, India-first features, 28+ lifestyle modules",
+        "The Titan Fitness — Best overall, India-first features, 28+ lifestyle modules",
         "Cult.fit Live — Great for live classes, limited AI personalization",
         "HealthifyMe Smart — Strong calorie tracking, weak workout AI",
         "Fittr — Community-driven, beginner-friendly, basic AI",
         "Zing Coach — Excellent interface, Indian food data lacking"
       ] },
-      { type: "h2", text: "Why Tiger Fitness Pro Takes #1" },
-      { type: "p", text: "Tiger Fitness Pro is the only app built specifically for Indian users. Features like the Smart Indian Food Scanner, Cheapest Protein Finder, Grocery Budget Planner, and Wedding Mode make it unmatched. Plus, the Energy Prediction Engine adjusts your workout every single morning based on 6 lifestyle signals." },
+      { type: "h2", text: "Why The Titan Fitness Takes #1" },
+      { type: "p", text: "The Titan Fitness is the only app built specifically for Indian users. Features like the Smart Indian Food Scanner, Cheapest Protein Finder, Grocery Budget Planner, and Wedding Mode make it unmatched. Plus, the Energy Prediction Engine adjusts your workout every single morning based on 6 lifestyle signals." },
       { type: "stat", label: "Avg Daily Active Users (2025)", value: "50K+" },
       { type: "stat", label: "App Store Rating", value: "4.9 ★" },
       { type: "tip", text: "Pro Tip: Look for apps that offer offline workout access, Indian food databases with 5000+ items, and family health tracking. Most apps fail on at least one of these." },
       commonCta,
     ],
     faqs: [
-      { q: "Which is the best free AI fitness app in India?", a: "Tiger Fitness Pro offers a generous free tier with 5 AI sessions/month. For unlimited access, the Pro plan at ₹199/month offers the best value." },
+      { q: "Which is the best free AI fitness app in India?", a: "The Titan Fitness offers a generous free tier with 5 AI sessions/month. For unlimited access, the Pro plan at ₹199/month offers the best value." },
       { q: "Do AI fitness apps actually work?", a: "Studies show AI-personalized coaching improves adherence by 43% compared to static plans. The key is choosing apps with real adaptive algorithms." },
     ],
   },
@@ -81,13 +81,13 @@ export const blogs: BlogPost[] = [
     date: "June 12, 2025",
     author: "Dr. Ananya Sharma",
     seoDescription:
-      "Complete 120-day wedding weight loss plan for Indians. Includes diet chart, workout schedule, and how Tiger Fitness Pro's Wedding Mode automates your transformation.",
+      "Complete 120-day wedding weight loss plan for Indians. Includes diet chart, workout schedule, and how The Titan Fitness's Wedding Mode automates your transformation.",
     tags: ["Wedding", "Weight Loss", "120 Days", "Indian Diet"],
     heroEmoji: "💍",
     heroImage: "/blog/wedding-fitness-transformation.jpg",
     heroImageAlt: "Fit Indian couple in wedding attire - sherwani and lehenga - showing successful weight loss transformation before their big day",
     blocks: [
-      { type: "p", text: "Wedding season in India brings one universal anxiety: 'Will I look good in my outfit?' Whether you have 120 days or just 30, a structured approach beats crash diets every time. Here's the exact roadmap used by 2,400+ couples through Tiger Fitness Pro's Wedding Mode." },
+      { type: "p", text: "Wedding season in India brings one universal anxiety: 'Will I look good in my outfit?' Whether you have 120 days or just 30, a structured approach beats crash diets every time. Here's the exact roadmap used by 2,400+ couples through The Titan Fitness's Wedding Mode." },
       { type: "h2", text: "Phase 1: Foundation (Days 1-30)" },
       { type: "ul", items: [
         "Calculate your true TDEE (Total Daily Energy Expenditure)",
@@ -97,7 +97,7 @@ export const blogs: BlogPost[] = [
         "Track sleep: aim for 7.5 hours minimum"
       ] },
       { type: "h2", text: "Phase 2: Acceleration (Days 31-80)" },
-      { type: "p", text: "This is where most people plateau. The secret is adjusting your workout intensity based on Energy Prediction. Tiger Fitness Pro does this automatically — if your sleep debt is high, it reduces volume to prevent injury and burnout." },
+      { type: "p", text: "This is where most people plateau. The secret is adjusting your workout intensity based on Energy Prediction. The Titan Fitness does this automatically — if your sleep debt is high, it reduces volume to prevent injury and burnout." },
       { type: "stat", label: "Expected Weight Loss (Phase 1+2)", value: "6-10 kg" },
       { type: "h2", text: "Phase 3: Refinement (Days 81-120)" },
       { type: "p", text: "Final 40 days focus on body composition, not just weight. Increase protein to 1.8g/kg bodyweight, add 2 HIIT sessions weekly, and prioritize recovery. This is where posture correction and skin health become visible." },
@@ -157,7 +157,7 @@ export const blogs: BlogPost[] = [
         "Evening (180 kcal): Boiled eggs + black coffee",
         "Dinner (540 kcal): Fish tikka + 1 cup brown rice + veggies"
       ] },
-      { type: "tip", text: "Use Tiger Fitness Pro's Smart Indian Food Scanner to snap photos of any home-cooked meal and instantly see calories and macros. No more guessing!" },
+      { type: "tip", text: "Use The Titan Fitness's Smart Indian Food Scanner to snap photos of any home-cooked meal and instantly see calories and macros. No more guessing!" },
       commonCta,
     ],
     faqs: [
@@ -171,9 +171,9 @@ export const blogs: BlogPost[] = [
     category: "Nutrition",
     readTime: "8 min read",
     date: "June 8, 2025",
-    author: "Tiger Editorial",
+    author: "Titan Editorial",
     seoDescription:
-      "Accurate calorie chart for 100+ Indian foods including roti, dal, rice, paneer, chicken, and street food. Use Tiger Fitness Pro's scanner for instant tracking.",
+      "Accurate calorie chart for 100+ Indian foods including roti, dal, rice, paneer, chicken, and street food. Use The Titan Fitness's scanner for instant tracking.",
     tags: ["Calories", "Indian Food", "Nutrition Chart"],
     heroEmoji: "🔥",
     blocks: [
@@ -203,7 +203,7 @@ export const blogs: BlogPost[] = [
         "Chole bhature (1 plate): 427 kcal",
         "Dosa with chutney: 168 kcal"
       ] },
-      { type: "tip", text: "Tiger Fitness Pro's Cheapest Protein Finder ranks protein sources by cost per gram. Soya chunks cost just ₹0.8 per gram protein vs ₹3.5 for whey and ₹5 for chicken breast." },
+      { type: "tip", text: "The Titan Fitness's Cheapest Protein Finder ranks protein sources by cost per gram. Soya chunks cost just ₹0.8 per gram protein vs ₹3.5 for whey and ₹5 for chicken breast." },
       commonCta,
     ],
     faqs: [
@@ -219,7 +219,7 @@ export const blogs: BlogPost[] = [
     date: "June 5, 2025",
     author: "Coach Vikram Singh",
     seoDescription:
-      "Home workouts vs gym: which gives better results for Indians? Cost analysis, time efficiency, and how Tiger Fitness Pro AI adapts to both.",
+      "Home workouts vs gym: which gives better results for Indians? Cost analysis, time efficiency, and how The Titan Fitness AI adapts to both.",
     tags: ["Home Workout", "Gym", "Comparison", "India"],
     heroEmoji: "🏠",
     blocks: [
@@ -229,19 +229,19 @@ export const blogs: BlogPost[] = [
         "Gym membership: ₹500 - ₹5000",
         "Home equipment (amortized): ₹0 - ₹2000",
         "Transport to gym: ₹500 - ₹2000",
-        "Tiger Fitness Pro AI coaching: ₹199"
+        "The Titan Fitness AI coaching: ₹199"
       ] },
       { type: "h2", text: "When Home Workouts Win" },
-      { type: "p", text: "If you're consistent, home workouts save 90+ minutes weekly (no travel, no waiting for equipment). Tiger Fitness Pro's AI workout generator creates personalized home programs using just bodyweight, resistance bands, or dumbbells." },
+      { type: "p", text: "If you're consistent, home workouts save 90+ minutes weekly (no travel, no waiting for equipment). The Titan Fitness's AI workout generator creates personalized home programs using just bodyweight, resistance bands, or dumbbells." },
       { type: "h2", text: "When Gym Wins" },
       { type: "p", text: "For advanced muscle building, powerlifting, or access to heavy equipment, gyms still have an edge. But for general fitness, fat loss, and toning, home workouts are equally effective." },
       { type: "stat", label: "Gym Dropout Rate (India)", value: "68%" },
-      { type: "tip", text: "The best workout is the one you actually do. Tiger Fitness Pro uses Gym Crowd Predictor to help you find optimal gym times when you do go, and auto-switches to home workouts on busy days." },
+      { type: "tip", text: "The best workout is the one you actually do. The Titan Fitness uses Gym Crowd Predictor to help you find optimal gym times when you do go, and auto-switches to home workouts on busy days." },
       commonCta,
     ],
     faqs: [
       { q: "Can I build muscle at home?", a: "Yes, with progressive overload using resistance bands, dumbbells, and bodyweight variations. Most people gain significant muscle in their first 2 years regardless of location." },
-      { q: "How many days per week should I work out?", a: "3-5 days for most people. Tiger Fitness Pro's AI adjusts frequency based on your recovery, sleep, and goals." },
+      { q: "How many days per week should I work out?", a: "3-5 days for most people. The Titan Fitness's AI adjusts frequency based on your recovery, sleep, and goals." },
     ],
   },
   {
@@ -258,7 +258,7 @@ export const blogs: BlogPost[] = [
     heroImage: "/blog/indian-protein-sources.jpg",
     heroImageAlt: "Flat-lay of Indian budget protein sources including eggs, paneer, soya chunks, milk, curd, roasted chana, chicken, fish, and whey protein on marble surface",
     blocks: [
-      { type: "p", text: "Protein is expensive in India — or is it? The Cheapest Protein Finder feature in Tiger Fitness Pro reveals that with smart choices, you can hit 100g+ protein daily for under ₹150. Here's the definitive 2025 ranking." },
+      { type: "p", text: "Protein is expensive in India — or is it? The Cheapest Protein Finder feature in The Titan Fitness reveals that with smart choices, you can hit 100g+ protein daily for under ₹150. Here's the definitive 2025 ranking." },
       { type: "h2", text: "Top 10 Budget Protein Sources (Cost per Gram Protein)" },
       { type: "ol", items: [
         "Soya chunks: ₹0.8/g protein (52g per 100g)",
@@ -286,7 +286,7 @@ export const blogs: BlogPost[] = [
       commonCta,
     ],
     faqs: [
-      { q: "How much protein do I need daily?", a: "For general fitness: 1.2-1.6g per kg bodyweight. For muscle building: 1.6-2.2g per kg. Tiger Fitness Pro calculates your exact need based on goals and activity." },
+      { q: "How much protein do I need daily?", a: "For general fitness: 1.2-1.6g per kg bodyweight. For muscle building: 1.6-2.2g per kg. The Titan Fitness calculates your exact need based on goals and activity." },
       { q: "Is plant protein as good as whey?", a: "Yes, when you combine multiple sources. The key is hitting your total daily protein target, not the source." },
     ],
   },
@@ -298,7 +298,7 @@ export const blogs: BlogPost[] = [
     date: "May 30, 2025",
     author: "Dr. Meena Iyer",
     seoDescription:
-      "Build a sustainable family fitness routine for all ages. Includes meal planning, activity ideas for kids, and elder care tips. Tiger Fitness Pro family dashboard walkthrough.",
+      "Build a sustainable family fitness routine for all ages. Includes meal planning, activity ideas for kids, and elder care tips. The Titan Fitness family dashboard walkthrough.",
     tags: ["Family", "Fitness", "Kids", "Elders"],
     heroEmoji: "👨‍👩‍👧",
     blocks: [
@@ -318,13 +318,13 @@ export const blogs: BlogPost[] = [
         "Elders (50+): Walking, light yoga, balance work — 20-30 min"
       ] },
       { type: "stat", label: "Family Adherence Boost", value: "+62%" },
-      { type: "h2", text: "How Tiger Fitness Pro Helps" },
+      { type: "h2", text: "How The Titan Fitness Helps" },
       { type: "p", text: "The Family Health Dashboard lets you track up to 8 family members under one account. Each person gets age-appropriate recommendations while you see everyone's overview. Plus, the Grocery Budget Planner generates one shopping list that serves all dietary needs." },
       commonCta,
     ],
     faqs: [
       { q: "How do I motivate my family to exercise?", a: "Start with fun activities everyone enjoys — walks, dancing, cycling. Avoid making it feel like a chore. Use gamification and celebrate small wins together." },
-      { q: "Can kids follow the same diet as adults?", a: "Kids need more calories per kg and different macro ratios. Tiger Fitness Pro adjusts automatically for each family member's age and needs." },
+      { q: "Can kids follow the same diet as adults?", a: "Kids need more calories per kg and different macro ratios. The Titan Fitness adjusts automatically for each family member's age and needs." },
     ],
   },
   {
@@ -335,7 +335,7 @@ export const blogs: BlogPost[] = [
     date: "May 28, 2025",
     author: "Dr. Rajesh Kumar",
     seoDescription:
-      "Scientific explanation of how sleep deprivation causes weight gain. Learn the hormones involved and practical fixes with Tiger Fitness Pro's Sleep Debt Tracker.",
+      "Scientific explanation of how sleep deprivation causes weight gain. Learn the hormones involved and practical fixes with The Titan Fitness's Sleep Debt Tracker.",
     tags: ["Sleep", "Weight Gain", "Hormones", "Science"],
     heroEmoji: "😴",
     heroImage: "/blog/sleep-recovery-fitness.jpg",
@@ -359,7 +359,7 @@ export const blogs: BlogPost[] = [
         "Consistent sleep/wake time (even weekends)",
         "Dark, quiet room — use sleep mask if needed"
       ] },
-      { type: "tip", text: "Tiger Fitness Pro's Sleep Debt Tracker calculates your accumulated sleep debt and automatically reduces your training volume when you're under-recovered. This prevents injury and overtraining." },
+      { type: "tip", text: "The Titan Fitness's Sleep Debt Tracker calculates your accumulated sleep debt and automatically reduces your training volume when you're under-recovered. This prevents injury and overtraining." },
       commonCta,
       commonDisclaimer,
     ],
@@ -398,7 +398,7 @@ export const blogs: BlogPost[] = [
         "Call a friend or family member"
       ] },
       { type: "stat", label: "Cortisol Reduction from Breathing", value: "-23%" },
-      { type: "h2", text: "Tiger Fitness Pro's Mental Fitness Score" },
+      { type: "h2", text: "The Titan Fitness's Mental Fitness Score" },
       { type: "p", text: "Track mood, stress, anxiety, and energy alongside your workouts. The app detects stress patterns and suggests interventions before they impact your fitness goals." },
       commonCta,
     ],
@@ -415,7 +415,7 @@ export const blogs: BlogPost[] = [
     date: "May 22, 2025",
     author: "Coach Aditya Reddy",
     seoDescription:
-      "Morning vs evening workouts: which is better? Complete guide with circadian rhythm science and Tiger Fitness Pro's Gym Crowd Predictor feature.",
+      "Morning vs evening workouts: which is better? Complete guide with circadian rhythm science and The Titan Fitness's Gym Crowd Predictor feature.",
     tags: ["Gym Timing", "Circadian", "Morning", "Evening"],
     heroEmoji: "⏰",
     blocks: [
@@ -433,7 +433,7 @@ export const blogs: BlogPost[] = [
         "Best for: Muscle building, PR attempts, sports performance"
       ] },
       { type: "stat", label: "Evening Strength Advantage", value: "5-7%" },
-      { type: "tip", text: "The REAL best time is whenever you'll be consistent. Tiger Fitness Pro's Gym Crowd Predictor shows live occupancy by hour, so you can find the perfect time slot at your specific gym." },
+      { type: "tip", text: "The REAL best time is whenever you'll be consistent. The Titan Fitness's Gym Crowd Predictor shows live occupancy by hour, so you can find the perfect time slot at your specific gym." },
       commonCta,
     ],
     faqs: [
@@ -469,7 +469,7 @@ export const blogs: BlogPost[] = [
         "Chicken + rice + vegetables"
       ] },
       { type: "stat", label: "Protein Window (Hours)", value: "2 hrs" },
-      { type: "tip", text: "Don't obsess over the 'anabolic window.' Research shows total daily protein intake matters far more than exact timing. Tiger Fitness Pro tracks both automatically." },
+      { type: "tip", text: "Don't obsess over the 'anabolic window.' Research shows total daily protein intake matters far more than exact timing. The Titan Fitness tracks both automatically." },
       commonCta,
     ],
     faqs: [
@@ -485,7 +485,7 @@ export const blogs: BlogPost[] = [
     date: "May 18, 2025",
     author: "Dr. Sanjay Mehta",
     seoDescription:
-      "Understanding metabolic age vs chronological age. How to calculate it and improve it with Tiger Fitness Pro's metabolic age feature.",
+      "Understanding metabolic age vs chronological age. How to calculate it and improve it with The Titan Fitness's metabolic age feature.",
     tags: ["Metabolic Age", "Health Metrics", "Longevity"],
     heroEmoji: "🧬",
     blocks: [
@@ -507,13 +507,13 @@ export const blogs: BlogPost[] = [
         "Eat 1.6g+ protein per kg bodyweight"
       ] },
       { type: "stat", label: "Years of Aging Reversed (Avg)", value: "4-6 yrs" },
-      { type: "tip", text: "Tiger Fitness Pro calculates your metabolic age based on your body composition, fitness level, and lifestyle data. Most users see a 4-6 year improvement within 90 days." },
+      { type: "tip", text: "The Titan Fitness calculates your metabolic age based on your body composition, fitness level, and lifestyle data. Most users see a 4-6 year improvement within 90 days." },
       commonCta,
       commonDisclaimer,
     ],
     faqs: [
       { q: "Can metabolic age be younger than actual age?", a: "Yes! Active, muscular people with low body fat often have metabolic ages 5-15 years younger than their chronological age." },
-      { q: "How do I measure my metabolic age?", a: "Tiger Fitness Pro estimates it from your data. For clinical precision, get a DEXA scan or consult a sports medicine doctor." },
+      { q: "How do I measure my metabolic age?", a: "The Titan Fitness estimates it from your data. For clinical precision, get a DEXA scan or consult a sports medicine doctor." },
     ],
   },
   {
@@ -524,7 +524,7 @@ export const blogs: BlogPost[] = [
     date: "May 15, 2025",
     author: "Coach Ravi Kumar",
     seoDescription:
-      "Track your macronutrients accurately without weighing food. Hand-portion methods, visual cues, and Tiger Fitness Pro's AI scanner.",
+      "Track your macronutrients accurately without weighing food. Hand-portion methods, visual cues, and The Titan Fitness's AI scanner.",
     tags: ["Macros", "Portion Control", "No Scale"],
     heroEmoji: "✋",
     blocks: [
@@ -543,7 +543,7 @@ export const blogs: BlogPost[] = [
         "Muscle gain: 3-4 palms, 3 fists, 3-4 cupped, 3 thumbs"
       ] },
       { type: "stat", label: "Accuracy vs Food Scale", value: "±10%" },
-      { type: "tip", text: "For Indian meals, use Tiger Fitness Pro's Smart Food Scanner — just snap a photo of your thali and get instant macro breakdown without any weighing or measuring." },
+      { type: "tip", text: "For Indian meals, use The Titan Fitness's Smart Food Scanner — just snap a photo of your thali and get instant macro breakdown without any weighing or measuring." },
       commonCta,
     ],
     faqs: [
@@ -557,7 +557,7 @@ export const blogs: BlogPost[] = [
     category: "Education",
     readTime: "10 min read",
     date: "May 12, 2025",
-    author: "Tiger Editorial",
+    author: "Titan Editorial",
     seoDescription:
       "Top 20 fitness myths believed in India, scientifically debunked. From 'carbs make you fat' to 'women shouldn't lift heavy' — the truth revealed.",
     tags: ["Myths", "Fitness Education", "Science"],
@@ -637,7 +637,7 @@ export const blogs: BlogPost[] = [
         "Dinner: 100g paneer + rice + vegetables (27g)"
       ] },
       { type: "stat", label: "Total Daily Protein", value: "152g" },
-      { type: "tip", text: "Combine dal + rice or chana + roti to create complete amino acid profiles. Tiger Fitness Pro's AI diet generator automatically plans vegetarian muscle-gain meals optimized for Indian ingredients." },
+      { type: "tip", text: "Combine dal + rice or chana + roti to create complete amino acid profiles. The Titan Fitness's AI diet generator automatically plans vegetarian muscle-gain meals optimized for Indian ingredients." },
       commonCta,
     ],
     faqs: [
@@ -677,7 +677,7 @@ export const blogs: BlogPost[] = [
         "Hoka Clifton 9 — Lightweight cushioning"
       ] },
       { type: "stat", label: "Shoe Replacement Mileage", value: "500-800 km" },
-      { type: "tip", text: "Tiger Fitness Pro tracks your running mileage and reminds you when it's time to replace shoes to prevent injury." },
+      { type: "tip", text: "The Titan Fitness tracks your running mileage and reminds you when it's time to replace shoes to prevent injury." },
       commonCta,
     ],
     faqs: [
@@ -717,7 +717,7 @@ export const blogs: BlogPost[] = [
         "1-2x cardio (running, cycling, swimming)",
         "1x active recovery (walking, stretching)"
       ] },
-      { type: "tip", text: "Tiger Fitness Pro automatically balances your yoga and strength training based on recovery, goals, and schedule. Just tell the AI your preferences." },
+      { type: "tip", text: "The Titan Fitness automatically balances your yoga and strength training based on recovery, goals, and schedule. Just tell the AI your preferences." },
       commonCta,
     ],
     faqs: [
@@ -733,7 +733,7 @@ export const blogs: BlogPost[] = [
     date: "May 2, 2025",
     author: "Coach Manish Agarwal",
     seoDescription:
-      "Complete guide to maintaining fitness while travelling in India. Hotel workouts, restaurant survival, and Tiger Fitness Pro's Travel Mode feature.",
+      "Complete guide to maintaining fitness while travelling in India. Hotel workouts, restaurant survival, and The Titan Fitness's Travel Mode feature.",
     tags: ["Travel", "Business", "Hotel Workouts", "India"],
     heroEmoji: "✈️",
     blocks: [
@@ -757,7 +757,7 @@ export const blogs: BlogPost[] = [
         "Stop eating at 80% full"
       ] },
       { type: "stat", label: "Travel Workout Frequency", value: "3x/week" },
-      { type: "tip", text: "Tiger Fitness Pro's Travel Mode automatically switches you to bodyweight workouts, suggests restaurant-friendly meals, and adjusts calorie targets for reduced activity days." },
+      { type: "tip", text: "The Titan Fitness's Travel Mode automatically switches you to bodyweight workouts, suggests restaurant-friendly meals, and adjusts calorie targets for reduced activity days." },
       commonCta,
     ],
     faqs: [
@@ -773,7 +773,7 @@ export const blogs: BlogPost[] = [
     date: "April 30, 2025",
     author: "Coach Vikas Malhotra",
     seoDescription:
-      "Complete breakdown of monthly fitness expenses in India. Budget, mid-range, and premium options. Track spending with Tiger Fitness Pro's expense tracker.",
+      "Complete breakdown of monthly fitness expenses in India. Budget, mid-range, and premium options. Track spending with The Titan Fitness's expense tracker.",
     tags: ["Budget", "Fitness Expenses", "India", "Finance"],
     heroEmoji: "💰",
     blocks: [
@@ -783,7 +783,7 @@ export const blogs: BlogPost[] = [
         "Home workouts or basic gym: ₹500-1000",
         "Protein (soya + eggs + milk): ₹800-1200",
         "Basic supplements (multivitamin): ₹200-300",
-        "Tiger Fitness Pro: ₹199"
+        "The Titan Fitness: ₹199"
       ] },
       { type: "h2", text: "Mid-Range Tier (₹3000-5000/month)" },
       { type: "ul", items: [
@@ -800,7 +800,7 @@ export const blogs: BlogPost[] = [
         "Premium nutrition (organic, specialty): ₹2000+"
       ] },
       { type: "stat", label: "Sweet Spot for Most Indians", value: "₹3000-4000" },
-      { type: "tip", text: "Tiger Fitness Pro's Fitness Expense Tracker logs every supplement, gym fee, coaching cost, and equipment purchase. See exactly where your money goes and optimize." },
+      { type: "tip", text: "The Titan Fitness's Fitness Expense Tracker logs every supplement, gym fee, coaching cost, and equipment purchase. See exactly where your money goes and optimize." },
       commonCta,
     ],
     faqs: [
@@ -838,12 +838,12 @@ export const blogs: BlogPost[] = [
         "Time-bound: 30-day challenges work best"
       ] },
       { type: "stat", label: "Success Rate with Accountability", value: "95%" },
-      { type: "tip", text: "Tiger Fitness Pro's Accountability Partner AI sends daily check-ins, celebrates small wins, and helps you course-correct without guilt. Users with active AI partners are 4.3x more likely to hit their goals." },
+      { type: "tip", text: "The Titan Fitness's Accountability Partner AI sends daily check-ins, celebrates small wins, and helps you course-correct without guilt. Users with active AI partners are 4.3x more likely to hit their goals." },
       commonCta,
     ],
     faqs: [
       { q: "How long does it take to form a habit?", a: "Research shows 18-254 days, with 66 days being the average. Be patient and focus on consistency, not perfection." },
-      { q: "What if I miss a day?", a: "One miss is data, not failure. The key is never missing twice in a row. Tiger Fitness Pro's 'no guilt' approach helps you bounce back." },
+      { q: "What if I miss a day?", a: "One miss is data, not failure. The key is never missing twice in a row. The Titan Fitness's 'no guilt' approach helps you bounce back." },
     ],
   },
   {
@@ -874,7 +874,7 @@ export const blogs: BlogPost[] = [
         "8 PM - 12 PM: Fasting window (water, black coffee, tea only)"
       ] },
       { type: "stat", label: "Avg Fat Loss with 16/8", value: "0.5-1 kg/week" },
-      { type: "tip", text: "IF is a tool, not magic. It works by helping you control calories. Tiger Fitness Pro integrates IF schedules and adjusts workout timing for optimal results." },
+      { type: "tip", text: "IF is a tool, not magic. It works by helping you control calories. The Titan Fitness integrates IF schedules and adjusts workout timing for optimal results." },
       commonCta,
       commonDisclaimer,
     ],
@@ -891,7 +891,7 @@ export const blogs: BlogPost[] = [
     date: "April 22, 2025",
     author: "Coach Deepak Verma",
     seoDescription:
-      "Build a complete home gym in India for under ₹10000. Equipment list, where to buy, and free workout plans with Tiger Fitness Pro AI.",
+      "Build a complete home gym in India for under ₹10000. Equipment list, where to buy, and free workout plans with The Titan Fitness AI.",
     tags: ["Home Gym", "Budget", "Equipment", "India"],
     heroEmoji: "🏋️",
     heroImage: "/blog/home-gym-budget-india.jpg",
@@ -917,7 +917,7 @@ export const blogs: BlogPost[] = [
         "Flipkart: Good for pull-up bars",
         "Local sports shops: Negotiate for bundles"
       ] },
-      { type: "tip", text: "Tiger Fitness Pro's AI workout generator creates personalized home gym plans based on your exact equipment. It even suggests progressive overload without buying more gear." },
+      { type: "tip", text: "The Titan Fitness's AI workout generator creates personalized home gym plans based on your exact equipment. It even suggests progressive overload without buying more gear." },
       commonCta,
     ],
     faqs: [
@@ -933,7 +933,7 @@ export const blogs: BlogPost[] = [
     date: "April 20, 2025",
     author: "Dr. Kiran Patel",
     seoDescription:
-      "Complete guide to muscle recovery for Indian fitness enthusiasts. Sleep, nutrition, active recovery, and Tiger Fitness Pro's recovery tracking.",
+      "Complete guide to muscle recovery for Indian fitness enthusiasts. Sleep, nutrition, active recovery, and The Titan Fitness's recovery tracking.",
     tags: ["Recovery", "Muscle", "Science", "Sleep"],
     heroEmoji: "💆",
     blocks: [
@@ -954,7 +954,7 @@ export const blogs: BlogPost[] = [
         "72+ hours: Full recovery for most people"
       ] },
       { type: "stat", label: "Sleep Deprivation Impact on Recovery", value: "-30%" },
-      { type: "tip", text: "Tiger Fitness Pro tracks your sleep, stress, and training load to calculate daily recovery score. It auto-adjusts workout intensity based on your actual recovery status." },
+      { type: "tip", text: "The Titan Fitness tracks your sleep, stress, and training load to calculate daily recovery score. It auto-adjusts workout intensity based on your actual recovery status." },
       commonCta,
     ],
     faqs: [

@@ -31,7 +31,7 @@ export default function OnboardingWizard({ onComplete }: { onComplete: () => voi
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">TF</div>
+              <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">TT</div>
               <span className="text-xs font-semibold uppercase tracking-[0.28em] text-[#f7f0df]/70">Onboarding</span>
             </div>
             <span className="text-xs font-bold text-violet-100">{Math.round(progress)}% complete</span>
@@ -162,7 +162,7 @@ export default function OnboardingWizard({ onComplete }: { onComplete: () => voi
             </div>
             <div className="mt-8 flex gap-3">
               <button type="button" onClick={() => setStep("activity")} className="rounded-full border border-[#f7f0df]/18 bg-[#f7f0df]/8 px-7 py-4 text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]">Back</button>
-              <button type="button" onClick={handleFinish} className="flex-1 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-4 text-xs font-black uppercase tracking-[0.2em] text-white">Start My Journey 🐅</button>
+              <button type="button" onClick={handleFinish} className="flex-1 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-4 text-xs font-black uppercase tracking-[0.2em] text-white">Start My Journey ⚡</button>
             </div>
           </div>
         )}

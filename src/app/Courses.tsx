@@ -489,7 +489,7 @@ function PaymentModal({
               📲
             </div>
             <div>
-              <p className="text-[#f7f0df] text-sm font-semibold">tigerfit@upi</p>
+              <p className="text-[#f7f0df] text-sm font-semibold">titanfit@upi</p>
               <p className="text-[#f7f0df]/40 text-xs">Scan or pay via any UPI app</p>
             </div>
           </div>
@@ -952,7 +952,7 @@ export default function CoursesPage() {
         <div className="max-w-6xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-1.5 mb-4">
             <span className="text-violet-400 text-xs font-semibold uppercase tracking-widest">
-              TigerFit Pro Academy
+              TitanFit Pro Academy
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black mb-2">

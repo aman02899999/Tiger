@@ -113,7 +113,7 @@ function BlogsManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => void
         </div>
         <div className="flex gap-2">
           <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." className="rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-2.5 text-sm text-[#f7f0df] outline-none placeholder:text-[#f7f0df]/30 focus:border-violet-200/40" />
-          <Button onClick={() => setEditing({ slug: generateId(), title: "New Article", seoDescription: "", category: "Fitness", author: "Tiger Team", date: new Date().toISOString().split("T")[0], readTime: "5 min read", heroEmoji: "📝", tags: [], blocks: [], faqs: [] } as BlogPost)}>+ Create New</Button>
+          <Button onClick={() => setEditing({ slug: generateId(), title: "New Article", seoDescription: "", category: "Fitness", author: "Titan Team", date: new Date().toISOString().split("T")[0], readTime: "5 min read", heroEmoji: "📝", tags: [], blocks: [], faqs: [] } as BlogPost)}>+ Create New</Button>
         </div>
       </div>
 
@@ -622,7 +622,7 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
       <div className="fixed inset-0 z-[150] flex items-center justify-center bg-[#07040d]/98 p-4 backdrop-blur-2xl">
         <div className="w-full max-w-md overflow-hidden rounded-[2rem] border border-violet-200/20 bg-[#0b0714]/95 p-8 shadow-[0_40px_140px_rgba(0,0,0,0.6)]">
           <div className="mb-6 flex items-center gap-3">
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-2xl font-black text-[#090511]">TF</div>
+            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-2xl font-black text-[#090511]">TT</div>
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100">Restricted Access</p>
               <h1 className="text-2xl font-black text-[#f7f0df]">Admin Panel</h1>
@@ -644,10 +644,10 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-[150] flex bg-[#07040d]">
       <aside className="hidden w-64 flex-shrink-0 border-r border-[#f7f0df]/10 bg-[#0b0714]/90 p-6 md:block">
         <div className="mb-8 flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">TF</div>
+          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">TT</div>
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100">Admin</p>
-            <p className="text-xs text-[#f7f0df]/40">Tiger Fitness Pro</p>
+            <p className="text-xs text-[#f7f0df]/40">The Titan Fitness</p>
           </div>
         </div>
         <nav className="space-y-1.5">
@@ -677,7 +677,7 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
           {activeSection === "dashboard" && (
             <div>
               <h1 className="mb-2 text-3xl font-black tracking-[-0.04em] text-[#f7f0df]">Admin Dashboard</h1>
-              <p className="mb-8 text-sm text-[#f7f0df]/50">Full control of Tiger Fitness Pro application</p>
+              <p className="mb-8 text-sm text-[#f7f0df]/50">Full control of The Titan Fitness application</p>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   { label: "Total Users", value: loadData("users", defaultUsers).length, icon: "👥" },

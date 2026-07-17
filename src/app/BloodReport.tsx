@@ -1170,7 +1170,7 @@ export default function BloodReportPage() {
           transition={{ duration: 0.5 }}
           style={{ textAlign: "center", marginBottom: 36 }}
         >
-          <span style={{ ...CHIP, color: "#d8b35a" }}>Tiger Fitness Pro · Diagnostics</span>
+          <span style={{ ...CHIP, color: "#d8b35a" }}>The Titan Fitness · Diagnostics</span>
           <h1
             style={{
               margin: "12px 0 10px",

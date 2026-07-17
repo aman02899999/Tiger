@@ -131,11 +131,11 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
           {/* Logo / Brand */}
           <div className="mb-8 flex items-center gap-3">
             <div className="relative grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511] shadow-[0_0_20px_rgba(167,139,250,0.4)]">
-              TF
+              TT
               <span className="absolute inset-0 rounded-xl" style={{ background: "linear-gradient(180deg,rgba(255,255,255,0.18) 0%,transparent 60%)" }} />
             </div>
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-[#f7f0df]">Tiger Fit Pro</p>
+              <p className="text-sm font-bold uppercase tracking-[0.24em] text-[#f7f0df]">The Titan Fitness</p>
               <p className="text-[10px] uppercase tracking-[0.18em] text-[#f7f0df]/65">{user?.plan} Plan</p>
             </div>
           </div>
@@ -226,7 +226,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex items-center justify-between border-b border-[#f7f0df]/10 bg-[#0b0714]/60 px-6 py-4 backdrop-blur-xl lg:hidden">
           <button type="button" onClick={() => setMobileOpen(true)} className="rounded-xl border border-white/10 px-3 py-2 text-sm">☰ Menu</button>
-          <span className="text-sm font-bold">Tiger Fitness Pro</span>
+          <span className="text-sm font-bold">The Titan Fitness</span>
           <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">{user?.avatar}</div>
         </header>
 
@@ -249,7 +249,7 @@ function Dashboard({ onNavigate }: { onNavigate: (section: string) => void }) {
 
   const stats = [
     { label: "Today's Energy", value: "82%", icon: "⚡", color: "from-violet-300 to-fuchsia-400" },
-    { label: "Tiger Score", value: "94", icon: "🐅", color: "from-[#d8b35a] to-orange-400" },
+    { label: "Titan Score", value: "94", icon: "⚡", color: "from-[#d8b35a] to-orange-400" },
     { label: "Streak", value: `${user.streak} days`, icon: "🔥", color: "from-rose-300 to-pink-400" },
     { label: "Goal Chance", value: "87%", icon: "🎯", color: "from-emerald-300 to-cyan-400" },
   ];
@@ -323,7 +323,7 @@ function Dashboard({ onNavigate }: { onNavigate: (section: string) => void }) {
       <div className="grid gap-4 lg:grid-cols-3">
         <WeeklyActivity />
         <div className="rounded-2xl border border-[#d8b35a]/20 bg-gradient-to-br from-[#d8b35a]/10 to-violet-200/8 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#d8b35a]">🏆 Tiger Tip of the Day</p>
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#d8b35a]">🏆 Titan Tip of the Day</p>
           <p className="mt-3 text-sm leading-relaxed text-[#f7f0df]/80">Progressive overload is the #1 driver of results — aim to add a little weight or one more rep versus last week. Small wins compound.</p>
           <button type="button" onClick={() => onNavigate("aicoach")} className="btn-gloss mt-4 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Ask the Coach →</button>
         </div>
@@ -709,7 +709,7 @@ function PremiumPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Premium Plans</h1>
-        <p className="text-sm text-[#f7f0df]/68">Unlock the full Tiger Fitness Pro experience</p>
+        <p className="text-sm text-[#f7f0df]/68">Unlock the full The Titan Fitness experience</p>
       </div>
       <div className="grid gap-3 sm:gap-5 sm:grid-cols-2 md:grid-cols-3">
         {[
@@ -866,7 +866,7 @@ function SettingsPage() {
             <div><p className="font-bold">Delete Account</p><p className="text-xs text-[#f7f0df]/68">Permanently delete all your data</p></div>
             <button type="button" onClick={deleteAccount} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-5 py-2.5 text-xs font-bold text-rose-200 hover:bg-rose-400/20">Delete</button>
           </div>
-          <p className="border-t border-[#f7f0df]/10 pt-4 text-xs text-[#f7f0df]/62">Version 2.1.0 · Built with 🐅 in India</p>
+          <p className="border-t border-[#f7f0df]/10 pt-4 text-xs text-[#f7f0df]/62">Version 2.1.0 · Built with ⚡ in India</p>
         </div>
       )}
     </div>

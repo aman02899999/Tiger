@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from "react";
 import { useAuth } from "../auth/AuthSystem";
 
 /* ---------------------------------------------------------------- */
-/* Data & Backup — export every Tiger Fitness Pro value stored in    */
+/* Data & Backup — export every The Titan Fitness value stored in    */
 /* this browser as a JSON file, and import it back on any device.    */
 /* Also a quick app tour of the major sections. No SVG.              */
 /* ---------------------------------------------------------------- */
@@ -38,7 +38,7 @@ export default function DataBackupPage() {
 
   function exportData() {
     const payload = {
-      app: "Tiger Fitness Pro",
+      app: "The Titan Fitness",
       version: 1,
       exportedAt: new Date().toISOString(),
       user: user?.email ?? "guest",
@@ -47,7 +47,7 @@ export default function DataBackupPage() {
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `tiger-fitness-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `the-titan-fitness-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(a.href);
     setStatus({ kind: "ok", msg: "Backup downloaded successfully." });
@@ -67,7 +67,7 @@ export default function DataBackupPage() {
         });
         setStatus({ kind: "ok", msg: `Imported ${n} items. Reload to see your restored data.` });
       } catch {
-        setStatus({ kind: "err", msg: "That file isn't a valid Tiger Fitness backup." });
+        setStatus({ kind: "err", msg: "That file isn't a valid The Titan Fitness backup." });
       }
     };
     reader.readAsText(file);
@@ -108,7 +108,7 @@ export default function DataBackupPage() {
         {/* App tour */}
         <div className="glass-card rounded-2xl p-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">🗺️ Quick tour</p>
-          <h2 className="mt-1 text-lg font-black">Everything Tiger Fitness Pro offers</h2>
+          <h2 className="mt-1 text-lg font-black">Everything The Titan Fitness offers</h2>
           <div className="mt-4 space-y-2.5">
             {TOUR.map((t) => (
               <div key={t.title} className="flex items-start gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">

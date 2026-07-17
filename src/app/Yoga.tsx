@@ -731,7 +731,7 @@ function UpgradeModal({ onClose }: { onClose: () => void }) {
         </div>
         <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Unlock All 52 Poses</h2>
         <p className="mb-6 text-sm text-[#f7f0df]/62">
-          Upgrade to Tiger Fitness Pro to access the complete Sacred Asana Library, curated flows, hold timers and guided breathing.
+          Upgrade to The Titan Fitness to access the complete Sacred Asana Library, curated flows, hold timers and guided breathing.
         </p>
         <div className="mb-6 space-y-2">
           {['All 52 Yoga Poses & Pranayama', 'Real photo demonstrations', 'Hold timers & breathing cues', 'Curated flows & sequences', 'Practice tracking & streaks'].map((f, i) => (
@@ -824,7 +824,7 @@ export default function YogaPage() {
             <span aria-hidden="true">🪷</span>
           </div>
 
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Tiger Fitness Pro — Yoga Studio</p>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">The Titan Fitness — Yoga Studio</p>
           <h1 className="text-4xl font-black tracking-[-0.04em] sm:text-5xl">
             <span className="bg-gradient-to-r from-[#d8b35a] via-[#f7f0df] to-[#e879f9] bg-clip-text text-transparent">
               Sacred Asana Library

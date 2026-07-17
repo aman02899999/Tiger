@@ -45,7 +45,7 @@ const KNOWLEDGE: { match: RegExp; reply: (name: string) => string }[] = [
   {
     match: /beginner|start|new|शुरू/i,
     reply: (name) =>
-      `Welcome ${name}! 🐯 Start simple: 3 full-body workouts per week (try our Core Crusher or Push plans), 8k steps daily, protein at every meal, and sleep 7+. Master consistency for 8 weeks before optimizing anything else. Your only competition is yesterday's you.`,
+      `Welcome ${name}! ⚡ Start simple: 3 full-body workouts per week (try our Core Crusher or Push plans), 8k steps daily, protein at every meal, and sleep 7+. Master consistency for 8 weeks before optimizing anything else. Your only competition is yesterday's you.`,
   },
   {
     match: /motivat|lazy|skip|मन नहीं/i,
@@ -65,7 +65,7 @@ const KNOWLEDGE: { match: RegExp; reply: (name: string) => string }[] = [
 ];
 
 const FALLBACKS = [
-  "Great question! 🐯 My strongest areas: training splits, protein & nutrition, fat loss, muscle gain, sleep, creatine, cardio, and motivation. Try asking about one of those — or tap a quick question below.",
+  "Great question! ⚡ My strongest areas: training splits, protein & nutrition, fat loss, muscle gain, sleep, creatine, cardio, and motivation. Try asking about one of those — or tap a quick question below.",
   "I want to give you accurate advice — could you rephrase that? I'm best at workout, diet, recovery, and supplement questions. 💪",
 ];
 
@@ -79,9 +79,9 @@ const QUICK_QUESTIONS = [
 
 export default function AICoachPage() {
   const { user } = useAuth();
-  const name = user?.name?.split(" ")[0] ?? "Tiger";
+  const name = user?.name?.split(" ")[0] ?? "Titan";
   const [messages, setMessages] = useState<Msg[]>([
-    { role: "coach", text: `Hey ${name}! 🐯 I'm your AI Coach — ask me anything about training, nutrition, recovery, or supplements. Let's get you results.` },
+    { role: "coach", text: `Hey ${name}! ⚡ I'm your AI Coach — ask me anything about training, nutrition, recovery, or supplements. Let's get you results.` },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -117,11 +117,11 @@ export default function AICoachPage() {
       <div className="glass-card flex min-h-0 flex-1 flex-col rounded-3xl">
         <div className="flex items-center gap-3 border-b border-[#f7f0df]/8 px-6 py-4">
           <div className="relative grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-lg">
-            🐯
+            ⚡
             <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0b0714] bg-emerald-400" />
           </div>
           <div>
-            <p className="text-sm font-black">Coach Tiger</p>
+            <p className="text-sm font-black">Coach Titan</p>
             <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-300">Online · replies instantly</p>
           </div>
         </div>

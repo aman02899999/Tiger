@@ -1,4 +1,4 @@
-/* Tiger Fitness Pro service worker — offline-capable app shell.
+/* The Titan Fitness service worker — offline-capable app shell.
    Network-first for navigations (fresh app), cache-first for static assets. */
 const CACHE = "tfp-cache-v1";
 const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest"];
