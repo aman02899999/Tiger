@@ -12,6 +12,29 @@ android {
         versionName "1.0.0"
     }
 
+    // Two distribution channels, one codebase:
+    //   playstore — the build submitted to Google Play. A handful of PDF
+    //     guides (steroid cycles, SARMs, TRT, PCT, anabolic protocols) are a
+    //     real Play Restricted Content risk, so the web app hides them on
+    //     this channel — see src/app/PlatformChannel.ts + PDFStore.tsx.
+    //   direct — a self-hosted APK with the full, unfiltered catalog, for
+    //     users who install it straight from your website instead of Play.
+    // Both point at the SAME deployed web app; only the `?channel=` query
+    // param baked into launch_url differs, so there is nothing else to keep
+    // in sync when the website changes.
+    flavorDimensions "distribution"
+    productFlavors {
+        playstore {
+            dimension "distribution"
+            resValue "string", "launch_url", "https://tiger-fitness-pro-2f047-c4f21.web.app/?channel=playstore"
+        }
+        direct {
+            dimension "distribution"
+            applicationIdSuffix ".direct"
+            resValue "string", "launch_url", "https://tiger-fitness-pro-2f047-c4f21.web.app/?channel=direct"
+        }
+    }
+
     signingConfigs {
         release {
             // Generate with: keytool -genkeypair -v -keystore android.keystore

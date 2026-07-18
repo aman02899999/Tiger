@@ -55,47 +55,39 @@ that never expires must be a **managed product** (non-consumable). Create:
 |---|---|---|
 | `elite_lifetime` | Titan Fitness — Lifetime Elite | ₹6,999 |
 
-### PDF guides — one managed product per guide
-The app currently sells 24 individual guides plus 3 bundles through `PDFStore.tsx`. Create
-one non-consumable managed product per row below (Product ID must match exactly — it's
-generated from the guide's numeric id in the app as `guide_<id>`):
+### PDF guides — one managed product per guide (Play-safe subset only)
+The `playstore` build hides 12 guides and 3 bundles that reference steroid/SARM/TRT/PCT/
+anabolic content (see `ANDROID_APP.md` and `PLAY_RESTRICTED_GUIDE_IDS` in `PDFStore.tsx`) —
+**only create Play Console products for the guides that are actually visible on that
+channel.** Product ID must match exactly (`guide_<id>`, generated from the guide's numeric
+id in the app):
 
 | Product ID | Title | Price |
 |---|---|---|
-| `guide_1` | Advanced Cutting Cycle — 12-Week Protocol | ₹299 |
-| `guide_2` | Advanced Bulking Cycle with Peptides — Mass Building | ₹299 |
-| `guide_3` | Beginner Steroid Cycle Full Guide — Entry-Level Protocol | ₹299 |
 | `guide_4` | 30-Day Keto Indian Plan — Vegetarian Edition | ₹249 |
 | `guide_5` | Indian Nutrition Bible — Bodybuilder Edition | ₹299 |
 | `guide_6` | Female Weight Loss Plan — Hormone-Safe Protocol | ₹249 |
 | `guide_7` | Women's Transformation — Body Recomposition | ₹249 |
-| `guide_8` | Peptide Protocol Bible — 15+ Peptides | ₹349 |
-| `guide_9` | SARMs Scientific Handbook — 8 SARMs with Clinical Data | ₹349 |
-| `guide_10` | TRT Hormone Guide — India Legal Guide + Optimization | ₹299 |
 | `guide_11` | Natural Testosterone Optimization — Lifestyle + Nutrition | ₹299 |
 | `guide_12` | Science of Hypertrophy — 12-Week Training Program | ₹299 |
 | `guide_13` | Fat Loss Masterclass — Evidence-Based Protocol | ₹299 |
 | `guide_14` | Pre-Workout Optimization Guide — DIY Formula + Stacking | ₹199 |
 | `guide_15` | Recovery & CNS Restoration — Sleep + HRV Guide | ₹199 |
-| `guide_16` | Beginner Anabolic Cycle Complete Guide — Test-E Only | ₹399 |
-| `guide_17` | Intermediate Anabolic Cycle Blueprint — Multi-Compound | ₹499 |
-| `guide_18` | Advanced Anabolic Mastery — Competition Prep + HGH | ₹599 |
-| `guide_19` | PCT Complete Bible — HPTA Recovery + SERM Guide | ₹399 |
-| `guide_20` | Anabolic Nutrition Bible — Indian Meal Plans On-Cycle | ₹399 |
 | `guide_21` | Fitness & Mindset Guidance | ₹299 |
-| `guide_22` | Anabolic Full Guide | ₹299 |
 | `guide_23` | 100 Yoga Poses Complete Guide | ₹249 |
 | `guide_24` | Complete Meditation Guide & Roadmap | ₹249 |
 
-> ⚠️ Rows 3, 8–11, 16–20, 22 are the steroid/SARM/peptide/TRT/PCT/anabolic titles flagged in
-> `ANDROID_APP.md`. If you choose to Play-safe the catalog, skip creating those Play products
-> entirely and hide the matching guides in the Android build.
+The remaining 12 guides (ids 1, 2, 3, 8, 9, 10, 16–20, 22 — cycles, SARMs, TRT, PCT,
+anabolic protocols) and the 3 bundles that include them (`duo`, `anabolic`, `library`) are
+**not** sold inside the Play app at all, so skip creating Play products for them entirely.
+They remain fully purchasable on the website and in the `direct` (self-hosted APK) build,
+neither of which is subject to Play's product catalog or its content policy.
 
-**Bundles** (also one-time managed products — check current prices/ids in `PDFStore.tsx`'s
-`BUNDLES` array before creating, they're easy to get out of sync):
-| Product ID | Title |
-|---|---|
-| `bundle_<id>` | matches each entry in `BUNDLES` — use the bundle's `id` field |
+**Bundles** — none of the 3 current bundles (`duo`, `anabolic`, `library`) are sold on the
+Play channel, since each includes at least one restricted guide (see `PLAY_RESTRICTED_BUNDLE_IDS`
+in `PDFStore.tsx`). No bundle products need to be created in Play Console today. If you add a
+future bundle made entirely of Play-safe guides, create it as a one-time managed product with
+ID `bundle_<id>` matching its `id` field in `PDFStore.tsx`'s `BUNDLES` array.
 
 ---
 

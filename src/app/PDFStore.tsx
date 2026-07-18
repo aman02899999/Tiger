@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { useCheckout } from "./Checkout";
+import { isPlayStoreChannel } from "./PlatformChannel";
 
 type Guide = {
   id: number;
@@ -80,6 +81,24 @@ const GUIDE_FILES: Record<number, string> = {
   23: "yoga-100-poses-complete-guide.pdf",
   24: "complete-meditation-guide-roadmap.pdf",
 };
+
+// Guides covering steroid/SARM/peptide/TRT/PCT/anabolic cycle content — a
+// real Google Play Restricted Content risk if shown inside the Play-
+// distributed Android build. Hidden only on that channel; unaffected on the
+// website and the direct-download APK. See ANDROID_APP.md for the reasoning
+// and src/app/PlatformChannel.ts for how the channel is detected.
+const PLAY_RESTRICTED_GUIDE_IDS = new Set([1, 2, 3, 8, 9, 10, 16, 17, 18, 19, 20, 22]);
+// Bundles that include at least one restricted guide — hidden alongside them.
+const PLAY_RESTRICTED_BUNDLE_IDS = new Set(["duo", "anabolic", "library"]);
+
+function visibleGuides(guides: Guide[]): Guide[] {
+  if (!isPlayStoreChannel()) return guides;
+  return guides.filter((g) => !PLAY_RESTRICTED_GUIDE_IDS.has(g.id));
+}
+function visibleBundles(bundles: Bundle[]): Bundle[] {
+  if (!isPlayStoreChannel()) return bundles;
+  return bundles.filter((b) => !PLAY_RESTRICTED_BUNDLE_IDS.has(b.id));
+}
 
 function purchasedKey(email: string | null | undefined) {
   return `tfp_purchased_pdfs_${email ?? "guest"}`;
@@ -288,13 +307,22 @@ export default function PDFStorePage() {
 
   useEffect(() => { setPurchased(loadPurchased(user?.email)); }, [user?.email]);
 
+  const availableGuides = useMemo(() => visibleGuides(GUIDES), []);
+  const availableBundles = useMemo(() => visibleBundles(BUNDLES), []);
+  const hiddenCount = GUIDES.length - availableGuides.length;
+  // Drop category chips that would show zero results after filtering (e.g. "Cycles"/"Anabolic" on Play).
+  const availableCategories = useMemo(
+    () => CATEGORIES.filter((cat) => cat === "All" || availableGuides.some((g) => g.category === cat)),
+    [availableGuides]
+  );
+
   const filtered = useMemo(() => {
-    return GUIDES.filter((g) => {
+    return availableGuides.filter((g) => {
       const matchCat = activeCategory === "All" || g.category === activeCategory;
       const matchSearch = !search || g.title.toLowerCase().includes(search.toLowerCase()) || g.description.toLowerCase().includes(search.toLowerCase());
       return matchCat && matchSearch;
     });
-  }, [activeCategory, search]);
+  }, [activeCategory, search, availableGuides]);
 
   function downloadGuide(guide: Guide) {
     const file = GUIDE_FILES[guide.id];
@@ -348,18 +376,27 @@ export default function PDFStorePage() {
           </p>
         </div>
 
-        <div className="mb-12">
-          <h2 className="text-2xl font-extrabold mb-6 text-center" style={{ color: "#d8b35a" }}>Bundle Deals</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {BUNDLES.map((b) => (
-              <BundleCard key={b.id} bundle={b} owned={purchased.includes(`bundle-${b.id}`)} onBuy={setSelectedBundle} />
-            ))}
+        {availableBundles.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-extrabold mb-6 text-center" style={{ color: "#d8b35a" }}>Bundle Deals</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {availableBundles.map((b) => (
+                <BundleCard key={b.id} bundle={b} owned={purchased.includes(`bundle-${b.id}`)} onBuy={setSelectedBundle} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {hiddenCount > 0 && (
+          <div className="mb-8 rounded-2xl border p-4 text-center text-sm" style={{ borderColor: "rgba(216,179,90,0.3)", background: "rgba(216,179,90,0.08)", color: "#f7f0df" }}>
+            {hiddenCount} specialist guide{hiddenCount === 1 ? "" : "s"} (cycles, SARMs, TRT & PCT protocols) aren't shown in this app —
+            {" "}<a href="https://tiger-fitness-pro-2f047-c4f21.web.app/#pdfstore" className="font-bold underline" style={{ color: "#d8b35a" }}>view the full catalog on our website</a>.
+          </div>
+        )}
 
         <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => (
+            {availableCategories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
@@ -418,7 +455,7 @@ export function PDFStoreSection() {
 
   useEffect(() => { setPurchased(loadPurchased(user?.email)); }, [user?.email]);
 
-  const featured = GUIDES.slice(0, 6);
+  const featured = visibleGuides(GUIDES).slice(0, 6);
 
   function downloadGuide(guide: Guide) {
     const file = GUIDE_FILES[guide.id];

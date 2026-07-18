@@ -11,28 +11,40 @@ as usual and Android users get them automatically, the same as a browser tab ref
 
 ---
 
-## ⚠️ Read this first — a real Play Store policy risk
+## ✅ Play Store policy risk — resolved with a two-channel build
 
-The PDF Guide Store currently includes titles like *"Beginner Steroid Cycle Full Guide,"*
-*"SARMs Scientific Handbook,"* *"TRT Hormone Guide,"* *"PCT Complete Bible,"* and several
-*"Anabolic ..."* protocols. Google Play's **Restricted Content / Dangerous Products** policy
-prohibits apps that facilitate the sale of, or provide usage instructions for, anabolic
-steroids and other controlled/unapproved substances. Listing these guides — even just their
-titles, descriptions, or category names — inside an app distributed on Play is a **plausible
-rejection or account-suspension risk**, and Play enforcement can affect your whole developer
-account, not just this one app.
+The PDF Guide Store includes titles like *"Beginner Steroid Cycle Full Guide,"* *"SARMs
+Scientific Handbook,"* *"TRT Hormone Guide,"* *"PCT Complete Bible,"* and several *"Anabolic
+..."* protocols. Google Play's **Restricted Content / Dangerous Products** policy prohibits
+apps that facilitate the sale of, or provide usage instructions for, anabolic steroids and
+other controlled/unapproved substances — so those guides can't safely appear inside an app
+distributed *through Play*.
 
-This is a business decision only you can make, so I haven't changed any content. Before you
-submit for review, pick one:
+**This is now handled automatically, not by removing any content.** The app ships as **two
+Gradle product flavors** that share 100% of the same code and web app:
 
-1. **Ship a Play-safe catalog.** Hide the steroid/SARM/peptide/TRT/PCT/anabolic guides (and
-   the "Cycles"/"Hormones"/"Anabolic" categories) specifically inside the Android build —
-   keep the full catalog on the website, which isn't subject to Play's policies. This is the
-   safest path if you want Play distribution.
-2. **Submit as-is and accept the risk**, understanding Google's review team may reject the
-   binary or suspend the listing later, with no guarantee of appeal succeeding.
-3. **Ask me to build a Play-specific content filter** (e.g. an `isAndroidApp()` check that
-   hides those categories/guides only when running inside the TWA) before you publish —
+- **`playstore`** (`com.titanfitness.app`) — the build you upload to Play Console. The web
+  app detects this channel (via `?channel=playstore` baked into its launch URL) and hides
+  the 12 flagged guides and the 3 bundles that include them — see
+  `src/app/PlatformChannel.ts` and the filtering in `src/app/PDFStore.tsx`. A small in-app
+  note links Play users to the website for the full catalog, so you don't lose that revenue.
+- **`direct`** (`com.titanfitness.app.direct`) — an unfiltered build with the complete
+  24-guide catalog, meant to be downloaded straight from your own website rather than Play.
+  Play's policies only govern what's distributed *through* Play Store, so this channel is
+  free to show everything.
+- **The website itself** is a third, always-unfiltered channel — nothing changes there.
+
+Build either with `./gradlew assemblePlaystoreRelease` or `./gradlew assembleDirectRelease`
+(see the build commands below). If you'd rather not maintain two channels, you can still:
+
+1. Submit only the `playstore` flavor and skip building `direct` at all.
+2. Submit the unfiltered catalog anyway and accept the rejection/suspension risk — Play
+   enforcement can affect your whole developer account, not just this one app listing.
+3. Ask me to adjust which guides are filtered (the exact list is the
+   `PLAY_RESTRICTED_GUIDE_IDS` constant at the top of `src/app/PDFStore.tsx`) if you disagree
+   with where I drew the line — e.g. `id 11` ("Natural Testosterone Optimization —
+   Lifestyle + Nutrition") was deliberately left visible everywhere since it contains no
+   substance-cycle content despite living in the "Hormones" category.
    I can do this in a few minutes if you choose option 1.
 
 ---
@@ -132,17 +144,34 @@ Verify it with Google's checker before building:
 to a custom domain (e.g. `titanfitness.in`), update all three together — a TWA's chrome-less
 mode breaks if the asset-link verification doesn't match exactly.
 
-### 5. Build the release AAB
+### 5. Build the release binaries
+Both flavors share the same keystore and Gradle properties — only the task name changes.
+
+**For Play Console (AAB required, filtered catalog):**
 ```bash
 cd android
-./gradlew bundleRelease \
+./gradlew bundlePlaystoreRelease \
   -PTITAN_KEYSTORE_PATH=../android.keystore \
   -PTITAN_KEYSTORE_PASSWORD=<your password> \
   -PTITAN_KEY_ALIAS=titanfitness \
   -PTITAN_KEY_PASSWORD=<your password>
 ```
-The signed `.aab` lands in `android/app/build/outputs/bundle/release/`. That's what you
-upload to Play Console — not an `.apk`.
+The signed `.aab` lands in `android/app/build/outputs/bundle/playstoreRelease/`. That's what
+you upload to Play Console — not an `.apk`.
+
+**For direct download from your website (APK, full catalog):**
+```bash
+cd android
+./gradlew assembleDirectRelease \
+  -PTITAN_KEYSTORE_PATH=../android.keystore \
+  -PTITAN_KEYSTORE_PASSWORD=<your password> \
+  -PTITAN_KEY_ALIAS=titanfitness \
+  -PTITAN_KEY_PASSWORD=<your password>
+```
+The signed `.apk` lands in `android/app/build/outputs/apk/direct/release/`. Upload it
+somewhere on your own hosting (e.g. `public/downloads/titan-fitness.apk` in this repo, so it
+deploys with the site) and link to it from the website — Play's policies don't apply to a
+file your own server hosts.
 
 ### 6. Test locally before publishing
 Install `bubblewrap` (`npm i -g @bubblewrap/cli`) or use Android Studio's built-in emulator/
