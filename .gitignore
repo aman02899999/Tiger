@@ -4,3 +4,13 @@ dist/
 
 tsconfig.tsbuildinfo
 .claude/worktrees/
+
+# Android (TWA) build outputs and secrets — never commit signing material.
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/android.keystore
+android/*.keystore
+android/gradle/wrapper/gradle-wrapper.jar
+android/key.properties

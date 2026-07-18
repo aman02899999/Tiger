@@ -1,6 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
+import { useAuth } from "../auth/AuthSystem";
+import { useCheckout } from "./Checkout";
+import { isPlayStoreChannel } from "./PlatformChannel";
 
 type Guide = {
   id: number;
@@ -50,6 +53,71 @@ const GUIDES: Guide[] = [
   { id: 23, title: "100 Yoga Poses Complete Guide", description: "52+ poses with Sanskrit names, step-by-step instructions, breathing cues, benefits, contraindications and 6 goal-based sequences", pages: "100+ pages", price: 249, category: "Yoga", badge: "🆕", icon: "🧘" },
   { id: 24, title: "Complete Meditation Guide & Roadmap", description: "7-stage beginner-to-advanced roadmap, 12 techniques with guided scripts, neuroscience deep-dive, 30-day challenge checklist and daily routines", pages: "80+ pages", price: 249, category: "Meditation", badge: "🆕", icon: "🙏" },
 ];
+
+// Maps each guide id to its PDF filename in public/guides/.
+const GUIDE_FILES: Record<number, string> = {
+  1: "advanced-cutting-cycle.pdf",
+  2: "advanced-bulking-peptides.pdf",
+  3: "beginner-steroid-cycle.pdf",
+  4: "30-day-keto-indian.pdf",
+  5: "indian-nutrition-bible.pdf",
+  6: "female-weight-loss.pdf",
+  7: "womens-transformation.pdf",
+  8: "peptide-protocol-bible.pdf",
+  9: "sarms-scientific-handbook.pdf",
+  10: "trt-hormone-guide-india.pdf",
+  11: "natural-testosterone-optimization.pdf",
+  12: "science-of-hypertrophy.pdf",
+  13: "fat-loss-masterclass.pdf",
+  14: "pre-workout-guide.pdf",
+  15: "recovery-cns.pdf",
+  16: "beginner-anabolic-cycle.pdf",
+  17: "intermediate-anabolic-cycle.pdf",
+  18: "advanced-anabolic-mastery.pdf",
+  19: "pct-complete-bible.pdf",
+  20: "anabolic-nutrition-bible.pdf",
+  21: "fitness-mindset.pdf",
+  22: "anabolic-full-guide.pdf",
+  23: "yoga-100-poses-complete-guide.pdf",
+  24: "complete-meditation-guide-roadmap.pdf",
+};
+
+// Guides covering steroid/SARM/peptide/TRT/PCT/anabolic cycle content — a
+// real Google Play Restricted Content risk if shown inside the Play-
+// distributed Android build. Hidden only on that channel; unaffected on the
+// website and the direct-download APK. See ANDROID_APP.md for the reasoning
+// and src/app/PlatformChannel.ts for how the channel is detected.
+const PLAY_RESTRICTED_GUIDE_IDS = new Set([1, 2, 3, 8, 9, 10, 16, 17, 18, 19, 20, 22]);
+// Bundles that include at least one restricted guide — hidden alongside them.
+const PLAY_RESTRICTED_BUNDLE_IDS = new Set(["duo", "anabolic", "library"]);
+
+function visibleGuides(guides: Guide[]): Guide[] {
+  if (!isPlayStoreChannel()) return guides;
+  return guides.filter((g) => !PLAY_RESTRICTED_GUIDE_IDS.has(g.id));
+}
+function visibleBundles(bundles: Bundle[]): Bundle[] {
+  if (!isPlayStoreChannel()) return bundles;
+  return bundles.filter((b) => !PLAY_RESTRICTED_BUNDLE_IDS.has(b.id));
+}
+
+function purchasedKey(email: string | null | undefined) {
+  return `tfp_purchased_pdfs_${email ?? "guest"}`;
+}
+function loadPurchased(email: string | null | undefined): string[] {
+  try { return JSON.parse(localStorage.getItem(purchasedKey(email)) ?? "[]"); } catch { return []; }
+}
+function markPurchased(email: string | null | undefined, id: string) {
+  const cur = loadPurchased(email);
+  if (!cur.includes(id)) {
+    try { localStorage.setItem(purchasedKey(email), JSON.stringify([...cur, id])); } catch { /* storage full */ }
+  }
+}
+function downloadFile(filename: string) {
+  const a = document.createElement("a");
+  a.href = `/guides/${filename}`;
+  a.download = filename;
+  a.click();
+}
 
 const BUNDLES: Bundle[] = [
   {
@@ -145,14 +213,14 @@ function BuyModal({
           Proceed to Payment
         </button>
         <p className="text-center text-xs mt-4 opacity-50" style={{ color: "#f7f0df" }}>
-          Payment integration coming soon
+          🔒 Secure checkout · UPI, Card & Net Banking accepted
         </p>
       </div>
     </div>
   );
 }
 
-function GuideCard({ guide, onBuy }: { guide: Guide; onBuy: (guide: Guide) => void }) {
+function GuideCard({ guide, owned, onBuy, onDownload }: { guide: Guide; owned: boolean; onBuy: (guide: Guide) => void; onDownload: (guide: Guide) => void }) {
   return (
     <div
       className="relative flex flex-col rounded-2xl p-5 border transition-all duration-200 hover:scale-[1.02] hover:shadow-xl"
@@ -178,20 +246,24 @@ function GuideCard({ guide, onBuy }: { guide: Guide; onBuy: (guide: Guide) => vo
         </span>
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-2xl font-extrabold" style={{ color: "#d8b35a" }}>₹{guide.price}</span>
+        {owned ? (
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(52,211,153,0.15)", color: "#34d399", border: "1px solid rgba(52,211,153,0.35)" }}>✓ Owned</span>
+        ) : (
+          <span className="text-2xl font-extrabold" style={{ color: "#d8b35a" }}>₹{guide.price}</span>
+        )}
         <button
-          onClick={() => onBuy(guide)}
+          onClick={() => (owned ? onDownload(guide) : onBuy(guide))}
           className="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:opacity-90 active:scale-95"
-          style={{ background: "linear-gradient(135deg, #7c3aed, #a21caf)", color: "#f7f0df" }}
+          style={{ background: owned ? "linear-gradient(135deg, #34d399, #10b981)" : "linear-gradient(135deg, #7c3aed, #a21caf)", color: owned ? "#052e1f" : "#f7f0df" }}
         >
-          Buy Now
+          {owned ? "⬇ Download" : "Buy Now"}
         </button>
       </div>
     </div>
   );
 }
 
-function BundleCard({ bundle, onBuy }: { bundle: Bundle; onBuy: (bundle: Bundle) => void }) {
+function BundleCard({ bundle, owned, onBuy }: { bundle: Bundle; owned: boolean; onBuy: (bundle: Bundle) => void }) {
   return (
     <div
       className="relative flex flex-col rounded-2xl p-6 border transition-all duration-200 hover:scale-[1.02] hover:shadow-2xl"
@@ -212,36 +284,84 @@ function BundleCard({ bundle, onBuy }: { bundle: Bundle; onBuy: (bundle: Bundle)
         <span className="text-sm line-through opacity-50 mb-1">₹{bundle.originalPrice}</span>
       </div>
       <button
-        onClick={() => onBuy(bundle)}
-        className="w-full py-3 rounded-xl font-bold transition-all duration-200 hover:opacity-90 active:scale-95"
-        style={{ background: "linear-gradient(135deg, #d8b35a, #f59e0b)", color: "#07040d" }}
+        onClick={() => !owned && onBuy(bundle)}
+        disabled={owned}
+        className="w-full py-3 rounded-xl font-bold transition-all duration-200 hover:opacity-90 active:scale-95 disabled:cursor-default disabled:opacity-80"
+        style={{ background: owned ? "linear-gradient(135deg, #34d399, #10b981)" : "linear-gradient(135deg, #d8b35a, #f59e0b)", color: owned ? "#052e1f" : "#07040d" }}
       >
-        Buy Bundle
+        {owned ? "✓ Owned — All Guides Unlocked" : "Buy Bundle"}
       </button>
     </div>
   );
 }
 
 export default function PDFStorePage() {
+  const { user } = useAuth();
+  const { openItemCheckout } = useCheckout();
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
   const [selectedBundle, setSelectedBundle] = useState<Bundle | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [purchased, setPurchased] = useState<string[]>([]);
+
+  useEffect(() => { setPurchased(loadPurchased(user?.email)); }, [user?.email]);
+
+  const availableGuides = useMemo(() => visibleGuides(GUIDES), []);
+  const availableBundles = useMemo(() => visibleBundles(BUNDLES), []);
+  const hiddenCount = GUIDES.length - availableGuides.length;
+  // Drop category chips that would show zero results after filtering (e.g. "Cycles"/"Anabolic" on Play).
+  const availableCategories = useMemo(
+    () => CATEGORIES.filter((cat) => cat === "All" || availableGuides.some((g) => g.category === cat)),
+    [availableGuides]
+  );
 
   const filtered = useMemo(() => {
-    return GUIDES.filter((g) => {
+    return availableGuides.filter((g) => {
       const matchCat = activeCategory === "All" || g.category === activeCategory;
       const matchSearch = !search || g.title.toLowerCase().includes(search.toLowerCase()) || g.description.toLowerCase().includes(search.toLowerCase());
       return matchCat && matchSearch;
     });
-  }, [activeCategory, search]);
+  }, [activeCategory, search, availableGuides]);
+
+  function downloadGuide(guide: Guide) {
+    const file = GUIDE_FILES[guide.id];
+    if (file) downloadFile(file);
+  }
 
   const handleProceed = () => {
+    const guide = selectedGuide;
+    const bundle = selectedBundle;
     setSelectedGuide(null);
     setSelectedBundle(null);
-    setToast("Payment coming soon — contact us on WhatsApp to purchase");
-    setTimeout(() => setToast(null), 5000);
+    if (guide) {
+      openItemCheckout({
+        id: `guide-${guide.id}`,
+        title: guide.title,
+        price: guide.price,
+        onSuccess: () => {
+          markPurchased(user?.email, `guide-${guide.id}`);
+          setPurchased(loadPurchased(user?.email));
+          downloadGuide(guide);
+          setToast(`✓ ${guide.title} unlocked — download started`);
+          setTimeout(() => setToast(null), 5000);
+        },
+      });
+    } else if (bundle) {
+      openItemCheckout({
+        id: `bundle-${bundle.id}`,
+        title: bundle.title,
+        price: bundle.price,
+        onSuccess: () => {
+          markPurchased(user?.email, `bundle-${bundle.id}`);
+          setPurchased(loadPurchased(user?.email));
+          GUIDES.forEach((g) => { markPurchased(user?.email, `guide-${g.id}`); downloadGuide(g); });
+          setPurchased(loadPurchased(user?.email));
+          setToast(`✓ ${bundle.title} unlocked — all guides downloading`);
+          setTimeout(() => setToast(null), 5000);
+        },
+      });
+    }
   };
 
   return (
@@ -256,18 +376,27 @@ export default function PDFStorePage() {
           </p>
         </div>
 
-        <div className="mb-12">
-          <h2 className="text-2xl font-extrabold mb-6 text-center" style={{ color: "#d8b35a" }}>Bundle Deals</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {BUNDLES.map((b) => (
-              <BundleCard key={b.id} bundle={b} onBuy={setSelectedBundle} />
-            ))}
+        {availableBundles.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-extrabold mb-6 text-center" style={{ color: "#d8b35a" }}>Bundle Deals</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {availableBundles.map((b) => (
+                <BundleCard key={b.id} bundle={b} owned={purchased.includes(`bundle-${b.id}`)} onBuy={setSelectedBundle} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
+        {hiddenCount > 0 && (
+          <div className="mb-8 rounded-2xl border p-4 text-center text-sm" style={{ borderColor: "rgba(216,179,90,0.3)", background: "rgba(216,179,90,0.08)", color: "#f7f0df" }}>
+            {hiddenCount} specialist guide{hiddenCount === 1 ? "" : "s"} (cycles, SARMs, TRT & PCT protocols) aren't shown in this app —
+            {" "}<a href="https://tiger-fitness-pro-2f047-c4f21.web.app/#pdfstore" className="font-bold underline" style={{ color: "#d8b35a" }}>view the full catalog on our website</a>.
+          </div>
+        )}
 
         <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => (
+            {availableCategories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
@@ -297,7 +426,7 @@ export default function PDFStorePage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
             {filtered.map((g) => (
-              <GuideCard key={g.id} guide={g} onBuy={setSelectedGuide} />
+              <GuideCard key={g.id} guide={g} owned={purchased.includes(`guide-${g.id}`)} onBuy={setSelectedGuide} onDownload={downloadGuide} />
             ))}
           </div>
         )}
@@ -318,15 +447,37 @@ export default function PDFStorePage() {
 }
 
 export function PDFStoreSection() {
+  const { user } = useAuth();
+  const { openItemCheckout } = useCheckout();
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [purchased, setPurchased] = useState<string[]>([]);
 
-  const featured = GUIDES.slice(0, 6);
+  useEffect(() => { setPurchased(loadPurchased(user?.email)); }, [user?.email]);
+
+  const featured = visibleGuides(GUIDES).slice(0, 6);
+
+  function downloadGuide(guide: Guide) {
+    const file = GUIDE_FILES[guide.id];
+    if (file) downloadFile(file);
+  }
 
   const handleProceed = () => {
+    const guide = selectedGuide;
     setSelectedGuide(null);
-    setToast("Payment coming soon — contact us on WhatsApp to purchase");
-    setTimeout(() => setToast(null), 5000);
+    if (!guide) return;
+    openItemCheckout({
+      id: `guide-${guide.id}`,
+      title: guide.title,
+      price: guide.price,
+      onSuccess: () => {
+        markPurchased(user?.email, `guide-${guide.id}`);
+        setPurchased(loadPurchased(user?.email));
+        downloadGuide(guide);
+        setToast(`✓ ${guide.title} unlocked — download started`);
+        setTimeout(() => setToast(null), 5000);
+      },
+    });
   };
 
   return (
@@ -340,7 +491,7 @@ export function PDFStoreSection() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {featured.map((g) => (
-            <GuideCard key={g.id} guide={g} onBuy={setSelectedGuide} />
+            <GuideCard key={g.id} guide={g} owned={purchased.includes(`guide-${g.id}`)} onBuy={setSelectedGuide} onDownload={downloadGuide} />
           ))}
         </div>
         <div className="text-center mt-8">
@@ -349,7 +500,7 @@ export function PDFStoreSection() {
             className="inline-block px-8 py-3 rounded-xl font-bold transition-all duration-200 hover:opacity-90"
             style={{ background: "linear-gradient(135deg, #7c3aed, #a21caf)", color: "#f7f0df" }}
           >
-            View All 22 Guides →
+            View All 24 Guides →
           </a>
         </div>
       </div>
