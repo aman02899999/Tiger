@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    namespace 'com.titanfitness.app'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.titanfitness.app"
+        minSdkVersion 23
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    signingConfigs {
+        release {
+            // Generate with: keytool -genkeypair -v -keystore android.keystore
+            //   -alias titanfitness -keyalg RSA -keysize 2048 -validity 10000
+            // Never commit android.keystore or its passwords — see ANDROID_APP.md.
+            if (project.hasProperty('TITAN_KEYSTORE_PATH')) {
+                storeFile file(TITAN_KEYSTORE_PATH)
+                storePassword TITAN_KEYSTORE_PASSWORD
+                keyAlias TITAN_KEY_ALIAS
+                keyPassword TITAN_KEY_PASSWORD
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (project.hasProperty('TITAN_KEYSTORE_PATH')) {
+                signingConfig signingConfigs.release
+            }
+        }
+        debug {
+            debuggable true
+        }
+    }
+
+    buildFeatures {
+        viewBinding false
+    }
+}
+
+dependencies {
+    // Trusted Web Activity launcher + Play Billing bridge (Digital Goods API support).
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.6.1'
+    implementation 'com.google.androidbrowserhelper:billing:2.6.1'
+    implementation 'androidx.browser:browser:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+}

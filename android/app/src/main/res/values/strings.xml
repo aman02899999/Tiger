@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Titan Fitness</string>
+    <string name="launcher_name">Titan Fitness</string>
+
+    <!-- Digital Asset Links host — the deployed web app this TWA wraps and verifies against. -->
+    <string name="host">tiger-fitness-pro-2f047-c4f21.web.app</string>
+    <string name="launch_url">https://tiger-fitness-pro-2f047-c4f21.web.app/</string>
+
+    <!-- Shown briefly if Chrome/WebView needs to be updated on the device. -->
+    <string name="provider_authority">com.titanfitness.app.fileprovider</string>
+
+    <string name="asset_statements">
+        [{
+            \"relation\": [\"delegate_permission/common.handle_all_urls\"],
+            \"target\": {
+                \"namespace\": \"web\",
+                \"site\": \"https://tiger-fitness-pro-2f047-c4f21.web.app\"
+            }
+        }]
+    </string>
+
+    <!-- Empty by default — Play Billing purchases don't need extra URL params. -->
+    <string name="web_manifest_url">https://tiger-fitness-pro-2f047-c4f21.web.app/manifest.webmanifest</string>
+    <string name="fallback_type">customtabs</string>
+
+    <!-- File extensions the TWA is allowed to handle (none needed today). -->
+    <array name="shortcuts" />
+</resources>

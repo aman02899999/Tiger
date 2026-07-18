@@ -1,0 +1,46 @@
+{
+  "packageId": "com.titanfitness.app",
+  "host": "tiger-fitness-pro-2f047-c4f21.web.app",
+  "name": "The Titan Fitness",
+  "launcherName": "Titan Fitness",
+  "display": "standalone",
+  "themeColor": "#07040D",
+  "themeColorDark": "#07040D",
+  "navigationColor": "#07040D",
+  "navigationColorDark": "#07040D",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#07040D",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://tiger-fitness-pro-2f047-c4f21.web.app/images/tiger-fitness-luxury-hero.jpg",
+  "maskableIconUrl": "https://tiger-fitness-pro-2f047-c4f21.web.app/images/tiger-fitness-luxury-hero.jpg",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "titanfitness"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "hand-authored (see ANDROID_APP.md)",
+  "webManifestUrl": "https://tiger-fitness-pro-2f047-c4f21.web.app/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {
+    "playBilling": {
+      "enabled": true
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://tiger-fitness-pro-2f047-c4f21.web.app/",
+  "minSdkVersion": 23,
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}

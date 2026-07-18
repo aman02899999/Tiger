@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useAuth } from "../auth/AuthSystem";
+import { isPlayBillingAvailable, purchaseWithPlayBilling, acknowledgePlayPurchase } from "./PlayBilling";
 
 /* ---------------------------------------------------------------- */
 /* Checkout — the app's actual monetization mechanism. Any button    */
@@ -30,6 +31,14 @@ export const PLANS: Record<PlanId, PlanDef> = {
   elite: { id: "elite", label: "Elite Family", planValue: "Elite", monthly: 399, annual: 2999, tagline: "Everything in Pro, for up to 8 family members" },
   lifetime: { id: "lifetime", label: "Lifetime Elite", planValue: "Elite", monthly: 0, annual: 0, lifetime: 6999, tagline: "Pay once, own Elite forever" },
 };
+
+// Maps an internal plan+cycle to the Play Console product id that must be
+// created for it (see PLAY_CONSOLE_SETUP.md). Subscriptions use base plans
+// named "monthly"/"annual" under a single product per tier.
+function playSkuFor(planId: PlanId, cycle: "monthly" | "annual"): string {
+  if (planId === "lifetime") return "elite_lifetime";
+  return `${planId}_${cycle}`;
+}
 
 const COUPONS: Record<string, { pct: number; label: string }> = {
   LAUNCH20: { pct: 20, label: "Launch offer" },
@@ -95,6 +104,14 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; pct: number } | null>(null);
   const [couponMsg, setCouponMsg] = useState<string | null>(null);
+  // Play Store policy requires digital purchases inside an Android app
+  // distributed via Play to go through Play Billing. undefined = still
+  // checking; true/false decides which payment UI renders below.
+  const [playAvailable, setPlayAvailable] = useState<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    isPlayBillingAvailable().then(setPlayAvailable);
+  }, []);
 
   const plan = state.kind === "plan" ? PLANS[state.plan] : null;
   const basePrice = state.kind === "plan" ? priceFor(plan!, state.cycle) : state.item.price;
@@ -118,7 +135,27 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
     setCouponMsg(`✓ ${found.label} applied — ${found.pct}% off`);
   }
 
+  async function payViaPlay() {
+    setStep("processing");
+    const sku = state.kind === "plan" ? playSkuFor(state.plan, state.cycle) : state.item.id.replace(/^(guide|bundle)-/, "$1_");
+    try {
+      const result = await purchaseWithPlayBilling(sku);
+      if (!result) { setStep("pay"); return; } // user backed out of the Play sheet
+      if (state.kind === "plan") {
+        await updateUser({ plan: plan!.planValue });
+      } else {
+        state.item.onSuccess();
+        await acknowledgePlayPurchase(result.purchaseToken);
+      }
+      setStep("success");
+      setTimeout(onClose, 2400);
+    } catch {
+      setStep("pay"); // Play sheet cancelled/failed — let them retry
+    }
+  }
+
   async function pay() {
+    if (playAvailable) return payViaPlay();
     setStep("processing");
     // INTEGRATION POINT: replace with a real Razorpay/Stripe order-create +
     // checkout.js call, then verify the payment signature server-side before
@@ -178,49 +215,70 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
             </div>
 
             <div className="p-6">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Payment method</p>
-              <div className="mb-4 grid grid-cols-3 gap-2">
-                {([["upi", "📱 UPI"], ["card", "💳 Card"], ["netbanking", "🏦 Net Banking"]] as [Method, string][]).map(([m, label]) => (
-                  <button key={m} type="button" onClick={() => setMethod(m)} className={`rounded-xl border py-2.5 text-xs font-bold transition ${method === m ? "border-violet-300/50 bg-violet-300/12 text-violet-100" : "border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/62"}`}>
-                    {label}
-                  </button>
-                ))}
-              </div>
-
-              {method === "upi" && (
-                <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@upi" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-              )}
-              {method === "card" && (
-                <div className="space-y-2">
-                  <input value={cardNum} onChange={(e) => setCardNum(e.target.value)} placeholder="1234 5678 9012 3456" inputMode="numeric" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                  <div className="flex gap-2">
-                    <input placeholder="MM/YY" className="w-1/2 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                    <input placeholder="CVV" inputMode="numeric" className="w-1/2 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                  </div>
+              {playAvailable === undefined ? (
+                <div className="flex items-center justify-center py-6">
+                  <div className="h-6 w-6 animate-spin rounded-full border-2 border-violet-300/25 border-t-violet-300" />
                 </div>
-              )}
-              {method === "netbanking" && (
-                <select className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
-                  {["State Bank of India", "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Mahindra Bank"].map((b) => <option key={b}>{b}</option>)}
-                </select>
-              )}
+              ) : playAvailable ? (
+                <>
+                  <div className="mb-4 flex items-center gap-3 rounded-xl border border-emerald-300/25 bg-emerald-300/8 px-4 py-3">
+                    <span className="text-xl">▶️</span>
+                    <div>
+                      <p className="text-sm font-bold text-emerald-200">Google Play Billing</p>
+                      <p className="text-xs text-[#f7f0df]/62">Charged to your Play Store payment method — cancel anytime from Play Store {'>'} Subscriptions.</p>
+                    </div>
+                  </div>
+                  <button type="button" onClick={pay} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white">
+                    ▶️ Continue with Google Play
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Payment method</p>
+                  <div className="mb-4 grid grid-cols-3 gap-2">
+                    {([["upi", "📱 UPI"], ["card", "💳 Card"], ["netbanking", "🏦 Net Banking"]] as [Method, string][]).map(([m, label]) => (
+                      <button key={m} type="button" onClick={() => setMethod(m)} className={`rounded-xl border py-2.5 text-xs font-bold transition ${method === m ? "border-violet-300/50 bg-violet-300/12 text-violet-100" : "border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/62"}`}>
+                        {label}
+                      </button>
+                    ))}
+                  </div>
 
-              <div className="mt-4 flex gap-2">
-                <input value={coupon} onChange={(e) => { setCoupon(e.target.value); setCouponMsg(null); }} placeholder="Coupon code (try LAUNCH20)" className="flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
-                <button type="button" onClick={applyCoupon} className="rounded-xl border border-[#d8b35a]/30 bg-[#d8b35a]/10 px-4 text-xs font-bold text-[#d8b35a] hover:bg-[#d8b35a]/20">Apply</button>
-              </div>
-              {couponMsg && <p className={`mt-1.5 text-xs font-semibold ${appliedCoupon ? "text-emerald-300" : "text-rose-300"}`}>{couponMsg}</p>}
+                  {method === "upi" && (
+                    <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@upi" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                  )}
+                  {method === "card" && (
+                    <div className="space-y-2">
+                      <input value={cardNum} onChange={(e) => setCardNum(e.target.value)} placeholder="1234 5678 9012 3456" inputMode="numeric" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                      <div className="flex gap-2">
+                        <input placeholder="MM/YY" className="w-1/2 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                        <input placeholder="CVV" inputMode="numeric" className="w-1/2 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                      </div>
+                    </div>
+                  )}
+                  {method === "netbanking" && (
+                    <select className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
+                      {["State Bank of India", "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Mahindra Bank"].map((b) => <option key={b}>{b}</option>)}
+                    </select>
+                  )}
 
-              <button type="button" onClick={pay} disabled={!canPay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40">
-                🔒 Pay ₹{finalPrice} Securely
-              </button>
-              <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#f7f0df]/50">
-                <span>🔒 256-bit encrypted</span>
-                <span>·</span>
-                <span>✅ Instant activation</span>
-                <span>·</span>
-                <span>↩ 7-day refund</span>
-              </div>
+                  <div className="mt-4 flex gap-2">
+                    <input value={coupon} onChange={(e) => { setCoupon(e.target.value); setCouponMsg(null); }} placeholder="Coupon code (try LAUNCH20)" className="flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+                    <button type="button" onClick={applyCoupon} className="rounded-xl border border-[#d8b35a]/30 bg-[#d8b35a]/10 px-4 text-xs font-bold text-[#d8b35a] hover:bg-[#d8b35a]/20">Apply</button>
+                  </div>
+                  {couponMsg && <p className={`mt-1.5 text-xs font-semibold ${appliedCoupon ? "text-emerald-300" : "text-rose-300"}`}>{couponMsg}</p>}
+
+                  <button type="button" onClick={pay} disabled={!canPay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40">
+                    🔒 Pay ₹{finalPrice} Securely
+                  </button>
+                  <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#f7f0df]/50">
+                    <span>🔒 256-bit encrypted</span>
+                    <span>·</span>
+                    <span>✅ Instant activation</span>
+                    <span>·</span>
+                    <span>↩ 7-day refund</span>
+                  </div>
+                </>
+              )}
             </div>
           </>
         )}
