@@ -34,6 +34,7 @@ import BodyMetricsPage from "./BodyMetrics";
 import QuestsPage from "./Quests";
 import DataBackupPage from "./DataBackup";
 import { CheckoutProvider, useCheckout, PLANS, type PlanId } from "./Checkout";
+import WorkoutCalendarPage from "./WorkoutCalendar";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -49,6 +50,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
   const navGroups = [
     { group: "🏋️ Training", items: [
       { id: "workouts", icon: "💪", label: "Workouts" },
+      { id: "calendar", icon: "📅", label: "Workout Calendar" },
       { id: "workoutbuilder", icon: "🗒️", label: "Workout Builder" },
       { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
@@ -1070,6 +1072,7 @@ function SaaSAppInner() {
     <AppShell currentSection={section} setCurrentSection={setSection} onLogout={logout}>
       {section === "dashboard" && <Dashboard onNavigate={setSection} />}
       {section === "workouts" && <WorkoutsPage />}
+      {section === "calendar" && <WorkoutCalendarPage onNavigate={setSection} />}
       {section === "nutrition" && <NutritionPage />}
       {section === "toolbox" && <FitnessToolbox />}
       {section === "diet" && <DietCalculator />}
