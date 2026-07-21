@@ -22,7 +22,7 @@ export function addXP(email: string | null | undefined, amount: number): number 
   return next;
 }
 
-const LEVELS = [
+export const LEVELS = [
   { name: "Rookie", icon: "🐣", min: 0 },
   { name: "Grinder", icon: "🔨", min: 300 },
   { name: "Warrior", icon: "⚔️", min: 800 },
@@ -32,7 +32,7 @@ const LEVELS = [
   { name: "Titan God", icon: "⚡", min: 7000 },
 ];
 
-interface Badge {
+export interface Badge {
   id: string;
   icon: string;
   title: string;
@@ -41,7 +41,7 @@ interface Badge {
   progress: (ctx: { xp: number; workouts: number; streak: number }) => [number, number];
 }
 
-const BADGES: Badge[] = [
+export const BADGES: Badge[] = [
   { id: "first", icon: "🎯", title: "First Blood", desc: "Complete your first workout", unlocked: (c) => c.workouts >= 1, progress: (c) => [c.workouts, 1] },
   { id: "five", icon: "🖐️", title: "High Five", desc: "Complete 5 workouts", unlocked: (c) => c.workouts >= 5, progress: (c) => [c.workouts, 5] },
   { id: "twenty", icon: "🔥", title: "On Fire", desc: "Complete 20 workouts", unlocked: (c) => c.workouts >= 20, progress: (c) => [c.workouts, 20] },
