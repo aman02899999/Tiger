@@ -35,6 +35,8 @@ import QuestsPage from "./Quests";
 import DataBackupPage from "./DataBackup";
 import { CheckoutProvider, useCheckout, PLANS, type PlanId } from "./Checkout";
 import WorkoutCalendarPage from "./WorkoutCalendar";
+import { NotificationBell } from "./Notifications";
+import MoodJournalPage from "./MoodJournal";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -66,6 +68,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "yoga", icon: "🧘", label: "Yoga Studio" },
       { id: "meditation", icon: "🙏", label: "Meditation" },
       { id: "hearthealth", icon: "🫀", label: "Heart & Breathing" },
+      { id: "moodjournal", icon: "📓", label: "Mood & Stress Journal" },
       { id: "sleeprecovery", icon: "😴", label: "Sleep & Recovery" },
       { id: "physio", icon: "🦴", label: "Physio & Rehab" },
       { id: "ayurveda", icon: "🌿", label: "Ayurveda Hub" },
@@ -227,10 +230,14 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
 
       {/* Main */}
       <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex items-center justify-between border-b border-[#f7f0df]/10 bg-[#0b0714]/60 px-6 py-4 backdrop-blur-xl lg:hidden">
-          <button type="button" onClick={() => setMobileOpen(true)} className="rounded-xl border border-white/10 px-3 py-2 text-sm">☰ Menu</button>
-          <span className="text-sm font-bold">The Titan Fitness</span>
-          <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">{user?.avatar}</div>
+        <header className="flex items-center justify-between border-b border-[#f7f0df]/10 bg-[#0b0714]/60 px-6 py-4 backdrop-blur-xl">
+          <button type="button" onClick={() => setMobileOpen(true)} className="rounded-xl border border-white/10 px-3 py-2 text-sm lg:hidden">☰ Menu</button>
+          <span className="text-sm font-bold lg:hidden">The Titan Fitness</span>
+          <span className="hidden text-sm font-bold text-[#f7f0df]/65 lg:block">{currentSection === "dashboard" ? "Dashboard" : ""}</span>
+          <div className="flex items-center gap-3">
+            <NotificationBell onNavigate={setCurrentSection} />
+            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511] lg:hidden">{user?.avatar}</div>
+          </div>
         </header>
 
         <main className="flex-1 overflow-y-auto px-4 py-5 sm:p-6 lg:p-10">{children}</main>
@@ -1094,6 +1101,7 @@ function SaaSAppInner() {
       {section === "recipehub" && <RecipeHubPage />}
       {section === "sleeprecovery" && <SleepRecoveryPage />}
       {section === "hearthealth" && <HeartHealthPage />}
+      {section === "moodjournal" && <MoodJournalPage />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
