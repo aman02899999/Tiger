@@ -37,6 +37,7 @@ import { CheckoutProvider, useCheckout, PLANS, type PlanId } from "./Checkout";
 import WorkoutCalendarPage from "./WorkoutCalendar";
 import { NotificationBell } from "./Notifications";
 import MoodJournalPage from "./MoodJournal";
+import IntervalTimerPage from "./IntervalTimer";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -55,6 +56,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "calendar", icon: "📅", label: "Workout Calendar" },
       { id: "workoutbuilder", icon: "🗒️", label: "Workout Builder" },
       { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
+      { id: "intervaltimer", icon: "⏱️", label: "Interval Timer" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
       { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
     ]},
@@ -1094,6 +1096,7 @@ function SaaSAppInner() {
       {section === "gympartner" && <GymPartnerPage />}
       {section === "workoutbuilder" && <WorkoutBuilderPage />}
       {section === "strengthlab" && <StrengthLabPage />}
+      {section === "intervaltimer" && <IntervalTimerPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
       {section === "progressphotos" && <ProgressPhotosPage />}
