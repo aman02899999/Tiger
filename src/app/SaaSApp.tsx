@@ -37,6 +37,9 @@ import { CheckoutProvider, useCheckout, PLANS, type PlanId } from "./Checkout";
 import WorkoutCalendarPage from "./WorkoutCalendar";
 import { NotificationBell } from "./Notifications";
 import MoodJournalPage from "./MoodJournal";
+import IntervalTimerPage from "./IntervalTimer";
+import SupplementsPage from "./Supplements";
+import FitnessStoryPage from "./FitnessStory";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -55,6 +58,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "calendar", icon: "📅", label: "Workout Calendar" },
       { id: "workoutbuilder", icon: "🗒️", label: "Workout Builder" },
       { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
+      { id: "intervaltimer", icon: "⏱️", label: "Interval Timer" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
       { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
     ]},
@@ -62,6 +66,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "nutrition", icon: "🍛", label: "Nutrition Tracker" },
       { id: "macrobuilder", icon: "🍽️", label: "Macro Builder" },
       { id: "recipehub", icon: "👨‍🍳", label: "Recipe Hub" },
+      { id: "supplements", icon: "💊", label: "Supplements" },
       { id: "diet", icon: "🥗", label: "Auto Diet" },
     ]},
     { group: "🧘 Wellness", items: [
@@ -85,6 +90,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "achievements", icon: "🏅", label: "Achievements" },
       { id: "dailyrewards", icon: "🎡", label: "Daily Rewards" },
       { id: "quests", icon: "⚔️", label: "Quests & Share" },
+      { id: "fitnessstory", icon: "🎬", label: "Fitness Story" },
       { id: "challenges", icon: "🏆", label: "Challenges" },
       { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
       { id: "gympartner", icon: "🤝", label: "Let's Gym" },
@@ -1090,15 +1096,18 @@ function SaaSAppInner() {
       {section === "achievements" && <AchievementsPage />}
       {section === "dailyrewards" && <DailyRewardsPage />}
       {section === "quests" && <QuestsPage />}
+      {section === "fitnessstory" && <FitnessStoryPage />}
       {section === "aicoach" && <AICoachPage />}
       {section === "gympartner" && <GymPartnerPage />}
       {section === "workoutbuilder" && <WorkoutBuilderPage />}
       {section === "strengthlab" && <StrengthLabPage />}
+      {section === "intervaltimer" && <IntervalTimerPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
       {section === "progressphotos" && <ProgressPhotosPage />}
       {section === "macrobuilder" && <MacroBuilderPage />}
       {section === "recipehub" && <RecipeHubPage />}
+      {section === "supplements" && <SupplementsPage />}
       {section === "sleeprecovery" && <SleepRecoveryPage />}
       {section === "hearthealth" && <HeartHealthPage />}
       {section === "moodjournal" && <MoodJournalPage />}
