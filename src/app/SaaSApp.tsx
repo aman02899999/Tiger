@@ -44,6 +44,7 @@ import ChallengeRoulettePage from "./ChallengeRoulette";
 import RecoveryReadinessPage from "./RecoveryReadiness";
 import StrengthStandardsPage from "./StrengthStandards";
 import FitnessTriviaPage from "./FitnessTrivia";
+import MuscleAnatomyPage from "./MuscleAnatomy";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -64,6 +65,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
       { id: "intervaltimer", icon: "⏱️", label: "Interval Timer" },
       { id: "strengthstandards", icon: "📊", label: "Strength Standards" },
+      { id: "anatomy", icon: "🦾", label: "Muscle Anatomy" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
       { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
     ]},
@@ -1111,6 +1113,7 @@ function SaaSAppInner() {
       {section === "strengthlab" && <StrengthLabPage />}
       {section === "intervaltimer" && <IntervalTimerPage />}
       {section === "strengthstandards" && <StrengthStandardsPage />}
+      {section === "anatomy" && <MuscleAnatomyPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
       {section === "progressphotos" && <ProgressPhotosPage />}
