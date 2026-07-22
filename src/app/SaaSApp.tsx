@@ -47,6 +47,8 @@ import FitnessTriviaPage from "./FitnessTrivia";
 import MuscleAnatomyPage from "./MuscleAnatomy";
 import WarmupGeneratorPage from "./WarmupGenerator";
 import CardioTrackerPage from "./CardioTracker";
+import BodyFatEstimatorPage from "./BodyFatEstimator";
+import WeightGoalProjectorPage from "./WeightGoalProjector";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -92,6 +94,8 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { group: "📈 Progress", items: [
       { id: "progress", icon: "📈", label: "Progress" },
       { id: "bodymetrics", icon: "📐", label: "Body Metrics" },
+      { id: "bodyfat", icon: "📏", label: "Body Fat Estimator" },
+      { id: "weightgoal", icon: "🎯", label: "Weight Goal Projector" },
       { id: "consistency", icon: "🔥", label: "Consistency" },
       { id: "cardio", icon: "🏃", label: "Cardio & Steps" },
       { id: "progressphotos", icon: "📸", label: "Progress Photos" },
@@ -1122,6 +1126,8 @@ function SaaSAppInner() {
       {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
       {section === "cardio" && <CardioTrackerPage />}
+      {section === "bodyfat" && <BodyFatEstimatorPage />}
+      {section === "weightgoal" && <WeightGoalProjectorPage />}
       {section === "progressphotos" && <ProgressPhotosPage />}
       {section === "macrobuilder" && <MacroBuilderPage />}
       {section === "recipehub" && <RecipeHubPage />}
