@@ -57,6 +57,8 @@ import HeartRateZonesPage from "./HeartRateZones";
 import Vo2MaxEstimatorPage from "./Vo2MaxEstimator";
 import DotsScorePage from "./DotsScore";
 import WaistHipRatioPage from "./WaistHipRatio";
+import WorkoutOfTheDayPage from "./WorkoutOfTheDay";
+import CalorieBurnConverterPage from "./CalorieBurnConverter";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -72,6 +74,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
   const navGroups = [
     { group: "🏋️ Training", items: [
       { id: "workouts", icon: "💪", label: "Workouts" },
+      { id: "wod", icon: "🎲", label: "Workout of the Day" },
       { id: "calendar", icon: "📅", label: "Workout Calendar" },
       { id: "workoutbuilder", icon: "🗒️", label: "Workout Builder" },
       { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
@@ -92,6 +95,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "supplements", icon: "💊", label: "Supplements" },
       { id: "diet", icon: "🥗", label: "Auto Diet" },
       { id: "hydration", icon: "💧", label: "Hydration Tracker" },
+      { id: "burnconvert", icon: "🔥", label: "Calorie Burn Converter" },
     ]},
     { group: "🧘 Wellness", items: [
       { id: "yoga", icon: "🧘", label: "Yoga Studio" },
@@ -1145,6 +1149,8 @@ function SaaSAppInner() {
       {section === "vo2max" && <Vo2MaxEstimatorPage />}
       {section === "dots" && <DotsScorePage />}
       {section === "whr" && <WaistHipRatioPage />}
+      {section === "wod" && <WorkoutOfTheDayPage />}
+      {section === "burnconvert" && <CalorieBurnConverterPage />}
       {section === "pace" && <PaceCalculatorPage />}
       {section === "hydration" && <HydrationTrackerPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
