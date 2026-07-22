@@ -40,6 +40,8 @@ import MoodJournalPage from "./MoodJournal";
 import IntervalTimerPage from "./IntervalTimer";
 import SupplementsPage from "./Supplements";
 import FitnessStoryPage from "./FitnessStory";
+import ChallengeRoulettePage from "./ChallengeRoulette";
+import RecoveryReadinessPage from "./RecoveryReadiness";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -75,6 +77,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "hearthealth", icon: "🫀", label: "Heart & Breathing" },
       { id: "moodjournal", icon: "📓", label: "Mood & Stress Journal" },
       { id: "sleeprecovery", icon: "😴", label: "Sleep & Recovery" },
+      { id: "readiness", icon: "🔋", label: "Recovery Readiness" },
       { id: "physio", icon: "🦴", label: "Physio & Rehab" },
       { id: "ayurveda", icon: "🌿", label: "Ayurveda Hub" },
     ]},
@@ -92,6 +95,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "quests", icon: "⚔️", label: "Quests & Share" },
       { id: "fitnessstory", icon: "🎬", label: "Fitness Story" },
       { id: "challenges", icon: "🏆", label: "Challenges" },
+      { id: "roulette", icon: "🎰", label: "Challenge Roulette" },
       { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
       { id: "gympartner", icon: "🤝", label: "Let's Gym" },
       { id: "referrals", icon: "💰", label: "Referrals" },
@@ -1109,12 +1113,14 @@ function SaaSAppInner() {
       {section === "recipehub" && <RecipeHubPage />}
       {section === "supplements" && <SupplementsPage />}
       {section === "sleeprecovery" && <SleepRecoveryPage />}
+      {section === "readiness" && <RecoveryReadinessPage />}
       {section === "hearthealth" && <HeartHealthPage />}
       {section === "moodjournal" && <MoodJournalPage />}
       {section === "progress" && <ProgressPage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
       {section === "challenges" && <ChallengesPage />}
+      {section === "roulette" && <ChallengeRoulettePage />}
       {section === "courses" && <CoursesPage />}
       {section === "ayurveda" && <AyurvedaHubPage />}
       {section === "physio" && <PhysioRehabPage />}
