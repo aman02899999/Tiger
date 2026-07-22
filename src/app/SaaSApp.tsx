@@ -49,6 +49,8 @@ import WarmupGeneratorPage from "./WarmupGenerator";
 import CardioTrackerPage from "./CardioTracker";
 import BodyFatEstimatorPage from "./BodyFatEstimator";
 import WeightGoalProjectorPage from "./WeightGoalProjector";
+import HydrationTrackerPage from "./HydrationTracker";
+import SplitPlannerPage from "./SplitPlanner";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -71,6 +73,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "strengthstandards", icon: "📊", label: "Strength Standards" },
       { id: "anatomy", icon: "🦾", label: "Muscle Anatomy" },
       { id: "warmup", icon: "🔥", label: "Warm-Up Generator" },
+      { id: "splitplanner", icon: "🗓️", label: "Split Planner" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
       { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
     ]},
@@ -80,6 +83,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "recipehub", icon: "👨‍🍳", label: "Recipe Hub" },
       { id: "supplements", icon: "💊", label: "Supplements" },
       { id: "diet", icon: "🥗", label: "Auto Diet" },
+      { id: "hydration", icon: "💧", label: "Hydration Tracker" },
     ]},
     { group: "🧘 Wellness", items: [
       { id: "yoga", icon: "🧘", label: "Yoga Studio" },
@@ -1123,6 +1127,8 @@ function SaaSAppInner() {
       {section === "strengthstandards" && <StrengthStandardsPage />}
       {section === "anatomy" && <MuscleAnatomyPage />}
       {section === "warmup" && <WarmupGeneratorPage />}
+      {section === "splitplanner" && <SplitPlannerPage />}
+      {section === "hydration" && <HydrationTrackerPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
       {section === "cardio" && <CardioTrackerPage />}
