@@ -42,6 +42,8 @@ import SupplementsPage from "./Supplements";
 import FitnessStoryPage from "./FitnessStory";
 import ChallengeRoulettePage from "./ChallengeRoulette";
 import RecoveryReadinessPage from "./RecoveryReadiness";
+import StrengthStandardsPage from "./StrengthStandards";
+import FitnessTriviaPage from "./FitnessTrivia";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -61,6 +63,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "workoutbuilder", icon: "🗒️", label: "Workout Builder" },
       { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
       { id: "intervaltimer", icon: "⏱️", label: "Interval Timer" },
+      { id: "strengthstandards", icon: "📊", label: "Strength Standards" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
       { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
     ]},
@@ -103,6 +106,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { group: "📚 Learn & Coach", items: [
       { id: "aicoach", icon: "🤖", label: "AI Coach" },
       { id: "courses", icon: "📚", label: "Courses" },
+      { id: "trivia", icon: "🧠", label: "Fitness Trivia" },
       { id: "pdfstore", icon: "📄", label: "PDF Store" },
     ]},
     { group: "⚙️ Account", items: [
@@ -1106,6 +1110,7 @@ function SaaSAppInner() {
       {section === "workoutbuilder" && <WorkoutBuilderPage />}
       {section === "strengthlab" && <StrengthLabPage />}
       {section === "intervaltimer" && <IntervalTimerPage />}
+      {section === "strengthstandards" && <StrengthStandardsPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
       {section === "progressphotos" && <ProgressPhotosPage />}
@@ -1122,6 +1127,7 @@ function SaaSAppInner() {
       {section === "challenges" && <ChallengesPage />}
       {section === "roulette" && <ChallengeRoulettePage />}
       {section === "courses" && <CoursesPage />}
+      {section === "trivia" && <FitnessTriviaPage />}
       {section === "ayurveda" && <AyurvedaHubPage />}
       {section === "physio" && <PhysioRehabPage />}
       {section === "pdfstore" && <PDFStorePage />}
