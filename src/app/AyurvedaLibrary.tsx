@@ -53,6 +53,36 @@ const ENTRIES: Entry[] = [
     "Commonly taken as a tea or fresh leaves. Traditionally grown in homes across India.",
     "Gentle enough for daily use; often combined with ginger and honey for coughs and colds.",
   ] },
+  { id: "brahmi", name: "Brahmi (Bacopa)", category: "Herb", icon: "🧠", tagline: "The brain and memory tonic", body: [
+    "Brahmi is traditionally used to support memory, concentration, and mental clarity — a classic 'medhya rasayana' (brain rejuvenator).",
+    "Modern research has explored Bacopa for cognitive support and stress, though effects build gradually over weeks.",
+    "Often taken as a powder, tea, or infused oil for scalp massage. Consult a professional before use.",
+  ] },
+  { id: "shatavari", name: "Shatavari", category: "Herb", icon: "🌸", tagline: "Women's reproductive tonic", body: [
+    "Shatavari is regarded as a premier rejuvenating herb for women, traditionally supporting hormonal balance, fertility, and lactation.",
+    "Its name translates roughly to 'she who possesses a hundred husbands', reflecting its reputation as a vitality tonic.",
+    "Usually taken as a root powder with warm milk. Seek professional guidance, especially during pregnancy.",
+  ] },
+  { id: "giloy", name: "Giloy (Guduchi)", category: "Herb", icon: "🌿", tagline: "Immunity and detox creeper", body: [
+    "Giloy is traditionally called 'Amrita' (nectar of immortality) and used to support immunity, fever recovery, and detoxification.",
+    "Commonly taken as a juice, powder, or decoction, particularly during seasonal illness.",
+    "Valued as a general 'rasayana' (rejuvenator). Consult a practitioner, especially with autoimmune conditions.",
+  ] },
+  { id: "amla", name: "Amla (Indian Gooseberry)", category: "Herb", icon: "🫐", tagline: "Vitamin-C powerhouse", body: [
+    "Amla is one of the richest natural sources of vitamin C and a key ingredient in many Ayurvedic tonics, including Chyawanprash.",
+    "Traditionally used to support immunity, digestion, hair, and skin, and to balance all three doshas.",
+    "Consumed fresh, as juice, powder, or in preserves. A gentle, everyday rejuvenator.",
+  ] },
+  { id: "ginger", name: "Ginger (Adrak/Sunthi)", category: "Herb", icon: "🫚", tagline: "The universal digestive", body: [
+    "Ginger is prized for kindling Agni (digestive fire), easing nausea, and warming the body.",
+    "Fresh ginger tea before meals is a classic remedy to stimulate appetite and digestion.",
+    "Dried ginger (sunthi) is considered even more warming and is used in many formulations.",
+  ] },
+  { id: "methi", name: "Fenugreek (Methi)", category: "Herb", icon: "🌱", tagline: "Metabolic and digestive seed", body: [
+    "Fenugreek seeds are traditionally used to support digestion, blood-sugar balance, and lactation.",
+    "Soaking seeds overnight and drinking the water in the morning is a common folk practice.",
+    "Also used in cooking and as a paste for hair. Consult a professional if managing blood sugar with medication.",
+  ] },
   // Routines
   { id: "dinacharya", name: "Dinacharya (Daily Routine)", category: "Routine", icon: "🌅", tagline: "Align your day with nature's rhythm", body: [
     "Dinacharya is the Ayurvedic daily routine designed to sync your body with natural cycles for better health.",
