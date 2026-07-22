@@ -59,6 +59,8 @@ import DotsScorePage from "./DotsScore";
 import WaistHipRatioPage from "./WaistHipRatio";
 import WorkoutOfTheDayPage from "./WorkoutOfTheDay";
 import CalorieBurnConverterPage from "./CalorieBurnConverter";
+import RpeCalculatorPage from "./RpeCalculator";
+import PortionGuidePage from "./PortionGuide";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -81,6 +83,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "intervaltimer", icon: "⏱️", label: "Interval Timer" },
       { id: "strengthstandards", icon: "📊", label: "Strength Standards" },
       { id: "dots", icon: "🏆", label: "DOTS Strength Score" },
+      { id: "rpe", icon: "🎚️", label: "RPE Load Calculator" },
       { id: "anatomy", icon: "🦾", label: "Muscle Anatomy" },
       { id: "warmup", icon: "🔥", label: "Warm-Up Generator" },
       { id: "splitplanner", icon: "🗓️", label: "Split Planner" },
@@ -96,6 +99,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "diet", icon: "🥗", label: "Auto Diet" },
       { id: "hydration", icon: "💧", label: "Hydration Tracker" },
       { id: "burnconvert", icon: "🔥", label: "Calorie Burn Converter" },
+      { id: "portion", icon: "✋", label: "Hand-Portion Guide" },
     ]},
     { group: "🧘 Wellness", items: [
       { id: "yoga", icon: "🧘", label: "Yoga Studio" },
@@ -1151,6 +1155,8 @@ function SaaSAppInner() {
       {section === "whr" && <WaistHipRatioPage />}
       {section === "wod" && <WorkoutOfTheDayPage />}
       {section === "burnconvert" && <CalorieBurnConverterPage />}
+      {section === "rpe" && <RpeCalculatorPage />}
+      {section === "portion" && <PortionGuidePage />}
       {section === "pace" && <PaceCalculatorPage />}
       {section === "hydration" && <HydrationTrackerPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
