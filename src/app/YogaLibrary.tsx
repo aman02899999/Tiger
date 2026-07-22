@@ -59,6 +59,22 @@ const POSES: Pose[] = [
     benefits: "Total relaxation; integrates the practice, lowers stress, and calms the mind.",
     steps: ["Lie flat on your back, legs relaxed and slightly apart.", "Arms rest alongside the body, palms up.", "Close the eyes and release all effort.", "Let the body feel heavy and completely supported."],
     breath: "Natural, effortless breathing; remain 5–10 minutes to close a practice." },
+  { id: "warrior1", name: "Warrior I", sanskrit: "Virabhadrasana I", level: "Beginner", type: "Standing", icon: "⚔️",
+    benefits: "Strengthens legs and back, opens the chest and hip flexors, builds focus and stability.",
+    steps: ["Step one foot back, angle it 45°, front knee bent over the ankle.", "Square the hips toward the front.", "Reach both arms overhead, palms facing.", "Lift the chest and gaze slightly upward."],
+    breath: "Ground down on the exhale, lengthen up on the inhale; hold 5 breaths per side." },
+  { id: "triangle", name: "Triangle Pose", sanskrit: "Trikonasana", level: "Beginner", type: "Standing", icon: "📐",
+    benefits: "Stretches the hips, hamstrings, and side body; strengthens the legs and improves balance.",
+    steps: ["Stand wide, turn the front foot out 90°.", "Extend over the front leg, hinging at the hip.", "Rest the front hand on the shin or a block; reach the top arm up.", "Open the chest toward the ceiling, gaze up at the top hand."],
+    breath: "Lengthen the spine on each inhale; hold 5 breaths per side." },
+  { id: "cat-cow", name: "Cat-Cow", sanskrit: "Marjaryasana-Bitilasana", level: "Beginner", type: "Backbend", icon: "🐱",
+    benefits: "Mobilizes the entire spine, relieves back tension, and links breath to movement.",
+    steps: ["Start on hands and knees, wrists under shoulders, knees under hips.", "Inhale: drop the belly, lift the chest and tailbone (Cow).", "Exhale: round the spine, tuck the chin and tailbone (Cat).", "Flow smoothly between the two."],
+    breath: "One movement per breath — inhale to Cow, exhale to Cat; 8–10 rounds." },
+  { id: "chair", name: "Chair Pose", sanskrit: "Utkatasana", level: "Intermediate", type: "Standing", icon: "🪑",
+    benefits: "Builds strength in the legs, glutes, and core; generates heat and stamina.",
+    steps: ["Stand with feet together or hip-width.", "Bend the knees and sink the hips back as if sitting in a chair.", "Reach the arms overhead, biceps by the ears.", "Keep the weight in the heels, chest lifted."],
+    breath: "Hold steady for 5 breaths, sinking a little lower on each exhale." },
 ];
 
 const TYPES = ["All", "Standing", "Seated", "Backbend", "Balance", "Restorative"] as const;

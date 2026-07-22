@@ -105,6 +105,31 @@ const ENTRIES: Entry[] = [
     "A traditional aid for digestion, bloating, and gentle metabolic support.",
     "Often combined with coriander and fennel (CCF tea) as a soothing digestive blend.",
   ] },
+  { id: "neem", name: "Neem", category: "Herb", icon: "🌳", tagline: "The bitter purifier", body: [
+    "Neem is traditionally used to support skin health, blood purification, and oral hygiene.",
+    "Its intensely bitter taste is considered cooling and cleansing, pacifying Pitta and Kapha.",
+    "Used as leaves, oil, powder, and in toothpastes. Powerful — use in moderation and with guidance.",
+  ] },
+  { id: "licorice", name: "Mulethi (Licorice)", category: "Herb", icon: "🪵", tagline: "Soothing throat and gut herb", body: [
+    "Licorice root is traditionally used to soothe the throat, support the respiratory tract, and calm the digestive lining.",
+    "Often taken as a tea or chewed root for coughs and hoarseness.",
+    "Not suitable for everyone — can affect blood pressure with prolonged use. Consult a professional.",
+  ] },
+  { id: "cardamom", name: "Elaichi (Cardamom)", category: "Herb", icon: "🫛", tagline: "Aromatic digestive spice", body: [
+    "Cardamom is prized for freshening breath, supporting digestion, and easing bloating.",
+    "Added to teas (like masala chai) and sweets, it balances all three doshas in moderation.",
+    "A pinch after meals is a traditional digestive aid.",
+  ] },
+  { id: "oil-pulling", name: "Oil Pulling (Gandusha)", category: "Routine", icon: "🥥", tagline: "Traditional oral cleanse", body: [
+    "Swishing a tablespoon of oil (usually sesame or coconut) in the mouth for several minutes, then spitting it out.",
+    "Traditionally used to support oral hygiene, fresh breath, and gum health.",
+    "Best done in the morning before eating. Never swallow the oil.",
+  ] },
+  { id: "ccf-tea", name: "CCF Tea", category: "Remedy", icon: "🍵", tagline: "Cumin-coriander-fennel digestive", body: [
+    "A gentle tea of equal parts cumin, coriander, and fennel seeds simmered in water.",
+    "A classic Ayurvedic remedy to support digestion, reduce bloating, and gently detoxify.",
+    "Soothing enough to sip throughout the day; suitable for most constitutions.",
+  ] },
 ];
 
 const CATS = ["All", "Dosha", "Herb", "Routine", "Remedy"] as const;

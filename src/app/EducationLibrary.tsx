@@ -205,6 +205,67 @@ const ARTICLES: Article[] = [
     ],
     takeaways: ["Ashwagandha: stress resilience, strength, sleep", "Triphala: digestion and regularity", "Turmeric: anti-inflammatory; pair with pepper and fat", "Always check interactions and source quality before use"],
   },
+  /* ===================== MORE TRAINING ===================== */
+  {
+    id: "hypertrophy-science", title: "The Science of Muscle Growth", category: "Training", read: "8 min", tag: "Gold",
+    summary: "What actually makes muscle grow — and how to program for it.",
+    intro: "Muscle growth (hypertrophy) isn't mysterious. It's driven by a handful of well-understood factors, and once you know them, you can cut through the endless noise of fitness marketing.",
+    sections: [
+      { heading: "Mechanical tension is king", text: "The primary driver of hypertrophy is mechanical tension — challenging your muscles with meaningful load through a full range of motion. Lifting close enough to failure that the last few reps are genuinely hard is what signals growth." },
+      { heading: "Volume drives results", text: "Weekly volume — roughly the number of hard sets per muscle group — is the biggest programming lever. Most people grow well on 10–20 hard sets per muscle per week, split across 2+ sessions." },
+      { heading: "Proximity to failure", text: "You don't need to hit failure every set, but you need to be close — within 1–3 reps of it. Leaving too much in the tank on every set under-stimulates growth." },
+      { heading: "Recovery is where growth happens", text: "You don't grow in the gym; you grow while recovering from it. Adequate protein, sleep, and rest days between training the same muscle are non-negotiable for turning training into muscle." },
+    ],
+    takeaways: ["Mechanical tension near failure drives growth", "Aim for 10–20 hard sets per muscle per week", "Train each muscle 2+ times weekly", "Muscle is built during recovery, not the workout"],
+  },
+  {
+    id: "womens-training", title: "Women and Strength Training: Myths vs Facts", category: "Training", read: "7 min", tag: "Gold",
+    summary: "Debunking the fears that keep many women away from the weights they'd benefit from most.",
+    intro: "Strength training is one of the most beneficial things a woman can do for her health, body composition, and confidence — yet myths persist. Let's clear them up.",
+    sections: [
+      { heading: "You won't get 'bulky'", text: "Women have far lower testosterone than men, making large muscle gains slow and deliberate. Lifting weights builds strength, shape, and tone — not accidental bulk. Visible muscle takes years of dedicated effort." },
+      { heading: "Strength supports bone health", text: "Resistance training increases bone density, which is especially important for women, who face higher osteoporosis risk with age. It's preventive medicine you can start at any age." },
+      { heading: "Training through the cycle", text: "Energy and performance can vary across the menstrual cycle. Many find they're stronger in the first half; it's fine to push hard then and slightly reduce intensity if needed later. Listen to your body rather than forcing every session." },
+    ],
+    takeaways: ["Lifting builds shape and strength, not unwanted bulk", "Resistance training protects bone density", "Adjust intensity to how you feel across your cycle", "It's beneficial to start at any age"],
+  },
+  /* ===================== MORE NUTRITION ===================== */
+  {
+    id: "supplements-worth-it", title: "Supplements: What's Worth Your Money", category: "Nutrition", read: "8 min", tag: "Gold",
+    summary: "A no-hype guide to the few supplements with real evidence — and the many without.",
+    intro: "The supplement industry is enormous and largely unregulated. The truth is that a handful of products are genuinely useful, and most of the rest are expensive urine. Here's how to tell the difference.",
+    sections: [
+      { heading: "The proven few", text: "Creatine monohydrate (strength/power), whey or plant protein (convenience for hitting protein targets), vitamin D (if deficient), omega-3 (if low fish intake), and caffeine (performance) have solid evidence behind them." },
+      { heading: "Situationally useful", text: "Electrolytes for heavy sweating, magnesium and zinc if deficient, and melatonin for occasional sleep/jetlag. These help specific situations, not everyone." },
+      { heading: "Mostly hype", text: "Fat burners, testosterone boosters, BCAAs (redundant if protein is adequate), and most 'proprietary blends' have weak or no evidence. Save your money for quality food." },
+      { heading: "Food first, always", text: "No supplement fixes a poor diet. Supplements fill gaps in an already-good nutrition plan — they are the last 5%, not the foundation." },
+    ],
+    takeaways: ["Creatine, protein, vitamin D, omega-3, caffeine are proven", "Electrolytes/magnesium/zinc help specific cases", "Fat burners and BCAAs are largely hype", "No pill replaces a good diet"],
+  },
+  {
+    id: "hydration-science", title: "Hydration: How Much Water Do You Really Need?", category: "Nutrition", read: "6 min", tag: "Free",
+    summary: "Cutting through the '8 glasses' myth with a practical approach to staying hydrated.",
+    intro: "Water regulates temperature, lubricates joints, transports nutrients, and supports nearly every bodily function. But the popular rules of thumb are often oversimplified.",
+    sections: [
+      { heading: "Individual needs vary", text: "A common starting point is around 30–35 ml per kg of bodyweight daily, but real needs depend on climate, activity, and sweat rate. Athletes and those in hot climates need considerably more." },
+      { heading: "Read your body", text: "Pale-yellow urine and infrequent thirst are good signs you're well hydrated. Dark urine, headaches, and fatigue can signal you're behind. Don't wait until you're very thirsty to drink." },
+      { heading: "Food and electrolytes count", text: "Fruits, vegetables, and other foods contribute significant water. During prolonged sweating, replace electrolytes (especially sodium) — plain water alone can dilute them." },
+    ],
+    takeaways: ["Roughly 30–35 ml/kg is a starting point, adjust to conditions", "Pale-yellow urine indicates good hydration", "Food contributes to your water intake", "Replace electrolytes during heavy sweating"],
+  },
+  /* ===================== MORE RECOVERY / WELLNESS ===================== */
+  {
+    id: "sleep-optimization", title: "Optimizing Sleep for Recovery and Performance", category: "Physiotherapy", read: "8 min", tag: "Gold",
+    summary: "Advanced, practical strategies to get deeper, more restorative sleep.",
+    intro: "Sleep is the most powerful recovery tool available, and it's free. Beyond just 'get more', here's how to improve sleep quality — where the real magic happens.",
+    sections: [
+      { heading: "Consistency is the foundation", text: "Going to bed and waking at the same time daily — even weekends — stabilizes your circadian rhythm, making it easier to fall asleep and wake refreshed. Irregular schedules create a permanent mild jet-lag." },
+      { heading: "Light is the master signal", text: "Get bright light (ideally sunlight) early in the day to anchor your rhythm, and dim lights and screens in the evening. Blue light at night suppresses melatonin and delays sleep onset." },
+      { heading: "Cool, dark, quiet", text: "A slightly cool room (~18°C), blackout darkness, and quiet dramatically improve sleep depth. Your core temperature needs to drop to initiate and maintain deep sleep." },
+      { heading: "Mind the stimulants", text: "Caffeine has a long half-life — cut it 8–10 hours before bed. Alcohol may help you fall asleep but wrecks sleep quality later in the night." },
+    ],
+    takeaways: ["Keep consistent sleep/wake times, even weekends", "Bright light early, dim light at night", "Cool, dark, quiet room for deep sleep", "No caffeine 8–10 hrs before bed; limit alcohol"],
+  },
 ];
 
 const CATEGORIES = ["All", "Training", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];

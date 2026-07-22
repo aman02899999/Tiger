@@ -90,6 +90,30 @@ const PROTOCOLS: Protocol[] = [
     ],
     redFlags: "Inability to bear weight, severe swelling/deformity, or numbness — rule out fracture before loading.",
   },
+  {
+    id: "elbow-wrist", name: "Elbow & Wrist (Tennis/Golfer's Elbow)", region: "Shoulder", icon: "🖐️",
+    about: "Pain at the outer (tennis) or inner (golfer's) elbow is usually a tendon overuse issue from gripping and repetitive strain. Progressive loading of the forearm tendons is the evidence-based fix.",
+    causes: ["Repetitive gripping or typing", "Sudden increase in racket/lifting volume", "Weak forearm and grip musculature", "Poor wrist positioning under load"],
+    exercises: [
+      { name: "Wrist extensor eccentrics", detail: "Support the forearm, hold a light weight, slowly lower the wrist down over 3–4s, assist back up. 3 × 15." },
+      { name: "Wrist flexor eccentrics", detail: "Palm up, slowly lower a light weight, assist back up. For golfer's elbow. 3 × 15." },
+      { name: "Supination/pronation", detail: "Hold a light hammer or weight, rotate the forearm slowly side to side. 3 × 12." },
+      { name: "Grip squeezes", detail: "Squeeze a soft ball or gripper for 5s. 3 × 10, building tolerance gradually." },
+    ],
+    redFlags: "Numbness/tingling into the fingers, night pain, or loss of grip strength — get assessed for nerve involvement.",
+  },
+  {
+    id: "hamstring", name: "Hamstring Strain Recovery", region: "Hip", icon: "🦵",
+    about: "Hamstring strains are common in sprinting and sport. Rushing back is the top cause of re-injury; progressive strengthening — especially eccentric work — is protective.",
+    causes: ["Explosive sprinting or kicking", "Inadequate warm-up", "Weak or fatigued hamstrings", "Returning to sport before full strength returns"],
+    exercises: [
+      { name: "Isometric hamstring holds", detail: "Early stage: press the heel into the floor, holding gentle tension. 5 × 20s." },
+      { name: "Single-leg bridge", detail: "Bridge on one leg to load the hamstring and glute. 3 × 10 per side." },
+      { name: "Nordic curl (assisted)", detail: "Kneel, lower the torso forward slowly resisting with the hamstrings. Advanced eccentric — the gold standard for prevention. 3 × 5." },
+      { name: "Romanian deadlift", detail: "Hip hinge with light load, feeling a hamstring stretch. Progress load slowly. 3 × 10." },
+    ],
+    redFlags: "A pop with sudden severe pain, large bruising, or a palpable gap in the muscle — seek assessment for a significant tear.",
+  },
 ];
 
 const REGIONS = ["All", "Back", "Knee", "Shoulder", "Neck", "Hip", "Ankle"] as const;

@@ -42,6 +42,15 @@ const TECHNIQUES: Technique[] = [
   { id: "mantra", name: "Mantra Meditation", category: "Focus", icon: "🕉️", duration: "10–20 min", best: "Quieting a busy mind",
     benefits: "Gives the mind a simple anchor, easing overthinking and deepening calm.",
     steps: ["Choose a word or sound (e.g. 'so-ham', 'peace', or 'Om').", "Sit comfortably and close the eyes.", "Silently repeat the mantra in rhythm with the breath.", "When the mind drifts, return to the mantra.", "Let the repetition become effortless and settling."] },
+  { id: "walking", name: "Walking Meditation", category: "Mindfulness", icon: "🚶", duration: "10–20 min", best: "Restlessness, combining movement and calm",
+    benefits: "Brings mindful awareness into motion — ideal if sitting still feels difficult.",
+    steps: ["Choose a quiet path of 10–20 steps.", "Walk slowly, noticing the lifting, moving, and placing of each foot.", "Let the sensations of walking be your anchor.", "At the end, pause, turn mindfully, and continue.", "When the mind wanders, return to the feeling of the feet."] },
+  { id: "gratitude", name: "Gratitude Reflection", category: "Compassion", icon: "🙏", duration: "5–10 min", best: "Boosting mood, ending the day",
+    benefits: "Shifts attention toward the positive, improving mood and life satisfaction over time.",
+    steps: ["Sit quietly and take a few settling breaths.", "Bring to mind three things you're genuinely grateful for.", "For each, dwell on why it matters and how it feels.", "Let the warmth of appreciation fill the body.", "Close with a wish to carry that feeling forward."] },
+  { id: "visualization", name: "Guided Visualization", category: "Focus", icon: "🏞️", duration: "10–15 min", best: "Relaxation, mental rehearsal",
+    benefits: "Uses vivid imagery to relax the body or rehearse a goal, calming and motivating.",
+    steps: ["Close the eyes and relax with a few deep breaths.", "Picture a calm, safe place in rich detail — sights, sounds, smells.", "Let yourself fully inhabit the scene.", "Alternatively, vividly rehearse succeeding at a goal.", "Return gently, keeping the calm or confidence with you."] },
 ];
 
 const CATS = ["All", "Focus", "Breathwork", "Mindfulness", "Compassion", "Sleep"] as const;
