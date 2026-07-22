@@ -45,6 +45,8 @@ import RecoveryReadinessPage from "./RecoveryReadiness";
 import StrengthStandardsPage from "./StrengthStandards";
 import FitnessTriviaPage from "./FitnessTrivia";
 import MuscleAnatomyPage from "./MuscleAnatomy";
+import WarmupGeneratorPage from "./WarmupGenerator";
+import CardioTrackerPage from "./CardioTracker";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -66,6 +68,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "intervaltimer", icon: "⏱️", label: "Interval Timer" },
       { id: "strengthstandards", icon: "📊", label: "Strength Standards" },
       { id: "anatomy", icon: "🦾", label: "Muscle Anatomy" },
+      { id: "warmup", icon: "🔥", label: "Warm-Up Generator" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
       { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
     ]},
@@ -90,6 +93,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "progress", icon: "📈", label: "Progress" },
       { id: "bodymetrics", icon: "📐", label: "Body Metrics" },
       { id: "consistency", icon: "🔥", label: "Consistency" },
+      { id: "cardio", icon: "🏃", label: "Cardio & Steps" },
       { id: "progressphotos", icon: "📸", label: "Progress Photos" },
       { id: "habits", icon: "🎯", label: "Habits" },
       { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -1114,8 +1118,10 @@ function SaaSAppInner() {
       {section === "intervaltimer" && <IntervalTimerPage />}
       {section === "strengthstandards" && <StrengthStandardsPage />}
       {section === "anatomy" && <MuscleAnatomyPage />}
+      {section === "warmup" && <WarmupGeneratorPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
+      {section === "cardio" && <CardioTrackerPage />}
       {section === "progressphotos" && <ProgressPhotosPage />}
       {section === "macrobuilder" && <MacroBuilderPage />}
       {section === "recipehub" && <RecipeHubPage />}
