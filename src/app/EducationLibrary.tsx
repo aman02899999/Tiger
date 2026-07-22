@@ -266,6 +266,62 @@ const ARTICLES: Article[] = [
     ],
     takeaways: ["Keep consistent sleep/wake times, even weekends", "Bright light early, dim light at night", "Cool, dark, quiet room for deep sleep", "No caffeine 8–10 hrs before bed; limit alcohol"],
   },
+  {
+    id: "fat-loss-plateaus", title: "Breaking Through Fat-Loss Plateaus", category: "Nutrition", read: "7 min", tag: "Gold",
+    summary: "Why weight loss stalls and the practical levers to get it moving again.",
+    intro: "Almost everyone hits a point where the scale stops moving despite doing 'everything right'. Plateaus are normal physiology, not failure — and they're solvable.",
+    sections: [
+      { heading: "Metabolic adaptation", text: "As you lose weight, you need fewer calories to run a smaller body, and NEAT often drops. The deficit that worked at the start shrinks. Recalculate your intake for your new bodyweight." },
+      { heading: "Hidden calories creep in", text: "Portions drift, 'bites and licks' add up, and tracking gets loose. A few days of honest, precise logging often reveals the culprit without any metabolic mystery." },
+      { heading: "Diet breaks help", text: "Periodically eating at maintenance for 1–2 weeks can restore hormones, reduce fatigue, and improve adherence — often making the next deficit phase more effective." },
+      { heading: "Move more, not just eat less", text: "Rather than cutting calories dangerously low, raising your daily step target restores the deficit while preserving the food that keeps you sane and full." },
+    ],
+    takeaways: ["Recalculate calories for your new, lighter bodyweight", "Tighten tracking to catch calorie creep", "Use 1–2 week diet breaks at maintenance", "Add steps before cutting calories further"],
+  },
+  {
+    id: "meal-prep", title: "Meal Prep: Making Healthy Eating Automatic", category: "Nutrition", read: "6 min", tag: "Free",
+    summary: "The habit that removes willpower from the equation.",
+    intro: "The biggest predictor of dietary success isn't knowledge — it's convenience. When healthy food is ready and unhealthy food takes effort, you eat well by default. That's what meal prep buys you.",
+    sections: [
+      { heading: "Batch the basics", text: "Cook proteins, grains, and roasted vegetables in bulk once or twice a week. Mix and match them into meals rather than cooking every dish from scratch daily." },
+      { heading: "Protein is the anchor", text: "Always prep a couple of protein sources — grilled chicken, boiled eggs, paneer, lentils. Having protein ready is what keeps meals balanced when you're busy or tired." },
+      { heading: "Make good choices easy", text: "Keep cut vegetables and pre-portioned snacks visible and accessible. Store treats out of sight. Environment design beats willpower every time." },
+    ],
+    takeaways: ["Batch-cook proteins, grains, and veg in advance", "Always have ready protein on hand", "Design your environment to make good choices easy", "Convenience, not willpower, drives adherence"],
+  },
+  {
+    id: "cardio-vs-weights", title: "Cardio vs Weights: Do You Need Both?", category: "Training", read: "6 min", tag: "Free",
+    summary: "How strength and cardio training complement each other for health and physique.",
+    intro: "The cardio-versus-weights debate is a false choice. Each trains different systems, and a complete program uses both. Here's how to balance them for your goal.",
+    sections: [
+      { heading: "What each does", text: "Resistance training builds muscle, strength, and bone density and shapes your physique. Cardio improves heart health, endurance, and calorie burn. Neither fully replaces the other." },
+      { heading: "Balancing for fat loss", text: "Strength training preserves muscle in a deficit so you lose fat, not muscle. Add cardio (especially low-intensity) to increase energy expenditure without excessive fatigue." },
+      { heading: "Avoiding interference", text: "Doing hard cardio right before heavy lifting can blunt strength. If you do both in one session, lift first, or separate them by hours. For pure strength goals, keep cardio moderate." },
+    ],
+    takeaways: ["Weights build muscle; cardio builds heart health", "Keep lifting in a deficit to preserve muscle", "Lift before cardio if combining in one session", "A complete program includes both"],
+  },
+  {
+    id: "mobility-guide", title: "Mobility Training for Lifelong Movement", category: "Physiotherapy", read: "7 min", tag: "Gold",
+    summary: "Building usable range of motion that protects joints and improves lifts.",
+    intro: "Mobility is active control through a full range of motion — not just passive flexibility. It's what keeps you moving well, lifting deep, and injury-free as the years add up.",
+    sections: [
+      { heading: "Mobility vs flexibility", text: "Flexibility is how far a joint can be moved passively; mobility is how well you can actively control that range. Usable, controlled range is what carries over to training and daily life." },
+      { heading: "The four key areas", text: "Hips, thoracic spine, shoulders, and ankles stiffen most from modern sitting. Spending a few minutes daily on each pays outsized dividends in squat depth, overhead position, and pain-free movement." },
+      { heading: "Loaded mobility works best", text: "Deep goblet-squat holds, controlled dumbbell pullovers, and end-range strength drills build mobility that sticks — far more than passive stretching alone." },
+    ],
+    takeaways: ["Mobility = active control, not just flexibility", "Prioritize hips, t-spine, shoulders, ankles", "Use loaded end-range drills, not just stretching", "A few minutes daily compounds over time"],
+  },
+  {
+    id: "stress-management", title: "Managing Stress for Better Health & Results", category: "Meditation", read: "7 min", tag: "Gold",
+    summary: "How chronic stress sabotages progress — and evidence-based ways to control it.",
+    intro: "You can't out-train or out-diet chronic stress. Persistently elevated stress hormones impair recovery, drive cravings, and disrupt sleep. Managing it is a training variable, not a luxury.",
+    sections: [
+      { heading: "Understanding cortisol", text: "Cortisol is a normal, useful hormone — problems arise when it stays elevated from unrelenting stress and poor sleep, promoting fat storage and blunting recovery." },
+      { heading: "Proven de-stressors", text: "Breathwork, Zone 2 cardio, time in nature, social connection, and adequate sleep all measurably lower stress. Even a daily 10-minute walk outdoors helps." },
+      { heading: "Don't stack stressors", text: "A brutal training program on top of a stressful life season is a recipe for burnout. In high-stress periods, pull training volume back rather than pushing harder." },
+    ],
+    takeaways: ["Chronic stress blunts recovery and drives cravings", "Use breathwork, Zone 2, nature, and connection", "Prioritize sleep as a stress regulator", "Reduce training load during high-stress periods"],
+  },
 ];
 
 const CATEGORIES = ["All", "Training", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];

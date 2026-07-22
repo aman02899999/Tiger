@@ -114,6 +114,42 @@ const PROTOCOLS: Protocol[] = [
     ],
     redFlags: "A pop with sudden severe pain, large bruising, or a palpable gap in the muscle — seek assessment for a significant tear.",
   },
+  {
+    id: "plantar-fasciitis", name: "Plantar Fasciitis (Heel Pain)", region: "Ankle", icon: "🦶",
+    about: "Sharp heel pain, worst with the first steps in the morning, from irritation of the tissue along the sole. Calf/foot strengthening and load management resolve most cases over time.",
+    causes: ["Sudden increase in walking or running", "Tight calves limiting ankle range", "Weak foot intrinsic muscles", "Unsupportive footwear or hard surfaces"],
+    exercises: [
+      { name: "Calf stretch", detail: "Step back, heel down, lean into a wall to stretch the calf. 3 × 30s per side." },
+      { name: "Heel raises with towel", detail: "Toes on a rolled towel, rise onto the balls of the feet slowly. Loads the fascia progressively. 3 × 12." },
+      { name: "Plantar fascia stretch", detail: "Cross the foot over the knee, gently pull the toes back until a stretch is felt in the arch. 3 × 20s." },
+      { name: "Towel scrunches", detail: "Scrunch a towel toward you with the toes to strengthen the foot muscles. 3 × 15." },
+    ],
+    redFlags: "Numbness, pain that doesn't improve over weeks, or heel pain after a fall — get assessed.",
+  },
+  {
+    id: "core-athlete", name: "Core Strength & Anti-Rotation", region: "Back", icon: "🎯",
+    about: "A strong core resists unwanted movement (extension, flexion, rotation) to protect the spine and transfer force. This is prehab that improves nearly every lift and sport.",
+    causes: ["Weak deep stabilizers", "Over-relying on crunches vs stability work", "Poor bracing under load", "Sedentary lifestyle"],
+    exercises: [
+      { name: "Pallof press", detail: "Hold a band at chest height, press out and resist its pull to rotate you. 3 × 10 per side." },
+      { name: "Dead bug", detail: "On your back, extend opposite arm and leg while keeping the lower back flat. 3 × 8 per side." },
+      { name: "Plank", detail: "Forearms down, straight line, brace hard. Build from 20s to 60s. 3 rounds." },
+      { name: "Suitcase carry", detail: "Walk holding a weight in one hand, resisting the lean. 3 × 30s per side." },
+    ],
+    redFlags: "Sharp spinal pain or symptoms radiating into the legs — stop and get assessed before loading further.",
+  },
+  {
+    id: "wrist-mobility", name: "Wrist & Forearm Health", region: "Shoulder", icon: "✍️",
+    about: "Wrist discomfort from typing, lifting, or pressing responds well to mobility and progressive tendon loading — important for lifters and desk workers alike.",
+    causes: ["Prolonged typing or mouse use", "Heavy pressing/front-rack positions", "Weak forearms and grip", "Limited wrist extension range"],
+    exercises: [
+      { name: "Wrist mobility rocks", detail: "On hands and knees, gently rock forward and back over planted palms. 3 × 10." },
+      { name: "Wrist curls", detail: "Light weight, curl the wrist up and lower slowly, both flexion and extension. 3 × 15." },
+      { name: "Prayer stretch", detail: "Palms together, lower the hands to stretch the wrists. Then reverse. 3 × 20s each." },
+      { name: "Rice bucket / grip work", detail: "Dig and rotate the hands in a bucket of rice, or use a gripper. 2–3 min." },
+    ],
+    redFlags: "Persistent numbness or tingling in the fingers (possible carpal tunnel) — seek assessment.",
+  },
 ];
 
 const REGIONS = ["All", "Back", "Knee", "Shoulder", "Neck", "Hip", "Ankle"] as const;

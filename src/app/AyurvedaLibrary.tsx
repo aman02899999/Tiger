@@ -130,6 +130,36 @@ const ENTRIES: Entry[] = [
     "A classic Ayurvedic remedy to support digestion, reduce bloating, and gently detoxify.",
     "Soothing enough to sip throughout the day; suitable for most constitutions.",
   ] },
+  { id: "moringa", name: "Moringa (Drumstick)", category: "Herb", icon: "🌿", tagline: "The nutrient-dense 'miracle tree'", body: [
+    "Moringa leaves are exceptionally rich in vitamins, minerals, and antioxidants.",
+    "Traditionally used to support energy, immunity, and overall nourishment.",
+    "Taken as a powder in smoothies, or the leaves and pods cooked in food.",
+  ] },
+  { id: "guggul", name: "Guggul", category: "Herb", icon: "🪔", tagline: "Traditional metabolic resin", body: [
+    "Guggul is a resin traditionally used to support healthy metabolism, joints, and lipid balance.",
+    "A key ingredient in many classical Ayurvedic formulations.",
+    "Potent — should be used under professional guidance, especially with thyroid or heart conditions.",
+  ] },
+  { id: "gotu-kola", name: "Gotu Kola (Brahmi Manduki)", category: "Herb", icon: "☘️", tagline: "Herb of mental clarity & skin", body: [
+    "Gotu Kola is traditionally used to support cognition, calm, wound healing, and skin health.",
+    "Sometimes confused with Brahmi (Bacopa); both are valued as 'medhya' brain tonics.",
+    "Taken as a tea, powder, or fresh leaves.",
+  ] },
+  { id: "tongue-scraping", name: "Tongue Scraping (Jihwa Prakshalana)", category: "Routine", icon: "👅", tagline: "Morning oral cleanse", body: [
+    "Gently scraping the tongue from back to front with a metal or copper scraper each morning.",
+    "Traditionally used to remove 'ama' (toxins/coating), freshen breath, and stimulate digestion.",
+    "A quick, simple daily habit done before eating or drinking.",
+  ] },
+  { id: "warm-water", name: "Warm Water Ritual (Ushapan)", category: "Routine", icon: "🚰", tagline: "First-thing-morning hydration", body: [
+    "Drinking a glass of warm water (sometimes with lemon) upon waking.",
+    "Traditionally used to stimulate digestion, support elimination, and gently cleanse.",
+    "One of the simplest and most accessible Ayurvedic daily practices.",
+  ] },
+  { id: "ginger-honey", name: "Ginger-Honey-Tulsi Remedy", category: "Remedy", icon: "🍯", tagline: "Classic cold & cough soother", body: [
+    "Fresh ginger juice with honey and crushed tulsi leaves, taken warm.",
+    "A traditional home remedy to soothe coughs, sore throats, and seasonal congestion.",
+    "Avoid giving honey to infants under one year.",
+  ] },
 ];
 
 const CATS = ["All", "Dosha", "Herb", "Routine", "Remedy"] as const;

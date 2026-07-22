@@ -51,6 +51,18 @@ const TECHNIQUES: Technique[] = [
   { id: "visualization", name: "Guided Visualization", category: "Focus", icon: "🏞️", duration: "10–15 min", best: "Relaxation, mental rehearsal",
     benefits: "Uses vivid imagery to relax the body or rehearse a goal, calming and motivating.",
     steps: ["Close the eyes and relax with a few deep breaths.", "Picture a calm, safe place in rich detail — sights, sounds, smells.", "Let yourself fully inhabit the scene.", "Alternatively, vividly rehearse succeeding at a goal.", "Return gently, keeping the calm or confidence with you."] },
+  { id: "counting-breath", name: "Counting the Breath", category: "Focus", icon: "🔢", duration: "5–10 min", best: "Beginners, busy minds",
+    benefits: "Gives the mind a simple task, making it easier to stay anchored than pure breath-watching.",
+    steps: ["Sit comfortably and breathe naturally.", "Silently count 'one' on the first exhale, 'two' on the next, up to ten.", "When you reach ten, start again at one.", "If you lose count, simply return to one without judgment.", "The losing and restarting is part of the training."] },
+  { id: "raisin", name: "Mindful Eating", category: "Mindfulness", icon: "🍇", duration: "5 min", best: "Building presence, curbing overeating",
+    benefits: "Trains present-moment awareness through the senses and improves your relationship with food.",
+    steps: ["Take a single piece of food — a raisin or a nut.", "Observe it closely: color, texture, smell.", "Place it in the mouth without chewing; notice the sensations.", "Chew slowly, paying full attention to taste and texture.", "Notice the urge to rush, and stay present through swallowing."] },
+  { id: "progressive-relaxation", name: "Progressive Muscle Relaxation", category: "Sleep", icon: "💆", duration: "10–15 min", best: "Physical tension, pre-sleep",
+    benefits: "Systematically releases bodily tension, calming the mind through the body.",
+    steps: ["Lie down comfortably and close the eyes.", "Tense the muscles of the feet for 5 seconds, then fully release.", "Move up the body — calves, thighs, abdomen, hands, arms, shoulders, face.", "Tense each area, then let go, noticing the contrast.", "Finish by resting in the whole-body relaxation."] },
+  { id: "noting", name: "Noting Meditation", category: "Mindfulness", icon: "🏷️", duration: "10–20 min", best: "Deepening awareness, reducing reactivity",
+    benefits: "Builds clear awareness by gently labeling experiences as they arise.",
+    steps: ["Settle with the breath as a home base.", "As experiences arise, softly note them: 'thinking', 'hearing', 'feeling'.", "Keep the labels light and quick, then return to the breath.", "Don't analyze — just acknowledge and let go.", "This builds the habit of observing rather than getting swept away."] },
 ];
 
 const CATS = ["All", "Focus", "Breathwork", "Mindfulness", "Compassion", "Sleep"] as const;
