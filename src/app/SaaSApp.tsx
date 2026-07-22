@@ -64,6 +64,9 @@ import PortionGuidePage from "./PortionGuide";
 import EducationLibraryPage from "./EducationLibrary";
 import AyurvedaLibraryPage from "./AyurvedaLibrary";
 import MedicineLibraryPage from "./MedicineLibrary";
+import PhysiotherapyLibraryPage from "./PhysiotherapyLibrary";
+import YogaLibraryPage from "./YogaLibrary";
+import MeditationLibraryPage from "./MeditationLibrary";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -144,6 +147,9 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "aicoach", icon: "🤖", label: "AI Coach" },
       { id: "courses", icon: "📚", label: "Courses" },
       { id: "education", icon: "🎓", label: "Education Library" },
+      { id: "physiolib", icon: "🦴", label: "Physiotherapy Library" },
+      { id: "yogalib", icon: "🧘", label: "Yoga Library" },
+      { id: "meditationlib", icon: "🧠", label: "Meditation Library" },
       { id: "ayurvedalib", icon: "🌿", label: "Ayurveda Library" },
       { id: "medicine", icon: "⚕️", label: "Medicine Library" },
       { id: "trivia", icon: "🧠", label: "Fitness Trivia" },
@@ -1185,6 +1191,9 @@ function SaaSAppInner() {
       {section === "roulette" && <ChallengeRoulettePage />}
       {section === "courses" && <CoursesPage />}
       {section === "education" && <EducationLibraryPage />}
+      {section === "physiolib" && <PhysiotherapyLibraryPage />}
+      {section === "yogalib" && <YogaLibraryPage />}
+      {section === "meditationlib" && <MeditationLibraryPage />}
       {section === "ayurvedalib" && <AyurvedaLibraryPage />}
       {section === "medicine" && <MedicineLibraryPage />}
       {section === "trivia" && <FitnessTriviaPage />}
