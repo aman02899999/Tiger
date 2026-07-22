@@ -27,9 +27,9 @@ export interface PlanDef {
 }
 
 export const PLANS: Record<PlanId, PlanDef> = {
-  pro: { id: "pro", label: "Pro", planValue: "Pro", monthly: 199, annual: 1499, tagline: "Unlimited AI coaching & full library access" },
-  elite: { id: "elite", label: "Elite Family", planValue: "Elite", monthly: 399, annual: 2999, tagline: "Everything in Pro, for up to 8 family members" },
-  lifetime: { id: "lifetime", label: "Lifetime Elite", planValue: "Elite", monthly: 0, annual: 0, lifetime: 6999, tagline: "Pay once, own Elite forever" },
+  pro: { id: "pro", label: "Gold", planValue: "Pro", monthly: 199, annual: 1499, tagline: "Unlimited AI coaching & full library access" },
+  elite: { id: "elite", label: "Platinum Family", planValue: "Elite", monthly: 399, annual: 2999, tagline: "Everything in Gold, for up to 8 family members" },
+  lifetime: { id: "lifetime", label: "Platinum Lifetime", planValue: "Elite", monthly: 0, annual: 0, lifetime: 6999, tagline: "Pay once, own Platinum forever" },
 };
 
 // Maps an internal plan+cycle to the Play Console product id that must be

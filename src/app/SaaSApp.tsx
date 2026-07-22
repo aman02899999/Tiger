@@ -61,6 +61,9 @@ import WorkoutOfTheDayPage from "./WorkoutOfTheDay";
 import CalorieBurnConverterPage from "./CalorieBurnConverter";
 import RpeCalculatorPage from "./RpeCalculator";
 import PortionGuidePage from "./PortionGuide";
+import EducationLibraryPage from "./EducationLibrary";
+import AyurvedaLibraryPage from "./AyurvedaLibrary";
+import MedicineLibraryPage from "./MedicineLibrary";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -140,6 +143,9 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     { group: "📚 Learn & Coach", items: [
       { id: "aicoach", icon: "🤖", label: "AI Coach" },
       { id: "courses", icon: "📚", label: "Courses" },
+      { id: "education", icon: "🎓", label: "Education Library" },
+      { id: "ayurvedalib", icon: "🌿", label: "Ayurveda Library" },
+      { id: "medicine", icon: "⚕️", label: "Medicine Library" },
       { id: "trivia", icon: "🧠", label: "Fitness Trivia" },
       { id: "pdfstore", icon: "📄", label: "PDF Store" },
     ]},
@@ -804,9 +810,9 @@ function ComparisonCell({ v }: { v: boolean | string }) {
 
 const FAQ_ITEMS = [
   { q: "Can I cancel anytime?", a: "Yes — cancel from Settings → Billing with one tap. You keep access until the end of your current billing period, no questions asked." },
-  { q: "Is there a refund policy?", a: "Every paid plan is covered by a 7-day money-back guarantee. If Pro or Elite isn't for you, we refund in full." },
-  { q: "What happens to my data if I downgrade?", a: "Nothing is deleted. Your logs, photos, and progress stay saved — Pro-only sections simply lock again until you re-upgrade." },
-  { q: "Does Lifetime really mean forever?", a: "Yes. One payment unlocks Elite features for as long as The Titan Fitness exists — no recurring charges, ever." },
+  { q: "Is there a refund policy?", a: "Every paid plan is covered by a 7-day money-back guarantee. If Gold or Platinum isn't for you, we refund in full." },
+  { q: "What happens to my data if I downgrade?", a: "Nothing is deleted. Your logs, photos, and progress stay saved — Gold/Platinum-only sections simply lock again until you re-upgrade." },
+  { q: "Does Lifetime really mean forever?", a: "Yes. One payment unlocks Platinum features for as long as The Titan Fitness exists — no recurring charges, ever." },
 ];
 
 function PremiumPage() {
@@ -816,9 +822,9 @@ function PremiumPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const tiers = [
-    { id: "free" as const, name: "Free", tagline: "Get started", features: ["Basic workouts", "5 AI Coach chats/month", "Community access", "Basic tracking"] },
-    { id: "pro" as const, name: "Pro", tagline: "Most popular", popular: true, features: ["Everything in Free", "Unlimited AI Coach", "Full Yoga & Meditation libraries", "Blood Report analyzer", "Indian food scanner", "10% off PDF guides"] },
-    { id: "elite" as const, name: "Elite Family", tagline: "Best for households", features: ["Everything in Pro", "Up to 8 family members", "Medical report analyzer", "Voice fitness coach", "Priority support", "25% off PDF guides"] },
+    { id: "free" as const, name: "Free", tagline: "Get started", features: ["Basic workouts", "5 AI Coach chats/month", "Education Library (free articles)", "Community access", "Basic tracking"] },
+    { id: "pro" as const, name: "Gold", tagline: "Most popular", popular: true, features: ["Everything in Free", "Unlimited AI Coach", "Full Yoga & Meditation libraries", "Full Education & Ayurveda libraries", "Blood Report analyzer", "Indian food scanner", "10% off PDF guides"] },
+    { id: "elite" as const, name: "Platinum Family", tagline: "Best for households", features: ["Everything in Gold", "Up to 8 family members", "Medicine & medical report analyzer", "Voice fitness coach", "Priority support", "25% off PDF guides"] },
   ];
 
   return (
@@ -897,8 +903,8 @@ function PremiumPage() {
             <tr className="border-b border-[#f7f0df]/10 bg-[#f7f0df]/5">
               <th className="p-4 text-left font-bold text-[#f7f0df]/80">Feature</th>
               <th className="p-4 text-center font-bold text-[#f7f0df]/80">Free</th>
-              <th className="p-4 text-center font-bold text-violet-200">Pro</th>
-              <th className="p-4 text-center font-bold text-[#d8b35a]">Elite</th>
+              <th className="p-4 text-center font-bold text-violet-200">Gold</th>
+              <th className="p-4 text-center font-bold text-[#d8b35a]">Platinum</th>
             </tr>
           </thead>
           <tbody>
@@ -1178,6 +1184,9 @@ function SaaSAppInner() {
       {section === "challenges" && <ChallengesPage />}
       {section === "roulette" && <ChallengeRoulettePage />}
       {section === "courses" && <CoursesPage />}
+      {section === "education" && <EducationLibraryPage />}
+      {section === "ayurvedalib" && <AyurvedaLibraryPage />}
+      {section === "medicine" && <MedicineLibraryPage />}
       {section === "trivia" && <FitnessTriviaPage />}
       {section === "ayurveda" && <AyurvedaHubPage />}
       {section === "physio" && <PhysioRehabPage />}
