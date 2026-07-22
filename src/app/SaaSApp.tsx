@@ -39,6 +39,7 @@ import { NotificationBell } from "./Notifications";
 import MoodJournalPage from "./MoodJournal";
 import IntervalTimerPage from "./IntervalTimer";
 import SupplementsPage from "./Supplements";
+import FitnessStoryPage from "./FitnessStory";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -89,6 +90,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "achievements", icon: "🏅", label: "Achievements" },
       { id: "dailyrewards", icon: "🎡", label: "Daily Rewards" },
       { id: "quests", icon: "⚔️", label: "Quests & Share" },
+      { id: "fitnessstory", icon: "🎬", label: "Fitness Story" },
       { id: "challenges", icon: "🏆", label: "Challenges" },
       { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
       { id: "gympartner", icon: "🤝", label: "Let's Gym" },
@@ -1094,6 +1096,7 @@ function SaaSAppInner() {
       {section === "achievements" && <AchievementsPage />}
       {section === "dailyrewards" && <DailyRewardsPage />}
       {section === "quests" && <QuestsPage />}
+      {section === "fitnessstory" && <FitnessStoryPage />}
       {section === "aicoach" && <AICoachPage />}
       {section === "gympartner" && <GymPartnerPage />}
       {section === "workoutbuilder" && <WorkoutBuilderPage />}
