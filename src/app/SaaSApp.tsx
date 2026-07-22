@@ -51,6 +51,8 @@ import BodyFatEstimatorPage from "./BodyFatEstimator";
 import WeightGoalProjectorPage from "./WeightGoalProjector";
 import HydrationTrackerPage from "./HydrationTracker";
 import SplitPlannerPage from "./SplitPlanner";
+import PaceCalculatorPage from "./PaceCalculator";
+import CooldownGeneratorPage from "./CooldownGenerator";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -74,6 +76,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "anatomy", icon: "🦾", label: "Muscle Anatomy" },
       { id: "warmup", icon: "🔥", label: "Warm-Up Generator" },
       { id: "splitplanner", icon: "🗓️", label: "Split Planner" },
+      { id: "cooldown", icon: "🧊", label: "Cool-Down & Stretch" },
       { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
       { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
     ]},
@@ -102,6 +105,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "weightgoal", icon: "🎯", label: "Weight Goal Projector" },
       { id: "consistency", icon: "🔥", label: "Consistency" },
       { id: "cardio", icon: "🏃", label: "Cardio & Steps" },
+      { id: "pace", icon: "⏱️", label: "Pace Calculator" },
       { id: "progressphotos", icon: "📸", label: "Progress Photos" },
       { id: "habits", icon: "🎯", label: "Habits" },
       { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -1128,6 +1132,8 @@ function SaaSAppInner() {
       {section === "anatomy" && <MuscleAnatomyPage />}
       {section === "warmup" && <WarmupGeneratorPage />}
       {section === "splitplanner" && <SplitPlannerPage />}
+      {section === "cooldown" && <CooldownGeneratorPage />}
+      {section === "pace" && <PaceCalculatorPage />}
       {section === "hydration" && <HydrationTrackerPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
       {section === "consistency" && <ConsistencyHub />}
