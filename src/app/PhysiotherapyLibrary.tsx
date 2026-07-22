@@ -150,6 +150,42 @@ const PROTOCOLS: Protocol[] = [
     ],
     redFlags: "Persistent numbness or tingling in the fingers (possible carpal tunnel) — seek assessment.",
   },
+  {
+    id: "it-band", name: "IT Band Syndrome (Outer Knee)", region: "Knee", icon: "🎽",
+    about: "Pain on the outer knee, common in runners and cyclists, usually from hip weakness and training spikes rather than a 'tight' band that needs aggressive rolling.",
+    causes: ["Rapid increase in running/cycling volume", "Weak hip abductors (glute medius)", "Running on cambered surfaces", "Poor running mechanics"],
+    exercises: [
+      { name: "Side-lying leg raises", detail: "Strengthen the glute medius by lifting the top leg. 3 × 12–15 per side." },
+      { name: "Clamshells", detail: "Knees bent, lift the top knee keeping feet together. 3 × 15 per side." },
+      { name: "Single-leg balance", detail: "Control hip drop while standing on one leg. 3 × 30s." },
+      { name: "Step-downs", detail: "Slow, controlled descents keeping the pelvis level. 3 × 8 per side." },
+    ],
+    redFlags: "Significant swelling, locking, or instability — get assessed to rule out other joint issues.",
+  },
+  {
+    id: "upper-back", name: "Upper-Back & Thoracic Mobility", region: "Neck", icon: "🔄",
+    about: "A stiff mid-back (thoracic spine) from sitting drives neck and shoulder problems and limits overhead lifts. Restoring extension and rotation improves posture and pressing.",
+    causes: ["Prolonged slouched sitting", "Limited thoracic extension/rotation", "Weak mid-back musculature", "Rounded-shoulder posture"],
+    exercises: [
+      { name: "Foam roller extensions", detail: "Roller under the mid-back, gently extend over it. 3 × 8." },
+      { name: "Open books", detail: "Side-lying, rotate the top arm open to mobilize rotation. 3 × 8 per side." },
+      { name: "Cat-cow", detail: "Flow through spinal flexion and extension. 8–10 rounds." },
+      { name: "Band rows", detail: "Row a band to the ribs, squeezing the shoulder blades. 3 × 15." },
+    ],
+    redFlags: "Sharp mid-back pain, pain with deep breathing, or radiating symptoms — seek assessment.",
+  },
+  {
+    id: "achilles", name: "Achilles Tendon Health", region: "Ankle", icon: "🦿",
+    about: "Achilles pain and stiffness, common in runners and jumpers, responds to progressive calf loading — not rest, which weakens the tendon.",
+    causes: ["Rapid increase in running/jumping", "Tight or weak calves", "Sudden change to flat or minimalist shoes", "Insufficient warm-up"],
+    exercises: [
+      { name: "Straight-leg calf raises", detail: "Rise onto the toes, lower slowly. Loads the gastrocnemius. 3 × 15." },
+      { name: "Bent-knee calf raises", detail: "Same but with knees slightly bent to target the soleus. 3 × 15." },
+      { name: "Eccentric heel drops", detail: "Rise on both feet, lower slowly on one off a step. 3 × 12 per side." },
+      { name: "Calf stretch", detail: "Gentle wall stretch, straight and bent knee. 3 × 30s each." },
+    ],
+    redFlags: "Sudden sharp pain with a 'kicked' sensation, or inability to push off — rule out a rupture urgently.",
+  },
 ];
 
 const REGIONS = ["All", "Back", "Knee", "Shoulder", "Neck", "Hip", "Ankle"] as const;

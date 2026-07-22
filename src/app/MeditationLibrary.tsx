@@ -63,6 +63,18 @@ const TECHNIQUES: Technique[] = [
   { id: "noting", name: "Noting Meditation", category: "Mindfulness", icon: "🏷️", duration: "10–20 min", best: "Deepening awareness, reducing reactivity",
     benefits: "Builds clear awareness by gently labeling experiences as they arise.",
     steps: ["Settle with the breath as a home base.", "As experiences arise, softly note them: 'thinking', 'hearing', 'feeling'.", "Keep the labels light and quick, then return to the breath.", "Don't analyze — just acknowledge and let go.", "This builds the habit of observing rather than getting swept away."] },
+  { id: "alternate-nostril", name: "Alternate Nostril Breathing", category: "Breathwork", icon: "👃", duration: "5–10 min", best: "Balance, calm focus",
+    benefits: "A traditional pranayama (Nadi Shodhana) said to balance the mind and calm the nervous system.",
+    steps: ["Sit tall and rest the left hand on the knee.", "Close the right nostril with the thumb; inhale through the left.", "Close the left nostril; exhale through the right.", "Inhale through the right, then switch and exhale through the left.", "Continue alternating for several smooth rounds."] },
+  { id: "candle-gaze", name: "Candle Gazing (Trataka)", category: "Focus", icon: "🕯️", duration: "5–10 min", best: "Concentration, mental steadiness",
+    benefits: "A yogic focus practice using a single point to build concentration and still the mind.",
+    steps: ["Place a candle at eye level, an arm's length away, in a dim room.", "Gaze softly at the flame without straining or blinking excessively.", "When the eyes water, close them and hold the after-image in the mind.", "Reopen and return the gaze to the flame.", "Finish by resting with the eyes closed."] },
+  { id: "rain", name: "RAIN for Difficult Emotions", category: "Compassion", icon: "🌧️", duration: "10 min", best: "Processing hard feelings",
+    benefits: "A structured mindfulness method to meet difficult emotions with awareness and kindness.",
+    steps: ["Recognize what you're feeling, naming it honestly.", "Allow the feeling to be present without pushing it away.", "Investigate it with curiosity — where do you feel it in the body?", "Nurture yourself with the compassion you'd offer a friend.", "Rest in the awareness that holds the experience."] },
+  { id: "sound-meditation", name: "Sound Meditation", category: "Mindfulness", icon: "🔔", duration: "5–15 min", best: "Grounding, easing into stillness",
+    benefits: "Uses ambient sound as the anchor, making it accessible when the breath feels elusive.",
+    steps: ["Sit or lie comfortably and close the eyes.", "Let your awareness open to the sounds around you.", "Notice near sounds, far sounds, and the silence between them.", "Don't label or judge — just receive each sound as it arises.", "When the mind wanders into thought, return to simply listening."] },
 ];
 
 const CATS = ["All", "Focus", "Breathwork", "Mindfulness", "Compassion", "Sleep"] as const;

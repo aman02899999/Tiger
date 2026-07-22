@@ -160,6 +160,36 @@ const ENTRIES: Entry[] = [
     "A traditional home remedy to soothe coughs, sore throats, and seasonal congestion.",
     "Avoid giving honey to infants under one year.",
   ] },
+  { id: "manjistha", name: "Manjistha", category: "Herb", icon: "🔴", tagline: "Blood and lymph purifier", body: [
+    "Manjistha is traditionally regarded as one of the best herbs for purifying the blood and supporting the lymphatic system and skin.",
+    "Used for a clear complexion and healthy circulation in classical formulations.",
+    "Taken as a powder or in blends. Consult a practitioner for use.",
+  ] },
+  { id: "arjuna", name: "Arjuna", category: "Herb", icon: "🌲", tagline: "The heart tonic bark", body: [
+    "The bark of the Arjuna tree is traditionally used to support heart health and healthy circulation.",
+    "A prized cardiac tonic in Ayurveda, often taken as a decoction or powder.",
+    "Consult a professional, especially if managing a heart condition or on medication.",
+  ] },
+  { id: "fennel", name: "Saunf (Fennel)", category: "Herb", icon: "🌿", tagline: "After-meal digestive seed", body: [
+    "Fennel seeds are chewed after meals across India to freshen breath and aid digestion.",
+    "Considered cooling, they help ease bloating and support Pitta balance.",
+    "Also brewed as a gentle, soothing tea.",
+  ] },
+  { id: "chyawanprash", name: "Chyawanprash", category: "Remedy", icon: "🍯", tagline: "Classic rejuvenating jam", body: [
+    "A traditional herbal jam built around Amla and dozens of herbs and spices.",
+    "Used as a daily 'rasayana' to support immunity, energy, and overall vitality.",
+    "Commonly taken a spoonful in the morning, often with warm milk.",
+  ] },
+  { id: "seasonal-eating", name: "Ritucharya (Seasonal Routine)", category: "Routine", icon: "🍂", tagline: "Eat and live with the seasons", body: [
+    "Ritucharya is the Ayurvedic practice of adjusting diet and lifestyle to the changing seasons.",
+    "Cooling foods in summer, warming and nourishing foods in winter, and light cleansing in spring.",
+    "Aligning with seasonal rhythms is thought to prevent the dosha imbalances each season provokes.",
+  ] },
+  { id: "meditation-ayur", name: "Dhyana (Meditation in Ayurveda)", category: "Routine", icon: "🧘", tagline: "Daily mental hygiene", body: [
+    "Ayurveda considers a calm mind essential to health, and daily meditation part of a balanced routine.",
+    "Even a few minutes of stillness is thought to steady the doshas and support digestion and sleep.",
+    "Traditionally practiced in the quiet hours of early morning or dusk.",
+  ] },
 ];
 
 const CATS = ["All", "Dosha", "Herb", "Routine", "Remedy"] as const;

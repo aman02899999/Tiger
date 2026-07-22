@@ -322,6 +322,64 @@ const ARTICLES: Article[] = [
     ],
     takeaways: ["Chronic stress blunts recovery and drives cravings", "Use breathwork, Zone 2, nature, and connection", "Prioritize sleep as a stress regulator", "Reduce training load during high-stress periods"],
   },
+  {
+    id: "beginner-gym", title: "Your First 90 Days in the Gym", category: "Training", read: "8 min", tag: "Free",
+    summary: "A calm, practical roadmap for anyone starting out and feeling overwhelmed.",
+    intro: "The beginning is the highest-leverage time in your training life — and the most intimidating. Here's how to start simply, build momentum, and avoid the mistakes that derail most newcomers.",
+    sections: [
+      { heading: "Master the basics first", text: "You don't need a fancy program. Learn a handful of fundamental movements — squat, hinge, push, pull, carry — with good form. These patterns cover the whole body and transfer to everything." },
+      { heading: "Full-body, three days a week", text: "As a beginner, training the whole body 3× per week drives the fastest progress. You'll get plenty of practice on the lifts and recover well between sessions." },
+      { heading: "Start light, add slowly", text: "Ego is the enemy early on. Begin with weights you can control for the prescribed reps, nail the technique, and add small increments over time. Your connective tissue adapts slower than your muscles." },
+      { heading: "Consistency beats intensity", text: "The person who trains moderately for a year beats the one who trains brutally for three weeks and quits. Show up, keep it sustainable, and let the compounding do its work." },
+    ],
+    takeaways: ["Learn squat, hinge, push, pull, carry with good form", "Full-body 3×/week is ideal for beginners", "Start light and progress in small steps", "Consistency over months beats short bursts of intensity"],
+  },
+  {
+    id: "carbs-guide", title: "Carbohydrates: Friend, Not Foe", category: "Nutrition", read: "7 min", tag: "Gold",
+    summary: "Cutting through carb fear to understand how they fuel training and life.",
+    intro: "Carbs have been demonized by countless diets, but they're your body's preferred energy source and crucial for hard training. The issue is rarely carbs themselves — it's quantity and quality.",
+    sections: [
+      { heading: "Your primary fuel", text: "Carbohydrates are stored as glycogen in muscles and liver, powering high-intensity exercise. Train hard on too few carbs and performance, mood, and recovery often suffer." },
+      { heading: "Quality matters", text: "Prioritize minimally processed carbs — rice, oats, potatoes, fruit, legumes, whole grains. They come with fiber and micronutrients and keep blood sugar steadier than refined sugar." },
+      { heading: "Timing around training", text: "Carbs before and after workouts fuel performance and replenish glycogen. This is when your body handles them best. There's nothing magical about avoiding them at night." },
+      { heading: "How much you need", text: "Active people generally do well with 3–6 g/kg per day, scaled to training volume. Endurance athletes need more; those in a fat-loss phase somewhat less." },
+    ],
+    takeaways: ["Carbs are your body's preferred training fuel", "Favor minimally processed, fiber-rich sources", "Time carbs around workouts for performance", "Scale intake (≈3–6 g/kg) to your activity"],
+  },
+  {
+    id: "fats-guide", title: "Dietary Fat: The Essential Macro", category: "Nutrition", read: "6 min", tag: "Gold",
+    summary: "Why fat is essential, which types matter, and how much to eat.",
+    intro: "Fat was wrongly vilified for decades. It's essential for hormones, brain health, and absorbing fat-soluble vitamins. The key is choosing the right types and the right amount.",
+    sections: [
+      { heading: "Why you need it", text: "Dietary fat supports hormone production (including testosterone), cell membranes, and the absorption of vitamins A, D, E, and K. Going too low on fat can disrupt hormones." },
+      { heading: "The types that matter", text: "Favor unsaturated fats from olive oil, nuts, seeds, avocado, and fatty fish. Include some saturated fat in moderation. Minimize industrial trans fats, which harm heart health." },
+      { heading: "How much", text: "Roughly 0.8–1 g/kg of bodyweight per day is a sensible baseline, adjusted to fit your total calories after protein and carbs are set." },
+    ],
+    takeaways: ["Fat is essential for hormones and vitamin absorption", "Favor unsaturated fats; moderate saturated; avoid trans", "Don't go too low — hormones suffer", "≈0.8–1 g/kg/day is a solid baseline"],
+  },
+  {
+    id: "recovery-methods", title: "Recovery Methods: What Works and What Doesn't", category: "Physiotherapy", read: "7 min", tag: "Gold",
+    summary: "An evidence-based look at the recovery tools worth your time.",
+    intro: "Recovery is a booming industry full of gadgets and promises. Some tools genuinely help; many are placebo with a price tag. Here's what the evidence actually supports.",
+    sections: [
+      { heading: "The non-negotiables", text: "Sleep, nutrition, and managing overall training load are by far the most powerful recovery tools — and they're free. No gadget compensates for neglecting these." },
+      { heading: "Genuinely useful", text: "Light active recovery (easy walking, mobility), adequate protein, and hydration reliably help. Massage and foam rolling can reduce soreness and feel good, even if effects are modest." },
+      { heading: "Overhyped or situational", text: "Ice baths may blunt muscle-building signals if overused right after strength training. Compression gear and fancy devices offer marginal benefits at best. Save your money for sleep and food." },
+    ],
+    takeaways: ["Sleep, nutrition, and load management matter most", "Active recovery, protein, and hydration reliably help", "Ice baths can blunt gains post-lifting — use judiciously", "Most recovery gadgets are marginal at best"],
+  },
+  {
+    id: "habit-building", title: "The Science of Building Lasting Habits", category: "Meditation", read: "7 min", tag: "Free",
+    summary: "How to make healthy behaviors automatic instead of relying on motivation.",
+    intro: "Motivation is unreliable — it comes and goes. Lasting change comes from habits: behaviors so automatic they require little willpower. Here's how to engineer them.",
+    sections: [
+      { heading: "Start absurdly small", text: "Shrink the habit until it's almost too easy — one push-up, two minutes of meditation, a single healthy meal. Tiny habits build the identity and momentum that bigger ones grow from." },
+      { heading: "Anchor to existing routines", text: "Attach a new habit to something you already do ('after I brush my teeth, I meditate'). The existing routine becomes the reliable trigger." },
+      { heading: "Make it obvious and easy", text: "Design your environment so the good behavior is the path of least resistance — gym clothes laid out, healthy food visible, phone away from the bed. Friction determines behavior more than willpower." },
+      { heading: "Don't break the chain twice", text: "Missing once is human; missing twice starts a new (bad) pattern. Aim to never miss two in a row, and forgive the single slip." },
+    ],
+    takeaways: ["Shrink habits until they're almost too easy", "Anchor new habits to existing routines", "Reduce friction — design your environment", "Never miss twice in a row"],
+  },
 ];
 
 const CATEGORIES = ["All", "Training", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];
