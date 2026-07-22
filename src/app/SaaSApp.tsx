@@ -53,6 +53,8 @@ import HydrationTrackerPage from "./HydrationTracker";
 import SplitPlannerPage from "./SplitPlanner";
 import PaceCalculatorPage from "./PaceCalculator";
 import CooldownGeneratorPage from "./CooldownGenerator";
+import HeartRateZonesPage from "./HeartRateZones";
+import Vo2MaxEstimatorPage from "./Vo2MaxEstimator";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -92,6 +94,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "yoga", icon: "🧘", label: "Yoga Studio" },
       { id: "meditation", icon: "🙏", label: "Meditation" },
       { id: "hearthealth", icon: "🫀", label: "Heart & Breathing" },
+      { id: "hrzones", icon: "❤️", label: "Heart-Rate Zones" },
       { id: "moodjournal", icon: "📓", label: "Mood & Stress Journal" },
       { id: "sleeprecovery", icon: "😴", label: "Sleep & Recovery" },
       { id: "readiness", icon: "🔋", label: "Recovery Readiness" },
@@ -106,6 +109,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "consistency", icon: "🔥", label: "Consistency" },
       { id: "cardio", icon: "🏃", label: "Cardio & Steps" },
       { id: "pace", icon: "⏱️", label: "Pace Calculator" },
+      { id: "vo2max", icon: "🫁", label: "VO₂ Max & Fitness Age" },
       { id: "progressphotos", icon: "📸", label: "Progress Photos" },
       { id: "habits", icon: "🎯", label: "Habits" },
       { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -1133,6 +1137,8 @@ function SaaSAppInner() {
       {section === "warmup" && <WarmupGeneratorPage />}
       {section === "splitplanner" && <SplitPlannerPage />}
       {section === "cooldown" && <CooldownGeneratorPage />}
+      {section === "hrzones" && <HeartRateZonesPage />}
+      {section === "vo2max" && <Vo2MaxEstimatorPage />}
       {section === "pace" && <PaceCalculatorPage />}
       {section === "hydration" && <HydrationTrackerPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
