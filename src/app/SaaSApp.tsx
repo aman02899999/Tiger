@@ -55,6 +55,8 @@ import PaceCalculatorPage from "./PaceCalculator";
 import CooldownGeneratorPage from "./CooldownGenerator";
 import HeartRateZonesPage from "./HeartRateZones";
 import Vo2MaxEstimatorPage from "./Vo2MaxEstimator";
+import DotsScorePage from "./DotsScore";
+import WaistHipRatioPage from "./WaistHipRatio";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -75,6 +77,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
       { id: "intervaltimer", icon: "⏱️", label: "Interval Timer" },
       { id: "strengthstandards", icon: "📊", label: "Strength Standards" },
+      { id: "dots", icon: "🏆", label: "DOTS Strength Score" },
       { id: "anatomy", icon: "🦾", label: "Muscle Anatomy" },
       { id: "warmup", icon: "🔥", label: "Warm-Up Generator" },
       { id: "splitplanner", icon: "🗓️", label: "Split Planner" },
@@ -110,6 +113,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "cardio", icon: "🏃", label: "Cardio & Steps" },
       { id: "pace", icon: "⏱️", label: "Pace Calculator" },
       { id: "vo2max", icon: "🫁", label: "VO₂ Max & Fitness Age" },
+      { id: "whr", icon: "📐", label: "Waist-to-Hip Ratio" },
       { id: "progressphotos", icon: "📸", label: "Progress Photos" },
       { id: "habits", icon: "🎯", label: "Habits" },
       { id: "blood", icon: "🩸", label: "Blood Report" },
@@ -1139,6 +1143,8 @@ function SaaSAppInner() {
       {section === "cooldown" && <CooldownGeneratorPage />}
       {section === "hrzones" && <HeartRateZonesPage />}
       {section === "vo2max" && <Vo2MaxEstimatorPage />}
+      {section === "dots" && <DotsScorePage />}
+      {section === "whr" && <WaistHipRatioPage />}
       {section === "pace" && <PaceCalculatorPage />}
       {section === "hydration" && <HydrationTrackerPage />}
       {section === "bodymetrics" && <BodyMetricsPage />}
