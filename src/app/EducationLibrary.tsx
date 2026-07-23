@@ -486,11 +486,55 @@ const ARTICLES: Article[] = [
     ],
     takeaways: ["Protein at every meal", "Half your plate vegetables and fruit", "Choose minimally processed carbs and healthy fats", "Eat well 80% of the time, enjoy the other 20%"],
   },
+  {
+    id: "grip-forearms", title: "Grip Strength: The Overlooked Foundation", category: "Training", read: "5 min", tag: "Gold",
+    summary: "Why grip strength matters for lifting, sport, and long-term health.",
+    intro: "Grip strength is easy to ignore, yet it limits your pulling lifts, correlates with overall strength, and is even linked to healthy ageing. It's worth training deliberately.",
+    sections: [
+      { heading: "Why grip matters", text: "A weak grip caps how much you can row, deadlift, or carry — the muscles you're trying to train never get fully loaded because your hands give out first. Grip is often the hidden bottleneck." },
+      { heading: "How to train it", text: "Loaded carries (farmer's walks), dead hangs, heavy holds at the top of rows, and using thicker bars or towels all build grip. Even just gripping the bar hard on every set helps." },
+      { heading: "A health marker too", text: "Research links grip strength to overall muscular strength and healthy ageing, making it a simple, meaningful measure of physical capacity to maintain over the years." },
+    ],
+    takeaways: ["Weak grip limits your pulling lifts", "Train with carries, dead hangs, and heavy holds", "Grip hard on every set as a baseline", "Grip strength is a marker of overall capacity"],
+  },
+  {
+    id: "hiit-guide", title: "HIIT: How to Do It Right", category: "Cardio", read: "6 min", tag: "Gold",
+    summary: "High-intensity interval training done properly — and its limits.",
+    intro: "HIIT alternates short bursts of hard effort with recovery. It's time-efficient and effective, but often done wrong or overused. Here's how to use it well.",
+    sections: [
+      { heading: "The structure", text: "Work hard for 20–60 seconds, then recover for an equal or longer period, repeating for 10–25 minutes. The 'high intensity' part must genuinely be hard — otherwise it's just moderate cardio." },
+      { heading: "Don't overdo it", text: "Because it's demanding, 1–3 HIIT sessions a week is plenty for most. More can impair recovery and interfere with strength training. Quality over quantity." },
+      { heading: "Choose low-impact options", text: "Bike, rower, or hill sprints spare the joints compared to repeated jumping. Match the modality to your body and experience." },
+    ],
+    takeaways: ["Work bursts must be genuinely hard", "10–25 minutes, 1–3× per week is plenty", "Don't let HIIT compromise strength recovery", "Pick joint-friendly modalities like bike or rower"],
+  },
+  {
+    id: "walking-benefits", title: "The Underrated Power of Walking", category: "Cardio", read: "5 min", tag: "Free",
+    summary: "Why daily walking might be the most valuable exercise of all.",
+    intro: "Walking is free, low-risk, and remarkably effective for health, fat loss, and mental wellbeing. It's the most sustainable 'exercise' most people can do.",
+    sections: [
+      { heading: "Fat loss and NEAT", text: "Daily steps make up a big part of your non-exercise activity (NEAT), which strongly influences your energy balance. Increasing your step count is one of the easiest ways to support fat loss without extra hunger." },
+      { heading: "Health and longevity", text: "Regular walking improves cardiovascular health, blood sugar, mood, and is associated with longer life — with benefits appearing even at modest step counts." },
+      { heading: "Making it a habit", text: "Aim for a daily step target (e.g. 7,000–10,000), take walking meetings, park farther away, and use post-meal walks to aid digestion and blood sugar." },
+    ],
+    takeaways: ["Steps drive NEAT and support fat loss", "Walking improves heart health, mood, and longevity", "Aim for a realistic daily step target", "Post-meal walks aid digestion and blood sugar"],
+  },
+  {
+    id: "consistency-plateau", title: "Staying Consistent When Progress Slows", category: "Meditation", read: "6 min", tag: "Free",
+    summary: "How to keep going through the inevitable plateaus and dips in motivation.",
+    intro: "Every fitness journey has stretches where progress stalls and enthusiasm fades. The people who succeed are those who keep the habit alive through these valleys.",
+    sections: [
+      { heading: "Zoom out", text: "Day to day, progress is invisible and even discouraging. Looking at months of data — photos, logs, measurements — reveals the real trend and reminds you how far you've come." },
+      { heading: "Lower the bar on hard days", text: "On low-energy days, do a shorter or easier session rather than skipping entirely. Showing up imperfectly keeps the identity and habit intact, which is what matters most." },
+      { heading: "Focus on systems, not just outcomes", text: "When the scale or the numbers stall, anchor to the behaviors you control — training consistently, eating well, sleeping enough. Trust that the outcomes follow the process." },
+    ],
+    takeaways: ["Zoom out to see the real long-term trend", "Do a lighter session rather than skipping", "Anchor to controllable behaviors during plateaus", "The habit surviving the dip is the real win"],
+  },
 ];
 
-const CATEGORIES = ["All", "Training", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];
+const CATEGORIES = ["All", "Training", "Cardio", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];
 const TAG_COLOR: Record<string, string> = { Free: "#34d399", Gold: "#d8b35a", Platinum: "#e879f9" };
-const CAT_ICON: Record<string, string> = { Training: "🏋️", Nutrition: "🥗", Physiotherapy: "🦴", Yoga: "🧘", Meditation: "🧠", Ayurveda: "🌿" };
+const CAT_ICON: Record<string, string> = { Training: "🏋️", Cardio: "🏃", Nutrition: "🥗", Physiotherapy: "🦴", Yoga: "🧘", Meditation: "🧠", Ayurveda: "🌿" };
 
 export default function EducationLibraryPage() {
   const [cat, setCat] = useState("All");

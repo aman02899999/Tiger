@@ -259,6 +259,42 @@ const PROTOCOLS: Protocol[] = [
     ],
     redFlags: "Any exercise that causes sharp or radiating pain should be stopped and reviewed with a professional.",
   },
+  {
+    id: "wrist-carpal", name: "Carpal Tunnel & Wrist Nerve Care", region: "Shoulder", icon: "🖐️",
+    about: "Tingling and numbness in the thumb and first fingers from median-nerve compression at the wrist, common with repetitive computer work. Nerve glides, ergonomics, and rest help many mild cases.",
+    causes: ["Repetitive wrist flexion/typing", "Poor keyboard/mouse ergonomics", "Sustained wrist positions", "Fluid retention in some cases"],
+    exercises: [
+      { name: "Median nerve glides", detail: "Gently move the wrist and fingers through a sequence to floss the nerve — never into strong symptoms. 2 × 8." },
+      { name: "Wrist extensor stretch", detail: "Arm straight, gently pull the hand down and back. 3 × 20s." },
+      { name: "Tendon glides", detail: "Move the fingers through fist, hook, and straight positions. 2 × 8." },
+      { name: "Grip and release", detail: "Gentle open-and-close of the hand to keep tendons mobile. 2 × 12." },
+    ],
+    redFlags: "Constant numbness, muscle wasting at the thumb base, or weakness gripping — seek assessment promptly.",
+  },
+  {
+    id: "tension-headache", name: "Tension Headache & Neck Relief", region: "Neck", icon: "🤕",
+    about: "Many headaches stem from tight neck and upper-shoulder muscles and forward-head posture. Gentle mobility, strengthening, and stress management often reduce their frequency.",
+    causes: ["Sustained forward-head posture", "Upper-trap and neck tension", "Stress and jaw clenching", "Long screen sessions without breaks"],
+    exercises: [
+      { name: "Chin tucks", detail: "Draw the chin back to strengthen deep neck flexors. 3 × 10." },
+      { name: "Upper-trap stretch", detail: "Ear toward shoulder with gentle assist. 3 × 30s per side." },
+      { name: "Levator scapulae stretch", detail: "Look toward the armpit, gentle assist, to release the side-back of the neck. 3 × 30s." },
+      { name: "Suboccipital release", detail: "Gentle pressure at the skull base (or on a ball) to ease tension. 1–2 min." },
+    ],
+    redFlags: "Sudden severe 'worst-ever' headache, headache with fever/stiff neck, or neurological symptoms — seek urgent care.",
+  },
+  {
+    id: "balance-fall", name: "Balance & Fall Prevention", region: "Ankle", icon: "⚖️",
+    about: "Balance is trainable at any age and protects against falls and ankle injuries. Regular practice improves stability, coordination, and confidence.",
+    causes: ["Reduced activity and disuse", "Weak legs and ankle stabilizers", "Poor proprioception after injury", "Inactivity with ageing"],
+    exercises: [
+      { name: "Single-leg stand", detail: "Balance on one leg 30s; progress to eyes closed or a cushion. 3 rounds." },
+      { name: "Heel-to-toe walk", detail: "Walk a straight line placing heel to toe, arms out. 3 × 10 steps." },
+      { name: "Tandem stance", detail: "Stand with one foot directly in front of the other; hold and switch. 3 × 30s." },
+      { name: "Calf & ankle raises", detail: "Build lower-leg strength for stability. 3 × 15." },
+    ],
+    redFlags: "Frequent unexplained falls, dizziness, or sudden balance loss — get medically assessed.",
+  },
 ];
 
 const REGIONS = ["All", "Back", "Knee", "Shoulder", "Neck", "Hip", "Ankle"] as const;

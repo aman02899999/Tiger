@@ -99,6 +99,18 @@ const TECHNIQUES: Technique[] = [
   { id: "compassion-others", name: "Compassion for a Difficult Person", category: "Compassion", icon: "🕊️", duration: "10 min", best: "Easing resentment, improving relationships",
     benefits: "Softens anger and resentment by cultivating understanding toward someone you struggle with.",
     steps: ["Settle with a few breaths and recall a neutral or difficult person.", "Remember they, too, want to be happy and avoid suffering.", "Silently offer: 'May you be well, may you be at peace.'", "Notice any resistance without forcing the feeling.", "Return to your own breath, carrying a little more openness."] },
+  { id: "bhramari", name: "Bhramari (Humming Bee Breath)", category: "Breathwork", icon: "🐝", duration: "3–5 min", best: "Quick calm, easing anxiety",
+    benefits: "The gentle humming vibration soothes the nervous system and quiets mental chatter.",
+    steps: ["Sit comfortably and take a slow breath in.", "On the exhale, make a soft, steady humming sound like a bee.", "Feel the vibration in the head and chest.", "Optionally rest the fingers lightly over the ears.", "Repeat for several rounds, keeping the hum smooth."] },
+  { id: "trataka-object", name: "Object Focus Meditation", category: "Focus", icon: "🎯", duration: "5–10 min", best: "Concentration training",
+    benefits: "Anchors attention on a single object to strengthen focus and calm restlessness.",
+    steps: ["Place any small object in front of you at eye level.", "Rest your gaze softly on it without straining.", "Observe its details — color, shape, texture.", "When the mind wanders, gently return to the object.", "Finish by closing the eyes and resting for a moment."] },
+  { id: "loving-self", name: "Self-Kindness Meditation", category: "Compassion", icon: "💛", duration: "10 min", best: "Reducing self-criticism",
+    benefits: "Directs warmth and goodwill toward yourself, softening harsh inner talk.",
+    steps: ["Sit comfortably and place a hand on the heart.", "Bring to mind your own wish to be happy and at ease.", "Silently offer: 'May I be kind to myself. May I be at peace.'", "Let any warmth grow; meet resistance gently.", "Rest in the feeling of goodwill toward yourself."] },
+  { id: "reflection-review", name: "Evening Reflection", category: "Mindfulness", icon: "🌆", duration: "5 min", best: "Closing the day, processing",
+    benefits: "A calm review of the day builds awareness and lets you release tension before sleep.",
+    steps: ["Sit quietly at day's end and take a few breaths.", "Gently recall the day without judgment.", "Notice moments of ease and moments of difficulty.", "Acknowledge what went well and what you'd do differently.", "Let the day go, and rest into the evening."] },
 ];
 
 const CATS = ["All", "Focus", "Breathwork", "Mindfulness", "Compassion", "Sleep"] as const;
