@@ -78,6 +78,7 @@ import BrainTeaserPage from "./BrainTeaser";
 import GlossaryPage from "./Glossary";
 import CalorieGuessPage from "./CalorieGuess";
 import ThisOrThatPage from "./ThisOrThat";
+import LearnHubPage from "./LearnHub";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -155,6 +156,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "referrals", icon: "💰", label: "Referrals" },
     ]},
     { group: "📚 Learn & Coach", items: [
+      { id: "learnhub", icon: "🧭", label: "Learn Hub" },
       { id: "aicoach", icon: "🤖", label: "AI Coach" },
       { id: "courses", icon: "📚", label: "Courses" },
       { id: "education", icon: "🎓", label: "Education Library" },
@@ -1229,6 +1231,7 @@ function SaaSAppInner() {
       {section === "glossary" && <GlossaryPage />}
       {section === "calorieguess" && <CalorieGuessPage />}
       {section === "thisorthat" && <ThisOrThatPage />}
+      {section === "learnhub" && <LearnHubPage onNavigate={setSection} />}
       {section === "ayurvedalib" && <AyurvedaLibraryPage />}
       {section === "medicine" && <MedicineLibraryPage />}
       {section === "trivia" && <FitnessTriviaPage />}
