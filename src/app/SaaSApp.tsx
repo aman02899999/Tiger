@@ -75,6 +75,9 @@ import HealthIqQuizPage from "./HealthIqQuiz";
 import SplitFinderPage from "./SplitFinder";
 import FlashcardsPage from "./Flashcards";
 import BrainTeaserPage from "./BrainTeaser";
+import GlossaryPage from "./Glossary";
+import CalorieGuessPage from "./CalorieGuess";
+import ThisOrThatPage from "./ThisOrThat";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -167,6 +170,9 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "splitfinder", icon: "🧭", label: "Split Finder" },
       { id: "flashcards", icon: "🃏", label: "Flashcards" },
       { id: "brainteaser", icon: "🧩", label: "Daily Brain Teaser" },
+      { id: "glossary", icon: "📖", label: "Fitness Glossary" },
+      { id: "calorieguess", icon: "🔢", label: "Calorie Guess Game" },
+      { id: "thisorthat", icon: "⚖️", label: "This or That" },
       { id: "pdfstore", icon: "📄", label: "PDF Store" },
     ]},
     { group: "📰 Blog & News", items: [
@@ -1220,6 +1226,9 @@ function SaaSAppInner() {
       {section === "splitfinder" && <SplitFinderPage />}
       {section === "flashcards" && <FlashcardsPage />}
       {section === "brainteaser" && <BrainTeaserPage />}
+      {section === "glossary" && <GlossaryPage />}
+      {section === "calorieguess" && <CalorieGuessPage />}
+      {section === "thisorthat" && <ThisOrThatPage />}
       {section === "ayurvedalib" && <AyurvedaLibraryPage />}
       {section === "medicine" && <MedicineLibraryPage />}
       {section === "trivia" && <FitnessTriviaPage />}
