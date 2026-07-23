@@ -14,3 +14,8 @@ android/android.keystore
 android/*.keystore
 android/gradle/wrapper/gradle-wrapper.jar
 android/key.properties
+
+# Local env files (never commit real keys/secrets)
+.env
+.env.local
+.env.*.local

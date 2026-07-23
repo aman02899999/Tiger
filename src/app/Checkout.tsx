@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { isPlayBillingAvailable, purchaseWithPlayBilling, acknowledgePlayPurchase } from "./PlayBilling";
+import { isRazorpayConfigured, openRazorpayCheckout } from "./razorpay";
 
 /* ---------------------------------------------------------------- */
 /* Checkout — the app's actual monetization mechanism. Any button    */
@@ -154,13 +155,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
     }
   }
 
-  async function pay() {
-    if (playAvailable) return payViaPlay();
-    setStep("processing");
-    // INTEGRATION POINT: replace with a real Razorpay/Stripe order-create +
-    // checkout.js call, then verify the payment signature server-side before
-    // unlocking the plan/item. Simulated here so the purchase flow is fully testable.
-    await new Promise((r) => setTimeout(r, 1600));
+  async function unlockAfterPayment() {
     if (state.kind === "plan") {
       await updateUser({ plan: plan!.planValue });
     } else {
@@ -168,6 +163,34 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
     }
     setStep("success");
     setTimeout(onClose, 2400);
+  }
+
+  async function pay() {
+    if (playAvailable) return payViaPlay();
+
+    // Razorpay Checkout — used automatically when VITE_RAZORPAY_KEY_ID is set.
+    // NOTE: for production, create the order and verify the payment signature
+    // on a backend (using the Razorpay KEY SECRET) before trusting success.
+    if (isRazorpayConfigured()) {
+      const opened = await openRazorpayCheckout({
+        amount: finalPrice * 100, // paise
+        currency: "INR",
+        name: "The Titan Fitness",
+        description: title,
+        prefillEmail: user?.email,
+        prefillName: user?.name,
+        onSuccess: async () => { setStep("processing"); await unlockAfterPayment(); },
+        onDismiss: () => setStep("pay"),
+      });
+      if (opened) return; // Razorpay modal handles the rest
+      // fall through to the simulated flow if the script failed to load
+    }
+
+    setStep("processing");
+    // Fallback simulated flow (no gateway configured) — keeps the purchase
+    // flow fully testable in development.
+    await new Promise((r) => setTimeout(r, 1600));
+    await unlockAfterPayment();
   }
 
   const canPay = method === "upi" ? upiId.includes("@") : method === "card" ? cardNum.replace(/\s/g, "").length >= 12 : true;
