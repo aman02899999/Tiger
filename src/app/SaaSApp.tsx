@@ -79,6 +79,7 @@ import GlossaryPage from "./Glossary";
 import CalorieGuessPage from "./CalorieGuess";
 import ThisOrThatPage from "./ThisOrThat";
 import LearnHubPage from "./LearnHub";
+import ToolsHubPage from "./ToolsHub";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -93,6 +94,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
 
   const navGroups = [
     { group: "🏋️ Training", items: [
+      { id: "toolshub", icon: "🧰", label: "Tools Hub" },
       { id: "workouts", icon: "💪", label: "Workouts" },
       { id: "wod", icon: "🎲", label: "Workout of the Day" },
       { id: "calendar", icon: "📅", label: "Workout Calendar" },
@@ -1232,6 +1234,7 @@ function SaaSAppInner() {
       {section === "calorieguess" && <CalorieGuessPage />}
       {section === "thisorthat" && <ThisOrThatPage />}
       {section === "learnhub" && <LearnHubPage onNavigate={setSection} />}
+      {section === "toolshub" && <ToolsHubPage onNavigate={setSection} />}
       {section === "ayurvedalib" && <AyurvedaLibraryPage />}
       {section === "medicine" && <MedicineLibraryPage />}
       {section === "trivia" && <FitnessTriviaPage />}
