@@ -99,7 +99,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 }
 
 function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () => void }) {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, refreshUser } = useAuth();
   const [step, setStep] = useState<Step>("pay");
   const [method, setMethod] = useState<Method>("upi");
   const [upiId, setUpiId] = useState("");
@@ -146,7 +146,10 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
       const result = await purchaseWithPlayBilling(sku);
       if (!result) { setStep("pay"); return; } // user backed out of the Play sheet
       if (state.kind === "plan") {
-        await updateUser({ plan: plan!.planValue });
+        // Plan unlock happens server-side (clients can't self-upgrade).
+        const unlockPlay = httpsCallable<Record<string, unknown>, { ok: boolean }>(functions, "unlockPlanAfterPlay");
+        await unlockPlay({ plan: plan!.planValue, sku, purchaseToken: result.purchaseToken });
+        await refreshUser();
       } else {
         state.item.onSuccess();
         await acknowledgePlayPurchase(result.purchaseToken);
@@ -200,6 +203,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
               const v = await verify({ orderId, paymentId, signature, plan: planValue });
               if (v.data.valid) {
                 if (state.kind === "item") state.item.onSuccess();
+                else await refreshUser(); // reflect the server-side plan unlock
                 setStep("success");
                 setTimeout(onClose, 2400);
               } else {

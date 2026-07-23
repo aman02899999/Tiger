@@ -107,3 +107,34 @@ exports.verifyRazorpayPayment = onCall(
     return { valid: true };
   }
 );
+
+/**
+ * Unlock a plan after a Google Play Billing purchase. Because clients can no
+ * longer write their own `plan` field, Play purchases route through here so
+ * the Admin SDK performs the write.
+ *
+ * TODO (production): verify `purchaseToken` against the Google Play Developer
+ * API (purchases.subscriptions/products.get) before trusting it. Until then
+ * this trusts the client-reported purchase, which is acceptable only because
+ * Play Billing itself gates the transaction on-device.
+ */
+exports.unlockPlanAfterPlay = onCall({ cors: true }, async (req) => {
+  if (!req.auth) throw new HttpsError("unauthenticated", "You must be signed in.");
+
+  const { plan, sku, purchaseToken } = req.data || {};
+  if (!plan || !ALLOWED_PLANS.has(plan)) throw new HttpsError("invalid-argument", "Invalid plan.");
+
+  const userRef = admin.firestore().collection("users").doc(req.auth.uid);
+  await userRef.collection("payments").add({
+    source: "play",
+    sku: sku || null,
+    purchaseToken: purchaseToken || null,
+    plan,
+    at: admin.firestore.FieldValue.serverTimestamp(),
+  });
+  await userRef.set(
+    { plan, planUpdatedAt: admin.firestore.FieldValue.serverTimestamp() },
+    { merge: true }
+  );
+  return { ok: true };
+});
