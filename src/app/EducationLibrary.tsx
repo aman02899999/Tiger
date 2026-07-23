@@ -513,12 +513,15 @@ export default function EducationLibraryPage() {
             {open.tag && <span className="rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em]" style={{ background: `${TAG_COLOR[open.tag]}22`, color: TAG_COLOR[open.tag] }}>{open.tag}</span>}
           </div>
           <h1 className="mt-4 text-3xl font-black tracking-[-0.04em]">{open.title}</h1>
-          <p className="mt-3 text-base leading-relaxed text-[#f7f0df]/80">{open.intro}</p>
-          <div className="mt-6 space-y-5">
+          <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 Overview</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.intro}</p>
+          </div>
+          <div className="mt-3 space-y-3">
             {open.sections.map((s, i) => (
-              <div key={i}>
-                <h2 className="text-lg font-black text-violet-100">{s.heading}</h2>
-                <p className="mt-1.5 text-sm leading-relaxed text-[#f7f0df]/78">{s.text}</p>
+              <div key={i} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-violet-300">📖 {s.heading}</p>
+                <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{s.text}</p>
               </div>
             ))}
           </div>

@@ -281,14 +281,17 @@ export default function PhysiotherapyLibraryPage() {
               <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.name}</h1>
             </div>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-[#f7f0df]/80">{open.about}</p>
+          <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 About</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.about}</p>
+          </div>
 
-          <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">Common causes</p>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-fuchsia-300">🔍 Common causes</p>
           <ul className="mt-2 space-y-1.5">
             {open.causes.map((c, i) => <li key={i} className="flex gap-2 text-sm text-[#f7f0df]/75"><span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-fuchsia-300" />{c}</li>)}
           </ul>
 
-          <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Staged exercise plan</p>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-[#d8b35a]">🥄 Staged exercise plan</p>
           <div className="mt-3 space-y-2.5">
             {open.exercises.map((e, i) => (
               <div key={i} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">

@@ -125,10 +125,16 @@ export default function MeditationLibraryPage() {
             </div>
           </div>
 
-          <p className="mt-4 text-sm leading-relaxed text-[#f7f0df]/80"><span className="font-bold text-[#d8b35a]">Benefits: </span>{open.benefits}</p>
-          <p className="mt-2 text-[13px] text-[#f7f0df]/68"><span className="font-bold text-violet-200">Best for: </span>{open.best}</p>
+          <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 Benefits</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.benefits}</p>
+          </div>
+          <div className="mt-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#38bdf8]">⏰ Best for</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.best}</p>
+          </div>
 
-          <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">Step by step</p>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-[#d8b35a]">🥄 Step by step</p>
           <ol className="mt-2 space-y-2">
             {open.steps.map((s, i) => (
               <li key={i} className="flex gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-sm text-[#f7f0df]/78">
