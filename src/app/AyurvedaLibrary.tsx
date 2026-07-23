@@ -1,258 +1,157 @@
 import { useMemo, useState } from "react";
 
 /* ---------------------------------------------------------------- */
-/* Ayurveda Library — an educational knowledge base of doshas, herbs, */
-/* daily routines (dinacharya) and common remedies. Reference only,   */
-/* not medical advice. Client-side content. No SVG.                   */
+/* Ayurveda Library — a large educational knowledge base of herbs,   */
+/* spices, oils, remedies, routines, therapies, doshas & diet. Every  */
+/* entry details WHAT it helps with, HOW to use it, WHEN to use it,   */
+/* and precautions. Reference only — not medical advice. No SVG.      */
 /* ---------------------------------------------------------------- */
+
+type Category = "Dosha" | "Herb" | "Spice" | "Oil" | "Remedy" | "Routine" | "Therapy" | "Diet";
 
 interface Entry {
   id: string;
   name: string;
-  category: "Dosha" | "Herb" | "Routine" | "Remedy";
+  category: Category;
   icon: string;
   tagline: string;
-  body: string[];
+  use: string;   // what it helps with / what to use it for
+  how: string;   // how to use
+  when: string;  // when to use
+  caution: string;
 }
 
 const ENTRIES: Entry[] = [
-  // Doshas
-  { id: "vata", name: "Vata", category: "Dosha", icon: "🌬️", tagline: "Air & ether — movement and creativity", body: [
-    "Vata governs movement — breath, circulation, nerve impulses, and elimination. When balanced it brings creativity, energy, and flexibility.",
-    "Signs of imbalance: dry skin, anxiety, restlessness, bloating, and irregular digestion.",
-    "To pacify Vata: favor warm, moist, grounding foods; keep a regular routine; practice calming activities; and stay warm.",
-  ] },
-  { id: "pitta", name: "Pitta", category: "Dosha", icon: "🔥", tagline: "Fire & water — metabolism and focus", body: [
-    "Pitta governs transformation — digestion, metabolism, and body temperature. Balanced Pitta brings sharp intellect, courage, and strong digestion.",
-    "Signs of imbalance: irritability, acidity, inflammation, skin rashes, and overheating.",
-    "To pacify Pitta: favor cooling, sweet, and bitter foods; avoid excess heat, spice, and skipping meals; and make time for leisure.",
-  ] },
-  { id: "kapha", name: "Kapha", category: "Dosha", icon: "🌱", tagline: "Earth & water — structure and calm", body: [
-    "Kapha governs structure and lubrication — bones, joints, and immunity. Balanced Kapha brings strength, stamina, calm, and loyalty.",
-    "Signs of imbalance: weight gain, lethargy, congestion, and attachment.",
-    "To pacify Kapha: favor light, warm, spiced foods; stay active; embrace variety and stimulation; and rise early.",
-  ] },
-  // Herbs
-  { id: "ashwagandha", name: "Ashwagandha", category: "Herb", icon: "🌿", tagline: "Adaptogen for stress & strength", body: [
-    "One of Ayurveda's most prized adaptogens, traditionally used to build strength (bala), reduce stress, and support restful sleep.",
-    "Modern research links it to reduced cortisol and improved measures of strength and recovery in some studies.",
-    "Commonly taken as a root powder or standardized extract. Consult a professional before use, especially if pregnant or on medication.",
-  ] },
-  { id: "triphala", name: "Triphala", category: "Herb", icon: "🍂", tagline: "Three-fruit digestive tonic", body: [
-    "A blend of three fruits — Amalaki, Bibhitaki, and Haritaki — used to support digestion, elimination, and gentle detoxification.",
-    "Traditionally taken at night with warm water to support regularity and gut health.",
-    "Rich in vitamin C and antioxidants. Start with a small dose to assess tolerance.",
-  ] },
-  { id: "turmeric", name: "Turmeric (Haldi)", category: "Herb", icon: "🟡", tagline: "Golden anti-inflammatory spice", body: [
-    "Turmeric's active compound, curcumin, is valued for its anti-inflammatory and antioxidant properties.",
-    "Absorption improves dramatically when paired with black pepper (piperine) and a source of fat.",
-    "Used in golden milk (haldi doodh), curries, and as a paste for skin. A staple of daily Ayurvedic wellness.",
-  ] },
-  { id: "tulsi", name: "Tulsi (Holy Basil)", category: "Herb", icon: "🍃", tagline: "The 'queen of herbs'", body: [
-    "Tulsi is revered as an adaptogen that supports the respiratory system, immunity, and stress resilience.",
-    "Commonly taken as a tea or fresh leaves. Traditionally grown in homes across India.",
-    "Gentle enough for daily use; often combined with ginger and honey for coughs and colds.",
-  ] },
-  { id: "brahmi", name: "Brahmi (Bacopa)", category: "Herb", icon: "🧠", tagline: "The brain and memory tonic", body: [
-    "Brahmi is traditionally used to support memory, concentration, and mental clarity — a classic 'medhya rasayana' (brain rejuvenator).",
-    "Modern research has explored Bacopa for cognitive support and stress, though effects build gradually over weeks.",
-    "Often taken as a powder, tea, or infused oil for scalp massage. Consult a professional before use.",
-  ] },
-  { id: "shatavari", name: "Shatavari", category: "Herb", icon: "🌸", tagline: "Women's reproductive tonic", body: [
-    "Shatavari is regarded as a premier rejuvenating herb for women, traditionally supporting hormonal balance, fertility, and lactation.",
-    "Its name translates roughly to 'she who possesses a hundred husbands', reflecting its reputation as a vitality tonic.",
-    "Usually taken as a root powder with warm milk. Seek professional guidance, especially during pregnancy.",
-  ] },
-  { id: "giloy", name: "Giloy (Guduchi)", category: "Herb", icon: "🌿", tagline: "Immunity and detox creeper", body: [
-    "Giloy is traditionally called 'Amrita' (nectar of immortality) and used to support immunity, fever recovery, and detoxification.",
-    "Commonly taken as a juice, powder, or decoction, particularly during seasonal illness.",
-    "Valued as a general 'rasayana' (rejuvenator). Consult a practitioner, especially with autoimmune conditions.",
-  ] },
-  { id: "amla", name: "Amla (Indian Gooseberry)", category: "Herb", icon: "🫐", tagline: "Vitamin-C powerhouse", body: [
-    "Amla is one of the richest natural sources of vitamin C and a key ingredient in many Ayurvedic tonics, including Chyawanprash.",
-    "Traditionally used to support immunity, digestion, hair, and skin, and to balance all three doshas.",
-    "Consumed fresh, as juice, powder, or in preserves. A gentle, everyday rejuvenator.",
-  ] },
-  { id: "ginger", name: "Ginger (Adrak/Sunthi)", category: "Herb", icon: "🫚", tagline: "The universal digestive", body: [
-    "Ginger is prized for kindling Agni (digestive fire), easing nausea, and warming the body.",
-    "Fresh ginger tea before meals is a classic remedy to stimulate appetite and digestion.",
-    "Dried ginger (sunthi) is considered even more warming and is used in many formulations.",
-  ] },
-  { id: "methi", name: "Fenugreek (Methi)", category: "Herb", icon: "🌱", tagline: "Metabolic and digestive seed", body: [
-    "Fenugreek seeds are traditionally used to support digestion, blood-sugar balance, and lactation.",
-    "Soaking seeds overnight and drinking the water in the morning is a common folk practice.",
-    "Also used in cooking and as a paste for hair. Consult a professional if managing blood sugar with medication.",
-  ] },
-  // Routines
-  { id: "dinacharya", name: "Dinacharya (Daily Routine)", category: "Routine", icon: "🌅", tagline: "Align your day with nature's rhythm", body: [
-    "Dinacharya is the Ayurvedic daily routine designed to sync your body with natural cycles for better health.",
-    "Key practices: wake before sunrise, scrape the tongue, drink warm water, practice oil pulling, move the body, and eat the largest meal at midday when digestion (Agni) is strongest.",
-    "Consistency matters more than perfection — even adopting two or three habits builds momentum.",
-  ] },
-  { id: "abhyanga", name: "Abhyanga (Self-Massage)", category: "Routine", icon: "🫒", tagline: "Daily warm-oil massage", body: [
-    "Abhyanga is a self-massage with warm oil (often sesame for Vata, coconut for Pitta) before bathing.",
-    "It's said to nourish the tissues, calm the nervous system, improve circulation, and support the skin.",
-    "Spend 5–10 minutes working from the extremities toward the heart, then let the oil absorb before a warm shower.",
-  ] },
-  // Remedies
-  { id: "golden-milk", name: "Golden Milk (Haldi Doodh)", category: "Remedy", icon: "🥛", tagline: "Soothing bedtime tonic", body: [
-    "Warm milk (or a plant alternative) simmered with turmeric, a pinch of black pepper, ginger, and a touch of honey.",
-    "Traditionally used to support recovery, ease joint discomfort, and promote restful sleep.",
-    "A comforting daily ritual — especially in cold weather or after intense training.",
-  ] },
-  { id: "cumin-water", name: "Jeera (Cumin) Water", category: "Remedy", icon: "💧", tagline: "Digestive morning drink", body: [
-    "Cumin seeds soaked overnight or boiled in water, taken warm in the morning.",
-    "A traditional aid for digestion, bloating, and gentle metabolic support.",
-    "Often combined with coriander and fennel (CCF tea) as a soothing digestive blend.",
-  ] },
-  { id: "neem", name: "Neem", category: "Herb", icon: "🌳", tagline: "The bitter purifier", body: [
-    "Neem is traditionally used to support skin health, blood purification, and oral hygiene.",
-    "Its intensely bitter taste is considered cooling and cleansing, pacifying Pitta and Kapha.",
-    "Used as leaves, oil, powder, and in toothpastes. Powerful — use in moderation and with guidance.",
-  ] },
-  { id: "licorice", name: "Mulethi (Licorice)", category: "Herb", icon: "🪵", tagline: "Soothing throat and gut herb", body: [
-    "Licorice root is traditionally used to soothe the throat, support the respiratory tract, and calm the digestive lining.",
-    "Often taken as a tea or chewed root for coughs and hoarseness.",
-    "Not suitable for everyone — can affect blood pressure with prolonged use. Consult a professional.",
-  ] },
-  { id: "cardamom", name: "Elaichi (Cardamom)", category: "Herb", icon: "🫛", tagline: "Aromatic digestive spice", body: [
-    "Cardamom is prized for freshening breath, supporting digestion, and easing bloating.",
-    "Added to teas (like masala chai) and sweets, it balances all three doshas in moderation.",
-    "A pinch after meals is a traditional digestive aid.",
-  ] },
-  { id: "oil-pulling", name: "Oil Pulling (Gandusha)", category: "Routine", icon: "🥥", tagline: "Traditional oral cleanse", body: [
-    "Swishing a tablespoon of oil (usually sesame or coconut) in the mouth for several minutes, then spitting it out.",
-    "Traditionally used to support oral hygiene, fresh breath, and gum health.",
-    "Best done in the morning before eating. Never swallow the oil.",
-  ] },
-  { id: "ccf-tea", name: "CCF Tea", category: "Remedy", icon: "🍵", tagline: "Cumin-coriander-fennel digestive", body: [
-    "A gentle tea of equal parts cumin, coriander, and fennel seeds simmered in water.",
-    "A classic Ayurvedic remedy to support digestion, reduce bloating, and gently detoxify.",
-    "Soothing enough to sip throughout the day; suitable for most constitutions.",
-  ] },
-  { id: "moringa", name: "Moringa (Drumstick)", category: "Herb", icon: "🌿", tagline: "The nutrient-dense 'miracle tree'", body: [
-    "Moringa leaves are exceptionally rich in vitamins, minerals, and antioxidants.",
-    "Traditionally used to support energy, immunity, and overall nourishment.",
-    "Taken as a powder in smoothies, or the leaves and pods cooked in food.",
-  ] },
-  { id: "guggul", name: "Guggul", category: "Herb", icon: "🪔", tagline: "Traditional metabolic resin", body: [
-    "Guggul is a resin traditionally used to support healthy metabolism, joints, and lipid balance.",
-    "A key ingredient in many classical Ayurvedic formulations.",
-    "Potent — should be used under professional guidance, especially with thyroid or heart conditions.",
-  ] },
-  { id: "gotu-kola", name: "Gotu Kola (Brahmi Manduki)", category: "Herb", icon: "☘️", tagline: "Herb of mental clarity & skin", body: [
-    "Gotu Kola is traditionally used to support cognition, calm, wound healing, and skin health.",
-    "Sometimes confused with Brahmi (Bacopa); both are valued as 'medhya' brain tonics.",
-    "Taken as a tea, powder, or fresh leaves.",
-  ] },
-  { id: "tongue-scraping", name: "Tongue Scraping (Jihwa Prakshalana)", category: "Routine", icon: "👅", tagline: "Morning oral cleanse", body: [
-    "Gently scraping the tongue from back to front with a metal or copper scraper each morning.",
-    "Traditionally used to remove 'ama' (toxins/coating), freshen breath, and stimulate digestion.",
-    "A quick, simple daily habit done before eating or drinking.",
-  ] },
-  { id: "warm-water", name: "Warm Water Ritual (Ushapan)", category: "Routine", icon: "🚰", tagline: "First-thing-morning hydration", body: [
-    "Drinking a glass of warm water (sometimes with lemon) upon waking.",
-    "Traditionally used to stimulate digestion, support elimination, and gently cleanse.",
-    "One of the simplest and most accessible Ayurvedic daily practices.",
-  ] },
-  { id: "ginger-honey", name: "Ginger-Honey-Tulsi Remedy", category: "Remedy", icon: "🍯", tagline: "Classic cold & cough soother", body: [
-    "Fresh ginger juice with honey and crushed tulsi leaves, taken warm.",
-    "A traditional home remedy to soothe coughs, sore throats, and seasonal congestion.",
-    "Avoid giving honey to infants under one year.",
-  ] },
-  { id: "manjistha", name: "Manjistha", category: "Herb", icon: "🔴", tagline: "Blood and lymph purifier", body: [
-    "Manjistha is traditionally regarded as one of the best herbs for purifying the blood and supporting the lymphatic system and skin.",
-    "Used for a clear complexion and healthy circulation in classical formulations.",
-    "Taken as a powder or in blends. Consult a practitioner for use.",
-  ] },
-  { id: "arjuna", name: "Arjuna", category: "Herb", icon: "🌲", tagline: "The heart tonic bark", body: [
-    "The bark of the Arjuna tree is traditionally used to support heart health and healthy circulation.",
-    "A prized cardiac tonic in Ayurveda, often taken as a decoction or powder.",
-    "Consult a professional, especially if managing a heart condition or on medication.",
-  ] },
-  { id: "fennel", name: "Saunf (Fennel)", category: "Herb", icon: "🌿", tagline: "After-meal digestive seed", body: [
-    "Fennel seeds are chewed after meals across India to freshen breath and aid digestion.",
-    "Considered cooling, they help ease bloating and support Pitta balance.",
-    "Also brewed as a gentle, soothing tea.",
-  ] },
-  { id: "chyawanprash", name: "Chyawanprash", category: "Remedy", icon: "🍯", tagline: "Classic rejuvenating jam", body: [
-    "A traditional herbal jam built around Amla and dozens of herbs and spices.",
-    "Used as a daily 'rasayana' to support immunity, energy, and overall vitality.",
-    "Commonly taken a spoonful in the morning, often with warm milk.",
-  ] },
-  { id: "seasonal-eating", name: "Ritucharya (Seasonal Routine)", category: "Routine", icon: "🍂", tagline: "Eat and live with the seasons", body: [
-    "Ritucharya is the Ayurvedic practice of adjusting diet and lifestyle to the changing seasons.",
-    "Cooling foods in summer, warming and nourishing foods in winter, and light cleansing in spring.",
-    "Aligning with seasonal rhythms is thought to prevent the dosha imbalances each season provokes.",
-  ] },
-  { id: "meditation-ayur", name: "Dhyana (Meditation in Ayurveda)", category: "Routine", icon: "🧘", tagline: "Daily mental hygiene", body: [
-    "Ayurveda considers a calm mind essential to health, and daily meditation part of a balanced routine.",
-    "Even a few minutes of stillness is thought to steady the doshas and support digestion and sleep.",
-    "Traditionally practiced in the quiet hours of early morning or dusk.",
-  ] },
-  { id: "shilajit", name: "Shilajit", category: "Herb", icon: "🪨", tagline: "Mineral-rich mountain resin", body: [
-    "Shilajit is a sticky resin from Himalayan rocks, rich in fulvic acid and minerals.",
-    "Traditionally used as a rejuvenator to support energy, stamina, and vitality.",
-    "Quality and purity vary widely — source carefully and consult a professional.",
-  ] },
-  { id: "cinnamon", name: "Dalchini (Cinnamon)", category: "Herb", icon: "🎋", tagline: "Warming, blood-sugar-friendly spice", body: [
-    "Cinnamon is a warming spice traditionally used to support digestion, circulation, and blood-sugar balance.",
-    "Added to teas, milk, and dishes; pairs well with other warming spices.",
-    "Use culinary amounts; high supplemental doses of cassia cinnamon aren't advised long-term.",
-  ] },
-  { id: "black-pepper", name: "Kali Mirch (Black Pepper)", category: "Herb", icon: "⚫", tagline: "The bioavailability booster", body: [
-    "Black pepper kindles Agni (digestion) and dramatically improves the absorption of other compounds like curcumin.",
-    "A key reason turmeric is traditionally paired with pepper.",
-    "Part of the classic 'Trikatu' blend (with ginger and long pepper) for digestion.",
-  ] },
-  { id: "aloe-vera", name: "Aloe Vera (Kumari)", category: "Remedy", icon: "🌵", tagline: "Cooling gel for skin and gut", body: [
-    "Aloe vera gel is traditionally used to soothe the skin, cool the body, and support digestion.",
-    "Applied topically for minor burns and irritation, or taken as juice for gut comfort.",
-    "Use food-grade products internally and consult a professional; avoid in pregnancy.",
-  ] },
-  { id: "sleep-routine", name: "Nidra (Healthy Sleep Practice)", category: "Routine", icon: "😴", tagline: "Restorative sleep the Ayurvedic way", body: [
-    "Ayurveda considers sound sleep (Nidra) one of the three pillars of health, alongside diet and balanced living.",
-    "Recommendations include an early, consistent bedtime, a light early dinner, and calming wind-down rituals.",
-    "A warm foot massage with oil or golden milk before bed are traditional aids.",
-  ] },
-  { id: "spice-box", name: "The Ayurvedic Spice Box", category: "Remedy", icon: "🧂", tagline: "Everyday healing in your kitchen", body: [
-    "Ayurveda views the kitchen spice box as a daily medicine cabinet — turmeric, cumin, coriander, fennel, ginger, and more.",
-    "Cooking with the right spices supports digestion and balances the doshas at every meal.",
-    "Toasting spices in a little ghee releases their aroma and is thought to aid absorption.",
-  ] },
-  { id: "ghee", name: "Ghee (Clarified Butter)", category: "Remedy", icon: "🧈", tagline: "The revered cooking fat", body: [
-    "Ghee is deeply valued in Ayurveda as a nourishing fat that supports digestion, absorption, and lubrication of the tissues.",
-    "A small amount is used in cooking and to carry herbs deeper into the body.",
-    "Considered balancing in moderation, particularly for Vata and Pitta types.",
-  ] },
-  { id: "long-pepper", name: "Pippali (Long Pepper)", category: "Herb", icon: "🌶️", tagline: "Respiratory & digestive spice", body: [
-    "Long pepper is traditionally used to support the lungs, digestion, and metabolism.",
-    "Part of the classic 'Trikatu' blend with black pepper and ginger.",
-    "Warming and stimulating — used in small amounts.",
-  ] },
-  { id: "coriander", name: "Dhania (Coriander)", category: "Herb", icon: "🌿", tagline: "Cooling digestive seed & leaf", body: [
-    "Coriander seeds and leaves are cooling and traditionally used to support digestion and soothe Pitta.",
-    "Coriander-seed water is a gentle remedy for digestive comfort and cooling in summer.",
-    "A core member of the CCF (cumin-coriander-fennel) digestive trio.",
-  ] },
-  { id: "saffron", name: "Kesar (Saffron)", category: "Herb", icon: "🌺", tagline: "Precious mood & complexion spice", body: [
-    "Saffron is a prized spice traditionally used to support mood, complexion, and vitality.",
-    "A few strands infused in warm milk is a classic preparation.",
-    "Highly potent and expensive — only tiny amounts are needed.",
-  ] },
-  { id: "nasya", name: "Nasya (Nasal Care)", category: "Routine", icon: "👃", tagline: "Nasal oil administration", body: [
-    "Nasya is the practice of applying medicated or plain oil (often sesame) into the nostrils.",
-    "Traditionally used to support the sinuses, clarity of the senses, and lubrication of nasal passages.",
-    "Best learned from a practitioner; a drop of oil in each nostril is a gentle daily version.",
-  ] },
-  { id: "mindful-eating-ayur", name: "Mindful Eating (Ahara)", category: "Routine", icon: "🍲", tagline: "How you eat matters as much as what", body: [
-    "Ayurveda teaches that eating in a calm, seated, unhurried state is essential for good digestion.",
-    "Recommendations: eat freshly cooked, warm food; chew well; avoid overeating; and eat your largest meal at midday.",
-    "Eating mindfully strengthens Agni (digestive fire) and prevents the buildup of 'ama' (toxins).",
-  ] },
+  /* ===================== DOSHAS ===================== */
+  { id: "vata", name: "Vata Dosha", category: "Dosha", icon: "🌬️", tagline: "Air & ether — movement", use: "Governs movement — breath, circulation, nerves, elimination. Balance brings creativity and energy; imbalance brings dryness, anxiety, bloating.", how: "Pacify with warm, moist, grounding foods, oil massage, steady routine, and warmth.", when: "Favor Vata-calming practices in autumn/early winter, in cold dry weather, and during travel or stress.", caution: "Avoid excess cold, raw, dry food and irregular schedules if Vata-dominant." },
+  { id: "pitta", name: "Pitta Dosha", category: "Dosha", icon: "🔥", tagline: "Fire & water — transformation", use: "Governs digestion, metabolism, and temperature. Balance brings sharp intellect; imbalance brings acidity, irritability, inflammation.", how: "Pacify with cooling, sweet, and bitter foods; avoid excess heat and skipped meals; make time for leisure.", when: "Focus on Pitta-cooling practices in summer and midday, and during intense, competitive periods.", caution: "Avoid excess spicy, sour, fried, and fermented foods if Pitta-dominant." },
+  { id: "kapha", name: "Kapha Dosha", category: "Dosha", icon: "🌱", tagline: "Earth & water — structure", use: "Governs structure, immunity, and lubrication. Balance brings strength and calm; imbalance brings weight gain, congestion, lethargy.", how: "Pacify with light, warm, spiced food, vigorous exercise, variety, and early rising.", when: "Emphasize Kapha-reducing practices in late winter/spring and in cold, damp weather.", caution: "Avoid heavy, oily, sweet foods and daytime sleep if Kapha-dominant." },
+
+  /* ===================== HERBS ===================== */
+  { id: "ashwagandha", name: "Ashwagandha", category: "Herb", icon: "🌿", tagline: "Adaptogen for stress & strength", use: "Supports stress resilience, strength, energy, and restful sleep; a classic rejuvenator.", how: "Take ~300–600 mg standardized extract, or ½–1 tsp root powder in warm milk with honey.", when: "Evening for sleep and recovery, or twice daily for stress; ideal during high-stress or training phases.", caution: "Consult a professional if pregnant, on thyroid/sedative medication, or with autoimmune conditions." },
+  { id: "triphala", name: "Triphala", category: "Herb", icon: "🍂", tagline: "Three-fruit digestive tonic", use: "Supports digestion, regularity, and gentle detoxification; rich in antioxidants.", how: "Take ½–1 tsp powder or 1–2 tablets with warm water.", when: "At night, 1–2 hours after dinner, for overnight cleansing and morning regularity.", caution: "Start with a low dose; may loosen stools. Avoid in diarrhea or pregnancy without guidance." },
+  { id: "turmeric", name: "Turmeric (Haldi)", category: "Herb", icon: "🟡", tagline: "Golden anti-inflammatory", use: "Supports joint comfort, immunity, and skin; anti-inflammatory and antioxidant.", how: "Use in cooking, or ¼–½ tsp in warm milk with black pepper and a little fat for absorption.", when: "Daily; especially useful during recovery, seasonal changes, or joint discomfort.", caution: "High supplemental doses may thin blood — caution before surgery or with blood thinners." },
+  { id: "tulsi", name: "Tulsi (Holy Basil)", category: "Herb", icon: "🍃", tagline: "The queen of herbs", use: "Supports immunity, the respiratory system, and stress resilience.", how: "Brew 3–5 fresh or dried leaves as tea, or chew fresh leaves.", when: "Morning for immunity, or at the first sign of a cold; daily during flu season.", caution: "May mildly affect blood sugar and thin blood; consult if on related medication." },
+  { id: "brahmi", name: "Brahmi (Bacopa)", category: "Herb", icon: "🧠", tagline: "Brain & memory tonic", use: "Supports memory, focus, and mental calm; a classic 'medhya' brain rejuvenator.", how: "Take as powder, tea, or extract; effects build over weeks of consistent use.", when: "Morning for focus, or during study/high mental demand periods.", caution: "Introduce gradually; consult if on thyroid or sedative medication." },
+  { id: "shatavari", name: "Shatavari", category: "Herb", icon: "🌸", tagline: "Women's reproductive tonic", use: "Supports female hormonal balance, fertility, and lactation; a nourishing tonic.", how: "Take ½–1 tsp root powder with warm milk, or as capsules.", when: "Daily as a tonic; often used through the reproductive years and postpartum.", caution: "Consult a professional during pregnancy or with hormone-sensitive conditions." },
+  { id: "giloy", name: "Giloy (Guduchi)", category: "Herb", icon: "🌿", tagline: "Immunity & detox creeper", use: "Supports immunity, fever recovery, and detoxification; called 'Amrita'.", how: "Take as juice, powder, or decoction.", when: "During or after seasonal illness and to build immunity in flu season.", caution: "Consult a professional, especially with autoimmune conditions." },
+  { id: "amla", name: "Amla (Indian Gooseberry)", category: "Herb", icon: "🫐", tagline: "Vitamin-C powerhouse", use: "Supports immunity, digestion, hair, and skin; balances all three doshas.", how: "Eat fresh, or take as juice, powder, or in Chyawanprash.", when: "Morning on an empty stomach for best absorption; daily as a rejuvenator.", caution: "Very sour — dilute juice; may not suit those with hyperacidity in large amounts." },
+  { id: "neem", name: "Neem", category: "Herb", icon: "🌳", tagline: "The bitter purifier", use: "Supports skin health, blood purification, and oral hygiene; cooling and cleansing.", how: "Use as leaf powder, oil (topical), or in toothpaste; small internal amounts only.", when: "During skin flare-ups or Pitta/Kapha excess; topically as needed.", caution: "Potent and bitter — use in moderation; avoid internally in pregnancy." },
+  { id: "manjistha", name: "Manjistha", category: "Herb", icon: "🔴", tagline: "Blood & lymph purifier", use: "Supports blood purification, lymphatic flow, and clear skin.", how: "Take as powder or in blends; also used in skin pastes.", when: "During skin concerns or as a periodic blood-cleansing course.", caution: "May give urine/stool a reddish tint (harmless); consult for prolonged use." },
+  { id: "arjuna", name: "Arjuna", category: "Herb", icon: "🌲", tagline: "The heart tonic bark", use: "Supports heart health and healthy circulation; a prized cardiac tonic.", how: "Take bark powder as a decoction or with warm milk, or as capsules.", when: "Daily as a heart tonic, typically morning or evening.", caution: "Consult a doctor if you have a heart condition or take cardiac medication." },
+  { id: "gotu-kola", name: "Gotu Kola", category: "Herb", icon: "☘️", tagline: "Clarity & skin herb", use: "Supports cognition, calm, wound healing, and skin.", how: "Take as tea, powder, or fresh leaves.", when: "Morning for mental clarity; topically for skin as needed.", caution: "Introduce gradually; consult if on sedatives or with liver conditions." },
+  { id: "shilajit", name: "Shilajit", category: "Herb", icon: "🪨", tagline: "Mineral-rich resin", use: "Supports energy, stamina, and vitality; rich in fulvic acid and minerals.", how: "Dissolve a rice-grain-sized amount in warm water or milk.", when: "Morning for energy; during low-vitality or recovery phases.", caution: "Purity varies widely — use only lab-tested products; avoid raw/unpurified forms." },
+  { id: "guggul", name: "Guggul", category: "Herb", icon: "🪔", tagline: "Metabolic resin", use: "Supports healthy metabolism, joints, and lipid balance.", how: "Take as standardized tablets in classical formulations.", when: "As directed in a course for metabolic or joint support.", caution: "Potent — use under guidance, especially with thyroid or heart conditions." },
+  { id: "moringa", name: "Moringa (Drumstick)", category: "Herb", icon: "🌿", tagline: "Nutrient-dense superfood", use: "Supports energy, immunity, and overall nourishment; very nutrient-dense.", how: "Add leaf powder to smoothies or water; cook leaves and pods in food.", when: "Daily as a nutritional tonic, ideally with meals.", caution: "Start with small amounts; the root/bark should be avoided in pregnancy." },
+  { id: "licorice", name: "Mulethi (Licorice)", category: "Herb", icon: "🪵", tagline: "Throat & gut soother", use: "Soothes the throat, supports the respiratory tract, and calms the gut lining.", how: "Take as tea, or chew a small piece of root.", when: "At the onset of a sore throat, cough, or hoarseness.", caution: "Can raise blood pressure and lower potassium with prolonged use; avoid in hypertension." },
+  { id: "gokshura", name: "Gokshura (Tribulus)", category: "Herb", icon: "🌰", tagline: "Urinary & vitality tonic", use: "Supports the urinary tract, kidneys, and male vitality.", how: "Take as powder or tablets, often with warm water or milk.", when: "As a course for urinary or vitality support.", caution: "Consult a professional if you have kidney conditions or take related medication." },
+  { id: "punarnava", name: "Punarnava", category: "Herb", icon: "🌾", tagline: "Fluid-balance & kidney herb", use: "Supports healthy fluid balance, the kidneys, and reduces water retention.", how: "Take as powder or decoction.", when: "During water retention or as a kidney-supportive course.", caution: "Consult a doctor if on diuretics or with kidney disease." },
+  { id: "haritaki", name: "Haritaki", category: "Herb", icon: "🟤", tagline: "The 'king of medicines'", use: "Supports digestion, elimination, and rejuvenation; one of the Triphala fruits.", how: "Take a small amount of powder with warm water.", when: "At night for digestion, or as directed.", caution: "Avoid in pregnancy, dehydration, or severe weakness without guidance." },
+  { id: "bibhitaki", name: "Bibhitaki", category: "Herb", icon: "🟫", tagline: "Respiratory & digestive fruit", use: "Supports the respiratory tract and digestion; a Triphala fruit.", how: "Take as powder, usually within Triphala.", when: "For respiratory or digestive support, typically at night.", caution: "Use within balanced formulations; consult for high doses." },
+  { id: "kutki", name: "Kutki", category: "Herb", icon: "🌿", tagline: "Liver-supportive bitter", use: "Supports liver function and healthy bile flow; cooling and bitter.", how: "Take a small amount of powder as directed.", when: "As a short liver-supportive course.", caution: "Bitter and potent — use small amounts under guidance." },
+  { id: "bhringraj", name: "Bhringraj", category: "Herb", icon: "🌿", tagline: "The hair herb", use: "Supports hair growth, scalp health, and calm; 'king of hair'.", how: "Apply as infused oil to the scalp; also taken internally as powder.", when: "Massage into the scalp before bed or before washing, 2–3× weekly.", caution: "Patch-test oils; consult before internal use." },
+  { id: "vidanga", name: "Vidanga", category: "Herb", icon: "🫘", tagline: "Digestive & cleansing berry", use: "Supports digestion and traditional intestinal cleansing.", how: "Take as powder in formulations as directed.", when: "As a short cleansing course.", caution: "Use under professional guidance." },
+  { id: "yashtimadhu", name: "Yashtimadhu", category: "Herb", icon: "🍬", tagline: "Sweet soothing root (licorice)", use: "Soothes the throat and stomach; supports the voice and respiratory comfort.", how: "Take as powder with honey, or as tea.", when: "For sore throat, acidity, or dry cough.", caution: "Same as licorice — avoid prolonged use in hypertension." },
+  { id: "vacha", name: "Vacha (Calamus)", category: "Herb", icon: "🌾", tagline: "Speech & clarity herb", use: "Traditionally supports speech, memory, and mental clarity.", how: "Used in tiny amounts within formulations.", when: "As directed for cognitive support.", caution: "Potent — only in small, professionally guided doses." },
+  { id: "jatamansi", name: "Jatamansi", category: "Herb", icon: "🌿", tagline: "Calming nervine (Indian spikenard)", use: "Supports calm, sleep, and a settled mind.", how: "Take as powder or in blends, often before bed.", when: "Evening for restlessness or sleep support.", caution: "Consult if on sedatives; use as directed." },
+  { id: "shankhpushpi", name: "Shankhpushpi", category: "Herb", icon: "🐚", tagline: "Memory & calm brain tonic", use: "Supports memory, focus, and mental calm.", how: "Take as syrup, powder, or tea.", when: "During study or stress; morning or evening.", caution: "Introduce gradually; consult if on sedatives." },
+  { id: "kalmegh", name: "Kalmegh (Andrographis)", category: "Herb", icon: "🌿", tagline: "Bitter immune & liver herb", use: "Supports immunity and liver function; very bitter.", how: "Take as powder or tablets.", when: "At the onset of a cold or as a liver-support course.", caution: "Avoid in pregnancy; consult for prolonged use." },
+  { id: "karela", name: "Karela (Bitter Gourd)", category: "Herb", icon: "🥒", tagline: "Blood-sugar-friendly bitter", use: "Traditionally supports healthy blood sugar and digestion.", how: "Eat as a vegetable or take a small amount of juice.", when: "With meals; morning juice in some traditions.", caution: "Monitor if diabetic on medication; can lower blood sugar." },
+  { id: "methi-herb", name: "Fenugreek (Methi)", category: "Herb", icon: "🌱", tagline: "Metabolic & digestive seed", use: "Supports digestion, blood-sugar balance, and lactation.", how: "Soak 1 tsp seeds overnight; drink the water and/or eat the seeds in the morning.", when: "Morning on an empty stomach.", caution: "Consult if on blood-sugar medication; avoid high doses in pregnancy." },
+  { id: "ashoka", name: "Ashoka", category: "Herb", icon: "🌸", tagline: "Women's health bark", use: "Traditionally supports the female reproductive system and menstrual comfort.", how: "Take as decoction or in classical formulations.", when: "As a cyclical or ongoing course as advised.", caution: "Use under professional guidance." },
+  { id: "lodhra", name: "Lodhra", category: "Herb", icon: "🌿", tagline: "Women's & skin support", use: "Traditionally supports women's health and clear skin.", how: "Take as powder or in blends; also in skin pastes.", when: "As directed for reproductive or skin support.", caution: "Consult a practitioner for internal use." },
+  { id: "kanchanar", name: "Kanchanar", category: "Herb", icon: "🌳", tagline: "Lymph & glandular support", use: "Traditionally supports the lymphatic system and healthy glands.", how: "Take in the classical 'Kanchanar Guggul' formulation.", when: "As a course for glandular support.", caution: "Use under guidance, especially with thyroid conditions." },
+  { id: "guduchi-satva", name: "Guduchi Satva", category: "Herb", icon: "❄️", tagline: "Cooling immune extract", use: "A cooling starch extract of Giloy supporting immunity and Pitta balance.", how: "Take a small amount with water or honey.", when: "During heat, fever recovery, or Pitta excess.", caution: "Consult for autoimmune conditions." },
+  { id: "nagkesar", name: "Nagkesar", category: "Herb", icon: "🌼", tagline: "Astringent digestive flower", use: "Traditionally supports digestion and healthy bleeding balance.", how: "Used as powder within formulations.", when: "As directed.", caution: "Use under professional guidance." },
+  { id: "daruharidra", name: "Daruharidra", category: "Herb", icon: "🟡", tagline: "Berberine bitter for skin/eyes", use: "Traditionally supports skin, eyes, and blood sugar.", how: "Used as powder or eye-wash decoction (properly prepared).", when: "As directed for skin or Pitta concerns.", caution: "Prepare eye washes only under professional guidance." },
+  { id: "chitrak", name: "Chitrak", category: "Herb", icon: "🔥", tagline: "Digestive fire kindler", use: "Strongly kindles Agni (digestive fire) and supports metabolism.", how: "Used in tiny amounts within formulations.", when: "For weak digestion, as directed.", caution: "Very heating — avoid in Pitta excess, ulcers, and pregnancy." },
+  { id: "musta", name: "Musta (Nut Grass)", category: "Herb", icon: "🌾", tagline: "Digestive & fever herb", use: "Supports digestion, eases bloating, and traditionally helps fevers.", how: "Take as decoction or powder.", when: "For digestive upset or during fevers.", caution: "Use as directed." },
+  { id: "bilva", name: "Bilva (Bael)", category: "Herb", icon: "🟢", tagline: "Gut-soothing fruit", use: "Supports the gut lining and traditionally eases loose motions.", how: "Take as ripe-fruit pulp, or unripe-fruit preparations for digestion.", when: "During digestive upset or loose stools.", caution: "Match the ripe/unripe form to the concern; consult if unsure." },
+  { id: "kutaja", name: "Kutaja", category: "Herb", icon: "🌿", tagline: "Intestinal support", use: "Traditionally supports healthy intestines and eases loose motions.", how: "Take as powder or decoction.", when: "During digestive disturbances.", caution: "Use under guidance for persistent symptoms." },
+  { id: "shallaki", name: "Shallaki (Boswellia)", category: "Herb", icon: "🌳", tagline: "Joint-comfort resin", use: "Supports joint comfort and healthy inflammation response.", how: "Take standardized extract or resin as directed.", when: "During joint stiffness or as a course.", caution: "Consult if on anti-inflammatory or blood-thinning medication." },
+  { id: "nirgundi", name: "Nirgundi", category: "Herb", icon: "🍃", tagline: "Pain & joint herb", use: "Traditionally supports joint and muscle comfort.", how: "Apply as oil externally; also used internally in formulations.", when: "On stiff joints/muscles as needed.", caution: "Patch-test oil; consult before internal use." },
+  { id: "haridra-khanda", name: "Haridra Khanda", category: "Herb", icon: "🟡", tagline: "Turmeric allergy formula", use: "A turmeric-based formulation traditionally used for allergies and skin.", how: "Take a spoonful with warm milk or water.", when: "During allergy season or skin flare-ups.", caution: "Consult for diabetes (contains sugar) or prolonged use." },
+  { id: "sitopaladi", name: "Sitopaladi Churna", category: "Herb", icon: "❄️", tagline: "Classic cough & cold powder", use: "Traditionally soothes cough, cold, and respiratory discomfort.", how: "Take with honey, a few times daily.", when: "During coughs, colds, and congestion.", caution: "Use as directed; consult for children's dosing." },
+  { id: "talisadi", name: "Talisadi Churna", category: "Herb", icon: "🌿", tagline: "Respiratory & digestive powder", use: "Traditionally supports the respiratory tract and digestion.", how: "Take with honey or warm water.", when: "During cough, cold, or weak digestion.", caution: "Use as directed." },
+
+  /* ===================== SPICES ===================== */
+  { id: "ginger", name: "Ginger (Adrak/Sunthi)", category: "Spice", icon: "🫚", tagline: "The universal digestive", use: "Kindles digestion, eases nausea, and warms the body.", how: "Sip fresh ginger tea, or add to food; dried ginger (sunthi) is more warming.", when: "Before meals to spark appetite, or for nausea and colds.", caution: "Reduce if you have hyperacidity or ulcers; may thin blood in large amounts." },
+  { id: "cumin", name: "Cumin (Jeera)", category: "Spice", icon: "🟤", tagline: "Digestive seed", use: "Supports digestion, eases bloating, and aids nutrient absorption.", how: "Toast and add to food, or drink jeera water (boiled cumin water) warm.", when: "With or after meals; morning jeera water for digestion.", caution: "Generally very safe in culinary amounts." },
+  { id: "coriander", name: "Coriander (Dhania)", category: "Spice", icon: "🌿", tagline: "Cooling digestive", use: "Cooling; supports digestion and soothes Pitta.", how: "Use seeds/leaves in cooking, or drink coriander-seed water.", when: "In summer or for Pitta/heat; with meals.", caution: "Safe in culinary amounts." },
+  { id: "fennel", name: "Fennel (Saunf)", category: "Spice", icon: "🌿", tagline: "After-meal digestive", use: "Freshens breath, eases bloating, and cools digestion.", how: "Chew roasted seeds after meals, or brew as tea.", when: "After meals; for gas or acidity.", caution: "Safe in culinary amounts." },
+  { id: "cardamom", name: "Cardamom (Elaichi)", category: "Spice", icon: "🫛", tagline: "Aromatic digestive", use: "Freshens breath, supports digestion, and eases bloating; balances all doshas.", how: "Add to tea, milk, and dishes; chew a pod after meals.", when: "After meals or in chai.", caution: "Safe in culinary amounts." },
+  { id: "cinnamon", name: "Cinnamon (Dalchini)", category: "Spice", icon: "🎋", tagline: "Warming blood-sugar spice", use: "Warming; supports digestion, circulation, and blood-sugar balance.", how: "Add to tea, milk, oats, or dishes.", when: "Mornings and cold weather; with carb-heavy meals.", caution: "Use culinary amounts; high-dose cassia isn't advised long-term." },
+  { id: "black-pepper", name: "Black Pepper (Kali Mirch)", category: "Spice", icon: "⚫", tagline: "Absorption booster", use: "Kindles digestion and boosts absorption of nutrients like curcumin.", how: "Add a pinch to turmeric preparations and food.", when: "With turmeric and meals.", caution: "Reduce with hyperacidity or ulcers." },
+  { id: "long-pepper", name: "Long Pepper (Pippali)", category: "Spice", icon: "🌶️", tagline: "Respiratory & digestive", use: "Supports the lungs, digestion, and metabolism; part of Trikatu.", how: "Use small amounts, often with honey, or in Trikatu.", when: "For cough, congestion, or weak digestion.", caution: "Heating — use small amounts; avoid in Pitta excess and pregnancy." },
+  { id: "clove", name: "Clove (Laung)", category: "Spice", icon: "🌰", tagline: "Warming antimicrobial", use: "Traditionally soothes toothache, cough, and supports digestion.", how: "Use whole in cooking; clove oil dabbed on a tooth for pain (diluted).", when: "For colds, coughs, or dental discomfort.", caution: "Clove oil is strong — dilute and use sparingly." },
+  { id: "hing", name: "Asafoetida (Hing)", category: "Spice", icon: "🟡", tagline: "Anti-gas resin", use: "Reduces gas and bloating and supports digestion.", how: "Add a pinch to dals and vegetable dishes while cooking.", when: "In gas-forming meals (legumes, beans).", caution: "Use tiny amounts; source pure hing." },
+  { id: "mustard-seed", name: "Mustard Seed (Rai)", category: "Spice", icon: "🟤", tagline: "Warming digestive", use: "Warming; stimulates digestion and circulation.", how: "Temper in oil for dishes; mustard oil used for massage in some regions.", when: "In cooking, especially cold weather.", caution: "Mustard oil for massage should be food/therapeutic grade." },
+  { id: "ajwain", name: "Carom Seeds (Ajwain)", category: "Spice", icon: "🌿", tagline: "Instant gas reliever", use: "Quickly relieves gas, bloating, and indigestion.", how: "Chew a pinch with a little salt, or drink ajwain water.", when: "After a heavy meal or with gas/indigestion.", caution: "Use small amounts; avoid excess in pregnancy." },
+  { id: "saffron", name: "Saffron (Kesar)", category: "Spice", icon: "🌺", tagline: "Mood & complexion spice", use: "Supports mood, complexion, and vitality.", how: "Infuse a few strands in warm milk.", when: "Evening tonic; during low mood or as a beauty tonic.", caution: "Potent and costly — a few strands suffice; avoid high doses in pregnancy." },
+  { id: "nutmeg", name: "Nutmeg (Jaiphal)", category: "Spice", icon: "🥥", tagline: "Sleep & digestive spice", use: "Traditionally supports sleep and calms digestion.", how: "Add a tiny pinch to warm milk before bed.", when: "Evening for restlessness or poor sleep.", caution: "Only tiny amounts — large doses are toxic." },
+  { id: "trikatu", name: "Trikatu", category: "Spice", icon: "🔥", tagline: "Three-pepper digestive blend", use: "A blend of ginger, black pepper, and long pepper that strongly kindles digestion.", how: "Take a small pinch with honey before meals.", when: "For sluggish digestion or Kapha excess.", caution: "Heating — avoid in Pitta excess, acidity, and pregnancy." },
+
+  /* ===================== OILS ===================== */
+  { id: "sesame-oil", name: "Sesame Oil (Til)", category: "Oil", icon: "🫗", tagline: "The warming massage oil", use: "Warming and grounding; the primary oil for Vata and self-massage.", how: "Warm slightly and massage into the body before bathing.", when: "Morning before a warm shower; ideal in cold, dry weather.", caution: "Patch-test; use food-grade oil for oil pulling." },
+  { id: "coconut-oil", name: "Coconut Oil", category: "Oil", icon: "🥥", tagline: "The cooling oil", use: "Cooling; soothes Pitta, and nourishes skin and hair.", how: "Massage into skin/scalp; use for oil pulling.", when: "Summer, for heat/Pitta, or for scalp care.", caution: "Solidifies when cool; warm gently to liquefy." },
+  { id: "ghee", name: "Ghee (Clarified Butter)", category: "Oil", icon: "🧈", tagline: "The revered healing fat", use: "Nourishes tissues, supports digestion and absorption, and carries herbs deeper.", how: "Use a small amount in cooking, or as a base for herbs.", when: "Daily in moderation; especially good for Vata and Pitta.", caution: "Use moderate amounts; Kapha types and high cholesterol should limit." },
+  { id: "mustard-oil", name: "Mustard Oil", category: "Oil", icon: "🟡", tagline: "Warming winter oil", use: "Very warming; used for massage and cooking in cold regions.", how: "Warm and massage in, or use in cooking.", when: "Cold weather and for Kapha/Vata.", caution: "Use food/therapeutic grade; can irritate sensitive skin — patch-test." },
+  { id: "brahmi-oil", name: "Brahmi Oil", category: "Oil", icon: "🌿", tagline: "Calming head oil", use: "Calms the mind and supports sleep and hair when applied to the scalp.", how: "Massage into the scalp and soles of the feet.", when: "Evening for calm and better sleep.", caution: "Patch-test; keep out of eyes." },
+  { id: "bhringraj-oil", name: "Bhringraj Oil", category: "Oil", icon: "🌿", tagline: "Hair-growth oil", use: "Supports hair growth, reduces greying, and cools the scalp.", how: "Massage into the scalp 2–3× weekly before washing.", when: "Before bed or before hair wash.", caution: "Patch-test for sensitivity." },
+  { id: "castor-oil", name: "Castor Oil (Erand)", category: "Oil", icon: "🫙", tagline: "Cleansing & joint oil", use: "Traditionally supports elimination and eases joint stiffness.", how: "A small amount internally as a gentle cleanse (guided), or externally on joints.", when: "Occasional internal cleanse; externally as needed.", caution: "Internal use only under guidance; avoid in pregnancy." },
+
+  /* ===================== REMEDIES ===================== */
+  { id: "golden-milk", name: "Golden Milk (Haldi Doodh)", category: "Remedy", icon: "🥛", tagline: "Soothing bedtime tonic", use: "Supports recovery, joint comfort, and restful sleep.", how: "Simmer milk with turmeric, black pepper, ginger, and a little honey.", when: "Before bed, or after intense training; in cold weather.", caution: "Add honey only to warm (not boiling) milk." },
+  { id: "cumin-water", name: "Jeera (Cumin) Water", category: "Remedy", icon: "💧", tagline: "Digestive morning drink", use: "Supports digestion, eases bloating, and gently aids metabolism.", how: "Boil 1 tsp cumin in water, strain, and drink warm.", when: "Morning on an empty stomach, or after heavy meals.", caution: "Generally very safe." },
+  { id: "ccf-tea", name: "CCF Tea", category: "Remedy", icon: "🍵", tagline: "Cumin-coriander-fennel digestive", use: "Supports digestion, reduces bloating, and gently detoxifies.", how: "Simmer equal parts cumin, coriander, and fennel seeds; strain and sip.", when: "Throughout the day or after meals.", caution: "Suitable for most; safe daily." },
+  { id: "ginger-honey", name: "Ginger-Honey-Tulsi", category: "Remedy", icon: "🍯", tagline: "Cold & cough soother", use: "Soothes cough, sore throat, and congestion.", how: "Mix fresh ginger juice with honey and crushed tulsi; take warm.", when: "At the first sign of a cold or cough.", caution: "No honey for infants under 1 year." },
+  { id: "chyawanprash", name: "Chyawanprash", category: "Remedy", icon: "🍯", tagline: "Rejuvenating herbal jam", use: "Supports immunity, energy, and overall vitality; built on Amla.", how: "Take 1 tsp, plain or with warm milk.", when: "Morning; especially in winter and flu season.", caution: "Contains sugar — diabetics should choose a sugar-free version or consult." },
+  { id: "aloe-vera", name: "Aloe Vera (Kumari)", category: "Remedy", icon: "🌵", tagline: "Cooling skin & gut gel", use: "Soothes skin, cools the body, and supports digestion.", how: "Apply gel topically; take food-grade juice for gut comfort.", when: "For skin irritation/burns, or morning for digestion.", caution: "Use food-grade internally; avoid internal use in pregnancy." },
+  { id: "spice-box", name: "The Ayurvedic Spice Box", category: "Remedy", icon: "🧂", tagline: "Kitchen as medicine cabinet", use: "Daily spices (turmeric, cumin, coriander, fennel, ginger) support digestion and dosha balance.", how: "Cook with the right spices for the season and your constitution; toast in ghee.", when: "Every meal.", caution: "Balance heating and cooling spices to your dosha." },
+  { id: "honey-cinnamon", name: "Honey & Cinnamon", category: "Remedy", icon: "🍯", tagline: "Warming metabolic tonic", use: "Traditionally supports metabolism and a healthy throat.", how: "Mix a little cinnamon into raw honey; take with warm water.", when: "Morning, or for throat comfort.", caution: "Don't heat honey; limit if diabetic." },
+  { id: "warm-lemon", name: "Warm Lemon Water", category: "Remedy", icon: "🍋", tagline: "Morning digestive kick-start", use: "Stimulates digestion and hydrates first thing.", how: "Squeeze half a lemon into a glass of warm water.", when: "Upon waking, before breakfast.", caution: "Rinse the mouth after to protect tooth enamel; skip with active ulcers." },
+  { id: "tulsi-tea", name: "Tulsi Tea", category: "Remedy", icon: "🍃", tagline: "Daily immunity brew", use: "Supports immunity, respiration, and stress resilience.", how: "Steep tulsi leaves; add ginger and honey if desired.", when: "Morning or during colds and stress.", caution: "May mildly affect blood sugar/clotting in large amounts." },
+  { id: "ajwain-water", name: "Ajwain Water", category: "Remedy", icon: "💧", tagline: "Fast gas relief", use: "Relieves gas, bloating, and indigestion quickly.", how: "Boil 1 tsp ajwain in water, strain, and sip warm.", when: "After heavy meals or with bloating.", caution: "Use small amounts; caution in pregnancy." },
+  { id: "triphala-water", name: "Triphala Water", category: "Remedy", icon: "🍂", tagline: "Overnight gentle cleanse", use: "Supports regularity and gentle detox.", how: "Soak ½ tsp Triphala in warm water overnight; drink in the morning, or take at night.", when: "Night or early morning.", caution: "Start low; avoid in diarrhea or pregnancy without guidance." },
+  { id: "fenugreek-water", name: "Fenugreek Water", category: "Remedy", icon: "🌱", tagline: "Blood-sugar & digestion drink", use: "Supports digestion and blood-sugar balance.", how: "Soak 1 tsp seeds overnight; drink the water in the morning.", when: "Morning on an empty stomach.", caution: "Monitor blood sugar if on medication." },
+  { id: "mint-tea", name: "Mint (Pudina) Water", category: "Remedy", icon: "🌿", tagline: "Cooling digestive", use: "Cooling; soothes the stomach and freshens the breath.", how: "Steep fresh mint leaves in warm or cool water.", when: "In summer or after meals for Pitta/heat.", caution: "Generally very safe." },
+  { id: "turmeric-milk-cough", name: "Turmeric Salt Gargle", category: "Remedy", icon: "🧂", tagline: "Sore-throat gargle", use: "Soothes a sore or scratchy throat.", how: "Mix ¼ tsp turmeric and a little salt in warm water; gargle.", when: "At the first sign of a sore throat, 2–3× daily.", caution: "Gargle only — do not swallow large amounts." },
+
+  /* ===================== ROUTINES ===================== */
+  { id: "dinacharya", name: "Dinacharya (Daily Routine)", category: "Routine", icon: "🌅", tagline: "Align with nature's rhythm", use: "A daily routine that syncs the body with natural cycles for better health.", how: "Wake before sunrise, scrape the tongue, drink warm water, move, and eat the main meal at midday.", when: "Every day; build gradually from 2–3 habits.", caution: "Adapt to your constitution and lifestyle." },
+  { id: "abhyanga", name: "Abhyanga (Self-Massage)", category: "Routine", icon: "🫒", tagline: "Daily warm-oil massage", use: "Nourishes tissues, calms the nerves, and improves circulation and skin.", how: "Massage warm oil (sesame for Vata, coconut for Pitta) from extremities toward the heart, then bathe.", when: "Morning before a warm shower.", caution: "Avoid over broken skin; let oil absorb before bathing to prevent slips." },
+  { id: "oil-pulling", name: "Oil Pulling (Gandusha)", category: "Routine", icon: "🥥", tagline: "Oral cleanse", use: "Supports oral hygiene, fresh breath, and gum health.", how: "Swish 1 tbsp sesame or coconut oil for 5–15 minutes, then spit out (not in the sink drain).", when: "Morning, before eating or brushing.", caution: "Never swallow the oil; spit into a bin." },
+  { id: "tongue-scraping", name: "Tongue Scraping (Jihwa Prakshalana)", category: "Routine", icon: "👅", tagline: "Morning oral cleanse", use: "Removes 'ama' (coating), freshens breath, and stimulates digestion.", how: "Scrape gently from back to front 5–7 times with a metal/copper scraper.", when: "Every morning before eating or drinking.", caution: "Scrape gently to avoid irritation." },
+  { id: "warm-water-ritual", name: "Warm Water on Waking (Ushapan)", category: "Routine", icon: "🚰", tagline: "First-thing hydration", use: "Stimulates digestion, supports elimination, and gently cleanses.", how: "Drink a glass of warm water (optionally with lemon) upon waking.", when: "First thing in the morning.", caution: "Skip lemon with active ulcers; rinse the mouth after." },
+  { id: "ritucharya", name: "Ritucharya (Seasonal Routine)", category: "Routine", icon: "🍂", tagline: "Eat & live with the seasons", use: "Adjusts diet and lifestyle to the seasons to prevent dosha imbalance.", how: "Cooling foods in summer, warming/nourishing in winter, light cleansing in spring.", when: "At each seasonal transition.", caution: "Adapt to your climate and constitution." },
+  { id: "nasya", name: "Nasya (Nasal Care)", category: "Routine", icon: "👃", tagline: "Nasal oil drops", use: "Supports the sinuses, senses, and nasal lubrication.", how: "Place a drop of plain or medicated oil (often sesame) in each nostril and sniff.", when: "Morning, away from meals; in dry weather.", caution: "Best learned from a practitioner; avoid if congested with infection." },
+  { id: "sleep-routine", name: "Nidra (Healthy Sleep)", category: "Routine", icon: "😴", tagline: "Restorative sleep practice", use: "Sound sleep is one of the three pillars of health.", how: "Keep an early, consistent bedtime; light early dinner; calming wind-down (foot massage, golden milk).", when: "Nightly.", caution: "Avoid heavy late meals and screens before bed." },
+  { id: "mindful-eating-ayur", name: "Mindful Eating (Ahara)", category: "Routine", icon: "🍲", tagline: "How you eat matters", use: "Calm, seated, unhurried eating supports strong digestion.", how: "Eat fresh warm food, chew well, don't overeat, and take the largest meal at midday.", when: "Every meal.", caution: "Avoid eating when stressed, distracted, or rushed." },
+  { id: "meditation-ayur", name: "Dhyana (Meditation)", category: "Routine", icon: "🧘", tagline: "Daily mental hygiene", use: "A calm mind steadies the doshas and supports digestion and sleep.", how: "Sit quietly for a few minutes focusing on the breath.", when: "Early morning or dusk.", caution: "Start small and build consistency." },
+  { id: "pranayama-ayur", name: "Pranayama (Breath Practice)", category: "Routine", icon: "🌬️", tagline: "Breath as medicine", use: "Balances the nervous system and supports vitality (prana).", how: "Practice gentle techniques like alternate-nostril breathing.", when: "Morning on an empty stomach.", caution: "Keep breathing comfortable; avoid strain, especially if pregnant." },
+  { id: "abhyanga-feet", name: "Padabhyanga (Foot Massage)", category: "Routine", icon: "🦶", tagline: "Grounding foot oiling", use: "Calms the mind, grounds Vata, and promotes sleep.", how: "Massage warm oil into the soles of the feet before bed.", when: "Evening, before sleep.", caution: "Wear socks after to avoid slipping." },
+
+  /* ===================== THERAPIES ===================== */
+  { id: "panchakarma", name: "Panchakarma", category: "Therapy", icon: "🌀", tagline: "Deep cleansing therapy", use: "A supervised set of five cleansing procedures to remove deep toxins and rebalance the doshas.", how: "Undergone at an Ayurvedic center over days to weeks with preparation and aftercare.", when: "Seasonally or for deeper rebalancing, as advised.", caution: "Only under qualified supervision; not suitable in pregnancy or certain conditions." },
+  { id: "shirodhara", name: "Shirodhara", category: "Therapy", icon: "💧", tagline: "Oil-stream forehead therapy", use: "Deeply calms the mind, easing stress, anxiety, and sleep issues.", how: "A steady stream of warm oil is poured over the forehead by a therapist.", when: "For stress, insomnia, or as part of a therapy program.", caution: "Performed by trained therapists only." },
+  { id: "swedana", name: "Swedana (Herbal Steam)", category: "Therapy", icon: "♨️", tagline: "Therapeutic sweating", use: "Opens channels, relieves stiffness, and supports detox; often after Abhyanga.", how: "Herbal steam applied to the body, usually after oil massage.", when: "As part of a treatment, or for stiffness/Kapha.", caution: "Avoid in pregnancy, heart conditions, or Pitta excess without guidance." },
+  { id: "basti", name: "Basti (Medicated Enema)", category: "Therapy", icon: "💧", tagline: "Colon therapy for Vata", use: "A key Panchakarma therapy considered the prime treatment for Vata disorders.", how: "Medicated oil or decoction administered rectally by a practitioner.", when: "As prescribed within a therapy program.", caution: "Strictly under professional supervision." },
+  { id: "nasya-therapy", name: "Nasya Therapy", category: "Therapy", icon: "👃", tagline: "Clinical nasal cleansing", use: "Clears the head and sinuses and supports clarity of the senses.", how: "Medicated oils/powders administered nasally by a practitioner.", when: "For head/sinus/neck concerns, as advised.", caution: "Clinical version done by trained practitioners." },
+  { id: "udvartana", name: "Udvartana (Herbal Scrub)", category: "Therapy", icon: "🌾", tagline: "Dry-powder massage", use: "A stimulating herbal-powder massage that supports Kapha reduction and skin tone.", how: "Herbal powders massaged over the body in upward strokes.", when: "For sluggishness, Kapha excess, or skin/circulation.", caution: "Can be drying — not ideal for very dry (Vata) skin without adaptation." },
+  { id: "kizhi", name: "Kizhi (Poultice Massage)", category: "Therapy", icon: "🌿", tagline: "Warm herbal-bundle massage", use: "Eases muscle and joint stiffness and supports circulation.", how: "Warm herbal poultice bundles are pressed and massaged over the body.", when: "For stiffness, aches, or as part of therapy.", caution: "Performed by trained therapists; mind the heat." },
+  { id: "netra-tarpana", name: "Netra Tarpana (Eye Therapy)", category: "Therapy", icon: "👁️", tagline: "Ghee eye bath", use: "Soothes and nourishes tired, dry, or strained eyes.", how: "Warm medicated ghee held over the eyes in a dough well by a therapist.", when: "For eye strain or as advised.", caution: "Clinical procedure — only under trained supervision." },
+
+  /* ===================== DIET ===================== */
+  { id: "six-tastes", name: "The Six Tastes (Shad Rasa)", category: "Diet", icon: "👅", tagline: "Balance every meal", use: "Including all six tastes — sweet, sour, salty, pungent, bitter, astringent — balances the body and satisfies cravings.", how: "Aim to include most tastes across a meal or day; emphasize tastes that pacify your dominant dosha.", when: "Every main meal.", caution: "Adjust taste emphasis to your constitution and season." },
+  { id: "agni-diet", name: "Eating for Agni (Digestive Fire)", category: "Diet", icon: "🔥", tagline: "Protect your digestion", use: "Strong Agni means good digestion and vitality; weak Agni leads to 'ama' (toxins).", how: "Eat the largest meal at midday, sip warm water with meals, and use digestive spices.", when: "Structure meals around midday, when Agni peaks.", caution: "Avoid iced drinks and heavy late-night meals that dampen Agni." },
+  { id: "warm-cooked", name: "Favor Warm, Cooked Food", category: "Diet", icon: "🍲", tagline: "Easy-to-digest meals", use: "Warm, freshly cooked food is considered easiest to digest and most nourishing.", how: "Choose freshly prepared, warm meals over cold, raw, or leftover food.", when: "Especially for Vata types and in cold weather.", caution: "Some cooling raw food suits Pitta in summer — adapt to season/dosha." },
+  { id: "food-combining", name: "Ayurvedic Food Combining", category: "Diet", icon: "🥗", tagline: "Compatible combinations", use: "Certain combinations (e.g. milk with sour fruit or fish) are considered hard to digest.", how: "Avoid pairing milk with sour/citrus or with salty/fishy foods; eat fruit on its own.", when: "When planning meals.", caution: "Guidelines, not rigid rules — notice what your own digestion tolerates." },
+  { id: "seasonal-eating", name: "Seasonal Eating (Ritu Ahara)", category: "Diet", icon: "🍎", tagline: "Eat with the season", use: "Eating seasonally aligns the body with nature and prevents imbalance.", how: "Cooling, hydrating foods in summer; warm, nourishing foods in winter; light, bitter foods in spring.", when: "At each seasonal transition.", caution: "Adapt to your local climate and constitution." },
+  { id: "dosha-diet", name: "Eating for Your Dosha", category: "Diet", icon: "⚖️", tagline: "Personalized nutrition", use: "Choosing foods that pacify your dominant dosha keeps you in balance.", how: "Vata: warm, moist, grounding. Pitta: cooling, mild. Kapha: light, warm, spiced.", when: "Daily, and adjusted by season.", caution: "Identify your constitution (ideally with a practitioner) before restricting foods." },
 ];
 
-const CATS = ["All", "Dosha", "Herb", "Routine", "Remedy"] as const;
+const CATS: (Category | "All")[] = ["All", "Dosha", "Herb", "Spice", "Oil", "Remedy", "Routine", "Therapy", "Diet"];
+const CAT_COLOR: Record<string, string> = { Dosha: "#a78bfa", Herb: "#34d399", Spice: "#d8b35a", Oil: "#fbbf24", Remedy: "#e879f9", Routine: "#38bdf8", Therapy: "#fb7185", Diet: "#4ade80" };
 
 export default function AyurvedaLibraryPage() {
   const [cat, setCat] = useState<(typeof CATS)[number]>("All");
@@ -261,26 +160,39 @@ export default function AyurvedaLibraryPage() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return ENTRIES.filter((e) => (cat === "All" || e.category === cat) && (!q || e.name.toLowerCase().includes(q) || e.tagline.toLowerCase().includes(q)));
+    return ENTRIES.filter((e) => (cat === "All" || e.category === cat) && (!q || e.name.toLowerCase().includes(q) || e.tagline.toLowerCase().includes(q) || e.use.toLowerCase().includes(q)));
   }, [cat, query]);
 
   if (open) {
+    const color = CAT_COLOR[open.category] ?? "#a78bfa";
     return (
       <div className="space-y-6">
         <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-emerald-200 hover:text-emerald-100">← Back to library</button>
         <div className="glass-card rounded-2xl p-8">
           <div className="flex items-center gap-3">
-            <span className="text-4xl">{open.icon}</span>
+            <span className="grid h-14 w-14 place-items-center rounded-2xl text-3xl" style={{ background: `${color}22` }}>{open.icon}</span>
             <div>
-              <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-200">{open.category}</span>
-              <h1 className="mt-2 text-3xl font-black tracking-[-0.04em]">{open.name}</h1>
+              <span className="rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em]" style={{ background: `${color}22`, color }}>{open.category}</span>
+              <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.name}</h1>
             </div>
           </div>
           <p className="mt-3 text-sm italic text-[#f7f0df]/65">{open.tagline}</p>
-          <div className="mt-5 space-y-4">
-            {open.body.map((p, i) => <p key={i} className="text-sm leading-relaxed text-[#f7f0df]/80">{p}</p>)}
+
+          <div className="mt-5 space-y-3">
+            {[
+              { label: "What it helps with", text: open.use, icon: "🎯", c: "#34d399" },
+              { label: "How to use", text: open.how, icon: "🥄", c: "#d8b35a" },
+              { label: "When to use", text: open.when, icon: "⏰", c: "#38bdf8" },
+            ].map((row) => (
+              <div key={row.label} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+                <p className="text-[11px] font-black uppercase tracking-[0.14em]" style={{ color: row.c }}>{row.icon} {row.label}</p>
+                <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{row.text}</p>
+              </div>
+            ))}
           </div>
-          <p className="mt-6 rounded-xl border border-[#d8b35a]/20 bg-[#d8b35a]/8 p-3 text-[11px] text-[#f7f0df]/62">⚠️ Educational content rooted in traditional Ayurveda — not a substitute for professional medical advice. Consult a qualified practitioner before starting any herb or remedy.</p>
+
+          <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#f7f0df]/78"><span className="font-bold text-rose-200">⚠️ Precautions: </span>{open.caution}</p>
+          <p className="mt-4 text-center text-[11px] text-[#f7f0df]/55">Educational reference from traditional Ayurveda — not medical advice. Consult a qualified practitioner before starting any herb, remedy, or therapy.</p>
         </div>
       </div>
     );
@@ -290,11 +202,11 @@ export default function AyurvedaLibraryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Ayurveda Library</h1>
-        <p className="text-sm text-[#f7f0df]/68">Doshas, herbs, routines and remedies from India's 5,000-year wellness tradition</p>
+        <p className="text-sm text-[#f7f0df]/68">{ENTRIES.length}+ herbs, spices, oils, remedies, routines, therapies & diet principles — with how &amp; when to use each</p>
       </div>
 
       <div className="glass-card rounded-2xl p-4">
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search herbs, doshas, remedies…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-emerald-200/40" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search herbs, remedies, therapies…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-emerald-200/40" />
         <div className="mt-3 flex flex-wrap gap-2">
           {CATS.map((c) => (
             <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-emerald-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{c}</button>
@@ -303,21 +215,23 @@ export default function AyurvedaLibraryPage() {
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
-        {filtered.map((e) => (
-          <button key={e.id} type="button" onClick={() => setOpen(e)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-emerald-200/30">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-emerald-500/15 text-2xl">{e.icon}</span>
-            <div className="min-w-0">
-              <div className="flex items-center gap-2">
-                <h3 className="text-lg font-black">{e.name}</h3>
-                <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-emerald-200">{e.category}</span>
+        {filtered.map((e) => {
+          const color = CAT_COLOR[e.category] ?? "#a78bfa";
+          return (
+            <button key={e.id} type="button" onClick={() => setOpen(e)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-emerald-200/30">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl" style={{ background: `${color}18` }}>{e.icon}</span>
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-black leading-tight">{e.name}</h3>
+                  <span className="rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em]" style={{ background: `${color}22`, color }}>{e.category}</span>
+                </div>
+                <p className="mt-0.5 text-[13px] text-[#f7f0df]/62">{e.tagline}</p>
               </div>
-              <p className="text-sm text-[#f7f0df]/62">{e.tagline}</p>
-            </div>
-          </button>
-        ))}
+            </button>
+          );
+        })}
       </div>
-
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Educational reference only — always consult a qualified practitioner before using herbs or remedies.</p>
+      <p className="text-center text-[11px] text-[#f7f0df]/55">Educational reference only — always consult a qualified practitioner before using herbs, remedies, or therapies.</p>
     </div>
   );
 }
