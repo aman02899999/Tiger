@@ -69,6 +69,8 @@ import YogaLibraryPage from "./YogaLibrary";
 import MeditationLibraryPage from "./MeditationLibrary";
 import BlogPage from "./Blog";
 import NewsletterPage from "./Newsletter";
+import DoshaQuizPage from "./DoshaQuiz";
+import MythBusterPage from "./MythBuster";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -155,6 +157,8 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "ayurvedalib", icon: "🌿", label: "Ayurveda Library" },
       { id: "medicine", icon: "⚕️", label: "Medicine Library" },
       { id: "trivia", icon: "🧠", label: "Fitness Trivia" },
+      { id: "doshaquiz", icon: "🧬", label: "Dosha Quiz" },
+      { id: "mythbuster", icon: "🎭", label: "Myth or Fact" },
       { id: "pdfstore", icon: "📄", label: "PDF Store" },
     ]},
     { group: "📰 Blog & News", items: [
@@ -1202,6 +1206,8 @@ function SaaSAppInner() {
       {section === "meditationlib" && <MeditationLibraryPage />}
       {section === "blog" && <BlogPage />}
       {section === "newsletter" && <NewsletterPage />}
+      {section === "doshaquiz" && <DoshaQuizPage />}
+      {section === "mythbuster" && <MythBusterPage />}
       {section === "ayurvedalib" && <AyurvedaLibraryPage />}
       {section === "medicine" && <MedicineLibraryPage />}
       {section === "trivia" && <FitnessTriviaPage />}
