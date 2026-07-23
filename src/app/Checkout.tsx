@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useAuth } from "../auth/AuthSystem";
 import { isPlayBillingAvailable, purchaseWithPlayBilling, acknowledgePlayPurchase } from "./PlayBilling";
 import { isRazorpayConfigured, openRazorpayCheckout } from "./razorpay";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../firebase";
 
 /* ---------------------------------------------------------------- */
 /* Checkout — the app's actual monetization mechanism. Any button    */
@@ -105,6 +107,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; pct: number } | null>(null);
   const [couponMsg, setCouponMsg] = useState<string | null>(null);
+  const [payError, setPayError] = useState<string | null>(null);
   // Play Store policy requires digital purchases inside an Android app
   // distributed via Play to go through Play Billing. undefined = still
   // checking; true/false decides which payment UI renders below.
@@ -169,11 +172,57 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
     if (playAvailable) return payViaPlay();
 
     // Razorpay Checkout — used automatically when VITE_RAZORPAY_KEY_ID is set.
-    // NOTE: for production, create the order and verify the payment signature
-    // on a backend (using the Razorpay KEY SECRET) before trusting success.
     if (isRazorpayConfigured()) {
+      const planValue = state.kind === "plan" ? plan!.planValue : undefined;
+
+      // SECURE PATH: create an order and verify the signature via Cloud
+      // Functions (which hold the Razorpay secret). Requires the functions to
+      // be deployed. Falls back to a provisional client-only flow otherwise.
+      try {
+        const createOrder = httpsCallable<{ amount: number; currency: string }, { orderId: string }>(functions, "createRazorpayOrder");
+        const orderRes = await createOrder({ amount: finalPrice * 100, currency: "INR" });
+        const orderId = orderRes.data.orderId;
+
+        const opened = await openRazorpayCheckout({
+          amount: finalPrice * 100,
+          currency: "INR",
+          name: "The Titan Fitness",
+          description: title,
+          prefillEmail: user?.email,
+          prefillName: user?.name,
+          orderId,
+          onSuccess: async (paymentId, raw) => {
+            setStep("processing");
+            try {
+              const verify = httpsCallable<Record<string, unknown>, { valid: boolean }>(functions, "verifyRazorpayPayment");
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const signature = (raw as any)?.razorpay_signature;
+              const v = await verify({ orderId, paymentId, signature, plan: planValue });
+              if (v.data.valid) {
+                if (state.kind === "item") state.item.onSuccess();
+                setStep("success");
+                setTimeout(onClose, 2400);
+              } else {
+                setPayError("Payment could not be verified. If money was debited, it will be refunded.");
+                setStep("pay");
+              }
+            } catch {
+              setPayError("Verification failed. If money was debited, it will be refunded.");
+              setStep("pay");
+            }
+          },
+          onDismiss: () => setStep("pay"),
+        });
+        if (opened) return;
+      } catch {
+        // Cloud Functions not deployed / unreachable → provisional fallback below.
+      }
+
+      // PROVISIONAL FALLBACK: open Checkout without a server order. Unlock is
+      // client-side and NOT signature-verified — deploy the functions for
+      // production security.
       const opened = await openRazorpayCheckout({
-        amount: finalPrice * 100, // paise
+        amount: finalPrice * 100,
         currency: "INR",
         name: "The Titan Fitness",
         description: title,
@@ -182,8 +231,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
         onSuccess: async () => { setStep("processing"); await unlockAfterPayment(); },
         onDismiss: () => setStep("pay"),
       });
-      if (opened) return; // Razorpay modal handles the rest
-      // fall through to the simulated flow if the script failed to load
+      if (opened) return;
     }
 
     setStep("processing");
@@ -293,6 +341,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                   <button type="button" onClick={pay} disabled={!canPay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40">
                     🔒 Pay ₹{finalPrice} Securely
                   </button>
+                  {payError && <p className="mt-2 text-center text-xs font-semibold text-rose-300">{payError}</p>}
                   <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#f7f0df]/50">
                     <span>🔒 256-bit encrypted</span>
                     <span>·</span>
