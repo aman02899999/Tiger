@@ -944,6 +944,37 @@ const CYCLE_TIMING: Array<{ phase: string; when: string; detail: string }> = [
 ];
 
 /* ================================================================== */
+/* Educational context — how to prepare, panels, reading results      */
+/* ================================================================== */
+
+const PREP_STEPS: Array<{ icon: string; title: string; detail: string }> = [
+  { icon: "🍽️", title: "Fast 8–12 hours", detail: "For lipids, glucose, and insulin, fast overnight (water is fine). Non-fasting skews cholesterol and blood-sugar readings." },
+  { icon: "💧", title: "Stay hydrated", detail: "Drink water normally before the test. Dehydration falsely raises hemoglobin, hematocrit, creatinine, and albumin." },
+  { icon: "🏋️", title: "Rest before testing", detail: "Avoid intense exercise for 24–48h. Hard training transiently raises AST, CK, and creatinine, mimicking liver/kidney stress." },
+  { icon: "🌅", title: "Test in the morning", detail: "Hormones like testosterone and cortisol peak in the morning. Draw blood before ~10am for meaningful hormone results." },
+  { icon: "💊", title: "Note your supplements", detail: "Biotin can skew thyroid/hormone assays; creatine mildly raises creatinine; iron pills affect iron studies. Tell the lab." },
+  { icon: "😴", title: "Sleep & de-stress", detail: "Poor sleep and acute stress raise cortisol, glucose, and prolactin. Test after a normal night, calm and rested." },
+];
+
+const PANEL_GUIDE: Array<{ icon: string; name: string; what: string; flags: string }> = [
+  { icon: "🩸", name: "CBC — Complete Blood Count", what: "Measures red cells, white cells, and platelets — your oxygen-carrying capacity, immune status, and clotting.", flags: "Low hemoglobin = anaemia/fatigue; high WBC = infection; abnormal platelets = clotting/bleeding risk." },
+  { icon: "🫀", name: "Lipid Profile", what: "Cholesterol and triglycerides — the fats in your blood that drive cardiovascular risk.", flags: "High LDL & triglycerides, low HDL raise heart-disease risk. The TG:HDL ratio hints at insulin resistance." },
+  { icon: "🍬", name: "Metabolic (Glucose/HbA1c/Insulin)", what: "Blood-sugar control now (glucose), over 3 months (HbA1c), and insulin sensitivity.", flags: "Rising values signal pre-diabetes and metabolic syndrome — often years before symptoms appear." },
+  { icon: "🧬", name: "Liver Function (LFT)", what: "Enzymes and proteins showing liver-cell health and processing capacity.", flags: "High ALT/AST = liver stress (fatty liver, alcohol, medications). Interpret AST alongside recent training." },
+  { icon: "🫁", name: "Kidney Function (KFT)", what: "Creatinine, eGFR, urea, and uric acid — how well your kidneys filter waste.", flags: "Rising creatinine/low eGFR = reduced filtration; high uric acid = gout risk. Muscle mass affects creatinine." },
+  { icon: "🦋", name: "Thyroid (TSH/T3/T4)", what: "The hormones that set your metabolic rate, energy, and body temperature.", flags: "High TSH = underactive (fatigue, weight gain); low TSH = overactive (anxiety, weight loss)." },
+  { icon: "⚗️", name: "Hormones", what: "Testosterone, estradiol, prolactin, cortisol, SHBG — drivers of muscle, libido, mood, and recovery.", flags: "Read total & free testosterone with SHBG; balance E2 (too low or high both harm). Morning, rested testing only." },
+  { icon: "💊", name: "Vitamins & Minerals", what: "Vitamin D, B12, ferritin, calcium, magnesium — foundational for energy, bones, and performance.", flags: "Deficiencies (very common) cause fatigue, poor recovery, hair loss, and low mood — and are easily corrected." },
+];
+
+const READING_TIPS: Array<{ icon: string; title: string; detail: string }> = [
+  { icon: "🎯", title: "'Normal' vs 'Optimal'", detail: "Lab reference ranges are population averages, not your ideal. A value at the edge of 'normal' may still be worth improving." },
+  { icon: "📈", title: "Track trends over time", detail: "A single result is a snapshot. The direction across several tests matters more than any one number." },
+  { icon: "🔗", title: "Interpret markers together", detail: "Numbers interact — e.g. free testosterone depends on SHBG, and AST must be read with ALT and recent exercise." },
+  { icon: "⚠️", title: "Flags aren't diagnoses", detail: "An out-of-range value warrants attention and often a retest or doctor visit — not panic or self-medication." },
+];
+
+/* ================================================================== */
 /* Main component                                                     */
 /* ================================================================== */
 
@@ -965,6 +996,7 @@ export default function BloodReportPage() {
   const [dragOver, setDragOver] = useState(false);
   const [uploadError, setUploadError] = useState<string>("");
   const [saveError, setSaveError] = useState<string>("");
+  const [guideTab, setGuideTab] = useState<"prep" | "panels" | "reading" | null>("prep");
 
   useEffect(() => {
     setAnalyzed(false);
@@ -1171,6 +1203,9 @@ export default function BloodReportPage() {
           style={{ textAlign: "center", marginBottom: 36 }}
         >
           <span style={{ ...CHIP, color: "#d8b35a" }}>The Titan Fitness · Diagnostics</span>
+          <div style={{ marginTop: 8 }}>
+            <span style={{ ...CHIP, fontSize: 9, color: "#e879f9", border: "1px solid rgba(232,121,249,0.4)", background: "rgba(232,121,249,0.12)", borderRadius: 999, padding: "4px 12px" }}>👑 Premium · Gold &amp; Platinum</span>
+          </div>
           <h1
             style={{
               margin: "12px 0 10px",
@@ -1191,6 +1226,51 @@ export default function BloodReportPage() {
             insights and personalised nutrition &amp; training actions.
           </p>
         </motion.div>
+
+        {/* ============ EDUCATIONAL CONTEXT GUIDE ============ */}
+        <div className="glass-card" style={{ borderRadius: 18, padding: "20px 22px", marginBottom: 20 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+            <p style={{ ...CHIP, color: "#a78bfa", margin: 0 }}>📚 Understanding Your Blood Report</p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {([["prep", "How to Prepare"], ["panels", "What Panels Mean"], ["reading", "Reading Results"]] as [typeof guideTab, string][]).map(([k, label]) => (
+                <button key={k} onClick={() => setGuideTab(guideTab === k ? null : k)} style={{
+                  padding: "7px 14px", borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: "pointer",
+                  border: guideTab === k ? "1.5px solid #a78bfa" : "1.5px solid rgba(255,255,255,0.1)",
+                  background: guideTab === k ? "linear-gradient(135deg, rgba(167,139,250,0.28), rgba(232,121,249,0.16))" : "rgba(255,255,255,0.03)",
+                  color: guideTab === k ? "#f7f0df" : "rgba(247,240,223,0.62)",
+                }}>{label}</button>
+              ))}
+            </div>
+          </div>
+
+          <AnimatePresence mode="wait">
+            {guideTab && (
+              <motion.div key={guideTab} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} style={{ overflow: "hidden" }}>
+                <div style={{ display: "grid", gap: 10, marginTop: 16, gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))" }}>
+                  {guideTab === "prep" && PREP_STEPS.map((s) => (
+                    <div key={s.title} style={{ borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", padding: 14 }}>
+                      <p style={{ margin: 0, fontWeight: 800, fontSize: 14 }}>{s.icon} {s.title}</p>
+                      <p style={{ margin: "6px 0 0", fontSize: 12.5, lineHeight: 1.55, color: "rgba(247,240,223,0.68)" }}>{s.detail}</p>
+                    </div>
+                  ))}
+                  {guideTab === "panels" && PANEL_GUIDE.map((p) => (
+                    <div key={p.name} style={{ borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", padding: 14 }}>
+                      <p style={{ margin: 0, fontWeight: 800, fontSize: 13.5 }}>{p.icon} {p.name}</p>
+                      <p style={{ margin: "6px 0 0", fontSize: 12.5, lineHeight: 1.55, color: "rgba(247,240,223,0.72)" }}>{p.what}</p>
+                      <p style={{ margin: "8px 0 0", fontSize: 12, lineHeight: 1.5, color: "rgba(216,179,90,0.9)" }}>⚑ {p.flags}</p>
+                    </div>
+                  ))}
+                  {guideTab === "reading" && READING_TIPS.map((t) => (
+                    <div key={t.title} style={{ borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", padding: 14 }}>
+                      <p style={{ margin: 0, fontWeight: 800, fontSize: 14 }}>{t.icon} {t.title}</p>
+                      <p style={{ margin: "6px 0 0", fontSize: 12.5, lineHeight: 1.55, color: "rgba(247,240,223,0.68)" }}>{t.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* ============ CONTROLS: gender + enhanced ============ */}
         <div className="glass-card" style={{ borderRadius: 18, padding: "20px 22px", marginBottom: 20 }}>
