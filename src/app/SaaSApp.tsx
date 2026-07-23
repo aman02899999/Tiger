@@ -71,6 +71,10 @@ import BlogPage from "./Blog";
 import NewsletterPage from "./Newsletter";
 import DoshaQuizPage from "./DoshaQuiz";
 import MythBusterPage from "./MythBuster";
+import HealthIqQuizPage from "./HealthIqQuiz";
+import SplitFinderPage from "./SplitFinder";
+import FlashcardsPage from "./Flashcards";
+import BrainTeaserPage from "./BrainTeaser";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -159,6 +163,10 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "trivia", icon: "🧠", label: "Fitness Trivia" },
       { id: "doshaquiz", icon: "🧬", label: "Dosha Quiz" },
       { id: "mythbuster", icon: "🎭", label: "Myth or Fact" },
+      { id: "healthiq", icon: "🧠", label: "Health IQ Quiz" },
+      { id: "splitfinder", icon: "🧭", label: "Split Finder" },
+      { id: "flashcards", icon: "🃏", label: "Flashcards" },
+      { id: "brainteaser", icon: "🧩", label: "Daily Brain Teaser" },
       { id: "pdfstore", icon: "📄", label: "PDF Store" },
     ]},
     { group: "📰 Blog & News", items: [
@@ -1208,6 +1216,10 @@ function SaaSAppInner() {
       {section === "newsletter" && <NewsletterPage />}
       {section === "doshaquiz" && <DoshaQuizPage />}
       {section === "mythbuster" && <MythBusterPage />}
+      {section === "healthiq" && <HealthIqQuizPage />}
+      {section === "splitfinder" && <SplitFinderPage />}
+      {section === "flashcards" && <FlashcardsPage />}
+      {section === "brainteaser" && <BrainTeaserPage />}
       {section === "ayurvedalib" && <AyurvedaLibraryPage />}
       {section === "medicine" && <MedicineLibraryPage />}
       {section === "trivia" && <FitnessTriviaPage />}
