@@ -428,6 +428,64 @@ const ARTICLES: Article[] = [
     ],
     takeaways: ["Follicular phase often suits higher intensity", "Luteal phase may call for more recovery focus", "Effects vary enormously between individuals", "Track your own patterns and adjust to how you feel"],
   },
+  {
+    id: "deload-periodization", title: "Deloads and Periodization Explained", category: "Training", read: "7 min", tag: "Gold",
+    summary: "How to structure training over weeks and months so you keep progressing.",
+    intro: "Training hard every session forever doesn't work — fatigue accumulates and progress stalls. Periodization is the deliberate structuring of training to manage fatigue and peak at the right time.",
+    sections: [
+      { heading: "Why deloads matter", text: "A deload is a planned easier week — reduced weight, volume, or both — every 4–8 weeks. It lets accumulated fatigue dissipate so you can come back stronger. Skipping deloads leads to plateaus and burnout." },
+      { heading: "Simple periodization models", text: "Linear periodization gradually increases intensity while reducing volume over a block. Undulating periodization varies intensity and volume within the week. Both work; the key is planned variation rather than random effort." },
+      { heading: "Autoregulation", text: "Adjust training based on how you feel day to day using tools like RPE. On a great day, push a bit; on a rough one, back off. This keeps training productive across the ups and downs of life." },
+      { heading: "Think in blocks", text: "Structure training in 4–8 week blocks with a clear focus (strength, hypertrophy, etc.), each ending in a deload. This gives progress a rhythm and prevents endless grinding." },
+    ],
+    takeaways: ["Deload every 4–8 weeks to clear fatigue", "Use planned variation, not random effort", "Autoregulate with RPE around daily readiness", "Train in focused blocks ending with a deload"],
+  },
+  {
+    id: "gut-health", title: "Gut Health and the Microbiome", category: "Nutrition", read: "7 min", tag: "Gold",
+    summary: "How the trillions of microbes in your gut affect digestion, immunity, and mood.",
+    intro: "Your gut houses trillions of bacteria that influence digestion, immunity, and even mood. Nurturing this microbiome is an underrated pillar of health.",
+    sections: [
+      { heading: "Feed your bacteria fiber", text: "Beneficial gut bacteria thrive on fiber, especially from a diverse range of plants. Aim for 25–38 g of fiber daily and variety — different plants feed different beneficial microbes." },
+      { heading: "Fermented foods", text: "Yogurt, kefir, kimchi, sauerkraut, and other fermented foods introduce live beneficial bacteria and can support a healthy microbiome when eaten regularly." },
+      { heading: "What harms the gut", text: "Very low-fiber diets, excessive ultra-processed food, and unnecessary antibiotics can reduce microbial diversity. A varied whole-food diet is the foundation of gut health." },
+      { heading: "The gut-brain connection", text: "The gut and brain communicate constantly. A healthy microbiome is linked to better mood and stress resilience, which is why gut health is increasingly seen as central to overall wellbeing." },
+    ],
+    takeaways: ["Eat diverse, fiber-rich plants to feed good bacteria", "Include fermented foods regularly", "Limit ultra-processed food and needless antibiotics", "Gut health influences mood via the gut-brain axis"],
+  },
+  {
+    id: "flexibility-guide", title: "Stretching and Flexibility: What Actually Works", category: "Physiotherapy", read: "6 min", tag: "Free",
+    summary: "When and how to stretch for real, lasting flexibility gains.",
+    intro: "Stretching is widely misunderstood. Here's a clear, evidence-based look at what improves flexibility and when different types of stretching are useful.",
+    sections: [
+      { heading: "Dynamic before, static after", text: "Dynamic stretches (controlled movements through range) are ideal before training to prepare the body. Long static holds are better after training or in dedicated sessions, as they can briefly reduce power if done right before lifting." },
+      { heading: "Consistency builds range", text: "Flexibility improves with regular practice, not occasional marathon sessions. Holding stretches for 30–60 seconds, several times a week, gradually increases usable range." },
+      { heading: "Strengthen through range", text: "Combining stretching with strength work at end ranges (loaded stretching) produces mobility that lasts and transfers to real movement — more effective than passive stretching alone." },
+    ],
+    takeaways: ["Dynamic stretches before, static holds after", "Hold 30–60s, consistently, several times a week", "Combine stretching with end-range strength", "Regular practice beats occasional long sessions"],
+  },
+  {
+    id: "motivation-discipline", title: "Motivation vs Discipline: What Really Drives Results", category: "Meditation", read: "6 min", tag: "Free",
+    summary: "Why relying on motivation fails, and how to build the discipline that lasts.",
+    intro: "Everyone starts motivated. The people who succeed long-term are the ones who keep going when motivation fades. Here's how to build that resilience.",
+    sections: [
+      { heading: "Motivation is fickle", text: "Motivation is an emotion — it naturally rises and falls. Building your entire approach on feeling motivated means you'll stop the moment that feeling disappears, which it always does." },
+      { heading: "Discipline is a system", text: "Discipline isn't grit or willpower alone — it's designing your life so the right action happens by default. Scheduled workouts, prepared meals, and removed temptations do the heavy lifting for you." },
+      { heading: "Identity drives behavior", text: "The most durable motivation comes from identity: 'I'm the kind of person who trains and eats well.' When a behavior becomes part of who you are, it no longer requires a daily decision." },
+    ],
+    takeaways: ["Motivation naturally comes and goes", "Build systems so good actions happen by default", "Anchor behaviors to your identity", "Consistency through discipline beats bursts of motivation"],
+  },
+  {
+    id: "beginner-nutrition", title: "Nutrition Basics: A Beginner's Starting Point", category: "Nutrition", read: "7 min", tag: "Free",
+    summary: "Skip the fads — the simple foundations that cover 90% of good nutrition.",
+    intro: "Nutrition is drowning in conflicting advice, but the fundamentals are simple and boring — which is exactly why they work. Master these before worrying about anything advanced.",
+    sections: [
+      { heading: "Prioritize protein", text: "Get a source of protein at every meal — eggs, dairy, meat, fish, legumes, tofu. Protein is the macro most people under-eat and the most important for body composition and fullness." },
+      { heading: "Eat plenty of plants", text: "Fill half your plate with vegetables and fruit. They provide fiber, vitamins, minerals, and volume that keeps you full on fewer calories." },
+      { heading: "Choose quality carbs and fats", text: "Favor minimally processed carbs (rice, oats, potatoes, fruit) and healthy fats (olive oil, nuts, avocado). You don't need to fear either — just choose good sources most of the time." },
+      { heading: "The 80/20 approach", text: "Aim to eat well about 80% of the time and leave room to enjoy treats the other 20%. This is sustainable and prevents the all-or-nothing cycle that derails so many people." },
+    ],
+    takeaways: ["Protein at every meal", "Half your plate vegetables and fruit", "Choose minimally processed carbs and healthy fats", "Eat well 80% of the time, enjoy the other 20%"],
+  },
 ];
 
 const CATEGORIES = ["All", "Training", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];

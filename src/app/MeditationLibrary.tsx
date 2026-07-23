@@ -87,6 +87,18 @@ const TECHNIQUES: Technique[] = [
   { id: "morning-intention", name: "Morning Intention Setting", category: "Mindfulness", icon: "🌅", duration: "3–5 min", best: "Starting the day with focus",
     benefits: "Grounds your day in a chosen focus, improving clarity and follow-through.",
     steps: ["Sit quietly before the day begins and take a few breaths.", "Ask yourself how you want to show up today.", "Choose a simple intention — 'patient', 'focused', 'grateful'.", "Picture living it out during your day.", "Carry the word with you and return to it when needed."] },
+  { id: "yoga-nidra", name: "Yoga Nidra (Yogic Sleep)", category: "Sleep", icon: "🛌", duration: "15–30 min", best: "Deep rest, insomnia relief",
+    benefits: "A guided body-and-breath practice inducing deep relaxation while remaining aware — as restful as a nap.",
+    steps: ["Lie down comfortably on your back and close the eyes.", "Set a simple intention or resolve.", "Move awareness systematically through each part of the body.", "Notice the natural breath without changing it.", "Rest in the spacious, drifting state between waking and sleep."] },
+  { id: "affirmations", name: "Affirmation Meditation", category: "Compassion", icon: "💬", duration: "5–10 min", best: "Building confidence, positive mindset",
+    benefits: "Reinforces supportive beliefs, gently reshaping self-talk over time.",
+    steps: ["Sit comfortably and take a few settling breaths.", "Choose a few positive, believable statements ('I am capable', 'I am improving').", "Silently or softly repeat each with attention and feeling.", "Let the meaning land rather than rushing.", "Close by resting in the calm the phrases create."] },
+  { id: "cold-focus", name: "Focus Reset (Micro-Meditation)", category: "Focus", icon: "⏸️", duration: "1–3 min", best: "Work breaks, regaining focus",
+    benefits: "A quick reset to clear mental clutter and return to a task with sharper attention.",
+    steps: ["Pause and sit back from what you're doing.", "Take three slow, deliberate breaths.", "Notice any tension and consciously release it.", "Bring to mind the one thing you'll focus on next.", "Return to the task with a single, clear priority."] },
+  { id: "compassion-others", name: "Compassion for a Difficult Person", category: "Compassion", icon: "🕊️", duration: "10 min", best: "Easing resentment, improving relationships",
+    benefits: "Softens anger and resentment by cultivating understanding toward someone you struggle with.",
+    steps: ["Settle with a few breaths and recall a neutral or difficult person.", "Remember they, too, want to be happy and avoid suffering.", "Silently offer: 'May you be well, may you be at peace.'", "Notice any resistance without forcing the feeling.", "Return to your own breath, carrying a little more openness."] },
 ];
 
 const CATS = ["All", "Focus", "Breathwork", "Mindfulness", "Compassion", "Sleep"] as const;

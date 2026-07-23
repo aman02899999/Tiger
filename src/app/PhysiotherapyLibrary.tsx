@@ -222,6 +222,43 @@ const PROTOCOLS: Protocol[] = [
     ],
     redFlags: "Sharp pain with pressing, night pain, or sudden weakness — stop and get assessed.",
   },
+  {
+    id: "sciatica", name: "Sciatica & Nerve-Related Leg Pain", region: "Back", icon: "⚡",
+    about: "Pain, tingling, or numbness radiating from the lower back down the leg, often from nerve irritation. Gentle nerve mobility and core work help many cases; assessment is important.",
+    causes: ["Lower-back disc or joint irritation", "Prolonged sitting", "Tight or spasming glutes (piriformis)", "Sudden bending/lifting"],
+    exercises: [
+      { name: "Sciatic nerve glides", detail: "Seated, gently straighten the knee and flex/point the foot to floss the nerve — never into sharp pain. 2 × 10." },
+      { name: "Knee-to-chest", detail: "Lying down, gently draw one knee toward the chest to ease the lower back. 3 × 20s per side." },
+      { name: "Bird-dog", detail: "Build gentle core stability without loading the spine. 3 × 8 per side." },
+      { name: "Glute stretch", detail: "Figure-four stretch to release the piriformis. 3 × 30s per side." },
+    ],
+    redFlags: "Progressive weakness, numbness in the saddle area, or loss of bladder/bowel control — seek urgent care.",
+  },
+  {
+    id: "frozen-shoulder", name: "Stiff Shoulder & Mobility Loss", region: "Shoulder", icon: "❄️",
+    about: "Gradual loss of shoulder range and stiffness can stem from disuse, guarding after pain, or frozen shoulder. Gentle, consistent mobility work is the mainstay; some cases need medical care.",
+    causes: ["Prolonged immobility or guarding", "Post-injury stiffness", "Underlying frozen shoulder (adhesive capsulitis)", "Poor posture and disuse"],
+    exercises: [
+      { name: "Pendulum swings", detail: "Let the arm hang and gently swing in small circles to loosen the joint. 2 × 30s each direction." },
+      { name: "Wall walks", detail: "Walk the fingers up a wall to gradually reclaim overhead range. 3 × 8." },
+      { name: "Cross-body stretch", detail: "Gently draw the arm across the body. 3 × 30s." },
+      { name: "External rotation with stick", detail: "Use a dowel to gently guide the arm outward. 3 × 10." },
+    ],
+    redFlags: "Rapidly worsening pain and stiffness, or shoulder locking — get assessed; frozen shoulder benefits from early care.",
+  },
+  {
+    id: "prehab-general", name: "Full-Body Prehab Routine", region: "Hip", icon: "🛡️",
+    about: "A short, general prehab circuit that targets the areas most prone to niggles — hips, shoulders, core, and ankles — to keep you training pain-free.",
+    causes: ["Skipping mobility and stabilizer work", "Muscle imbalances from repetitive training", "Sedentary hours between workouts", "Neglected small-muscle strength"],
+    exercises: [
+      { name: "Band pull-aparts", detail: "Balance pressing volume and wake the upper back. 2 × 20." },
+      { name: "Glute bridges", detail: "Activate the glutes to protect the back and knees. 2 × 15." },
+      { name: "Dead bugs", detail: "Core stability without spinal load. 2 × 10 per side." },
+      { name: "Ankle & calf raises", detail: "Strengthen the lower leg for running and jumping. 2 × 15." },
+      { name: "90/90 hip switches", detail: "Maintain hip rotation range. 2 × 8 per side." },
+    ],
+    redFlags: "Any exercise that causes sharp or radiating pain should be stopped and reviewed with a professional.",
+  },
 ];
 
 const REGIONS = ["All", "Back", "Knee", "Shoulder", "Neck", "Hip", "Ankle"] as const;

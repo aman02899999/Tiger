@@ -220,6 +220,36 @@ const ENTRIES: Entry[] = [
     "Cooking with the right spices supports digestion and balances the doshas at every meal.",
     "Toasting spices in a little ghee releases their aroma and is thought to aid absorption.",
   ] },
+  { id: "ghee", name: "Ghee (Clarified Butter)", category: "Remedy", icon: "🧈", tagline: "The revered cooking fat", body: [
+    "Ghee is deeply valued in Ayurveda as a nourishing fat that supports digestion, absorption, and lubrication of the tissues.",
+    "A small amount is used in cooking and to carry herbs deeper into the body.",
+    "Considered balancing in moderation, particularly for Vata and Pitta types.",
+  ] },
+  { id: "long-pepper", name: "Pippali (Long Pepper)", category: "Herb", icon: "🌶️", tagline: "Respiratory & digestive spice", body: [
+    "Long pepper is traditionally used to support the lungs, digestion, and metabolism.",
+    "Part of the classic 'Trikatu' blend with black pepper and ginger.",
+    "Warming and stimulating — used in small amounts.",
+  ] },
+  { id: "coriander", name: "Dhania (Coriander)", category: "Herb", icon: "🌿", tagline: "Cooling digestive seed & leaf", body: [
+    "Coriander seeds and leaves are cooling and traditionally used to support digestion and soothe Pitta.",
+    "Coriander-seed water is a gentle remedy for digestive comfort and cooling in summer.",
+    "A core member of the CCF (cumin-coriander-fennel) digestive trio.",
+  ] },
+  { id: "saffron", name: "Kesar (Saffron)", category: "Herb", icon: "🌺", tagline: "Precious mood & complexion spice", body: [
+    "Saffron is a prized spice traditionally used to support mood, complexion, and vitality.",
+    "A few strands infused in warm milk is a classic preparation.",
+    "Highly potent and expensive — only tiny amounts are needed.",
+  ] },
+  { id: "nasya", name: "Nasya (Nasal Care)", category: "Routine", icon: "👃", tagline: "Nasal oil administration", body: [
+    "Nasya is the practice of applying medicated or plain oil (often sesame) into the nostrils.",
+    "Traditionally used to support the sinuses, clarity of the senses, and lubrication of nasal passages.",
+    "Best learned from a practitioner; a drop of oil in each nostril is a gentle daily version.",
+  ] },
+  { id: "mindful-eating-ayur", name: "Mindful Eating (Ahara)", category: "Routine", icon: "🍲", tagline: "How you eat matters as much as what", body: [
+    "Ayurveda teaches that eating in a calm, seated, unhurried state is essential for good digestion.",
+    "Recommendations: eat freshly cooked, warm food; chew well; avoid overeating; and eat your largest meal at midday.",
+    "Eating mindfully strengthens Agni (digestive fire) and prevents the buildup of 'ama' (toxins).",
+  ] },
 ];
 
 const CATS = ["All", "Dosha", "Herb", "Routine", "Remedy"] as const;
