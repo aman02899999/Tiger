@@ -67,6 +67,8 @@ import MedicineLibraryPage from "./MedicineLibrary";
 import PhysiotherapyLibraryPage from "./PhysiotherapyLibrary";
 import YogaLibraryPage from "./YogaLibrary";
 import MeditationLibraryPage from "./MeditationLibrary";
+import BlogPage from "./Blog";
+import NewsletterPage from "./Newsletter";
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
@@ -154,6 +156,10 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
       { id: "medicine", icon: "⚕️", label: "Medicine Library" },
       { id: "trivia", icon: "🧠", label: "Fitness Trivia" },
       { id: "pdfstore", icon: "📄", label: "PDF Store" },
+    ]},
+    { group: "📰 Blog & News", items: [
+      { id: "blog", icon: "📝", label: "Blog" },
+      { id: "newsletter", icon: "📧", label: "Newsletter" },
     ]},
     { group: "⚙️ Account", items: [
       { id: "family", icon: "👨‍👩‍", label: "Family" },
@@ -1194,6 +1200,8 @@ function SaaSAppInner() {
       {section === "physiolib" && <PhysiotherapyLibraryPage />}
       {section === "yogalib" && <YogaLibraryPage />}
       {section === "meditationlib" && <MeditationLibraryPage />}
+      {section === "blog" && <BlogPage />}
+      {section === "newsletter" && <NewsletterPage />}
       {section === "ayurvedalib" && <AyurvedaLibraryPage />}
       {section === "medicine" && <MedicineLibraryPage />}
       {section === "trivia" && <FitnessTriviaPage />}
