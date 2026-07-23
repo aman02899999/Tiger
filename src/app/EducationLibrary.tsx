@@ -380,6 +380,54 @@ const ARTICLES: Article[] = [
     ],
     takeaways: ["Shrink habits until they're almost too easy", "Anchor new habits to existing routines", "Reduce friction — design your environment", "Never miss twice in a row"],
   },
+  {
+    id: "form-fundamentals", title: "Lifting Technique: The Big Five Movements", category: "Training", read: "9 min", tag: "Gold",
+    summary: "Step-by-step form cues for the squat, hinge, press, pull, and carry.",
+    intro: "Almost every effective exercise is a variation of five fundamental patterns. Master these and you can train the whole body safely for life. Here are the key cues for each.",
+    sections: [
+      { heading: "The Squat", text: "Feet shoulder-width, toes slightly out. Brace your core, break at the hips and knees together, and sit down between your legs. Keep the chest up, knees tracking over the toes, and drive through the whole foot to stand. Descend to at least parallel if mobility allows." },
+      { heading: "The Hip Hinge (Deadlift)", text: "Push the hips back with a soft knee bend, keeping a neutral spine (not rounded). Grip the bar, take the slack out, brace hard, and drive the floor away. The bar stays close to the body; finish by squeezing the glutes — don't lean back." },
+      { heading: "The Press", text: "Whether overhead or bench, keep the wrists stacked over the elbows, retract the shoulder blades, and brace the core. Press in a controlled path, lock out without shrugging, and lower under control. Never bounce or flare the elbows aggressively." },
+      { heading: "The Pull (Row & Pull-up)", text: "Initiate from the back, not the arms — think of pulling the elbows toward your ribs and squeezing the shoulder blades. Control the lowering phase fully. Avoid using momentum to heave the weight." },
+      { heading: "The Carry", text: "Pick up a heavy weight, stand tall with braced core and packed shoulders, and walk with control. Loaded carries build grip, core stability, and total-body strength with almost no technique risk." },
+    ],
+    takeaways: ["Squat: sit between the legs, chest up, drive through the foot", "Hinge: hips back, neutral spine, bar close", "Press: stacked wrists, braced core, controlled path", "Pull from the back; carry tall and braced"],
+  },
+  {
+    id: "eating-out", title: "Eating Out Without Derailing Progress", category: "Nutrition", read: "6 min", tag: "Free",
+    summary: "Practical strategies to enjoy restaurants and social meals while staying on track.",
+    intro: "Social eating is part of a good life, and no successful long-term approach requires avoiding restaurants. With a few simple strategies, you can enjoy them without guilt or damage.",
+    sections: [
+      { heading: "Plan ahead", text: "Check the menu before you go and pick a protein-forward option. Deciding while hungry and surrounded by choices leads to impulse orders; deciding in advance keeps you in control." },
+      { heading: "Anchor the meal with protein and veg", text: "Build the plate around a lean protein and vegetables, then enjoy some of the indulgent parts. This keeps you full and satisfied without going overboard." },
+      { heading: "Manage the extras", text: "Liquid calories (sodas, cocktails) and bottomless bread add up fast and don't fill you. Be intentional: pick the treats you genuinely want rather than mindlessly eating everything offered." },
+      { heading: "One meal doesn't matter", text: "A single big meal won't undo weeks of consistency — it's the daily average over time that counts. Enjoy it, then return to your normal routine at the next meal. Guilt helps nothing." },
+    ],
+    takeaways: ["Check the menu and decide before you're hungry", "Anchor the plate with protein and vegetables", "Be intentional with liquid calories and extras", "One meal won't derail you — the weekly average matters"],
+  },
+  {
+    id: "goal-setting", title: "Setting Fitness Goals That Actually Stick", category: "Meditation", read: "7 min", tag: "Free",
+    summary: "How to set goals that motivate you instead of setting you up to quit.",
+    intro: "Vague goals like 'get fit' fail because they give you nothing to aim at or measure. Well-constructed goals create direction, motivation, and a way to track progress.",
+    sections: [
+      { heading: "Make them specific and measurable", text: "'Squat 100 kg', 'run 5 km without stopping', or 'train 3× a week for a month' beat 'get stronger'. A specific target tells you exactly what to do and when you've succeeded." },
+      { heading: "Focus on process, not just outcomes", text: "You can't directly control losing 5 kg, but you can control showing up and hitting your protein target. Process goals (the behaviors) reliably produce the outcomes and keep you motivated day to day." },
+      { heading: "Set a realistic timeline", text: "Sustainable change is slower than we'd like. Expect months, not weeks. Timelines that are too aggressive breed disappointment and quitting; realistic ones build lasting momentum." },
+      { heading: "Track and celebrate progress", text: "Log your workouts and measurements, and acknowledge small wins along the way. Visible progress is one of the most powerful motivators to keep going." },
+    ],
+    takeaways: ["Make goals specific and measurable", "Prioritize process goals you can control", "Set realistic, patient timelines", "Track progress and celebrate small wins"],
+  },
+  {
+    id: "menstrual-training", title: "Training Around the Menstrual Cycle", category: "Physiotherapy", read: "6 min", tag: "Gold",
+    summary: "How hormonal phases can affect training — and how to work with them.",
+    intro: "Hormonal fluctuations across the menstrual cycle can influence energy, strength, and recovery. Understanding the phases lets you train smarter and be kinder to yourself.",
+    sections: [
+      { heading: "The follicular phase", text: "From the start of menstruation to ovulation, rising estrogen often correlates with higher energy and strength for many people. This can be a great window to push intensity and chase progress." },
+      { heading: "The luteal phase", text: "After ovulation, some experience higher fatigue, more perceived effort, and increased body temperature. It's fine to slightly reduce intensity, prioritize recovery, and focus on technique during this phase." },
+      { heading: "Individual variation is huge", text: "Not everyone experiences strong effects, and symptoms vary widely. The best approach is to track your own patterns over a few cycles and adjust based on how you actually feel, not rigid rules." },
+    ],
+    takeaways: ["Follicular phase often suits higher intensity", "Luteal phase may call for more recovery focus", "Effects vary enormously between individuals", "Track your own patterns and adjust to how you feel"],
+  },
 ];
 
 const CATEGORIES = ["All", "Training", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];

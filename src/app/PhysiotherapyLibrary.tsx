@@ -186,6 +186,42 @@ const PROTOCOLS: Protocol[] = [
     ],
     redFlags: "Sudden sharp pain with a 'kicked' sensation, or inability to push off — rule out a rupture urgently.",
   },
+  {
+    id: "hip-impingement", name: "Hip Impingement & Deep Hip Pain", region: "Hip", icon: "🦴",
+    about: "Pinching pain in the front of the hip or groin, often with deep squatting. Improving hip control and mobility and modifying depth usually help; some cases are structural.",
+    causes: ["Repetitive deep hip flexion", "Weak deep hip stabilizers", "Limited hip mobility", "Structural bony shape (in some cases)"],
+    exercises: [
+      { name: "90/90 hip rotations", detail: "Seated, rotate both legs side to side to improve internal and external rotation. 3 × 8 per side." },
+      { name: "Hip flexor march", detail: "Standing, march with control to strengthen the deep hip flexors. 3 × 10 per side." },
+      { name: "Glute bridge", detail: "Drive through the heels, squeeze the glutes to build posterior hip strength. 3 × 12." },
+      { name: "Adductor rock-backs", detail: "In a half-kneeling wide stance, gently rock to mobilize the inner thigh. 3 × 8 per side." },
+    ],
+    redFlags: "Deep catching, giving way, or pain that limits walking — get assessed for a joint or labral issue.",
+  },
+  {
+    id: "shin-splints", name: "Shin Splints (Medial Tibial Stress)", region: "Ankle", icon: "🦵",
+    about: "Aching pain along the inner shin, common when ramping up running. Load management, calf strength, and technique tweaks resolve most cases; persistent cases need screening for stress fracture.",
+    causes: ["Rapid increase in running volume", "Weak calves and foot muscles", "Hard surfaces or worn shoes", "Overstriding running mechanics"],
+    exercises: [
+      { name: "Calf raises", detail: "Both straight- and bent-knee variations to load the calves. 3 × 15 each." },
+      { name: "Toe raises", detail: "Lift the toes/front of the foot to strengthen the shin muscles (tibialis). 3 × 15." },
+      { name: "Single-leg balance", detail: "Build foot and ankle control. 3 × 30s." },
+      { name: "Foot doming", detail: "Gently lift the arch without curling the toes to strengthen intrinsic foot muscles. 3 × 10." },
+    ],
+    redFlags: "A focal, pinpoint painful spot on the bone, or pain at rest/night — get screened for a stress fracture.",
+  },
+  {
+    id: "rotator-prehab", name: "Rotator Cuff Prehab for Lifters", region: "Shoulder", icon: "🏋️",
+    about: "Keeping the rotator cuff and scapular stabilizers strong prevents the shoulder pain that commonly interrupts pressing and pulling training. Prehab is cheaper than rehab.",
+    causes: ["Pressing volume outpacing pulling volume", "Neglected cuff and scapular work", "Poor overhead mobility", "Sudden jumps in load"],
+    exercises: [
+      { name: "Band external rotations", detail: "Elbow at the side, rotate out against a band. 3 × 15 — a cuff staple." },
+      { name: "Face pulls", detail: "Pull to the face with high elbows, squeezing the rear delts. 3 × 15." },
+      { name: "YTWs", detail: "Prone or on an incline, raise the arms in Y, T, and W shapes. 3 × 8 each." },
+      { name: "Band pull-aparts", detail: "Hold a band and pull it apart at chest height. 3 × 20 to balance pressing volume." },
+    ],
+    redFlags: "Sharp pain with pressing, night pain, or sudden weakness — stop and get assessed.",
+  },
 ];
 
 const REGIONS = ["All", "Back", "Knee", "Shoulder", "Neck", "Hip", "Ankle"] as const;

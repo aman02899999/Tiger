@@ -75,6 +75,18 @@ const TECHNIQUES: Technique[] = [
   { id: "sound-meditation", name: "Sound Meditation", category: "Mindfulness", icon: "🔔", duration: "5–15 min", best: "Grounding, easing into stillness",
     benefits: "Uses ambient sound as the anchor, making it accessible when the breath feels elusive.",
     steps: ["Sit or lie comfortably and close the eyes.", "Let your awareness open to the sounds around you.", "Notice near sounds, far sounds, and the silence between them.", "Don't label or judge — just receive each sound as it arises.", "When the mind wanders into thought, return to simply listening."] },
+  { id: "coherent-breathing", name: "Coherent Breathing", category: "Breathwork", icon: "🌊", duration: "5–10 min", best: "Daily calm, heart-rate balance",
+    benefits: "Breathing at about five breaths per minute balances the nervous system and heart-rate variability.",
+    steps: ["Sit comfortably and breathe through the nose.", "Inhale slowly for a count of about 5–6.", "Exhale smoothly for the same count of 5–6.", "Keep the breath even and effortless — no holding.", "Continue for several minutes, letting the rhythm settle you."] },
+  { id: "so-hum", name: "So-Hum Meditation", category: "Focus", icon: "🕉️", duration: "10–15 min", best: "Quieting mental chatter",
+    benefits: "Pairs a simple mantra with the breath to naturally deepen focus and stillness.",
+    steps: ["Sit comfortably and breathe naturally.", "On the inhale, silently hear the sound 'So'.", "On the exhale, silently hear 'Hum'.", "Let the sounds ride the breath without forcing.", "When the mind drifts, gently return to So-Hum."] },
+  { id: "self-compassion", name: "Self-Compassion Break", category: "Compassion", icon: "🤗", duration: "5 min", best: "Moments of stress or self-criticism",
+    benefits: "A quick practice to meet hard moments with kindness rather than harsh self-judgment.",
+    steps: ["Acknowledge the difficulty: 'This is a moment of struggle.'", "Remember you're not alone: 'Struggle is part of being human.'", "Place a hand on the heart and offer yourself warmth.", "Say: 'May I be kind to myself right now.'", "Take a slow breath and continue with a softer inner tone."] },
+  { id: "morning-intention", name: "Morning Intention Setting", category: "Mindfulness", icon: "🌅", duration: "3–5 min", best: "Starting the day with focus",
+    benefits: "Grounds your day in a chosen focus, improving clarity and follow-through.",
+    steps: ["Sit quietly before the day begins and take a few breaths.", "Ask yourself how you want to show up today.", "Choose a simple intention — 'patient', 'focused', 'grateful'.", "Picture living it out during your day.", "Carry the word with you and return to it when needed."] },
 ];
 
 const CATS = ["All", "Focus", "Breathwork", "Mindfulness", "Compassion", "Sleep"] as const;

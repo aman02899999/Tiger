@@ -190,6 +190,36 @@ const ENTRIES: Entry[] = [
     "Even a few minutes of stillness is thought to steady the doshas and support digestion and sleep.",
     "Traditionally practiced in the quiet hours of early morning or dusk.",
   ] },
+  { id: "shilajit", name: "Shilajit", category: "Herb", icon: "🪨", tagline: "Mineral-rich mountain resin", body: [
+    "Shilajit is a sticky resin from Himalayan rocks, rich in fulvic acid and minerals.",
+    "Traditionally used as a rejuvenator to support energy, stamina, and vitality.",
+    "Quality and purity vary widely — source carefully and consult a professional.",
+  ] },
+  { id: "cinnamon", name: "Dalchini (Cinnamon)", category: "Herb", icon: "🎋", tagline: "Warming, blood-sugar-friendly spice", body: [
+    "Cinnamon is a warming spice traditionally used to support digestion, circulation, and blood-sugar balance.",
+    "Added to teas, milk, and dishes; pairs well with other warming spices.",
+    "Use culinary amounts; high supplemental doses of cassia cinnamon aren't advised long-term.",
+  ] },
+  { id: "black-pepper", name: "Kali Mirch (Black Pepper)", category: "Herb", icon: "⚫", tagline: "The bioavailability booster", body: [
+    "Black pepper kindles Agni (digestion) and dramatically improves the absorption of other compounds like curcumin.",
+    "A key reason turmeric is traditionally paired with pepper.",
+    "Part of the classic 'Trikatu' blend (with ginger and long pepper) for digestion.",
+  ] },
+  { id: "aloe-vera", name: "Aloe Vera (Kumari)", category: "Remedy", icon: "🌵", tagline: "Cooling gel for skin and gut", body: [
+    "Aloe vera gel is traditionally used to soothe the skin, cool the body, and support digestion.",
+    "Applied topically for minor burns and irritation, or taken as juice for gut comfort.",
+    "Use food-grade products internally and consult a professional; avoid in pregnancy.",
+  ] },
+  { id: "sleep-routine", name: "Nidra (Healthy Sleep Practice)", category: "Routine", icon: "😴", tagline: "Restorative sleep the Ayurvedic way", body: [
+    "Ayurveda considers sound sleep (Nidra) one of the three pillars of health, alongside diet and balanced living.",
+    "Recommendations include an early, consistent bedtime, a light early dinner, and calming wind-down rituals.",
+    "A warm foot massage with oil or golden milk before bed are traditional aids.",
+  ] },
+  { id: "spice-box", name: "The Ayurvedic Spice Box", category: "Remedy", icon: "🧂", tagline: "Everyday healing in your kitchen", body: [
+    "Ayurveda views the kitchen spice box as a daily medicine cabinet — turmeric, cumin, coriander, fennel, ginger, and more.",
+    "Cooking with the right spices supports digestion and balances the doshas at every meal.",
+    "Toasting spices in a little ghee releases their aroma and is thought to aid absorption.",
+  ] },
 ];
 
 const CATS = ["All", "Dosha", "Herb", "Routine", "Remedy"] as const;
