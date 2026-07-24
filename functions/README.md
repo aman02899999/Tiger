@@ -41,3 +41,28 @@ back to a provisional (unverified) client flow — deploy them for production.
 - `verifyRazorpayPayment` is the source of truth for unlocking paid plans.
 - For full security, tighten Firestore rules so clients can't write their own
   `plan` field directly (only these functions should).
+
+## Web Push (background notifications)
+
+`sendTestPush` and `sendPushToUser` deliver notifications to a user's devices
+even when the app is closed, via the Web Push protocol.
+
+```bash
+# 1. Generate a VAPID key pair (run once, keep the private key safe)
+npx web-push generate-vapid-keys
+
+# 2. Store them
+firebase functions:secrets:set VAPID_PUBLIC_KEY     # the public key
+firebase functions:secrets:set VAPID_PRIVATE_KEY    # the private key
+
+# 3. Put the SAME public key in the web app env
+#    VITE_VAPID_PUBLIC_KEY=<public key>   (see ../.env.example)
+
+# 4. Deploy
+firebase deploy --only functions
+```
+
+When a user enables Push Notifications in Settings, the app subscribes the
+device (storing the subscription under `users/{uid}/pushSubscriptions`). The
+"Send a test notification" button verifies delivery. Without VAPID configured,
+notifications still work while the app is open (foreground Notification API).

@@ -13,11 +13,15 @@ const { defineSecret } = require("firebase-functions/params");
 const admin = require("firebase-admin");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
+const webpush = require("web-push");
 
 admin.initializeApp();
 
 const RAZORPAY_KEY_ID = defineSecret("RAZORPAY_KEY_ID");
 const RAZORPAY_KEY_SECRET = defineSecret("RAZORPAY_KEY_SECRET");
+const VAPID_PUBLIC_KEY = defineSecret("VAPID_PUBLIC_KEY");
+const VAPID_PRIVATE_KEY = defineSecret("VAPID_PRIVATE_KEY");
+const VAPID_SUBJECT = "mailto:support@thetitanfitness.app";
 
 // Map internal plan values to what we allow writing server-side.
 const ALLOWED_PLANS = new Set(["Pro", "Elite"]);
@@ -138,3 +142,59 @@ exports.unlockPlanAfterPlay = onCall({ cors: true }, async (req) => {
   );
   return { ok: true };
 });
+
+/* ================================================================== */
+/* Web Push — send background notifications to a user's devices.        */
+/* Requires VAPID keys (generate: `npx web-push generate-vapid-keys`)   */
+/* stored as secrets:                                                   */
+/*   firebase functions:secrets:set VAPID_PUBLIC_KEY                    */
+/*   firebase functions:secrets:set VAPID_PRIVATE_KEY                   */
+/* ================================================================== */
+
+async function pushToUser(uid, payload) {
+  webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY.value(), VAPID_PRIVATE_KEY.value());
+  const snap = await admin.firestore().collection("users").doc(uid).collection("pushSubscriptions").get();
+  const body = JSON.stringify(payload);
+  const results = await Promise.allSettled(
+    snap.docs.map(async (d) => {
+      const sub = d.get("subscription");
+      try {
+        await webpush.sendNotification(sub, body);
+      } catch (err) {
+        // 404/410 = subscription expired/gone → clean it up.
+        if (err && (err.statusCode === 404 || err.statusCode === 410)) {
+          await d.ref.delete();
+        }
+        throw err;
+      }
+    })
+  );
+  return results.filter((r) => r.status === "fulfilled").length;
+}
+
+/** Send a test push to the signed-in user's own devices. */
+exports.sendTestPush = onCall(
+  { secrets: [VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY], cors: true },
+  async (req) => {
+    if (!req.auth) throw new HttpsError("unauthenticated", "You must be signed in.");
+    const sent = await pushToUser(req.auth.uid, {
+      title: "🔥 The Titan Fitness",
+      body: (req.data && req.data.body) || "Background notifications are working! You'll get reminders even when the app is closed.",
+      url: "/#app",
+    });
+    return { sent };
+  }
+);
+
+/** Generic sender the app/backend can call to notify a user. */
+exports.sendPushToUser = onCall(
+  { secrets: [VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY], cors: true },
+  async (req) => {
+    if (!req.auth) throw new HttpsError("unauthenticated", "You must be signed in.");
+    const { title, body, url } = req.data || {};
+    if (!title || !body) throw new HttpsError("invalid-argument", "title and body are required.");
+    // A user may only push to themselves from the client.
+    const sent = await pushToUser(req.auth.uid, { title, body, url: url || "/#app" });
+    return { sent };
+  }
+);

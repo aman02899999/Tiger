@@ -49,6 +49,7 @@ import WarmupGeneratorPage from "./WarmupGenerator";
 import CardioTrackerPage from "./CardioTracker";
 import WellnessScorePage from "./WellnessScore";
 import { requestNotificationPermission, sendNotification } from "./notifications";
+import { isPushConfigured, subscribeToPush } from "./push";
 import BodyFatEstimatorPage from "./BodyFatEstimator";
 import WeightGoalProjectorPage from "./WeightGoalProjector";
 import HydrationTrackerPage from "./HydrationTracker";
@@ -1086,6 +1087,7 @@ function SettingsPage() {
                     const perm = await requestNotificationPermission();
                     if (perm === "granted") {
                       sendNotification("Notifications on 🎉", { body: "You'll now get streak reminders, achievement alerts and tips from The Titan Fitness." });
+                      if (isPushConfigured() && user?.id) subscribeToPush(user.id); // background push (if VAPID configured)
                     } else if (perm === "denied") {
                       alert("Notifications are blocked in your browser. Enable them for this site in your browser settings to receive alerts.");
                     } else if (perm === "unsupported") {
@@ -1097,6 +1099,30 @@ function SettingsPage() {
               </div>
             ))}
           </div>
+          <button
+            type="button"
+            onClick={async () => {
+              const perm = await requestNotificationPermission();
+              if (perm !== "granted") { alert("Enable notifications first (toggle above), then try again."); return; }
+              if (isPushConfigured() && user?.id) {
+                try {
+                  await subscribeToPush(user.id);
+                  const { httpsCallable } = await import("firebase/functions");
+                  const { functions } = await import("../firebase");
+                  const fn = httpsCallable<{ body?: string }, { sent: number }>(functions, "sendTestPush");
+                  const res = await fn({ body: "This is a test notification from The Titan Fitness 🔔" });
+                  if (!res.data.sent) sendNotification("Test notification 🔔", { body: "Shown locally — deploy the push functions for background delivery." });
+                } catch {
+                  sendNotification("Test notification 🔔", { body: "Shown locally — deploy the push functions for background delivery." });
+                }
+              } else {
+                sendNotification("Test notification 🔔", { body: "This is a local test notification from The Titan Fitness." });
+              }
+            }}
+            className="btn-gloss mt-4 rounded-full border border-orange-300/40 bg-orange-400/10 px-5 py-2.5 text-xs font-bold text-orange-700"
+          >
+            🔔 Send a test notification
+          </button>
         </div>
       )}
 
