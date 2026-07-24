@@ -48,6 +48,7 @@ import MuscleAnatomyPage from "./MuscleAnatomy";
 import WarmupGeneratorPage from "./WarmupGenerator";
 import CardioTrackerPage from "./CardioTracker";
 import WellnessScorePage from "./WellnessScore";
+import { requestNotificationPermission, sendNotification } from "./notifications";
 import BodyFatEstimatorPage from "./BodyFatEstimator";
 import WeightGoalProjectorPage from "./WeightGoalProjector";
 import HydrationTrackerPage from "./HydrationTracker";
@@ -1079,7 +1080,20 @@ function SettingsPage() {
             ].map((p) => (
               <div key={p.key} className="flex items-center justify-between rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
                 <div><p className="font-bold">{p.label}</p><p className="text-xs text-[#2a1e16]/68">{p.desc}</p></div>
-                <label className="relative inline-flex cursor-pointer items-center"><input type="checkbox" defaultChecked={user?.preferences?.[p.key]} onChange={(e) => updateUser({ preferences: { ...user!.preferences, [p.key]: e.target.checked } })} className="peer sr-only" /><div className="h-7 w-[52px] rounded-full bg-[#2a1e16]/15 peer-checked:bg-orange-300 after:absolute after:top-1 after:left-1 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-[28px]" /></label>
+                <label className="relative inline-flex cursor-pointer items-center"><input type="checkbox" defaultChecked={user?.preferences?.[p.key]} onChange={async (e) => {
+                  const on = e.target.checked;
+                  if (p.key === "pushNotifications" && on) {
+                    const perm = await requestNotificationPermission();
+                    if (perm === "granted") {
+                      sendNotification("Notifications on 🎉", { body: "You'll now get streak reminders, achievement alerts and tips from The Titan Fitness." });
+                    } else if (perm === "denied") {
+                      alert("Notifications are blocked in your browser. Enable them for this site in your browser settings to receive alerts.");
+                    } else if (perm === "unsupported") {
+                      alert("Your browser doesn't support notifications.");
+                    }
+                  }
+                  updateUser({ preferences: { ...user!.preferences, [p.key]: on } });
+                }} className="peer sr-only" /><div className="h-7 w-[52px] rounded-full bg-[#2a1e16]/15 peer-checked:bg-orange-300 after:absolute after:top-1 after:left-1 after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all peer-checked:after:translate-x-[28px]" /></label>
               </div>
             ))}
           </div>

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { getXP, LEVELS, BADGES } from "./Achievements";
+import { sendNotificationOnce } from "./notifications";
 
 /* ---------------------------------------------------------------- */
 /* Notifications Center — a bell icon + dropdown that surfaces real,  */
@@ -94,6 +95,16 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
   useEffect(() => {
     try { setReadIds(JSON.parse(localStorage.getItem(readSeenKey(user?.email)) ?? "[]")); } catch { setReadIds([]); }
   }, [user?.email]);
+
+  // When push notifications are enabled, surface the most important live
+  // alerts as real browser notifications (once per alert per day).
+  useEffect(() => {
+    if (!user?.preferences?.pushNotifications) return;
+    const important = notifications.filter((n) => n.tone === "warning" || n.tone === "success").slice(0, 2);
+    important.forEach((n) => {
+      sendNotificationOnce(`${user.email}-${n.id}`, `${n.icon} ${n.title}`, { body: n.detail, tag: n.id });
+    });
+  }, [notifications, user?.preferences?.pushNotifications, user?.email]);
 
   useEffect(() => {
     function onClickAway(e: MouseEvent) {
