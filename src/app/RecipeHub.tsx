@@ -135,7 +135,7 @@ function FastingTimer() {
 
       <div className="mt-5 flex items-center gap-6">
         <div className="relative h-28 w-28 shrink-0">
-          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${done ? "#34d399" : "#38bdf8"} ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.9s linear" }} />
+          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${done ? "#059669" : "#0284c7"} ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.9s linear" }} />
           <div className="absolute inset-[8px] grid place-items-center rounded-full bg-[#fffdf9] text-center">
             <div>
               <p className="text-lg font-black tabular-nums">{startAt ? (done ? "Done!" : `${hh}:${String(mm).padStart(2, "0")}`) : plan.label}</p>

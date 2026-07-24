@@ -27,7 +27,7 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "📐 Body & Progress", accent: "#34d399", items: [
+    title: "📐 Body & Progress", accent: "#059669", items: [
       { id: "bodyfat", icon: "📏", label: "Body Fat Estimator", desc: "U.S. Navy method" },
       { id: "whr", icon: "📐", label: "Waist-to-Hip Ratio", desc: "Health-risk indicator" },
       { id: "weightgoal", icon: "🎯", label: "Weight Goal Projector", desc: "Project your finish date" },
@@ -36,7 +36,7 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "🏃 Cardio & Heart", accent: "#38bdf8", items: [
+    title: "🏃 Cardio & Heart", accent: "#0284c7", items: [
       { id: "pace", icon: "⏱️", label: "Pace Calculator", desc: "Pace & race predictions" },
       { id: "cardio", icon: "🏃", label: "Cardio & Steps", desc: "Log movement & burn" },
       { id: "hrzones", icon: "❤️", label: "Heart-Rate Zones", desc: "Your five training zones" },

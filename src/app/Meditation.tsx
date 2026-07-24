@@ -1261,7 +1261,7 @@ export function MeditationSection() {
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{
                         background: s.level === 'Beginner' ? 'rgba(16,185,129,0.2)' : s.level === 'Intermediate' ? 'rgba(245,158,11,0.2)' : 'rgba(239,68,68,0.2)',
-                        color: s.level === 'Beginner' ? '#34d399' : s.level === 'Intermediate' ? '#fbbf24' : '#f87171',
+                        color: s.level === 'Beginner' ? '#059669' : s.level === 'Intermediate' ? '#fbbf24' : '#f87171',
                       }}>{s.level}</span>
                     </div>
                     <p className="text-sm text-[#2a1e16]/70 mb-4 flex-1">{s.description}</p>
@@ -1531,7 +1531,7 @@ export function MeditationSection() {
                         <h3 className="font-bold text-[#2a1e16]">{t.name}</h3>
                         <span className="text-xs px-2 py-0.5 rounded-full shrink-0" style={{
                           background: t.difficulty === 'Beginner' ? 'rgba(16,185,129,0.2)' : t.difficulty === 'Intermediate' ? 'rgba(245,158,11,0.2)' : 'rgba(239,68,68,0.2)',
-                          color: t.difficulty === 'Beginner' ? '#34d399' : t.difficulty === 'Intermediate' ? '#fbbf24' : '#f87171',
+                          color: t.difficulty === 'Beginner' ? '#059669' : t.difficulty === 'Intermediate' ? '#fbbf24' : '#f87171',
                         }}>{t.difficulty}</span>
                       </div>
                       <div className="text-xs text-[#f97316] mb-2">{t.origin}</div>

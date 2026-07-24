@@ -54,7 +54,7 @@ const POSTS: Post[] = [
 ];
 
 const CATEGORIES = ["All", "Fitness", "Nutrition", "Wellness", "Yoga", "Ayurveda", "Motivation"];
-const CAT_COLOR: Record<string, string> = { Fitness: "#f97316", Nutrition: "#34d399", Wellness: "#38bdf8", Yoga: "#fb923c", Ayurveda: "#4ade80", Motivation: "#ea580c" };
+const CAT_COLOR: Record<string, string> = { Fitness: "#f97316", Nutrition: "#059669", Wellness: "#0284c7", Yoga: "#fb923c", Ayurveda: "#16a34a", Motivation: "#ea580c" };
 
 // Relevant Unsplash photos per category (same image source the app uses elsewhere).
 const photo = (id: string, w = 900) => `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;

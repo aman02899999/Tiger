@@ -20,8 +20,8 @@ const PLAN_TYPES: PlanType[] = [
   { id: "pull", label: "Pull Power", icon: "🏋️", color: "#fb923c" },
   { id: "legs", label: "Leg Day", icon: "🦵", color: "#ea580c" },
   { id: "core", label: "Core Crusher", icon: "🔥", color: "#fb7185" },
-  { id: "hiit", label: "HIIT Cardio", icon: "⚡", color: "#38bdf8" },
-  { id: "yoga", label: "Recovery Yoga", icon: "🧘", color: "#34d399" },
+  { id: "hiit", label: "HIIT Cardio", icon: "⚡", color: "#0284c7" },
+  { id: "yoga", label: "Recovery Yoga", icon: "🧘", color: "#059669" },
   { id: "rest", label: "Rest Day", icon: "😴", color: "#94a3b8" },
 ];
 

@@ -247,14 +247,14 @@ function GuideCard({ guide, owned, onBuy, onDownload }: { guide: Guide; owned: b
       </div>
       <div className="flex items-center justify-between">
         {owned ? (
-          <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(52,211,153,0.15)", color: "#34d399", border: "1px solid rgba(52,211,153,0.35)" }}>✓ Owned</span>
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(52,211,153,0.15)", color: "#059669", border: "1px solid rgba(52,211,153,0.35)" }}>✓ Owned</span>
         ) : (
           <span className="text-2xl font-extrabold" style={{ color: "#ea580c" }}>₹{guide.price}</span>
         )}
         <button
           onClick={() => (owned ? onDownload(guide) : onBuy(guide))}
           className="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:opacity-90 active:scale-95"
-          style={{ background: owned ? "linear-gradient(135deg, #34d399, #10b981)" : "linear-gradient(135deg, #c2410c, #a21caf)", color: owned ? "#052e1f" : "#2a1e16" }}
+          style={{ background: owned ? "linear-gradient(135deg, #059669, #10b981)" : "linear-gradient(135deg, #c2410c, #a21caf)", color: owned ? "#052e1f" : "#2a1e16" }}
         >
           {owned ? "⬇ Download" : "Buy Now"}
         </button>
@@ -287,7 +287,7 @@ function BundleCard({ bundle, owned, onBuy }: { bundle: Bundle; owned: boolean; 
         onClick={() => !owned && onBuy(bundle)}
         disabled={owned}
         className="w-full py-3 rounded-xl font-bold transition-all duration-200 hover:opacity-90 active:scale-95 disabled:cursor-default disabled:opacity-80"
-        style={{ background: owned ? "linear-gradient(135deg, #34d399, #10b981)" : "linear-gradient(135deg, #ea580c, #f59e0b)", color: owned ? "#052e1f" : "#faf4ec" }}
+        style={{ background: owned ? "linear-gradient(135deg, #059669, #10b981)" : "linear-gradient(135deg, #ea580c, #f59e0b)", color: owned ? "#052e1f" : "#faf4ec" }}
       >
         {owned ? "✓ Owned — All Guides Unlocked" : "Buy Bundle"}
       </button>

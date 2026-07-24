@@ -36,7 +36,7 @@ export default function ThisOrThatPage() {
 
   const grade = useMemo(() => {
     const pct = (score / ROUNDS.length) * 100;
-    if (pct >= 85) return { label: "Nutrition Pro 🥇", color: "#34d399" };
+    if (pct >= 85) return { label: "Nutrition Pro 🥇", color: "#059669" };
     if (pct >= 60) return { label: "Smart Eater 🥗", color: "#f97316" };
     if (pct >= 40) return { label: "Learning Fast 📈", color: "#ea580c" };
     return { label: "Keep Going 🌱", color: "#fb7185" };
@@ -95,7 +95,7 @@ export default function ThisOrThatPage() {
 
       {picked !== null && (
         <div>
-          <p className="mb-3 text-center text-lg font-black" style={{ color: correct ? "#34d399" : "#fb7185" }}>{correct ? "✓ Nice!" : "✗ Not quite"}</p>
+          <p className="mb-3 text-center text-lg font-black" style={{ color: correct ? "#059669" : "#fb7185" }}>{correct ? "✓ Nice!" : "✗ Not quite"}</p>
           <p className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4 text-sm leading-relaxed text-[#2a1e16]/80">{r.fact}</p>
           <button type="button" onClick={next} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">{i < ROUNDS.length - 1 ? "Next →" : "See Score"}</button>
         </div>

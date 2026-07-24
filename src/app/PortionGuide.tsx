@@ -9,7 +9,7 @@ import { useAuth } from "../auth/AuthSystem";
 
 const HAND_RULES = [
   { part: "Palm", icon: "✋", macro: "Protein", note: "1 palm ≈ one protein serving (~20–30g protein)", color: "#f97316" },
-  { part: "Fist", icon: "✊", macro: "Vegetables", note: "1 fist ≈ one veg serving — fill up here", color: "#34d399" },
+  { part: "Fist", icon: "✊", macro: "Vegetables", note: "1 fist ≈ one veg serving — fill up here", color: "#059669" },
   { part: "Cupped hand", icon: "🤲", macro: "Carbs", note: "1 cupped hand ≈ one carb serving (rice, oats, roti)", color: "#ea580c" },
   { part: "Thumb", icon: "👍", macro: "Fats", note: "1 thumb ≈ one fat serving (oil, nut butter, cheese)", color: "#fb7185" },
 ];
@@ -36,7 +36,7 @@ export default function PortionGuidePage() {
   const perMeal = [
     { icon: "✋", label: "Protein", count: proteinPortions, unit: "palm", color: "#f97316" },
     { icon: "🤲", label: "Carbs", count: plan.carb, unit: "cupped hand", color: "#ea580c" },
-    { icon: "✊", label: "Veg", count: plan.veg, unit: "fist", color: "#34d399" },
+    { icon: "✊", label: "Veg", count: plan.veg, unit: "fist", color: "#059669" },
     { icon: "👍", label: "Fats", count: plan.fat, unit: "thumb", color: "#fb7185" },
   ];
 

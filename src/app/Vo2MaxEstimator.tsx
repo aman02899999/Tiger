@@ -23,8 +23,8 @@ const CATEGORIES = [
   { max: 30, label: "Poor", color: "#fb7185" },
   { max: 37, label: "Fair", color: "#ea580c" },
   { max: 44, label: "Good", color: "#f97316" },
-  { max: 51, label: "Excellent", color: "#34d399" },
-  { max: 200, label: "Superior", color: "#38bdf8" },
+  { max: 51, label: "Excellent", color: "#059669" },
+  { max: 200, label: "Superior", color: "#0284c7" },
 ];
 
 export default function Vo2MaxEstimatorPage() {

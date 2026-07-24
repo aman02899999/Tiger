@@ -294,7 +294,7 @@ const FLOWS: Flow[] = [
   },
   {
     id: 'breath', name: 'Breath & Stillness', tagline: 'Pranayama-led reset — the fastest route to a quiet mind.',
-    level: 'Beginner', accent: '#34d399',
+    level: 'Beginner', accent: '#059669',
     steps: [
       { poseId: 11, seconds: 120 }, { poseId: 50, seconds: 300 }, { poseId: 51, seconds: 180 },
       { poseId: 48, seconds: 600 },
@@ -373,7 +373,7 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: `conic-gradient(${done ? '#34d399' : '#f97316'} 0deg, ${done ? '#34d399' : '#fb923c'} ${progress * 360}deg, rgba(247,240,223,0.1) ${progress * 360}deg)`,
+              background: `conic-gradient(${done ? '#059669' : '#f97316'} 0deg, ${done ? '#059669' : '#fb923c'} ${progress * 360}deg, rgba(247,240,223,0.1) ${progress * 360}deg)`,
               transition: 'background 1s linear',
             }}
           />

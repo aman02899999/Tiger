@@ -11,12 +11,12 @@ type Sex = "male" | "female";
 // WHO risk thresholds for waist-to-hip ratio.
 const RISK: Record<Sex, { max: number; label: string; color: string }[]> = {
   male: [
-    { max: 0.9, label: "Low risk", color: "#34d399" },
+    { max: 0.9, label: "Low risk", color: "#059669" },
     { max: 0.99, label: "Moderate risk", color: "#ea580c" },
     { max: 99, label: "High risk", color: "#fb7185" },
   ],
   female: [
-    { max: 0.8, label: "Low risk", color: "#34d399" },
+    { max: 0.8, label: "Low risk", color: "#059669" },
     { max: 0.84, label: "Moderate risk", color: "#ea580c" },
     { max: 99, label: "High risk", color: "#fb7185" },
   ],

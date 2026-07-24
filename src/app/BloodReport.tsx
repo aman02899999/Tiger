@@ -776,7 +776,7 @@ const TAB_ICON: Record<TabKey, string> = {
 };
 
 const STATUS_CONFIG: Record<StatusType, { label: string; color: string; bg: string }> = {
-  normal: { label: "Optimal", color: "#34d399", bg: "rgba(52,211,153,0.14)" },
+  normal: { label: "Optimal", color: "#059669", bg: "rgba(52,211,153,0.14)" },
   borderline: { label: "Borderline", color: "#ea580c", bg: "rgba(234,88,12,0.14)" },
   low: { label: "Low", color: "#fb7185", bg: "rgba(251,113,133,0.14)" },
   high: { label: "High", color: "#fb7185", bg: "rgba(251,113,133,0.14)" },
@@ -875,7 +875,7 @@ function RangeBar({ range, value, color }: { range: MarkerRange; value: number; 
 /* ================================================================== */
 
 function ScoreRing({ score }: { score: number }) {
-  const color = score >= 80 ? "#34d399" : score >= 60 ? "#ea580c" : "#fb7185";
+  const color = score >= 80 ? "#059669" : score >= 60 ? "#ea580c" : "#fb7185";
   const rating = score >= 80 ? "Strong" : score >= 60 ? "Fair" : "Needs Attention";
   return (
     <div style={{ position: "relative", width: 150, height: 150, flexShrink: 0 }}>
@@ -1408,8 +1408,8 @@ export default function BloodReportPage() {
           )}
           {reportUrl && (
             <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.3)", borderRadius: 12, padding: "10px 14px" }}>
-              <span style={{ color: "#34d399", fontSize: 18 }}>✓</span>
-              <span style={{ fontSize: 13, color: "#34d399", fontWeight: 600 }}>Report uploaded successfully</span>
+              <span style={{ color: "#059669", fontSize: 18 }}>✓</span>
+              <span style={{ fontSize: 13, color: "#059669", fontWeight: 600 }}>Report uploaded successfully</span>
               <a href={reportUrl} target="_blank" rel="noopener noreferrer" style={{ marginLeft: "auto", color: "#f97316", fontSize: 12, textDecoration: "none", fontWeight: 700 }}>
                 View ↗
               </a>
@@ -1451,7 +1451,7 @@ export default function BloodReportPage() {
                 <span>{TAB_ICON[tab]}</span>
                 {TAB_LABELS[tab]}
                 {count > 0 && (
-                  <span style={{ fontSize: 10, fontWeight: 800, background: "rgba(52,211,153,0.2)", color: "#34d399", borderRadius: 999, padding: "1px 6px" }}>
+                  <span style={{ fontSize: 10, fontWeight: 800, background: "rgba(52,211,153,0.2)", color: "#059669", borderRadius: 999, padding: "1px 6px" }}>
                     {count}
                   </span>
                 )}
@@ -1553,7 +1553,7 @@ export default function BloodReportPage() {
                   <ScoreRing score={healthScore} />
                   <div style={{ flex: "1 1 260px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
                     {[
-                      { n: summaryCount.optimal, l: "Optimal", c: "#34d399" },
+                      { n: summaryCount.optimal, l: "Optimal", c: "#059669" },
                       { n: summaryCount.borderline, l: "Borderline", c: "#ea580c" },
                       { n: summaryCount.flagged, l: "Flagged", c: "#fb7185" },
                     ].map((s) => (
@@ -1591,7 +1591,7 @@ export default function BloodReportPage() {
                       >
                         <span>{TAB_ICON[c.tab]}</span>
                         {TAB_LABELS[c.tab]}
-                        <span style={{ color: c.flagged === 0 ? "#34d399" : "#fb7185", fontWeight: 800 }}>
+                        <span style={{ color: c.flagged === 0 ? "#059669" : "#fb7185", fontWeight: 800 }}>
                           {c.flagged === 0 ? "all clear" : `${c.flagged} to watch`}
                         </span>
                       </div>
@@ -1605,10 +1605,10 @@ export default function BloodReportPage() {
                     <span style={{ ...CHIP, color: "rgba(247,240,223,0.62)" }}>Cardiac & Metabolic Ratios</span>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 12 }}>
                       {cardiacRatios.map((r) => (
-                        <div key={r.label} style={{ flex: "1 1 200px", background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: "12px 16px", border: `1px solid ${r.good ? "#34d39933" : "#fb718533"}` }}>
+                        <div key={r.label} style={{ flex: "1 1 200px", background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: "12px 16px", border: `1px solid ${r.good ? "#05966933" : "#fb718533"}` }}>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                             <span style={{ fontSize: 13, fontWeight: 700 }}>{r.label}</span>
-                            <span style={{ fontSize: 22, fontWeight: 900, color: r.good ? "#34d399" : "#fb7185", letterSpacing: "-0.04em" }}>{r.value}</span>
+                            <span style={{ fontSize: 22, fontWeight: 900, color: r.good ? "#059669" : "#fb7185", letterSpacing: "-0.04em" }}>{r.value}</span>
                           </div>
                           <span style={{ fontSize: 11, color: "rgba(247,240,223,0.62)" }}>{r.note}</span>
                         </div>

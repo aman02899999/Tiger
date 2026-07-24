@@ -92,7 +92,7 @@ export default function HydrationTrackerPage() {
       <div className="glass-card rounded-3xl p-8">
         <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center sm:gap-8">
           <div className="relative h-44 w-44 shrink-0">
-            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#38bdf8 ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.5s ease" }} />
+            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#0284c7 ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.5s ease" }} />
             <div className="absolute inset-[11px] grid place-items-center rounded-full bg-[#fffdf9] text-center">
               <div>
                 <p className="text-3xl font-black tabular-nums text-sky-600">{(todayMl / 1000).toFixed(2)}<span className="text-base">L</span></p>
@@ -147,7 +147,7 @@ export default function HydrationTrackerPage() {
             return (
               <div key={d.key} className="flex flex-1 flex-col items-center gap-1.5">
                 <div className="flex w-full flex-1 items-end">
-                  <div className="w-full rounded-t-md transition-all duration-500" style={{ height: d.ml ? `${Math.max(4, h)}%` : "3px", background: hit ? "linear-gradient(to top,#34d399,#6ee7b7)" : "linear-gradient(to top,#38bdf8,#7dd3fc)", opacity: d.ml ? 1 : 0.3 }} title={`${(d.ml / 1000).toFixed(2)} L`} />
+                  <div className="w-full rounded-t-md transition-all duration-500" style={{ height: d.ml ? `${Math.max(4, h)}%` : "3px", background: hit ? "linear-gradient(to top,#059669,#10b981)" : "linear-gradient(to top,#0284c7,#0ea5e9)", opacity: d.ml ? 1 : 0.3 }} title={`${(d.ml / 1000).toFixed(2)} L`} />
                 </div>
                 <span className="text-[10px] font-bold text-[#2a1e16]/62">{d.label}</span>
               </div>

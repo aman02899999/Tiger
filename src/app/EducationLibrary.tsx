@@ -533,7 +533,7 @@ const ARTICLES: Article[] = [
 ];
 
 const CATEGORIES = ["All", "Training", "Cardio", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];
-const TAG_COLOR: Record<string, string> = { Free: "#34d399", Gold: "#ea580c", Platinum: "#fb923c" };
+const TAG_COLOR: Record<string, string> = { Free: "#059669", Gold: "#ea580c", Platinum: "#fb923c" };
 const CAT_ICON: Record<string, string> = { Training: "🏋️", Cardio: "🏃", Nutrition: "🥗", Physiotherapy: "🦴", Yoga: "🧘", Meditation: "🧠", Ayurveda: "🌿" };
 
 export default function EducationLibraryPage() {
@@ -558,7 +558,7 @@ export default function EducationLibraryPage() {
           </div>
           <h1 className="mt-4 text-3xl font-black tracking-[-0.04em]">{open.title}</h1>
           <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 Overview</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#059669]">🎯 Overview</p>
             <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.intro}</p>
           </div>
           <div className="mt-3 space-y-3">

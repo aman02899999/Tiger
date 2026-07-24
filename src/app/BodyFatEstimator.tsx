@@ -23,15 +23,15 @@ function navyBodyFat(sex: Sex, heightCm: number, neckCm: number, waistCm: number
 
 const CATEGORIES: Record<Sex, { max: number; label: string; color: string }[]> = {
   male: [
-    { max: 6, label: "Essential", color: "#38bdf8" },
-    { max: 14, label: "Athletic", color: "#34d399" },
+    { max: 6, label: "Essential", color: "#0284c7" },
+    { max: 14, label: "Athletic", color: "#059669" },
     { max: 18, label: "Fitness", color: "#f97316" },
     { max: 25, label: "Average", color: "#ea580c" },
     { max: 100, label: "Above average", color: "#fb7185" },
   ],
   female: [
-    { max: 14, label: "Essential", color: "#38bdf8" },
-    { max: 21, label: "Athletic", color: "#34d399" },
+    { max: 14, label: "Essential", color: "#0284c7" },
+    { max: 21, label: "Athletic", color: "#059669" },
     { max: 25, label: "Fitness", color: "#f97316" },
     { max: 32, label: "Average", color: "#ea580c" },
     { max: 100, label: "Above average", color: "#fb7185" },

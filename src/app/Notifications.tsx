@@ -123,7 +123,7 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
   }
 
   const unreadCount = notifications.filter((n) => !readIds.includes(n.id)).length;
-  const toneColor: Record<NotificationItem["tone"], string> = { info: "#f97316", success: "#34d399", warning: "#ea580c" };
+  const toneColor: Record<NotificationItem["tone"], string> = { info: "#f97316", success: "#059669", warning: "#ea580c" };
 
   return (
     <div className="relative" ref={ref}>

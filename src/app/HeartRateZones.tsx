@@ -8,8 +8,8 @@ import { useAuth } from "../auth/AuthSystem";
 /* ---------------------------------------------------------------- */
 
 const ZONES = [
-  { lo: 0.5, hi: 0.6, name: "Zone 1 · Recovery", purpose: "Warm-up, cool-down, active recovery", color: "#38bdf8" },
-  { lo: 0.6, hi: 0.7, name: "Zone 2 · Endurance", purpose: "Fat-burning, aerobic base building", color: "#34d399" },
+  { lo: 0.5, hi: 0.6, name: "Zone 1 · Recovery", purpose: "Warm-up, cool-down, active recovery", color: "#0284c7" },
+  { lo: 0.6, hi: 0.7, name: "Zone 2 · Endurance", purpose: "Fat-burning, aerobic base building", color: "#059669" },
   { lo: 0.7, hi: 0.8, name: "Zone 3 · Tempo", purpose: "Aerobic fitness & stamina", color: "#ea580c" },
   { lo: 0.8, hi: 0.9, name: "Zone 4 · Threshold", purpose: "Speed & lactate threshold", color: "#fb7185" },
   { lo: 0.9, hi: 1.0, name: "Zone 5 · Max", purpose: "Peak power, short intervals", color: "#fb923c" },

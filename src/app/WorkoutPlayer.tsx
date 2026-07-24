@@ -87,7 +87,7 @@ function ConfettiBurst() {
         left: (i * 137.5) % 100,
         delay: (i % 12) * 0.12,
         duration: 2.2 + ((i * 7) % 10) / 8,
-        color: ["#ea580c", "#f97316", "#fb923c", "#2a1e16", "#34d399"][i % 5],
+        color: ["#ea580c", "#f97316", "#fb923c", "#2a1e16", "#059669"][i % 5],
         size: 6 + ((i * 3) % 8),
         rotate: (i * 47) % 360,
       })),

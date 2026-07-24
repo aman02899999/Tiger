@@ -27,7 +27,7 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "📚 Reference Libraries", accent: "#34d399", items: [
+    title: "📚 Reference Libraries", accent: "#059669", items: [
       { id: "education", icon: "🎓", label: "Education Library", desc: "In-depth articles, all domains" },
       { id: "physiolib", icon: "🦴", label: "Physiotherapy Library", desc: "Rehab & prehab protocols" },
       { id: "yogalib", icon: "🧘", label: "Yoga Library", desc: "Poses with step-by-step cues" },

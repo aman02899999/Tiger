@@ -85,7 +85,7 @@ export default function CardioTrackerPage() {
         <div className="mt-4 flex items-center gap-6">
           {/* step ring */}
           <div className="relative h-24 w-24 shrink-0">
-            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#34d399 ${stepPct * 360}deg, rgba(247,240,223,0.1) ${stepPct * 360}deg)`, transition: "background 0.5s ease" }} />
+            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#059669 ${stepPct * 360}deg, rgba(247,240,223,0.1) ${stepPct * 360}deg)`, transition: "background 0.5s ease" }} />
             <div className="absolute inset-[7px] grid place-items-center rounded-full bg-[#fffdf9] text-center">
               <div>
                 <p className="text-sm font-black tabular-nums">{Math.round(stepPct * 100)}%</p>
@@ -145,7 +145,7 @@ export default function CardioTrackerPage() {
             return (
               <div key={d.key} className="flex flex-1 flex-col items-center gap-1.5">
                 <div className="flex w-full flex-1 items-end">
-                  <div className="w-full rounded-t-md transition-all duration-500" style={{ height: d.steps ? `${Math.max(4, h)}%` : "3px", background: hitGoal ? "linear-gradient(to top,#34d399,#6ee7b7)" : "linear-gradient(to top,#38bdf8,#7dd3fc)", opacity: d.steps ? 1 : 0.3 }} title={`${d.steps.toLocaleString()} steps`} />
+                  <div className="w-full rounded-t-md transition-all duration-500" style={{ height: d.steps ? `${Math.max(4, h)}%` : "3px", background: hitGoal ? "linear-gradient(to top,#059669,#10b981)" : "linear-gradient(to top,#0284c7,#0ea5e9)", opacity: d.steps ? 1 : 0.3 }} title={`${d.steps.toLocaleString()} steps`} />
                 </div>
                 <span className="text-[10px] font-bold text-[#2a1e16]/62">{d.label}</span>
               </div>

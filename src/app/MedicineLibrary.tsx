@@ -125,9 +125,9 @@ export default function MedicineLibraryPage() {
 
             <div className="mt-4 space-y-3">
               {[
-                { label: "What it's for", text: open.use, icon: "🎯", c: "#34d399" },
+                { label: "What it's for", text: open.use, icon: "🎯", c: "#059669" },
                 { label: "How to use", text: open.how, icon: "🥄", c: "#ea580c" },
-                { label: "When to use", text: open.when, icon: "⏰", c: "#38bdf8" },
+                { label: "When to use", text: open.when, icon: "⏰", c: "#0284c7" },
               ].map((row) => (
                 <div key={row.label} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
                   <p className="text-[11px] font-black uppercase tracking-[0.14em]" style={{ color: row.c }}>{row.icon} {row.label}</p>

@@ -76,7 +76,7 @@ const doshaInfo: Record<string, { color: string; desc: string; diet: string[] }>
     ],
   },
   kapha: {
-    color: "#34d399",
+    color: "#059669",
     desc: "Kapha governs structure and lubrication. Kapha-dominant people are calm, loving, and stable but may experience weight gain, congestion, and lethargy when imbalanced.",
     diet: [
       "Light, dry, warm foods",

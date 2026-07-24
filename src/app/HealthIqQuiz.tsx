@@ -37,7 +37,7 @@ export default function HealthIqQuizPage() {
 
   const grade = useMemo(() => {
     const pct = (score / QUESTIONS.length) * 100;
-    if (pct >= 85) return { label: "Health Genius 🧠", color: "#34d399" };
+    if (pct >= 85) return { label: "Health Genius 🧠", color: "#059669" };
     if (pct >= 65) return { label: "Well Educated 🎓", color: "#f97316" };
     if (pct >= 45) return { label: "Solid Basics 📘", color: "#ea580c" };
     return { label: "Keep Learning 🌱", color: "#fb7185" };

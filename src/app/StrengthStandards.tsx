@@ -36,8 +36,8 @@ const LIFTS = [
 
 const TIERS = [
   { name: "Untrained", color: "#94a3b8" },
-  { name: "Novice", color: "#38bdf8" },
-  { name: "Intermediate", color: "#34d399" },
+  { name: "Novice", color: "#0284c7" },
+  { name: "Intermediate", color: "#059669" },
   { name: "Advanced", color: "#ea580c" },
   { name: "Elite", color: "#fb923c" },
 ];

@@ -66,7 +66,7 @@ export default function CalorieGuessPage() {
 
   const grade = useMemo(() => {
     const avg = points / ROUNDS;
-    if (avg >= 80) return { label: "Calorie Whisperer 🎯", color: "#34d399" };
+    if (avg >= 80) return { label: "Calorie Whisperer 🎯", color: "#059669" };
     if (avg >= 55) return { label: "Sharp Eye 👀", color: "#f97316" };
     if (avg >= 30) return { label: "Getting Calibrated 📊", color: "#ea580c" };
     return { label: "Keep Practicing 🌱", color: "#fb7185" };
@@ -107,7 +107,7 @@ export default function CalorieGuessPage() {
           <div className="mx-auto mt-5 max-w-md">
             <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">
               <p className="text-sm text-[#2a1e16]/68">Actual: <span className="text-2xl font-black text-[#ea580c]">{food.kcal} kcal</span></p>
-              <p className="mt-1 text-sm font-bold" style={{ color: pct <= 10 ? "#34d399" : pct <= 30 ? "#ea580c" : "#fb7185" }}>{pct <= 10 ? "🎯 Spot on!" : pct <= 30 ? "👍 Close!" : "📊 Off by a bit"} — {err} kcal away (+{roundPts} pts)</p>
+              <p className="mt-1 text-sm font-bold" style={{ color: pct <= 10 ? "#059669" : pct <= 30 ? "#ea580c" : "#fb7185" }}>{pct <= 10 ? "🎯 Spot on!" : pct <= 30 ? "👍 Close!" : "📊 Off by a bit"} — {err} kcal away (+{roundPts} pts)</p>
             </div>
             <button type="button" onClick={next} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">{round < ROUNDS - 1 ? "Next Food →" : "See Score"}</button>
           </div>

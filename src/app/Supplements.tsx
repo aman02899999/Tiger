@@ -90,7 +90,7 @@ export default function SupplementsPage() {
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center gap-6">
           <div className="relative h-20 w-20 shrink-0">
-            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#34d399 ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.4s ease" }} />
+            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#059669 ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.4s ease" }} />
             <div className="absolute inset-[6px] grid place-items-center rounded-full bg-[#fffdf9]"><span className="text-sm font-black">{takenCount}/{stack.length || 0}</span></div>
           </div>
           <div>

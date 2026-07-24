@@ -194,7 +194,7 @@ const POSES: Pose[] = [
 ];
 
 const TYPES = ["All", "Standing", "Seated", "Backbend", "Balance", "Restorative"] as const;
-const LEVEL_COLOR: Record<string, string> = { Beginner: "#34d399", Intermediate: "#ea580c" };
+const LEVEL_COLOR: Record<string, string> = { Beginner: "#059669", Intermediate: "#ea580c" };
 
 export default function YogaLibraryPage() {
   const [type, setType] = useState<(typeof TYPES)[number]>("All");
@@ -224,7 +224,7 @@ export default function YogaLibraryPage() {
           </div>
 
           <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 Benefits</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#059669]">🎯 Benefits</p>
             <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.benefits}</p>
           </div>
 
@@ -238,7 +238,7 @@ export default function YogaLibraryPage() {
           </ol>
 
           <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#38bdf8]">🌬️ Breath</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#0284c7]">🌬️ Breath</p>
             <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.breath}</p>
           </div>
         </div>

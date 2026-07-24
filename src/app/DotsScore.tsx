@@ -25,8 +25,8 @@ function dotsCoefficient(sex: Sex, bw: number): number {
 
 // Rough interpretation bands for a full-power total DOTS score.
 const BANDS = [
-  { max: 200, label: "Beginner", color: "#38bdf8" },
-  { max: 300, label: "Novice", color: "#34d399" },
+  { max: 200, label: "Beginner", color: "#0284c7" },
+  { max: 300, label: "Novice", color: "#059669" },
   { max: 400, label: "Intermediate", color: "#f97316" },
   { max: 500, label: "Advanced", color: "#ea580c" },
   { max: 9999, label: "Elite", color: "#fb923c" },

@@ -115,7 +115,7 @@ export function DailyChecklist() {
 /* ---- 2. Mood & energy check-in ---------------------------------- */
 
 const MOODS = [
-  { id: "great", emoji: "🤩", label: "Great", color: "#34d399" },
+  { id: "great", emoji: "🤩", label: "Great", color: "#059669" },
   { id: "good", emoji: "🙂", label: "Good", color: "#f97316" },
   { id: "okay", emoji: "😐", label: "Okay", color: "#ea580c" },
   { id: "tired", emoji: "😮‍💨", label: "Tired", color: "#fb923c" },

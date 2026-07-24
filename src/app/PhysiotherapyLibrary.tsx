@@ -318,7 +318,7 @@ export default function PhysiotherapyLibraryPage() {
             </div>
           </div>
           <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 About</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#059669]">🎯 About</p>
             <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.about}</p>
           </div>
 

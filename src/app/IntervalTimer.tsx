@@ -56,10 +56,10 @@ function beep(freq: number, durationMs: number, volume = 0.2) {
 const PHASE_META: Record<Phase, { label: string; color: string }> = {
   idle: { label: "Ready", color: "#f97316" },
   prep: { label: "Get Ready", color: "#ea580c" },
-  work: { label: "WORK", color: "#34d399" },
-  rest: { label: "Rest", color: "#38bdf8" },
+  work: { label: "WORK", color: "#059669" },
+  rest: { label: "Rest", color: "#0284c7" },
   setrest: { label: "Set Break", color: "#fb923c" },
-  done: { label: "Done!", color: "#34d399" },
+  done: { label: "Done!", color: "#059669" },
 };
 
 export default function IntervalTimerPage() {

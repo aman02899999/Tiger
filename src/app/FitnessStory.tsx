@@ -55,8 +55,8 @@ export default function FitnessStoryPage() {
       { bg: "linear-gradient(160deg,#3b0764,#1e1b4b,#faf4ec)", emoji: "⚡", big: user?.name?.split(" ")[0] ?? "Titan", label: "Here's your fitness story", sub: "Tap to continue →" },
       { bg: "linear-gradient(160deg,#7c2d12,#c2410c,#2a0e52)", emoji: "💪", big: `${stats.workouts}`, label: stats.workouts === 1 ? "workout completed" : "workouts completed", sub: "Every rep counted." },
       { bg: "linear-gradient(160deg,#7c2d12,#ea580c,#2a0e52)", emoji: "🔥", big: `${stats.streak}`, label: "day best streak", sub: stats.streak >= 7 ? "Unstoppable consistency!" : "The chain is growing." },
-      { bg: "linear-gradient(160deg,#0e7490,#38bdf8,#faf4ec)", emoji: "⚡", big: stats.xp.toLocaleString(), label: "total XP earned", sub: `You're a ${stats.level.name} ${stats.level.icon}` },
-      { bg: "linear-gradient(160deg,#065f46,#34d399,#faf4ec)", emoji: "🗓️", big: `${stats.activeDays}`, label: "active days logged", sub: "Showing up is the win." },
+      { bg: "linear-gradient(160deg,#0e7490,#0284c7,#faf4ec)", emoji: "⚡", big: stats.xp.toLocaleString(), label: "total XP earned", sub: `You're a ${stats.level.name} ${stats.level.icon}` },
+      { bg: "linear-gradient(160deg,#065f46,#059669,#faf4ec)", emoji: "🗓️", big: `${stats.activeDays}`, label: "active days logged", sub: "Showing up is the win." },
     ];
     if (stats.favPlan) s.push({ bg: "linear-gradient(160deg,#831843,#fb923c,#2a0e52)", emoji: "🏆", big: stats.favPlan, label: "your go-to workout", sub: "You've got a favorite." });
     s.push({ bg: "linear-gradient(160deg,#3b0764,#ea580c,#faf4ec)", emoji: "🐯", big: "Keep going", label: "Your best is still ahead", sub: "Share your story below" });

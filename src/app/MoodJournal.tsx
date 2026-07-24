@@ -10,7 +10,7 @@ import { addXP } from "./Achievements";
 /* ---------------------------------------------------------------- */
 
 const MOODS = [
-  { id: "great", emoji: "🤩", label: "Great", score: 5, color: "#34d399" },
+  { id: "great", emoji: "🤩", label: "Great", score: 5, color: "#059669" },
   { id: "good", emoji: "🙂", label: "Good", score: 4, color: "#f97316" },
   { id: "okay", emoji: "😐", label: "Okay", score: 3, color: "#ea580c" },
   { id: "tired", emoji: "😮‍💨", label: "Tired", score: 2, color: "#fb923c" },

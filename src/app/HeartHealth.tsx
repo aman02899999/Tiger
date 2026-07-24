@@ -24,8 +24,8 @@ interface Technique {
 const TECHNIQUES: Technique[] = [
   { id: "resonance", name: "Heart Coherence", tagline: "5.5 breaths / min", benefit: "The clinically-studied pace for heart-rate variability and calm focus.", inhale: 5.5, hold: 0, exhale: 5.5, holdOut: 0, accent: "#fb923c" },
   { id: "box", name: "Box Breathing", tagline: "4 · 4 · 4 · 4", benefit: "Navy-SEAL technique to steady nerves and lower stress fast.", inhale: 4, hold: 4, exhale: 4, holdOut: 4, accent: "#f97316" },
-  { id: "478", name: "4-7-8 Relax", tagline: "Sleep & anxiety", benefit: "A longer exhale flips on the parasympathetic 'rest & digest' system.", inhale: 4, hold: 7, exhale: 8, holdOut: 0, accent: "#38bdf8" },
-  { id: "calm", name: "Calm Down", tagline: "4 · 6 extended exhale", benefit: "Quick reset — longer out-breath drops your heart rate within a minute.", inhale: 4, hold: 0, exhale: 6, holdOut: 0, accent: "#34d399" },
+  { id: "478", name: "4-7-8 Relax", tagline: "Sleep & anxiety", benefit: "A longer exhale flips on the parasympathetic 'rest & digest' system.", inhale: 4, hold: 7, exhale: 8, holdOut: 0, accent: "#0284c7" },
+  { id: "calm", name: "Calm Down", tagline: "4 · 6 extended exhale", benefit: "Quick reset — longer out-breath drops your heart rate within a minute.", inhale: 4, hold: 0, exhale: 6, holdOut: 0, accent: "#059669" },
 ];
 
 const PHASE_ORDER: Phase[] = ["inhale", "hold", "exhale", "holdOut"];
@@ -106,7 +106,7 @@ export default function HeartHealthPage() {
   // simulated BPM drops as coherence rises (72 → ~58)
   const bpm = Math.round(72 - (coherence / 100) * 14);
   const beatDur = 60 / bpm;
-  const cohColor = coherence >= 75 ? "#34d399" : coherence >= 45 ? "#ea580c" : "#fb923c";
+  const cohColor = coherence >= 75 ? "#059669" : coherence >= 45 ? "#ea580c" : "#fb923c";
   const mm = Math.floor(elapsed / 60);
   const ss = String(Math.floor(elapsed % 60)).padStart(2, "0");
 

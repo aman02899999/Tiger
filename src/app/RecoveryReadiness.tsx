@@ -84,7 +84,7 @@ export default function RecoveryReadinessPage() {
   }
 
   const verdict = score >= 75
-    ? { color: "#34d399", title: "Fully Recovered", advice: "Green light — go for a hard, high-intensity session or a PR attempt. Your body's ready.", emoji: "🟢" }
+    ? { color: "#059669", title: "Fully Recovered", advice: "Green light — go for a hard, high-intensity session or a PR attempt. Your body's ready.", emoji: "🟢" }
     : score >= 50
     ? { color: "#ea580c", title: "Moderately Ready", advice: "Train, but keep it moderate. Hit your working sets, skip the all-out finisher, and listen to your body.", emoji: "🟡" }
     : score >= 30

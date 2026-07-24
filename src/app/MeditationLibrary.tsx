@@ -138,11 +138,11 @@ export default function MeditationLibraryPage() {
           </div>
 
           <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 Benefits</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#059669]">🎯 Benefits</p>
             <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.benefits}</p>
           </div>
           <div className="mt-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
-            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#38bdf8]">⏰ Best for</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#0284c7]">⏰ Best for</p>
             <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.best}</p>
           </div>
 

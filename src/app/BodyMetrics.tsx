@@ -11,9 +11,9 @@ import { addXP, getXP } from "./Achievements";
 const METRICS = [
   { key: "weight", label: "Weight", unit: "kg", color: "#f97316" },
   { key: "waist", label: "Waist", unit: "cm", color: "#fb923c" },
-  { key: "chest", label: "Chest", unit: "cm", color: "#38bdf8" },
+  { key: "chest", label: "Chest", unit: "cm", color: "#0284c7" },
   { key: "arms", label: "Arms", unit: "cm", color: "#ea580c" },
-  { key: "thighs", label: "Thighs", unit: "cm", color: "#34d399" },
+  { key: "thighs", label: "Thighs", unit: "cm", color: "#059669" },
   { key: "bodyfat", label: "Body Fat", unit: "%", color: "#fb7185" },
 ] as const;
 
@@ -143,7 +143,7 @@ export default function BodyMetricsPage() {
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
             { label: "Logs this week", value: report.logs, color: "#f97316" },
-            { label: "Weight change", value: report.weightDelta == null ? "—" : `${report.weightDelta > 0 ? "+" : ""}${report.weightDelta}kg`, color: report.weightDelta != null && report.weightDelta < 0 ? "#34d399" : "#ea580c" },
+            { label: "Weight change", value: report.weightDelta == null ? "—" : `${report.weightDelta > 0 ? "+" : ""}${report.weightDelta}kg`, color: report.weightDelta != null && report.weightDelta < 0 ? "#059669" : "#ea580c" },
             { label: "Workouts", value: report.workouts, color: "#fb923c" },
             { label: "Day streak", value: report.streak, color: "#fb7185" },
           ].map((s) => (

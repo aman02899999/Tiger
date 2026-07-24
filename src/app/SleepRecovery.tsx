@@ -133,7 +133,7 @@ function SleepLogger() {
   const recovery = logged.length
     ? Math.round(Math.min(100, (Math.min(avgHours, 8) / 8) * 60 + (avgQual / 5) * 40))
     : 0;
-  const recColor = recovery >= 80 ? "#34d399" : recovery >= 60 ? "#ea580c" : recovery > 0 ? "#fb7185" : "#64748b";
+  const recColor = recovery >= 80 ? "#059669" : recovery >= 60 ? "#ea580c" : recovery > 0 ? "#fb7185" : "#64748b";
   const maxH = Math.max(8, ...last7.map((d) => d.hours));
 
   return (

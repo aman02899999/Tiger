@@ -42,7 +42,7 @@ export default function MythBusterPage() {
 
   const grade = useMemo(() => {
     const pct = (score / CARDS.length) * 100;
-    if (pct >= 85) return { label: "Myth-Busting Master 🧠", color: "#34d399" };
+    if (pct >= 85) return { label: "Myth-Busting Master 🧠", color: "#059669" };
     if (pct >= 60) return { label: "Well Informed 👍", color: "#f97316" };
     if (pct >= 40) return { label: "Getting There 📚", color: "#ea580c" };
     return { label: "Keep Learning 🌱", color: "#fb7185" };
@@ -101,7 +101,7 @@ export default function MythBusterPage() {
           </div>
         ) : (
           <div className="mt-6">
-            <p className="text-lg font-black" style={{ color: correct ? "#34d399" : "#fb7185" }}>{correct ? "✓ Correct!" : "✗ Not quite"} — it's a {card.isFact ? "Fact" : "Myth"}</p>
+            <p className="text-lg font-black" style={{ color: correct ? "#059669" : "#fb7185" }}>{correct ? "✓ Correct!" : "✗ Not quite"} — it's a {card.isFact ? "Fact" : "Myth"}</p>
             <p className="mx-auto mt-3 max-w-lg rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4 text-sm leading-relaxed text-[#2a1e16]/80">{card.explain}</p>
             <button type="button" onClick={next} className="btn-gloss mt-5 rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-8 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">{i < CARDS.length - 1 ? "Next →" : "See Score"}</button>
           </div>

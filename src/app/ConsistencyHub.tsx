@@ -99,7 +99,7 @@ export default function ConsistencyHub() {
     { label: "Current Streak", value: `${currentStreak}`, unit: "days", color: "#ea580c" },
     { label: "Best Streak", value: `${bestStreak}`, unit: "days", color: "#fb923c" },
     { label: "Active Days", value: `${totalActive}`, unit: "logged", color: "#f97316" },
-    { label: "Effort Points", value: `${totalPoints}`, unit: "total", color: "#34d399" },
+    { label: "Effort Points", value: `${totalPoints}`, unit: "total", color: "#059669" },
   ];
 
   return (

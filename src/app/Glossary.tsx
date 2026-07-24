@@ -48,7 +48,7 @@ const TERMS: Term[] = [
 ];
 
 const CATS = ["All", "Training", "Nutrition", "Cardio", "Ayurveda"];
-const CAT_COLOR: Record<string, string> = { Training: "#f97316", Nutrition: "#34d399", Cardio: "#38bdf8", Ayurveda: "#4ade80" };
+const CAT_COLOR: Record<string, string> = { Training: "#f97316", Nutrition: "#059669", Cardio: "#0284c7", Ayurveda: "#16a34a" };
 
 export default function GlossaryPage() {
   const [cat, setCat] = useState("All");
