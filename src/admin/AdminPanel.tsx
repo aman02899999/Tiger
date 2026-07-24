@@ -693,7 +693,7 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
                     <div className="flex items-start justify-between">
                       <div>
                         <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/40">{s.label}</p>
-                        <p className="mt-3 bg-gradient-to-r from-orange-200 to-[#ea580c] bg-clip-text text-3xl font-black text-transparent">{s.value}</p>
+                        <p className="mt-3 bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-3xl font-black text-transparent">{s.value}</p>
                       </div>
                       <span className="text-3xl">{s.icon}</span>
                     </div>

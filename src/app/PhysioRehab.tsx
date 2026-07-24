@@ -1334,7 +1334,7 @@ export default function PhysioRehabPage() {
             <SectionLabel>Physiotherapy & Injury Rehab</SectionLabel>
             <h1 className="mt-4 max-w-2xl text-3xl font-black tracking-[-0.04em] sm:text-5xl">
               Recover Smarter.{" "}
-              <span className="bg-gradient-to-r from-orange-400 via-amber-400 to-[#ea580c] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-[#ea580c] bg-clip-text text-transparent">
                 Come Back Stronger.
               </span>
             </h1>

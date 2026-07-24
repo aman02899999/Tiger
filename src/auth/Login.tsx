@@ -53,7 +53,7 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
           </div>
           <div>
             <h1 className="text-5xl font-black leading-[1.05] tracking-[-0.05em]">
-              Your lifestyle<br /><span className="bg-gradient-to-r from-orange-200 to-[#ea580c] bg-clip-text text-transparent">operating system.</span>
+              Your lifestyle<br /><span className="bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-transparent">operating system.</span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-[#2a1e16]/70 max-w-md">
               Join 50,000+ Indians transforming their lives with AI-powered workouts, nutrition, sleep tracking, and family health.
@@ -159,7 +159,7 @@ export function SignupPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSu
           </div>
           <div>
             <h1 className="text-5xl font-black leading-[1.05] tracking-[-0.05em]">
-              Start your<br /><span className="bg-gradient-to-r from-orange-200 to-[#ea580c] bg-clip-text text-transparent">transformation.</span>
+              Start your<br /><span className="bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-transparent">transformation.</span>
             </h1>
             <p className="mt-6 text-lg leading-8 text-[#2a1e16]/70 max-w-md">
               Free forever. No credit card required. Unlock 28+ AI-powered features for a healthier lifestyle.

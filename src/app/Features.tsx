@@ -315,12 +315,12 @@ export function Leaderboard() {
         {dummyUsers.slice(0, 3).map((u, i) => (
           <div key={u.name} className={`relative rounded-2xl border p-6 ${i === 0 ? "border-[#ea580c]/40 bg-gradient-to-br from-[#ea580c]/15 to-orange-200/8" : "border-[#2a1e16]/10 bg-[#2a1e16]/5"}`}>
             {i === 0 && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[#ea580c] px-4 py-1 text-xs font-black text-[#f4ead9]">🏆 1st Place</div>}
-            {i === 1 && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gray-300 px-4 py-1 text-xs font-black text-[#f4ead9]">🥈 2nd Place</div>}
+            {i === 1 && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gray-300 px-4 py-1 text-xs font-black text-[#2a1e16]">🥈 2nd Place</div>}
             {i === 2 && <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-orange-400 px-4 py-1 text-xs font-black text-[#f4ead9]">🥉 3rd Place</div>}
             <div className="mt-3 flex flex-col items-center text-center">
               <div className="grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-amber-500 to-[#ea580c] text-2xl font-black text-[#f4ead9]">{u.avatar}</div>
               <p className="mt-4 text-lg font-bold">{u.name}</p>
-              <p className="mt-2 bg-gradient-to-r from-orange-200 to-[#ea580c] bg-clip-text text-4xl font-black text-transparent">{u.score.toLocaleString()}</p>
+              <p className="mt-2 bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-4xl font-black text-transparent">{u.score.toLocaleString()}</p>
               <p className="text-xs text-[#2a1e16]/50">Titan Score</p>
               <p className="mt-2 text-sm">🔥 {u.streak} day streak</p>
             </div>

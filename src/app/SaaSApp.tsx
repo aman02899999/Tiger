@@ -346,7 +346,7 @@ function Dashboard({ onNavigate }: { onNavigate: (section: string) => void }) {
   const bmiCategory = parseFloat(bmi) < 18.5 ? "Underweight" : parseFloat(bmi) < 25 ? "Normal" : parseFloat(bmi) < 30 ? "Overweight" : "Obese";
 
   const stats = [
-    { label: "Today's Energy", value: "82%", icon: "⚡", color: "from-orange-300 to-amber-400" },
+    { label: "Today's Energy", value: "82%", icon: "⚡", color: "from-orange-500 to-amber-600" },
     { label: "Titan Score", value: "94", icon: "⚡", color: "from-[#ea580c] to-orange-400" },
     { label: "Streak", value: `${user.streak} days`, icon: "🔥", color: "from-rose-300 to-pink-400" },
     { label: "Goal Chance", value: "87%", icon: "🎯", color: "from-emerald-300 to-cyan-400" },
@@ -530,7 +530,7 @@ function NutritionPage() {
       <div className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/65">Today's Calories</p>
-          <p className="mt-3 bg-gradient-to-r from-orange-200 to-amber-400 bg-clip-text text-5xl font-black text-transparent">1,680</p>
+          <p className="mt-3 bg-gradient-to-r from-orange-500 to-amber-600 bg-clip-text text-5xl font-black text-transparent">1,680</p>
           <p className="mt-1 text-xs text-[#2a1e16]/68">of 2,200 kcal goal</p>
           <div className="mt-4 h-2 overflow-hidden rounded-full bg-[#2a1e16]/10">
             <div className="h-full rounded-full bg-gradient-to-r from-orange-300 to-amber-400" style={{ width: "76%" }} />

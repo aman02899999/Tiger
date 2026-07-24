@@ -475,7 +475,7 @@ function PaymentModal({
         </div>
         <div className="bg-orange-900/20 border border-orange-700/30 rounded-xl p-4 mb-4 text-center">
           <p className="text-[#2a1e16]/60 text-xs mb-1">Amount to Pay</p>
-          <p className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
+          <p className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-amber-600 bg-clip-text text-transparent">
             ₹{course.price.toLocaleString()}
           </p>
           <p className="text-green-400 text-xs mt-1">
@@ -824,7 +824,7 @@ export function CoursesSection() {
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-[#2a1e16] mb-3">
             Level Up Your{' '}
-            <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-500 to-amber-600 bg-clip-text text-transparent">
               Fitness Career
             </span>
           </h2>
@@ -956,7 +956,7 @@ export default function CoursesPage() {
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black mb-2">
-            <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-500 to-amber-600 bg-clip-text text-transparent">
               Courses & Certifications
             </span>
           </h1>

@@ -195,7 +195,7 @@ export default function DietCalculator() {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/44">Daily Calories</p>
-          <p className="mt-3 bg-gradient-to-r from-orange-200 to-amber-400 bg-clip-text text-4xl font-black text-transparent">{calculations.targetCalories}</p>
+          <p className="mt-3 bg-gradient-to-r from-orange-500 to-amber-600 bg-clip-text text-4xl font-black text-transparent">{calculations.targetCalories}</p>
           <p className="text-xs text-[#2a1e16]/50">kcal/day</p>
         </div>
         <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">

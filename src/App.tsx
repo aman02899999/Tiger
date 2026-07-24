@@ -294,7 +294,7 @@ function About() {
             <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">Why Titan?</p>
             <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">
               Not just a fitness app.<br />
-              <span className="bg-gradient-to-r from-orange-200 to-[#ea580c] bg-clip-text text-transparent">Your life operating system.</span>
+              <span className="bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-transparent">Your life operating system.</span>
             </h2>
             <p className="mt-6 max-w-lg text-lg leading-8 text-[#2a1e16]/68">
               The Titan Fitness combines AI-powered coaching with India-first intelligence. From wedding transformations to family health dashboards, from Indian food scanning to damage control after cheat meals — we cover the entire lifestyle.
@@ -589,7 +589,7 @@ function DownloadCTA() {
           </div>
           <h2 className="text-5xl font-black tracking-[-0.06em] sm:text-6xl lg:text-7xl">
             Ready to transform<br />
-            <span className="bg-gradient-to-r from-orange-200 to-[#ea580c] bg-clip-text text-transparent">your lifestyle?</span>
+            <span className="bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-transparent">your lifestyle?</span>
           </h2>
           <p className="mt-6 text-lg leading-8 text-[#2a1e16]/66">Download The Titan Fitness. Join 50K+ Indians already transforming with our AI Life Coach.</p>
           
@@ -670,7 +670,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
     case "stat":
       return (
         <div className="my-6 inline-flex items-baseline gap-3 rounded-2xl border border-orange-200/18 bg-orange-200/8 px-5 py-3">
-          <span className="text-3xl font-black tracking-[-0.06em] bg-gradient-to-r from-orange-200 to-[#ea580c] bg-clip-text text-transparent">{block.value}</span>
+          <span className="text-3xl font-black tracking-[-0.06em] bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-transparent">{block.value}</span>
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2a1e16]/68">{block.label}</span>
         </div>
       );
@@ -1083,7 +1083,7 @@ export default function App() {
   // Marketing site
   return (
     <>
-      <main className="min-h-screen overflow-hidden bg-[#faf4ec] text-[#2a1e16] selection:bg-orange-200 selection:text-[#f4ead9]">
+      <main className="min-h-screen overflow-hidden bg-[#faf4ec] text-[#2a1e16] selection:bg-orange-200 selection:text-[#2a1e16]">
         <Nav />
         <Hero />
         <About />
