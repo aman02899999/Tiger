@@ -54,7 +54,7 @@ const POSTS: Post[] = [
 ];
 
 const CATEGORIES = ["All", "Fitness", "Nutrition", "Wellness", "Yoga", "Ayurveda", "Motivation"];
-const CAT_COLOR: Record<string, string> = { Fitness: "#a78bfa", Nutrition: "#34d399", Wellness: "#38bdf8", Yoga: "#e879f9", Ayurveda: "#4ade80", Motivation: "#d8b35a" };
+const CAT_COLOR: Record<string, string> = { Fitness: "#f97316", Nutrition: "#34d399", Wellness: "#38bdf8", Yoga: "#fb923c", Ayurveda: "#4ade80", Motivation: "#ea580c" };
 
 // Relevant Unsplash photos per category (same image source the app uses elsewhere).
 const photo = (id: string, w = 900) => `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;
@@ -88,15 +88,15 @@ export default function BlogPage() {
   const trending = POSTS.filter((p) => p.trending);
 
   if (open) {
-    const color = CAT_COLOR[open.category] ?? "#a78bfa";
+    const color = CAT_COLOR[open.category] ?? "#f97316";
     return (
       <div className="space-y-6">
-        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-violet-200 hover:text-violet-100">← Back to blog</button>
+        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-orange-700 hover:text-orange-700">← Back to blog</button>
 
         {/* Interactive hero image — click to zoom */}
-        <button type="button" onClick={() => setZoom(imgFor(open))} className="group relative block h-56 w-full overflow-hidden rounded-2xl bg-gradient-to-br from-violet-950 to-fuchsia-950 sm:h-72">
+        <button type="button" onClick={() => setZoom(imgFor(open))} className="group relative block h-56 w-full overflow-hidden rounded-2xl bg-gradient-to-br from-orange-950 to-amber-950 sm:h-72">
           <img src={imgFor(open)} alt={open.title} loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0714]/85 via-transparent to-transparent" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#fffdf9]/85 via-transparent to-transparent" />
           <span className="absolute bottom-3 right-3 rounded-full bg-black/50 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur">🔍 Tap to zoom</span>
         </button>
 
@@ -104,20 +104,20 @@ export default function BlogPage() {
         {zoom && (
           <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm" onClick={() => setZoom(null)}>
             <img src={imgFor(open)} alt={open.title} className="max-h-[90vh] max-w-full rounded-2xl object-contain" onClick={(e) => e.stopPropagation()} />
-            <button type="button" onClick={() => setZoom(null)} className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-white/15 text-lg text-white backdrop-blur">✕</button>
+            <button type="button" onClick={() => setZoom(null)} className="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full bg-black/15 text-lg text-white backdrop-blur">✕</button>
           </div>
         )}
 
         <article className="glass-card rounded-2xl p-8">
           <div className="flex flex-wrap items-center gap-2">
             <span className="rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em]" style={{ background: `${color}22`, color }}>{open.category}</span>
-            {open.trending && <span className="rounded-full bg-[#d8b35a]/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#d8b35a]">🔥 Trending</span>}
-            <span className="text-[11px] text-[#f7f0df]/55">{open.read} read</span>
+            {open.trending && <span className="rounded-full bg-[#ea580c]/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-[#ea580c]">🔥 Trending</span>}
+            <span className="text-[11px] text-[#2a1e16]/55">{open.read} read</span>
           </div>
           <h1 className="mt-4 text-3xl font-black tracking-[-0.04em]">{open.title}</h1>
-          <p className="mt-2 text-xs text-[#f7f0df]/55">By {open.author} · {open.date}</p>
+          <p className="mt-2 text-xs text-[#2a1e16]/55">By {open.author} · {open.date}</p>
           <div className="mt-5 space-y-4">
-            {open.body.map((p, i) => <p key={i} className="text-[15px] leading-relaxed text-[#f7f0df]/82">{p}</p>)}
+            {open.body.map((p, i) => <p key={i} className="text-[15px] leading-relaxed text-[#2a1e16]/82">{p}</p>)}
           </div>
         </article>
       </div>
@@ -128,23 +128,23 @@ export default function BlogPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">The Titan Blog</h1>
-        <p className="text-sm text-[#f7f0df]/68">Trending reads on fitness, nutrition, wellness & Ayurveda — {POSTS.length} posts</p>
+        <p className="text-sm text-[#2a1e16]/68">Trending reads on fitness, nutrition, wellness & Ayurveda — {POSTS.length} posts</p>
       </div>
 
       {/* Trending strip */}
       <div className="glass-card rounded-2xl p-5">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">🔥 Trending now</p>
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">🔥 Trending now</p>
         <div className="flex gap-3 overflow-x-auto pb-1">
           {trending.map((p) => (
-            <button key={p.id} type="button" onClick={() => setOpen(p)} className="group w-60 shrink-0 overflow-hidden rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 text-left transition hover:border-violet-200/30">
-              <div className="relative h-28 w-full overflow-hidden bg-gradient-to-br from-violet-950 to-fuchsia-950">
+            <button key={p.id} type="button" onClick={() => setOpen(p)} className="group w-60 shrink-0 overflow-hidden rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 text-left transition hover:border-orange-200/30">
+              <div className="relative h-28 w-full overflow-hidden bg-gradient-to-br from-orange-950 to-amber-950">
                 <img src={imgFor(p)} alt={p.title} loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0714]/75 to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#fffdf9]/75 to-transparent" />
               </div>
               <div className="p-3">
                 <span className="text-[10px] font-black uppercase tracking-[0.12em]" style={{ color: CAT_COLOR[p.category] }}>{p.category}</span>
                 <p className="mt-1 line-clamp-2 text-sm font-black leading-tight">{p.title}</p>
-                <p className="mt-1 text-[11px] text-[#f7f0df]/55">{p.read} · {p.date}</p>
+                <p className="mt-1 text-[11px] text-[#2a1e16]/55">{p.read} · {p.date}</p>
               </div>
             </button>
           ))}
@@ -152,37 +152,37 @@ export default function BlogPage() {
       </div>
 
       <div className="glass-card rounded-2xl p-4">
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search posts…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search posts…" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
         <div className="mt-3 flex flex-wrap gap-2">
           {CATEGORIES.map((c) => (
-            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{c}</button>
+            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{c}</button>
           ))}
         </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         {filtered.map((p) => {
-          const color = CAT_COLOR[p.category] ?? "#a78bfa";
+          const color = CAT_COLOR[p.category] ?? "#f97316";
           return (
-            <button key={p.id} type="button" onClick={() => setOpen(p)} className="group glass-card overflow-hidden rounded-2xl text-left transition hover:-translate-y-0.5 hover:border-violet-200/30">
-              <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-violet-950 to-fuchsia-950">
+            <button key={p.id} type="button" onClick={() => setOpen(p)} className="group glass-card overflow-hidden rounded-2xl text-left transition hover:-translate-y-0.5 hover:border-orange-200/30">
+              <div className="relative h-40 w-full overflow-hidden bg-gradient-to-br from-orange-950 to-amber-950">
                 <img src={imgFor(p)} alt={p.title} loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0714]/70 via-transparent to-transparent" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#fffdf9]/70 via-transparent to-transparent" />
                 <span className="absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] backdrop-blur" style={{ background: `${color}33`, color }}>{p.category}</span>
-                {p.trending && <span className="absolute right-3 top-3 rounded-full bg-[#d8b35a]/30 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-[#d8b35a] backdrop-blur">🔥 Trending</span>}
+                {p.trending && <span className="absolute right-3 top-3 rounded-full bg-[#ea580c]/30 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-[#ea580c] backdrop-blur">🔥 Trending</span>}
               </div>
               <div className="p-5">
-                <div className="flex items-center gap-2 text-[11px] text-[#f7f0df]/55">
+                <div className="flex items-center gap-2 text-[11px] text-[#2a1e16]/55">
                   <span>{p.read}</span><span>·</span><span>{p.date}</span>
                 </div>
                 <h3 className="mt-2 text-lg font-black leading-tight">{p.title}</h3>
-                <p className="mt-1.5 text-sm text-[#f7f0df]/62">{p.excerpt}</p>
-                <p className="mt-3 text-[11px] text-[#f7f0df]/50">By {p.author}</p>
+                <p className="mt-1.5 text-sm text-[#2a1e16]/62">{p.excerpt}</p>
+                <p className="mt-3 text-[11px] text-[#2a1e16]/50">By {p.author}</p>
               </div>
             </button>
           );
         })}
-        {filtered.length === 0 && <p className="glass-card rounded-2xl p-8 text-center text-sm text-[#f7f0df]/60">No posts match your search.</p>}
+        {filtered.length === 0 && <p className="glass-card rounded-2xl p-8 text-center text-sm text-[#2a1e16]/60">No posts match your search.</p>}
       </div>
     </div>
   );

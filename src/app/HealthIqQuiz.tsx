@@ -38,8 +38,8 @@ export default function HealthIqQuizPage() {
   const grade = useMemo(() => {
     const pct = (score / QUESTIONS.length) * 100;
     if (pct >= 85) return { label: "Health Genius 🧠", color: "#34d399" };
-    if (pct >= 65) return { label: "Well Educated 🎓", color: "#a78bfa" };
-    if (pct >= 45) return { label: "Solid Basics 📘", color: "#d8b35a" };
+    if (pct >= 65) return { label: "Well Educated 🎓", color: "#f97316" };
+    if (pct >= 45) return { label: "Solid Basics 📘", color: "#ea580c" };
     return { label: "Keep Learning 🌱", color: "#fb7185" };
   }, [score]);
 
@@ -57,21 +57,21 @@ export default function HealthIqQuizPage() {
   if (done) {
     return (
       <div className="space-y-6">
-        <div><h1 className="text-3xl font-black tracking-[-0.04em]">Your Health IQ</h1><p className="text-sm text-[#f7f0df]/68">How well do you know the science of health &amp; fitness?</p></div>
+        <div><h1 className="text-3xl font-black tracking-[-0.04em]">Your Health IQ</h1><p className="text-sm text-[#2a1e16]/68">How well do you know the science of health &amp; fitness?</p></div>
         <div className="glass-card rounded-3xl p-8 text-center" style={{ background: `radial-gradient(ellipse at 50% 0%, ${grade.color}22 0%, transparent 60%)` }}>
-          <p className="text-6xl font-black tabular-nums" style={{ color: grade.color }}>{score}<span className="text-2xl text-[#f7f0df]/50">/{QUESTIONS.length}</span></p>
+          <p className="text-6xl font-black tabular-nums" style={{ color: grade.color }}>{score}<span className="text-2xl text-[#2a1e16]/50">/{QUESTIONS.length}</span></p>
           <p className="mt-3 text-2xl font-black" style={{ color: grade.color }}>{grade.label}</p>
         </div>
-        <button type="button" onClick={restart} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Try Again</button>
+        <button type="button" onClick={restart} className="btn-gloss w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Try Again</button>
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <div><h1 className="text-3xl font-black tracking-[-0.04em]">Health IQ Quiz</h1><p className="text-sm text-[#f7f0df]/68">Test your health &amp; fitness knowledge — {QUESTIONS.length} questions</p></div>
-      <div className="flex items-center justify-between text-xs font-bold text-[#f7f0df]/60"><span>Question {i + 1} of {QUESTIONS.length}</span><span className="text-[#d8b35a]">Score: {score}</span></div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-[#f7f0df]/10"><div className="h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-all duration-300" style={{ width: `${(i / QUESTIONS.length) * 100}%` }} /></div>
+      <div><h1 className="text-3xl font-black tracking-[-0.04em]">Health IQ Quiz</h1><p className="text-sm text-[#2a1e16]/68">Test your health &amp; fitness knowledge — {QUESTIONS.length} questions</p></div>
+      <div className="flex items-center justify-between text-xs font-bold text-[#2a1e16]/60"><span>Question {i + 1} of {QUESTIONS.length}</span><span className="text-[#ea580c]">Score: {score}</span></div>
+      <div className="h-2 w-full overflow-hidden rounded-full bg-[#2a1e16]/10"><div className="h-full rounded-full bg-gradient-to-r from-orange-400 to-amber-400 transition-all duration-300" style={{ width: `${(i / QUESTIONS.length) * 100}%` }} /></div>
 
       <div className="glass-card rounded-2xl p-6">
         <h2 className="text-lg font-black">{q.q}</h2>
@@ -79,11 +79,11 @@ export default function HealthIqQuizPage() {
           {q.options.map((o, idx) => {
             const isAns = idx === q.answer;
             const chosen = picked === idx;
-            let cls = "border-[#f7f0df]/12 bg-[#f7f0df]/5 hover:border-violet-200/40";
+            let cls = "border-[#2a1e16]/12 bg-[#2a1e16]/5 hover:border-orange-200/40";
             if (picked !== null) {
               if (isAns) cls = "border-emerald-400/50 bg-emerald-400/15";
               else if (chosen) cls = "border-rose-400/50 bg-rose-400/15";
-              else cls = "border-[#f7f0df]/8 bg-[#f7f0df]/3 opacity-60";
+              else cls = "border-[#2a1e16]/8 bg-[#2a1e16]/3 opacity-60";
             }
             return (
               <button key={idx} type="button" onClick={() => pick(idx)} className={`block w-full rounded-xl border p-4 text-left text-sm font-semibold transition ${cls}`}>
@@ -94,8 +94,8 @@ export default function HealthIqQuizPage() {
         </div>
         {picked !== null && (
           <div className="mt-4">
-            <p className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4 text-sm leading-relaxed text-[#f7f0df]/80"><span className="font-bold text-violet-200">Why: </span>{q.explain}</p>
-            <button type="button" onClick={next} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">{i < QUESTIONS.length - 1 ? "Next Question →" : "See My Score"}</button>
+            <p className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4 text-sm leading-relaxed text-[#2a1e16]/80"><span className="font-bold text-orange-700">Why: </span>{q.explain}</p>
+            <button type="button" onClick={next} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">{i < QUESTIONS.length - 1 ? "Next Question →" : "See My Score"}</button>
           </div>
         )}
       </div>

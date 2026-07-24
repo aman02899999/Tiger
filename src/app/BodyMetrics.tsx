@@ -9,10 +9,10 @@ import { addXP, getXP } from "./Achievements";
 /* ---------------------------------------------------------------- */
 
 const METRICS = [
-  { key: "weight", label: "Weight", unit: "kg", color: "#a78bfa" },
-  { key: "waist", label: "Waist", unit: "cm", color: "#e879f9" },
+  { key: "weight", label: "Weight", unit: "kg", color: "#f97316" },
+  { key: "waist", label: "Waist", unit: "cm", color: "#fb923c" },
   { key: "chest", label: "Chest", unit: "cm", color: "#38bdf8" },
-  { key: "arms", label: "Arms", unit: "cm", color: "#d8b35a" },
+  { key: "arms", label: "Arms", unit: "cm", color: "#ea580c" },
   { key: "thighs", label: "Thighs", unit: "cm", color: "#34d399" },
   { key: "bodyfat", label: "Body Fat", unit: "%", color: "#fb7185" },
 ] as const;
@@ -29,7 +29,7 @@ function TrendChart({ entries, metric }: { entries: Entry[]; metric: typeof METR
   const points = entries
     .filter((e) => e.values[metric.key] != null)
     .slice(-10);
-  if (points.length < 2) return <p className="py-6 text-center text-xs text-[#f7f0df]/55">Log at least 2 entries to see your {metric.label.toLowerCase()} trend.</p>;
+  if (points.length < 2) return <p className="py-6 text-center text-xs text-[#2a1e16]/55">Log at least 2 entries to see your {metric.label.toLowerCase()} trend.</p>;
   const vals = points.map((p) => p.values[metric.key]!);
   const min = Math.min(...vals), max = Math.max(...vals);
   const range = max - min || 1;
@@ -43,15 +43,15 @@ function TrendChart({ entries, metric }: { entries: Entry[]; metric: typeof METR
           const h = 20 + ((v - min) / range) * 80;
           return (
             <div key={i} className="group relative flex flex-1 flex-col items-center justify-end" style={{ height: "100%" }}>
-              <span className="mb-1 text-[9px] font-bold tabular-nums text-[#f7f0df]/62 opacity-0 transition group-hover:opacity-100">{v}</span>
+              <span className="mb-1 text-[9px] font-bold tabular-nums text-[#2a1e16]/62 opacity-0 transition group-hover:opacity-100">{v}</span>
               <div className="w-full rounded-t-md transition-all" style={{ height: `${h}%`, background: metric.color, opacity: 0.55 + (i / points.length) * 0.45 }} />
             </div>
           );
         })}
       </div>
-      <div className="mt-2 flex justify-between text-[11px] text-[#f7f0df]/62">
+      <div className="mt-2 flex justify-between text-[11px] text-[#2a1e16]/62">
         <span>Start {first}{metric.unit}</span>
-        <span className={change < 0 ? "font-bold text-emerald-300" : change > 0 ? "font-bold text-[#d8b35a]" : ""}>
+        <span className={change < 0 ? "font-bold text-emerald-300" : change > 0 ? "font-bold text-[#ea580c]" : ""}>
           {change > 0 ? "+" : ""}{change.toFixed(1)}{metric.unit}
         </span>
         <span>Now {last}{metric.unit}</span>
@@ -65,7 +65,7 @@ function GoalRing({ pct, color, children }: { pct: number; color: string; childr
   return (
     <div className="relative h-20 w-20 shrink-0">
       <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${color} ${Math.min(100, pct) * 3.6}deg, rgba(247,240,223,0.1) ${Math.min(100, pct) * 3.6}deg)` }} />
-      <div className="absolute inset-[6px] grid place-items-center rounded-full bg-[#0b0714] text-center">{children}</div>
+      <div className="absolute inset-[6px] grid place-items-center rounded-full bg-[#fffdf9] text-center">{children}</div>
     </div>
   );
 }
@@ -134,22 +134,22 @@ export default function BodyMetricsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Body Metrics</h1>
-        <p className="text-sm text-[#f7f0df]/68">Log your measurements, track trends, and hit your goals</p>
+        <p className="text-sm text-[#2a1e16]/68">Log your measurements, track trends, and hit your goals</p>
       </div>
 
       {/* Weekly report card */}
       <div className="glass-card rounded-2xl p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">📋 Weekly Report Card</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">📋 Weekly Report Card</p>
         <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: "Logs this week", value: report.logs, color: "#a78bfa" },
-            { label: "Weight change", value: report.weightDelta == null ? "—" : `${report.weightDelta > 0 ? "+" : ""}${report.weightDelta}kg`, color: report.weightDelta != null && report.weightDelta < 0 ? "#34d399" : "#d8b35a" },
-            { label: "Workouts", value: report.workouts, color: "#e879f9" },
+            { label: "Logs this week", value: report.logs, color: "#f97316" },
+            { label: "Weight change", value: report.weightDelta == null ? "—" : `${report.weightDelta > 0 ? "+" : ""}${report.weightDelta}kg`, color: report.weightDelta != null && report.weightDelta < 0 ? "#34d399" : "#ea580c" },
+            { label: "Workouts", value: report.workouts, color: "#fb923c" },
             { label: "Day streak", value: report.streak, color: "#fb7185" },
           ].map((s) => (
-            <div key={s.label} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-center">
+            <div key={s.label} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3 text-center">
               <p className="text-2xl font-black tabular-nums" style={{ color: s.color }}>{s.value}</p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">{s.label}</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">{s.label}</p>
             </div>
           ))}
         </div>
@@ -158,23 +158,23 @@ export default function BodyMetricsPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Logger */}
         <div className="glass-card rounded-2xl p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">✍️ Log today's measurements</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">✍️ Log today's measurements</p>
           <div className="mt-4 grid grid-cols-2 gap-3">
             {METRICS.map((m) => (
               <label key={m.key} className="block">
-                <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">{m.label} ({m.unit})</span>
-                <input type="number" inputMode="decimal" value={draft[m.key] ?? ""} onChange={(e) => setDraft({ ...draft, [m.key]: e.target.value })} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+                <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">{m.label} ({m.unit})</span>
+                <input type="number" inputMode="decimal" value={draft[m.key] ?? ""} onChange={(e) => setDraft({ ...draft, [m.key]: e.target.value })} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none focus:border-orange-200/40" />
               </label>
             ))}
           </div>
-          <button type="button" onClick={saveEntry} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Save Entry (+8 XP)</button>
+          <button type="button" onClick={saveEntry} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Save Entry (+8 XP)</button>
         </div>
 
         {/* Trend chart */}
         <div className="glass-card rounded-2xl p-6">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">📉 Trend</p>
-            <select value={active} onChange={(e) => setActive(e.target.value as MetricKey)} className="rounded-lg border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-1.5 text-xs outline-none">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">📉 Trend</p>
+            <select value={active} onChange={(e) => setActive(e.target.value as MetricKey)} className="rounded-lg border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-1.5 text-xs outline-none">
               {METRICS.map((m) => <option key={m.key} value={m.key}>{m.label}</option>)}
             </select>
           </div>
@@ -186,24 +186,24 @@ export default function BodyMetricsPage() {
 
       {/* Goal setter */}
       <div className="glass-card rounded-2xl p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">🎯 Goal Milestone</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">🎯 Goal Milestone</p>
         <div className="mt-4 flex flex-wrap items-end gap-6">
           <div className="flex flex-wrap gap-3">
             <label className="block">
-              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Metric</span>
-              <select value={goal.metric} onChange={(e) => setGoal({ ...goal, metric: e.target.value as MetricKey })} className="rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-2.5 text-sm outline-none">
+              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Metric</span>
+              <select value={goal.metric} onChange={(e) => setGoal({ ...goal, metric: e.target.value as MetricKey })} className="rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none">
                 {METRICS.map((m) => <option key={m.key} value={m.key}>{m.label}</option>)}
               </select>
             </label>
             <label className="block">
-              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Start</span>
-              <input type="number" value={goal.start} onChange={(e) => setGoal({ ...goal, start: e.target.value })} className="w-24 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-2.5 text-sm outline-none" />
+              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Start</span>
+              <input type="number" value={goal.start} onChange={(e) => setGoal({ ...goal, start: e.target.value })} className="w-24 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none" />
             </label>
             <label className="block">
-              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Target</span>
-              <input type="number" value={goal.target} onChange={(e) => setGoal({ ...goal, target: e.target.value })} className="w-24 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-2.5 text-sm outline-none" />
+              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Target</span>
+              <input type="number" value={goal.target} onChange={(e) => setGoal({ ...goal, target: e.target.value })} className="w-24 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none" />
             </label>
-            <button type="button" onClick={saveGoal} className="btn-gloss self-end rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400 px-5 py-2.5 text-xs font-black uppercase tracking-[0.14em] text-[#090511]">Set Goal</button>
+            <button type="button" onClick={saveGoal} className="btn-gloss self-end rounded-full bg-gradient-to-r from-[#ea580c] to-orange-400 px-5 py-2.5 text-xs font-black uppercase tracking-[0.14em] text-[#f4ead9]">Set Goal</button>
           </div>
 
           {goalProgress && (
@@ -213,7 +213,7 @@ export default function BodyMetricsPage() {
               </GoalRing>
               <div>
                 <p className="text-sm font-bold">{goalProgress.m.label} goal</p>
-                <p className="text-xs text-[#f7f0df]/68">Now {goalProgress.latest}{goalProgress.m.unit} → target {goalProgress.target}{goalProgress.m.unit}</p>
+                <p className="text-xs text-[#2a1e16]/68">Now {goalProgress.latest}{goalProgress.m.unit} → target {goalProgress.target}{goalProgress.m.unit}</p>
                 {goalProgress.pct >= 100 && <p className="mt-1 text-xs font-bold text-emerald-300">🎉 Goal reached!</p>}
               </div>
             </div>

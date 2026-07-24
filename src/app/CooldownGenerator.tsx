@@ -85,22 +85,22 @@ export default function CooldownGeneratorPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Cool-Down &amp; Stretch</h1>
-        <p className="text-sm text-[#f7f0df]/68">Wind down with targeted stretches — recover faster and stay flexible</p>
+        <p className="text-sm text-[#2a1e16]/68">Wind down with targeted stretches — recover faster and stay flexible</p>
       </div>
 
       <div className="glass-card rounded-2xl p-6">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">What did you just train?</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">What did you just train?</p>
         <div className="flex flex-wrap gap-2">
           {FOCUS.map((f) => (
-            <button key={f.id} type="button" onClick={() => setFocus(f.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${focus === f.id ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>
+            <button key={f.id} type="button" onClick={() => setFocus(f.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${focus === f.id ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>
               {f.icon} {f.label}
             </button>
           ))}
         </div>
 
         <label className="mt-5 block">
-          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65"><span>Time available</span><span className="text-[#d8b35a]">{minutes} min</span></span>
-          <input type="range" min={3} max={10} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="w-full accent-violet-400" />
+          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.14em] text-[#2a1e16]/65"><span>Time available</span><span className="text-[#ea580c]">{minutes} min</span></span>
+          <input type="range" min={3} max={10} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="w-full accent-orange-400" />
         </label>
 
         <button type="button" onClick={() => setRoutine(generated)} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-teal-300 via-emerald-500 to-teal-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Generate Cool-Down</button>
@@ -109,16 +109,16 @@ export default function CooldownGeneratorPage() {
       {routine && (
         <div className="glass-card rounded-2xl p-6">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Your cool-down · ~{Math.round(totalSec / 60)} min</p>
-            <span className="text-xs text-[#f7f0df]/62">{routine.length} stretches</span>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Your cool-down · ~{Math.round(totalSec / 60)} min</p>
+            <span className="text-xs text-[#2a1e16]/62">{routine.length} stretches</span>
           </div>
           <ol className="mt-4 space-y-2">
             {routine.map((s, i) => (
-              <li key={i} className="flex items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
+              <li key={i} className="flex items-center gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3">
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-emerald-500/70 text-sm">{s.icon}</span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold">{s.name} <span className="text-[#d8b35a]">· {s.seconds}s</span></p>
-                  <p className="text-[11px] text-[#f7f0df]/62">{s.cue}</p>
+                  <p className="text-sm font-semibold">{s.name} <span className="text-[#ea580c]">· {s.seconds}s</span></p>
+                  <p className="text-[11px] text-[#2a1e16]/62">{s.cue}</p>
                 </div>
               </li>
             ))}
@@ -127,7 +127,7 @@ export default function CooldownGeneratorPage() {
         </div>
       )}
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Hold each stretch to mild tension — never pain. Stretching post-workout aids recovery and long-term mobility.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Hold each stretch to mild tension — never pain. Stretching post-workout aids recovery and long-term mobility.</p>
     </div>
   );
 }

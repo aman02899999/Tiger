@@ -317,27 +317,27 @@ export default function PhysiotherapyLibraryPage() {
               <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.name}</h1>
             </div>
           </div>
-          <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+          <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
             <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 About</p>
-            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.about}</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.about}</p>
           </div>
 
-          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-fuchsia-300">🔍 Common causes</p>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-amber-600">🔍 Common causes</p>
           <ul className="mt-2 space-y-1.5">
-            {open.causes.map((c, i) => <li key={i} className="flex gap-2 text-sm text-[#f7f0df]/75"><span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-fuchsia-300" />{c}</li>)}
+            {open.causes.map((c, i) => <li key={i} className="flex gap-2 text-sm text-[#2a1e16]/75"><span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />{c}</li>)}
           </ul>
 
-          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-[#d8b35a]">🥄 Staged exercise plan</p>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-[#ea580c]">🥄 Staged exercise plan</p>
           <div className="mt-3 space-y-2.5">
             {open.exercises.map((e, i) => (
-              <div key={i} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
-                <p className="text-sm font-black text-[#f7f0df]">{i + 1}. {e.name}</p>
-                <p className="mt-1 text-[13px] leading-relaxed text-[#f7f0df]/68">{e.detail}</p>
+              <div key={i} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
+                <p className="text-sm font-black text-[#2a1e16]">{i + 1}. {e.name}</p>
+                <p className="mt-1 text-[13px] leading-relaxed text-[#2a1e16]/68">{e.detail}</p>
               </div>
             ))}
           </div>
 
-          <p className="mt-6 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[11px] text-[#f7f0df]/75"><span className="font-bold text-rose-200">🚩 Red flags — see a professional: </span>{open.redFlags}</p>
+          <p className="mt-6 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[11px] text-[#2a1e16]/75"><span className="font-bold text-rose-200">🚩 Red flags — see a professional: </span>{open.redFlags}</p>
         </div>
       </div>
     );
@@ -347,17 +347,17 @@ export default function PhysiotherapyLibraryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Physiotherapy Library</h1>
-        <p className="text-sm text-[#f7f0df]/68">Rehab & prehab protocols by body region — build resilience, move pain-free</p>
+        <p className="text-sm text-[#2a1e16]/68">Rehab & prehab protocols by body region — build resilience, move pain-free</p>
       </div>
 
       <div className="rounded-2xl border border-sky-400/25 bg-sky-400/10 p-4">
-        <p className="text-[11px] leading-relaxed text-[#f7f0df]/70">🩺 Educational guidance for general aches and prehab — not a diagnosis or treatment plan. For persistent, severe, or worsening pain, or any red-flag symptom, consult a qualified physiotherapist or doctor.</p>
+        <p className="text-[11px] leading-relaxed text-[#2a1e16]/70">🩺 Educational guidance for general aches and prehab — not a diagnosis or treatment plan. For persistent, severe, or worsening pain, or any red-flag symptom, consult a qualified physiotherapist or doctor.</p>
       </div>
 
       <div className="glass-card rounded-2xl p-4">
         <div className="flex flex-wrap gap-2">
           {REGIONS.map((r) => (
-            <button key={r} type="button" onClick={() => setRegion(r)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${region === r ? "bg-sky-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{r}</button>
+            <button key={r} type="button" onClick={() => setRegion(r)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${region === r ? "bg-sky-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{r}</button>
           ))}
         </div>
       </div>
@@ -370,7 +370,7 @@ export default function PhysiotherapyLibraryPage() {
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-black leading-tight">{p.name}</h3>
               </div>
-              <p className="mt-0.5 line-clamp-2 text-[13px] text-[#f7f0df]/62">{p.about}</p>
+              <p className="mt-0.5 line-clamp-2 text-[13px] text-[#2a1e16]/62">{p.about}</p>
             </div>
           </button>
         ))}

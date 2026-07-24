@@ -194,7 +194,7 @@ const POSES: Pose[] = [
 ];
 
 const TYPES = ["All", "Standing", "Seated", "Backbend", "Balance", "Restorative"] as const;
-const LEVEL_COLOR: Record<string, string> = { Beginner: "#34d399", Intermediate: "#d8b35a" };
+const LEVEL_COLOR: Record<string, string> = { Beginner: "#34d399", Intermediate: "#ea580c" };
 
 export default function YogaLibraryPage() {
   const [type, setType] = useState<(typeof TYPES)[number]>("All");
@@ -209,37 +209,37 @@ export default function YogaLibraryPage() {
   if (open) {
     return (
       <div className="space-y-6">
-        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-violet-200 hover:text-violet-100">← Back to poses</button>
+        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-orange-700 hover:text-orange-700">← Back to poses</button>
         <div className="glass-card rounded-2xl p-8">
           <div className="flex items-center gap-3">
-            <span className="grid h-14 w-14 place-items-center rounded-2xl bg-violet-500/15 text-3xl">{open.icon}</span>
+            <span className="grid h-14 w-14 place-items-center rounded-2xl bg-orange-500/15 text-3xl">{open.icon}</span>
             <div>
               <div className="flex items-center gap-2">
-                <span className="rounded-full bg-violet-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-violet-200">{open.type}</span>
+                <span className="rounded-full bg-orange-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-orange-700">{open.type}</span>
                 <span className="rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em]" style={{ background: `${LEVEL_COLOR[open.level]}22`, color: LEVEL_COLOR[open.level] }}>{open.level}</span>
               </div>
               <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.name}</h1>
-              <p className="text-sm italic text-[#f7f0df]/60">{open.sanskrit}</p>
+              <p className="text-sm italic text-[#2a1e16]/60">{open.sanskrit}</p>
             </div>
           </div>
 
-          <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+          <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
             <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 Benefits</p>
-            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.benefits}</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.benefits}</p>
           </div>
 
-          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-[#d8b35a]">🥄 How to do it</p>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-[#ea580c]">🥄 How to do it</p>
           <ol className="mt-2 space-y-2">
             {open.steps.map((s, i) => (
-              <li key={i} className="flex gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-sm text-[#f7f0df]/78">
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-violet-500/70 text-xs font-black">{i + 1}</span>{s}
+              <li key={i} className="flex gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3 text-sm text-[#2a1e16]/78">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-orange-500/70 text-xs font-black">{i + 1}</span>{s}
               </li>
             ))}
           </ol>
 
-          <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+          <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
             <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#38bdf8]">🌬️ Breath</p>
-            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.breath}</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.breath}</p>
           </div>
         </div>
       </div>
@@ -250,29 +250,29 @@ export default function YogaLibraryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Yoga Library</h1>
-        <p className="text-sm text-[#f7f0df]/68">Foundational asanas with Sanskrit names, step-by-step cues and benefits</p>
+        <p className="text-sm text-[#2a1e16]/68">Foundational asanas with Sanskrit names, step-by-step cues and benefits</p>
       </div>
 
       <div className="glass-card rounded-2xl p-4">
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search poses…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search poses…" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
         <div className="mt-3 flex flex-wrap gap-2">
           {TYPES.map((t) => (
-            <button key={t} type="button" onClick={() => setType(t)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${type === t ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{t}</button>
+            <button key={t} type="button" onClick={() => setType(t)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${type === t ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{t}</button>
           ))}
         </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         {filtered.map((p) => (
-          <button key={p.id} type="button" onClick={() => setOpen(p)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-violet-200/30">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-violet-500/15 text-2xl">{p.icon}</span>
+          <button key={p.id} type="button" onClick={() => setOpen(p)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-orange-200/30">
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-orange-500/15 text-2xl">{p.icon}</span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-black">{p.name}</h3>
                 <span className="rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em]" style={{ background: `${LEVEL_COLOR[p.level]}22`, color: LEVEL_COLOR[p.level] }}>{p.level}</span>
               </div>
-              <p className="text-[12px] italic text-[#f7f0df]/55">{p.sanskrit}</p>
-              <p className="mt-0.5 line-clamp-1 text-[13px] text-[#f7f0df]/62">{p.benefits}</p>
+              <p className="text-[12px] italic text-[#2a1e16]/55">{p.sanskrit}</p>
+              <p className="mt-0.5 line-clamp-1 text-[13px] text-[#2a1e16]/62">{p.benefits}</p>
             </div>
           </button>
         ))}

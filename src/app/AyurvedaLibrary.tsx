@@ -180,7 +180,7 @@ const ENTRIES: Entry[] = [
 ];
 
 const CATS: (Category | "All")[] = ["All", "Dosha", "Herb", "Spice", "Oil", "Remedy", "Routine", "Therapy", "Diet"];
-const CAT_COLOR: Record<string, string> = { Dosha: "#a78bfa", Herb: "#34d399", Spice: "#d8b35a", Oil: "#fbbf24", Remedy: "#e879f9", Routine: "#38bdf8", Therapy: "#fb7185", Diet: "#4ade80" };
+const CAT_COLOR: Record<string, string> = { Dosha: "#f97316", Herb: "#34d399", Spice: "#ea580c", Oil: "#fbbf24", Remedy: "#fb923c", Routine: "#38bdf8", Therapy: "#fb7185", Diet: "#4ade80" };
 
 export default function AyurvedaLibraryPage() {
   const [cat, setCat] = useState<(typeof CATS)[number]>("All");
@@ -193,7 +193,7 @@ export default function AyurvedaLibraryPage() {
   }, [cat, query]);
 
   if (open) {
-    const color = CAT_COLOR[open.category] ?? "#a78bfa";
+    const color = CAT_COLOR[open.category] ?? "#f97316";
     return (
       <div className="space-y-6">
         <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-emerald-200 hover:text-emerald-100">← Back to library</button>
@@ -205,23 +205,23 @@ export default function AyurvedaLibraryPage() {
               <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.name}</h1>
             </div>
           </div>
-          <p className="mt-3 text-sm italic text-[#f7f0df]/65">{open.tagline}</p>
+          <p className="mt-3 text-sm italic text-[#2a1e16]/65">{open.tagline}</p>
 
           <div className="mt-5 space-y-3">
             {[
               { label: "What it helps with", text: open.use, icon: "🎯", c: "#34d399" },
-              { label: "How to use", text: open.how, icon: "🥄", c: "#d8b35a" },
+              { label: "How to use", text: open.how, icon: "🥄", c: "#ea580c" },
               { label: "When to use", text: open.when, icon: "⏰", c: "#38bdf8" },
             ].map((row) => (
-              <div key={row.label} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+              <div key={row.label} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
                 <p className="text-[11px] font-black uppercase tracking-[0.14em]" style={{ color: row.c }}>{row.icon} {row.label}</p>
-                <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{row.text}</p>
+                <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{row.text}</p>
               </div>
             ))}
           </div>
 
-          <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#f7f0df]/78"><span className="font-bold text-rose-200">⚠️ Precautions: </span>{open.caution}</p>
-          <p className="mt-4 text-center text-[11px] text-[#f7f0df]/55">Educational reference from traditional Ayurveda — not medical advice. Consult a qualified practitioner before starting any herb, remedy, or therapy.</p>
+          <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#2a1e16]/78"><span className="font-bold text-rose-200">⚠️ Precautions: </span>{open.caution}</p>
+          <p className="mt-4 text-center text-[11px] text-[#2a1e16]/55">Educational reference from traditional Ayurveda — not medical advice. Consult a qualified practitioner before starting any herb, remedy, or therapy.</p>
         </div>
       </div>
     );
@@ -231,21 +231,21 @@ export default function AyurvedaLibraryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Ayurveda Library</h1>
-        <p className="text-sm text-[#f7f0df]/68">{ENTRIES.length}+ herbs, spices, oils, remedies, routines, therapies & diet principles — with how &amp; when to use each</p>
+        <p className="text-sm text-[#2a1e16]/68">{ENTRIES.length}+ herbs, spices, oils, remedies, routines, therapies & diet principles — with how &amp; when to use each</p>
       </div>
 
       <div className="glass-card rounded-2xl p-4">
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search herbs, remedies, therapies…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-emerald-200/40" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search herbs, remedies, therapies…" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-emerald-200/40" />
         <div className="mt-3 flex flex-wrap gap-2">
           {CATS.map((c) => (
-            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-emerald-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{c}</button>
+            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-emerald-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{c}</button>
           ))}
         </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         {filtered.map((e) => {
-          const color = CAT_COLOR[e.category] ?? "#a78bfa";
+          const color = CAT_COLOR[e.category] ?? "#f97316";
           return (
             <button key={e.id} type="button" onClick={() => setOpen(e)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-emerald-200/30">
               <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl" style={{ background: `${color}18` }}>{e.icon}</span>
@@ -254,13 +254,13 @@ export default function AyurvedaLibraryPage() {
                   <h3 className="text-base font-black leading-tight">{e.name}</h3>
                   <span className="rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em]" style={{ background: `${color}22`, color }}>{e.category}</span>
                 </div>
-                <p className="mt-0.5 text-[13px] text-[#f7f0df]/62">{e.tagline}</p>
+                <p className="mt-0.5 text-[13px] text-[#2a1e16]/62">{e.tagline}</p>
               </div>
             </button>
           );
         })}
       </div>
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Educational reference only — always consult a qualified practitioner before using herbs, remedies, or therapies.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Educational reference only — always consult a qualified practitioner before using herbs, remedies, or therapies.</p>
     </div>
   );
 }

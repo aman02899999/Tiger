@@ -9,7 +9,7 @@ interface Group { title: string; accent: string; items: Item[] }
 
 const GROUPS: Group[] = [
   {
-    title: "🎮 Quizzes & Games", accent: "#a78bfa", items: [
+    title: "🎮 Quizzes & Games", accent: "#f97316", items: [
       { id: "doshaquiz", icon: "🧬", label: "Dosha Quiz", desc: "Discover your Ayurvedic mind-body type" },
       { id: "healthiq", icon: "🧠", label: "Health IQ Quiz", desc: "Test your health & fitness knowledge" },
       { id: "mythbuster", icon: "🎭", label: "Myth or Fact", desc: "Bust common fitness myths" },
@@ -21,7 +21,7 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "🃏 Study Tools", accent: "#e879f9", items: [
+    title: "🃏 Study Tools", accent: "#fb923c", items: [
       { id: "flashcards", icon: "🃏", label: "Flashcards", desc: "Flip cards to learn key concepts" },
       { id: "glossary", icon: "📖", label: "Glossary", desc: "A–Z dictionary of fitness terms" },
     ],
@@ -37,7 +37,7 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "📰 Content & Coaching", accent: "#d8b35a", items: [
+    title: "📰 Content & Coaching", accent: "#ea580c", items: [
       { id: "blog", icon: "📝", label: "Blog", desc: "Trending reads & tips" },
       { id: "newsletter", icon: "📧", label: "Newsletter", desc: "Weekly email digest" },
       { id: "courses", icon: "📚", label: "Courses", desc: "Structured learning paths" },
@@ -53,7 +53,7 @@ export default function LearnHubPage({ onNavigate }: { onNavigate: (id: string) 
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Learn Hub</h1>
-        <p className="text-sm text-[#f7f0df]/68">Your knowledge center — {totalFeatures} ways to learn, test yourself, and go deeper</p>
+        <p className="text-sm text-[#2a1e16]/68">Your knowledge center — {totalFeatures} ways to learn, test yourself, and go deeper</p>
       </div>
 
       {GROUPS.map((g) => (
@@ -65,7 +65,7 @@ export default function LearnHubPage({ onNavigate }: { onNavigate: (id: string) 
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl transition-transform group-hover:scale-110" style={{ background: `${g.accent}1f` }}>{it.icon}</span>
                 <div className="min-w-0">
                   <p className="text-sm font-black leading-tight">{it.label}</p>
-                  <p className="mt-0.5 text-[12px] text-[#f7f0df]/60">{it.desc}</p>
+                  <p className="mt-0.5 text-[12px] text-[#2a1e16]/60">{it.desc}</p>
                 </div>
               </button>
             ))}
@@ -73,7 +73,7 @@ export default function LearnHubPage({ onNavigate }: { onNavigate: (id: string) 
         </div>
       ))}
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Tap any card to dive in. Earn XP as you learn and test yourself.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Tap any card to dive in. Earn XP as you learn and test yourself.</p>
     </div>
   );
 }

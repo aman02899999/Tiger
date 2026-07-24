@@ -16,9 +16,9 @@ interface PlanType {
 }
 
 const PLAN_TYPES: PlanType[] = [
-  { id: "push", label: "Push Strength", icon: "💪", color: "#a78bfa" },
-  { id: "pull", label: "Pull Power", icon: "🏋️", color: "#e879f9" },
-  { id: "legs", label: "Leg Day", icon: "🦵", color: "#d8b35a" },
+  { id: "push", label: "Push Strength", icon: "💪", color: "#f97316" },
+  { id: "pull", label: "Pull Power", icon: "🏋️", color: "#fb923c" },
+  { id: "legs", label: "Leg Day", icon: "🦵", color: "#ea580c" },
   { id: "core", label: "Core Crusher", icon: "🔥", color: "#fb7185" },
   { id: "hiit", label: "HIIT Cardio", icon: "⚡", color: "#38bdf8" },
   { id: "yoga", label: "Recovery Yoga", icon: "🧘", color: "#34d399" },
@@ -113,22 +113,22 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Workout Calendar</h1>
-        <p className="text-sm text-[#f7f0df]/68">Plan your training week and check off each session as you go</p>
+        <p className="text-sm text-[#2a1e16]/68">Plan your training week and check off each session as you go</p>
       </div>
 
       {/* How this works */}
       <div className="glass-card rounded-2xl p-5">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How this works — 3 simple steps</p>
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">How this works — 3 simple steps</p>
         <div className="grid gap-3 sm:grid-cols-3">
           {[
             { n: "1", t: "Tap a day", d: "Pick any date on the calendar and assign a workout type — or mark it a rest day." },
             { n: "2", t: "See today's plan", d: "Your scheduled session for today shows right at the top, ready to start." },
             { n: "3", t: "Check it off", d: "Mark a day complete after training to earn +20 XP and keep your plan honest." },
           ].map((s) => (
-            <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
-              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+            <div key={s.n} className="rounded-xl border border-black/8 bg-black/5 p-4">
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-600 text-sm font-black text-white">{s.n}</div>
+              <p className="text-sm font-bold text-[#2a1e16]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#2a1e16]/68">{s.d}</p>
             </div>
           ))}
         </div>
@@ -136,22 +136,22 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
 
       {/* Today's plan */}
       <div className="glass-card rounded-2xl p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">📅 Today's Plan</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">📅 Today's Plan</p>
         {todayEntry ? (
           <div className="mt-3 flex flex-wrap items-center gap-4">
             <span className="text-4xl">{planFor(todayEntry.planId).icon}</span>
             <div className="flex-1">
               <p className="text-xl font-black">{planFor(todayEntry.planId).label}</p>
-              <p className="text-xs text-[#f7f0df]/62">{todayEntry.done ? "Completed today ✓" : "Scheduled for today"}</p>
+              <p className="text-xs text-[#2a1e16]/62">{todayEntry.done ? "Completed today ✓" : "Scheduled for today"}</p>
             </div>
             <div className="flex gap-2">
               {todayEntry.planId !== "rest" && !todayEntry.done && onNavigate && (
-                <button type="button" onClick={() => onNavigate("workouts")} className="btn-gloss rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Start →</button>
+                <button type="button" onClick={() => onNavigate("workouts")} className="btn-gloss rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Start →</button>
               )}
               <button
                 type="button"
                 onClick={() => toggleDone(today)}
-                className={`rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition ${todayEntry.done ? "border border-emerald-300/30 bg-emerald-300/10 text-emerald-200" : "border border-[#f7f0df]/15 bg-[#f7f0df]/5 text-[#f7f0df]/80 hover:bg-[#f7f0df]/10"}`}
+                className={`rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition ${todayEntry.done ? "border border-emerald-300/30 bg-emerald-300/10 text-emerald-200" : "border border-[#2a1e16]/15 bg-[#2a1e16]/5 text-[#2a1e16]/80 hover:bg-[#2a1e16]/10"}`}
               >
                 {todayEntry.done ? "✓ Done" : "Mark Done (+20 XP)"}
               </button>
@@ -159,8 +159,8 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
           </div>
         ) : (
           <div className="mt-3 flex items-center justify-between gap-4">
-            <p className="text-sm text-[#f7f0df]/68">Nothing scheduled for today — pick a workout below.</p>
-            <button type="button" onClick={() => setPickerDay(today)} className="btn-gloss rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">+ Add Today</button>
+            <p className="text-sm text-[#2a1e16]/68">Nothing scheduled for today — pick a workout below.</p>
+            <button type="button" onClick={() => setPickerDay(today)} className="btn-gloss rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">+ Add Today</button>
           </div>
         )}
       </div>
@@ -168,8 +168,8 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
       {/* Week strip */}
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">This Week</p>
-          <p className="text-xs text-[#f7f0df]/62">{weekDone}/{weekPlanned || 7} done</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">This Week</p>
+          <p className="text-xs text-[#2a1e16]/62">{weekDone}/{weekPlanned || 7} done</p>
         </div>
         <div className="mt-4 grid grid-cols-7 gap-2">
           {weekStrip.map((d) => {
@@ -180,10 +180,10 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
                 key={d.key}
                 type="button"
                 onClick={() => setPickerDay(d.key)}
-                className={`flex flex-col items-center gap-1.5 rounded-xl border p-3 transition ${d.isToday ? "border-[#d8b35a]/40 bg-[#d8b35a]/8" : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"}`}
+                className={`flex flex-col items-center gap-1.5 rounded-xl border p-3 transition ${d.isToday ? "border-[#ea580c]/40 bg-[#ea580c]/8" : "border-[#2a1e16]/10 bg-[#2a1e16]/5 hover:bg-[#2a1e16]/10"}`}
               >
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#f7f0df]/55">{d.label}</span>
-                <span className={`text-sm font-black ${d.isToday ? "text-[#d8b35a]" : ""}`}>{d.num}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#2a1e16]/55">{d.label}</span>
+                <span className={`text-sm font-black ${d.isToday ? "text-[#ea580c]" : ""}`}>{d.num}</span>
                 <span className={`text-xl ${entry?.done ? "" : "opacity-60"}`}>{plan ? plan.icon : "·"}</span>
               </button>
             );
@@ -194,12 +194,12 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
       {/* Month calendar */}
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center justify-between">
-          <button type="button" onClick={() => setViewDate(new Date(year, month - 1, 1))} aria-label="Previous month" className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-sm hover:bg-[#f7f0df]/8">←</button>
+          <button type="button" onClick={() => setViewDate(new Date(year, month - 1, 1))} aria-label="Previous month" className="rounded-full border border-[#2a1e16]/15 px-3 py-1.5 text-sm hover:bg-[#2a1e16]/8">←</button>
           <p className="text-sm font-black uppercase tracking-[0.12em]">{monthLabel}</p>
-          <button type="button" onClick={() => setViewDate(new Date(year, month + 1, 1))} aria-label="Next month" className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-sm hover:bg-[#f7f0df]/8">→</button>
+          <button type="button" onClick={() => setViewDate(new Date(year, month + 1, 1))} aria-label="Next month" className="rounded-full border border-[#2a1e16]/15 px-3 py-1.5 text-sm hover:bg-[#2a1e16]/8">→</button>
         </div>
 
-        <div className="mt-4 grid grid-cols-7 gap-1.5 text-center text-[10px] font-bold uppercase tracking-[0.1em] text-[#f7f0df]/55">
+        <div className="mt-4 grid grid-cols-7 gap-1.5 text-center text-[10px] font-bold uppercase tracking-[0.1em] text-[#2a1e16]/55">
           {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => <div key={i}>{d}</div>)}
         </div>
         <div className="mt-1.5 grid grid-cols-7 gap-1.5">
@@ -213,10 +213,10 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
                 key={i}
                 type="button"
                 onClick={() => c.key && setPickerDay(c.key)}
-                className={`flex aspect-square flex-col items-center justify-center rounded-lg border text-xs transition ${isToday ? "border-[#d8b35a]/50 bg-[#d8b35a]/10" : "border-[#f7f0df]/8 bg-[#f7f0df]/[0.03] hover:bg-[#f7f0df]/8"}`}
+                className={`flex aspect-square flex-col items-center justify-center rounded-lg border text-xs transition ${isToday ? "border-[#ea580c]/50 bg-[#ea580c]/10" : "border-[#2a1e16]/8 bg-[#2a1e16]/[0.03] hover:bg-[#2a1e16]/8"}`}
                 style={entry?.done ? { borderColor: `${plan?.color}80`, background: `${plan?.color}18` } : undefined}
               >
-                <span className={isToday ? "font-black text-[#d8b35a]" : "text-[#f7f0df]/75"}>{c.day}</span>
+                <span className={isToday ? "font-black text-[#ea580c]" : "text-[#2a1e16]/75"}>{c.day}</span>
                 {plan && <span className="text-sm leading-none">{plan.icon}</span>}
               </button>
             );
@@ -227,19 +227,19 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
       {/* Day picker modal */}
       {pickerDay && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={() => setPickerDay(null)}>
-          <div className="glass-card w-full max-w-sm rounded-3xl bg-[#0b0714]/95 p-6" onClick={(e) => e.stopPropagation()}>
+          <div className="glass-card w-full max-w-sm rounded-3xl bg-[#fffdf9]/95 p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-black">{new Date(pickerDay + "T00:00:00").toLocaleDateString("en-IN", { weekday: "long", month: "long", day: "numeric" })}</h3>
-              <button type="button" onClick={() => setPickerDay(null)} className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-xs text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">✕</button>
+              <button type="button" onClick={() => setPickerDay(null)} className="rounded-full border border-[#2a1e16]/15 px-3 py-1.5 text-xs text-[#2a1e16]/70 hover:bg-[#2a1e16]/8">✕</button>
             </div>
-            <p className="mt-1 text-xs text-[#f7f0df]/62">Choose what to train this day</p>
+            <p className="mt-1 text-xs text-[#2a1e16]/62">Choose what to train this day</p>
             <div className="mt-4 grid grid-cols-2 gap-2">
               {PLAN_TYPES.map((p) => (
                 <button
                   key={p.id}
                   type="button"
                   onClick={() => assign(pickerDay, p.id)}
-                  className={`flex items-center gap-2 rounded-xl border p-3 text-left text-sm font-semibold transition ${calendar[pickerDay]?.planId === p.id ? "border-white/30 bg-white/10" : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"}`}
+                  className={`flex items-center gap-2 rounded-xl border p-3 text-left text-sm font-semibold transition ${calendar[pickerDay]?.planId === p.id ? "border-black/30 bg-black/10" : "border-[#2a1e16]/10 bg-[#2a1e16]/5 hover:bg-[#2a1e16]/10"}`}
                 >
                   <span className="text-xl">{p.icon}</span>{p.label}
                 </button>

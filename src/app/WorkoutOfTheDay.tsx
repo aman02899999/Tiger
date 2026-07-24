@@ -100,52 +100,52 @@ export default function WorkoutOfTheDayPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Workout of the Day</h1>
-        <p className="text-sm text-[#f7f0df]/68">No plan? Generate a full session tailored to your goal, gear, and time</p>
+        <p className="text-sm text-[#2a1e16]/68">No plan? Generate a full session tailored to your goal, gear, and time</p>
       </div>
 
       <div className="glass-card rounded-2xl p-6">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Goal</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Goal</p>
         <div className="flex flex-wrap gap-2">
           {GOALS.map((g) => (
-            <button key={g.id} type="button" onClick={() => setGoal(g.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${goal === g.id ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{g.icon} {g.label}</button>
+            <button key={g.id} type="button" onClick={() => setGoal(g.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${goal === g.id ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{g.icon} {g.label}</button>
           ))}
         </div>
 
-        <p className="mb-2 mt-5 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Equipment</p>
+        <p className="mb-2 mt-5 text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Equipment</p>
         <div className="flex flex-wrap gap-2">
           {EQUIP.map((e) => (
-            <button key={e.id} type="button" onClick={() => setEquip(e.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${equip === e.id ? "bg-fuchsia-500/80 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{e.label}</button>
+            <button key={e.id} type="button" onClick={() => setEquip(e.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${equip === e.id ? "bg-amber-500/80 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{e.label}</button>
           ))}
         </div>
 
         <label className="mt-5 block">
-          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65"><span>Time available</span><span className="text-[#d8b35a]">{minutes} min</span></span>
-          <input type="range" min={20} max={60} step={5} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="w-full accent-violet-400" />
+          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.14em] text-[#2a1e16]/65"><span>Time available</span><span className="text-[#ea580c]">{minutes} min</span></span>
+          <input type="range" min={20} max={60} step={5} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="w-full accent-orange-400" />
         </label>
 
-        <button type="button" onClick={() => setShuffle((s) => s + 1)} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">🎲 Reroll Workout</button>
+        <button type="button" onClick={() => setShuffle((s) => s + 1)} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">🎲 Reroll Workout</button>
       </div>
 
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Today's Session</p>
-          <span className="text-xs text-[#f7f0df]/62">{workout.length} exercises · ~{minutes} min</span>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Today's Session</p>
+          <span className="text-xs text-[#2a1e16]/62">{workout.length} exercises · ~{minutes} min</span>
         </div>
         <ol className="mt-4 space-y-2">
           {workout.map((ex, i) => (
-            <li key={i} className="flex items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-violet-500/70 text-sm">{ex.icon}</span>
+            <li key={i} className="flex items-center gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3">
+              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-orange-500/70 text-sm">{ex.icon}</span>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-bold">{i + 1}. {ex.name}</p>
               </div>
-              <span className="shrink-0 rounded-full bg-[#d8b35a]/15 px-3 py-1 text-xs font-black text-[#d8b35a]">{ex.scheme}</span>
+              <span className="shrink-0 rounded-full bg-[#ea580c]/15 px-3 py-1 text-xs font-black text-[#ea580c]">{ex.scheme}</span>
             </li>
           ))}
         </ol>
         <button type="button" onClick={() => { addXP(user?.email, 20); }} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#052e1f]">✓ Completed Today's WOD (+20 XP)</button>
       </div>
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Warm up first, keep 60–120s rest between strength sets, and push the last reps. Reroll anytime for variety.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Warm up first, keep 60–120s rest between strength sets, and push the last reps. Reroll anytime for variety.</p>
     </div>
   );
 }

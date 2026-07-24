@@ -533,7 +533,7 @@ const ARTICLES: Article[] = [
 ];
 
 const CATEGORIES = ["All", "Training", "Cardio", "Nutrition", "Physiotherapy", "Yoga", "Meditation", "Ayurveda"];
-const TAG_COLOR: Record<string, string> = { Free: "#34d399", Gold: "#d8b35a", Platinum: "#e879f9" };
+const TAG_COLOR: Record<string, string> = { Free: "#34d399", Gold: "#ea580c", Platinum: "#fb923c" };
 const CAT_ICON: Record<string, string> = { Training: "🏋️", Cardio: "🏃", Nutrition: "🥗", Physiotherapy: "🦴", Yoga: "🧘", Meditation: "🧠", Ayurveda: "🌿" };
 
 export default function EducationLibraryPage() {
@@ -549,30 +549,30 @@ export default function EducationLibraryPage() {
   if (open) {
     return (
       <div className="space-y-6">
-        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-violet-200 hover:text-violet-100">← Back to library</button>
+        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-orange-700 hover:text-orange-700">← Back to library</button>
         <article className="glass-card rounded-2xl p-8">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-violet-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-violet-200">{CAT_ICON[open.category] ?? ""} {open.category}</span>
-            <span className="text-[11px] text-[#f7f0df]/55">{open.read} read</span>
+            <span className="rounded-full bg-orange-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-orange-700">{CAT_ICON[open.category] ?? ""} {open.category}</span>
+            <span className="text-[11px] text-[#2a1e16]/55">{open.read} read</span>
             {open.tag && <span className="rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em]" style={{ background: `${TAG_COLOR[open.tag]}22`, color: TAG_COLOR[open.tag] }}>{open.tag}</span>}
           </div>
           <h1 className="mt-4 text-3xl font-black tracking-[-0.04em]">{open.title}</h1>
-          <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+          <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
             <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 Overview</p>
-            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.intro}</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.intro}</p>
           </div>
           <div className="mt-3 space-y-3">
             {open.sections.map((s, i) => (
-              <div key={i} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
-                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-violet-300">📖 {s.heading}</p>
-                <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{s.text}</p>
+              <div key={i} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
+                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-orange-600">📖 {s.heading}</p>
+                <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{s.text}</p>
               </div>
             ))}
           </div>
-          <div className="mt-7 rounded-2xl border border-[#d8b35a]/20 bg-[#d8b35a]/8 p-5">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Key takeaways</p>
+          <div className="mt-7 rounded-2xl border border-[#ea580c]/20 bg-[#ea580c]/8 p-5">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Key takeaways</p>
             <ul className="mt-3 space-y-2">
-              {open.takeaways.map((t, i) => <li key={i} className="flex gap-2 text-sm text-[#f7f0df]/80"><span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#d8b35a]" />{t}</li>)}
+              {open.takeaways.map((t, i) => <li key={i} className="flex gap-2 text-sm text-[#2a1e16]/80"><span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#ea580c]" />{t}</li>)}
             </ul>
           </div>
         </article>
@@ -584,32 +584,32 @@ export default function EducationLibraryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Education Library</h1>
-        <p className="text-sm text-[#f7f0df]/68">In-depth, evidence-based knowledge across fitness, nutrition, physio, yoga, meditation & Ayurveda</p>
+        <p className="text-sm text-[#2a1e16]/68">In-depth, evidence-based knowledge across fitness, nutrition, physio, yoga, meditation & Ayurveda</p>
       </div>
 
       <div className="glass-card rounded-2xl p-4">
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the knowledge base…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search the knowledge base…" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
         <div className="mt-3 flex flex-wrap gap-2">
           {CATEGORIES.map((c) => (
-            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{c === "All" ? c : `${CAT_ICON[c] ?? ""} ${c}`}</button>
+            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{c === "All" ? c : `${CAT_ICON[c] ?? ""} ${c}`}</button>
           ))}
         </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         {filtered.map((a) => (
-          <button key={a.id} type="button" onClick={() => setOpen(a)} className="glass-card rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-violet-200/30">
+          <button key={a.id} type="button" onClick={() => setOpen(a)} className="glass-card rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-orange-200/30">
             <div className="flex items-center gap-2">
-              <span className="rounded-full bg-violet-500/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-violet-200">{CAT_ICON[a.category] ?? ""} {a.category}</span>
-              <span className="text-[11px] text-[#f7f0df]/55">{a.read}</span>
+              <span className="rounded-full bg-orange-500/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-[0.12em] text-orange-700">{CAT_ICON[a.category] ?? ""} {a.category}</span>
+              <span className="text-[11px] text-[#2a1e16]/55">{a.read}</span>
               {a.tag && <span className="ml-auto rounded-full px-2.5 py-0.5 text-[10px] font-black uppercase tracking-[0.12em]" style={{ background: `${TAG_COLOR[a.tag]}22`, color: TAG_COLOR[a.tag] }}>{a.tag}</span>}
             </div>
             <h3 className="mt-3 text-lg font-black leading-tight">{a.title}</h3>
-            <p className="mt-1.5 text-sm text-[#f7f0df]/62">{a.summary}</p>
-            <p className="mt-3 text-xs font-bold text-violet-200">Read article →</p>
+            <p className="mt-1.5 text-sm text-[#2a1e16]/62">{a.summary}</p>
+            <p className="mt-3 text-xs font-bold text-orange-700">Read article →</p>
           </button>
         ))}
-        {filtered.length === 0 && <p className="glass-card rounded-2xl p-8 text-center text-sm text-[#f7f0df]/60">No articles match your search.</p>}
+        {filtered.length === 0 && <p className="glass-card rounded-2xl p-8 text-center text-sm text-[#2a1e16]/60">No articles match your search.</p>}
       </div>
     </div>
   );

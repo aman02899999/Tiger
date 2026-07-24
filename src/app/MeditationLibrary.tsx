@@ -124,33 +124,33 @@ export default function MeditationLibraryPage() {
   if (open) {
     return (
       <div className="space-y-6">
-        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-fuchsia-200 hover:text-fuchsia-100">← Back to techniques</button>
+        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-amber-200 hover:text-amber-100">← Back to techniques</button>
         <div className="glass-card rounded-2xl p-8">
           <div className="flex items-center gap-3">
-            <span className="grid h-14 w-14 place-items-center rounded-2xl bg-fuchsia-500/15 text-3xl">{open.icon}</span>
+            <span className="grid h-14 w-14 place-items-center rounded-2xl bg-amber-500/15 text-3xl">{open.icon}</span>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-fuchsia-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-fuchsia-200">{open.category}</span>
-                <span className="text-[11px] text-[#f7f0df]/55">⏱ {open.duration}</span>
+                <span className="rounded-full bg-amber-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-amber-200">{open.category}</span>
+                <span className="text-[11px] text-[#2a1e16]/55">⏱ {open.duration}</span>
               </div>
               <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.name}</h1>
             </div>
           </div>
 
-          <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+          <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
             <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#34d399]">🎯 Benefits</p>
-            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.benefits}</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.benefits}</p>
           </div>
-          <div className="mt-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+          <div className="mt-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
             <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#38bdf8]">⏰ Best for</p>
-            <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{open.best}</p>
+            <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{open.best}</p>
           </div>
 
-          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-[#d8b35a]">🥄 Step by step</p>
+          <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-[#ea580c]">🥄 Step by step</p>
           <ol className="mt-2 space-y-2">
             {open.steps.map((s, i) => (
-              <li key={i} className="flex gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-sm text-[#f7f0df]/78">
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-fuchsia-500/70 text-xs font-black">{i + 1}</span>{s}
+              <li key={i} className="flex gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3 text-sm text-[#2a1e16]/78">
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-amber-500/70 text-xs font-black">{i + 1}</span>{s}
               </li>
             ))}
           </ol>
@@ -163,27 +163,27 @@ export default function MeditationLibraryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Meditation Library</h1>
-        <p className="text-sm text-[#f7f0df]/68">Guided techniques and breathwork with step-by-step instructions</p>
+        <p className="text-sm text-[#2a1e16]/68">Guided techniques and breathwork with step-by-step instructions</p>
       </div>
 
       <div className="glass-card rounded-2xl p-4">
         <div className="flex flex-wrap gap-2">
           {CATS.map((c) => (
-            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-fuchsia-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{c}</button>
+            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-amber-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{c}</button>
           ))}
         </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
         {filtered.map((t) => (
-          <button key={t.id} type="button" onClick={() => setOpen(t)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-fuchsia-200/30">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-fuchsia-500/15 text-2xl">{t.icon}</span>
+          <button key={t.id} type="button" onClick={() => setOpen(t)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-amber-200/30">
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-amber-500/15 text-2xl">{t.icon}</span>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-black">{t.name}</h3>
-                <span className="rounded-full bg-fuchsia-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-fuchsia-200">{t.category}</span>
+                <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-amber-200">{t.category}</span>
               </div>
-              <p className="mt-0.5 text-[13px] text-[#f7f0df]/62">⏱ {t.duration} · {t.best}</p>
+              <p className="mt-0.5 text-[13px] text-[#2a1e16]/62">⏱ {t.duration} · {t.best}</p>
             </div>
           </button>
         ))}

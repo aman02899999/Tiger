@@ -57,39 +57,39 @@ export default function CalorieBurnConverterPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Calorie Burn Converter</h1>
-        <p className="text-sm text-[#f7f0df]/68">See exactly how much movement it takes to work off any treat</p>
+        <p className="text-sm text-[#2a1e16]/68">See exactly how much movement it takes to work off any treat</p>
       </div>
 
       <div className="glass-card rounded-2xl p-6">
         <label className="block">
-          <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Calories to burn</span>
-          <input type="number" inputMode="numeric" value={kcal} onChange={(e) => setKcal(e.target.value)} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+          <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Calories to burn</span>
+          <input type="number" inputMode="numeric" value={kcal} onChange={(e) => setKcal(e.target.value)} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-200/40" />
         </label>
-        <p className="mb-2 mt-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Or pick a treat</p>
+        <p className="mb-2 mt-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Or pick a treat</p>
         <div className="flex flex-wrap gap-2">
           {TREATS.map((t) => (
-            <button key={t.label} type="button" onClick={() => setKcal(String(t.kcal))} className="flex items-center gap-1.5 rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/5 px-3.5 py-1.5 text-xs font-bold text-[#f7f0df]/72 transition hover:text-[#f7f0df]">
-              <span>{t.icon}</span>{t.label} <span className="text-[#d8b35a]">{t.kcal}</span>
+            <button key={t.label} type="button" onClick={() => setKcal(String(t.kcal))} className="flex items-center gap-1.5 rounded-full border border-[#2a1e16]/12 bg-[#2a1e16]/5 px-3.5 py-1.5 text-xs font-bold text-[#2a1e16]/72 transition hover:text-[#2a1e16]">
+              <span>{t.icon}</span>{t.label} <span className="text-[#ea580c]">{t.kcal}</span>
             </button>
           ))}
         </div>
-        <p className="mt-3 text-[11px] text-[#f7f0df]/55">Estimates scaled to your bodyweight ({bw} kg). Heavier bodies burn more per minute.</p>
+        <p className="mt-3 text-[11px] text-[#2a1e16]/55">Estimates scaled to your bodyweight ({bw} kg). Heavier bodies burn more per minute.</p>
       </div>
 
       {rows ? (
         <div className="glass-card rounded-2xl p-6">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Time to burn {kcal} kcal</p>
+          <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Time to burn {kcal} kcal</p>
           <div className="space-y-2.5">
             {rows.map((r) => (
               <div key={r.id} className="flex items-center gap-3">
-                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-violet-500/25 text-lg">{r.icon}</span>
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-orange-500/25 text-lg">{r.icon}</span>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-bold">{r.label}</p>
-                    <p className="text-sm font-black tabular-nums text-violet-100">{fmtMin(r.minutes)}</p>
+                    <p className="text-sm font-black tabular-nums text-orange-700">{fmtMin(r.minutes)}</p>
                   </div>
-                  <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[#f7f0df]/10">
-                    <div className="h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400" style={{ width: `${maxMin ? (r.minutes / maxMin) * 100 : 0}%` }} />
+                  <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[#2a1e16]/10">
+                    <div className="h-full rounded-full bg-gradient-to-r from-orange-400 to-amber-400" style={{ width: `${maxMin ? (r.minutes / maxMin) * 100 : 0}%` }} />
                   </div>
                 </div>
               </div>
@@ -99,11 +99,11 @@ export default function CalorieBurnConverterPage() {
       ) : (
         <div className="glass-card rounded-2xl p-8 text-center">
           <div className="text-4xl">🔥</div>
-          <p className="mt-3 text-sm text-[#f7f0df]/68">Enter a calorie amount or pick a treat to see the numbers.</p>
+          <p className="mt-3 text-sm text-[#2a1e16]/68">Enter a calorie amount or pick a treat to see the numbers.</p>
         </div>
       )}
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">You can't out-train a bad diet — but seeing the trade-off helps keep treats in perspective.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">You can't out-train a bad diet — but seeing the trade-off helps keep treats in perspective.</p>
     </div>
   );
 }

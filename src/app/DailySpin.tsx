@@ -7,11 +7,11 @@ import { addXP, getXP } from "./Achievements";
 /* ---------------------------------------------------------------- */
 
 const SEGMENTS = [
-  { label: "20 XP", xp: 20, color: "#7c3aed" },
-  { label: "50 XP", xp: 50, color: "#a78bfa" },
-  { label: "10 XP", xp: 10, color: "#e879f9" },
-  { label: "100 XP", xp: 100, color: "#d8b35a" },
-  { label: "30 XP", xp: 30, color: "#8b5cf6" },
+  { label: "20 XP", xp: 20, color: "#c2410c" },
+  { label: "50 XP", xp: 50, color: "#f97316" },
+  { label: "10 XP", xp: 10, color: "#fb923c" },
+  { label: "100 XP", xp: 100, color: "#ea580c" },
+  { label: "30 XP", xp: 30, color: "#f97316" },
   { label: "75 XP", xp: 75, color: "#c084fc" },
   { label: "15 XP", xp: 15, color: "#f0abfc" },
   { label: "200 XP", xp: 200, color: "#f59e0b" },
@@ -54,16 +54,16 @@ function SpinWheel({ email }: { email: string }) {
 
   return (
     <div className="glass-card rounded-3xl p-6 sm:p-8 text-center">
-      <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d8b35a]">🎡 Daily Spin</p>
+      <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#ea580c]">🎡 Daily Spin</p>
       <h2 className="mt-2 text-2xl font-black">Spin for Bonus XP</h2>
-      <p className="mt-1 text-sm text-[#f7f0df]/68">One free spin every day — up to 200 XP</p>
+      <p className="mt-1 text-sm text-[#2a1e16]/68">One free spin every day — up to 200 XP</p>
 
       <div className="relative mx-auto mt-8 h-72 w-72">
         {/* pointer */}
         <div className="absolute left-1/2 top-[-10px] z-10 -translate-x-1/2 text-3xl drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]">🔻</div>
         {/* wheel */}
         <div
-          className="h-full w-full rounded-full border-4 border-[#d8b35a]/50 shadow-[0_0_60px_rgba(216,179,90,0.25),inset_0_0_40px_rgba(0,0,0,0.4)]"
+          className="h-full w-full rounded-full border-4 border-[#ea580c]/50 shadow-[0_0_60px_rgba(234,88,12,0.25),inset_0_0_40px_rgba(0,0,0,0.4)]"
           style={{
             background: wheelGradient,
             transform: `rotate(${rotation}deg)`,
@@ -84,15 +84,15 @@ function SpinWheel({ email }: { email: string }) {
           })}
         </div>
         {/* hub */}
-        <div className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-[#d8b35a]/60 bg-[#0b0714] text-2xl shadow-[0_0_24px_rgba(216,179,90,0.4)]">
+        <div className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-2 border-[#ea580c]/60 bg-[#fffdf9] text-2xl shadow-[0_0_24px_rgba(234,88,12,0.4)]">
           ⚡
         </div>
       </div>
 
       {won !== null && (
-        <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-[#d8b35a]/40 bg-[#d8b35a]/12 px-6 py-3">
+        <div className="mx-auto mt-6 inline-flex items-center gap-2 rounded-full border border-[#ea580c]/40 bg-[#ea580c]/12 px-6 py-3">
           <span className="text-xl">🎉</span>
-          <span className="font-black text-[#d8b35a]">You won +{won} XP!</span>
+          <span className="font-black text-[#ea580c]">You won +{won} XP!</span>
         </div>
       )}
 
@@ -103,8 +103,8 @@ function SpinWheel({ email }: { email: string }) {
           disabled={spinning || spunToday}
           className={`btn-gloss rounded-full px-12 py-4 text-xs font-black uppercase tracking-[0.2em] transition ${
             spunToday
-              ? "cursor-not-allowed border border-[#f7f0df]/15 bg-[#f7f0df]/6 text-[#f7f0df]/60"
-              : "bg-gradient-to-r from-[#d8b35a] to-orange-400 text-[#090511] shadow-[0_12px_40px_rgba(216,179,90,0.3)]"
+              ? "cursor-not-allowed border border-[#2a1e16]/15 bg-[#2a1e16]/6 text-[#2a1e16]/60"
+              : "bg-gradient-to-r from-[#ea580c] to-orange-400 text-[#f4ead9] shadow-[0_12px_40px_rgba(234,88,12,0.3)]"
           }`}
         >
           {spinning ? "Spinning…" : spunToday ? "✓ Come back tomorrow" : "Spin Now — Free"}
@@ -142,7 +142,7 @@ function WaterTracker({ email }: { email: string }) {
     <div className="glass-card rounded-3xl p-6 sm:p-8">
       <p className="text-xs font-bold uppercase tracking-[0.28em] text-sky-300">💧 Hydration</p>
       <h2 className="mt-2 text-2xl font-black">Water Tracker</h2>
-      <p className="mt-1 text-sm text-[#f7f0df]/68">Hit {GOAL_ML / 1000}L today and earn +25 XP</p>
+      <p className="mt-1 text-sm text-[#2a1e16]/68">Hit {GOAL_ML / 1000}L today and earn +25 XP</p>
 
       <div className="mt-8 flex items-center gap-8">
         {/* animated bottle */}
@@ -162,9 +162,9 @@ function WaterTracker({ email }: { email: string }) {
 
         <div className="min-w-0 flex-1">
           <p className="text-4xl font-black tabular-nums">
-            {(ml / 1000).toFixed(2)}<span className="text-lg text-[#f7f0df]/65"> / {GOAL_ML / 1000} L</span>
+            {(ml / 1000).toFixed(2)}<span className="text-lg text-[#2a1e16]/65"> / {GOAL_ML / 1000} L</span>
           </p>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#2a1e16]/10">
             <div className="h-full rounded-full bg-gradient-to-r from-sky-300 to-sky-500 transition-all duration-700" style={{ width: `${pct * 100}%` }} />
           </div>
           {pct >= 1 && <p className="mt-3 text-sm font-bold text-emerald-300">Goal smashed! +25 XP awarded 🎉</p>}
@@ -175,7 +175,7 @@ function WaterTracker({ email }: { email: string }) {
             <button type="button" onClick={() => drink(500)} className="rounded-full border border-sky-300/30 bg-sky-300/10 px-6 py-3 text-xs font-black uppercase tracking-[0.16em] text-sky-200 hover:bg-sky-300/20">
               + Bottle (500ml)
             </button>
-            <button type="button" onClick={() => drink(-GLASS_ML)} className="rounded-full border border-[#f7f0df]/15 px-4 py-3 text-xs font-bold text-[#f7f0df]/65 hover:bg-[#f7f0df]/8">
+            <button type="button" onClick={() => drink(-GLASS_ML)} className="rounded-full border border-[#2a1e16]/15 px-4 py-3 text-xs font-bold text-[#2a1e16]/65 hover:bg-[#2a1e16]/8">
               Undo
             </button>
           </div>
@@ -195,9 +195,9 @@ export default function DailyRewardsPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-3xl font-black tracking-[-0.04em]">Daily Rewards</h1>
-          <p className="text-sm text-[#f7f0df]/68">Free XP every day — spin, hydrate, stay consistent</p>
+          <p className="text-sm text-[#2a1e16]/68">Free XP every day — spin, hydrate, stay consistent</p>
         </div>
-        <div className="rounded-full border border-[#d8b35a]/30 bg-[#d8b35a]/10 px-5 py-2.5 text-sm font-black text-[#d8b35a]">⚡ {xp.toLocaleString()} XP</div>
+        <div className="rounded-full border border-[#ea580c]/30 bg-[#ea580c]/10 px-5 py-2.5 text-sm font-black text-[#ea580c]">⚡ {xp.toLocaleString()} XP</div>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-2">

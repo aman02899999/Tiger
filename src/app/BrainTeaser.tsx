@@ -52,32 +52,32 @@ export default function BrainTeaserPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Daily Brain Teaser</h1>
-        <p className="text-sm text-[#f7f0df]/68">A fresh health &amp; fitness riddle every day · {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}</p>
+        <p className="text-sm text-[#2a1e16]/68">A fresh health &amp; fitness riddle every day · {new Date().toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long" })}</p>
       </div>
 
-      <div className="glass-card rounded-3xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(216,179,90,0.14) 0%, transparent 60%)" }}>
+      <div className="glass-card rounded-3xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(234,88,12,0.14) 0%, transparent 60%)" }}>
         <div className="text-5xl">🧩</div>
         <p className="mx-auto mt-4 max-w-lg text-xl font-black leading-snug">{t.q}</p>
 
         {showHint && !revealed && (
-          <p className="mx-auto mt-4 max-w-md rounded-xl border border-[#d8b35a]/25 bg-[#d8b35a]/10 p-3 text-sm text-[#f7f0df]/80"><span className="font-bold text-[#d8b35a]">Hint: </span>{t.hint}</p>
+          <p className="mx-auto mt-4 max-w-md rounded-xl border border-[#ea580c]/25 bg-[#ea580c]/10 p-3 text-sm text-[#2a1e16]/80"><span className="font-bold text-[#ea580c]">Hint: </span>{t.hint}</p>
         )}
 
         {revealed ? (
           <div className="mx-auto mt-5 max-w-lg rounded-2xl border border-emerald-400/25 bg-emerald-400/10 p-5">
             <p className="text-[11px] font-black uppercase tracking-[0.16em] text-emerald-300">Answer</p>
-            <p className="mt-2 text-sm leading-relaxed text-[#f7f0df]/85">{t.a}</p>
-            <p className="mt-3 text-[11px] text-[#f7f0df]/55">🎉 +5 XP · Come back tomorrow for a new teaser!</p>
+            <p className="mt-2 text-sm leading-relaxed text-[#2a1e16]/85">{t.a}</p>
+            <p className="mt-3 text-[11px] text-[#2a1e16]/55">🎉 +5 XP · Come back tomorrow for a new teaser!</p>
           </div>
         ) : (
           <div className="mt-7 flex justify-center gap-3">
-            {!showHint && <button type="button" onClick={() => setShowHint(true)} className="rounded-full border border-[#d8b35a]/30 bg-[#d8b35a]/10 px-6 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#d8b35a]">Show Hint</button>}
-            <button type="button" onClick={reveal} className="btn-gloss rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-8 py-3 text-xs font-black uppercase tracking-[0.14em] text-white">Reveal Answer (+5 XP)</button>
+            {!showHint && <button type="button" onClick={() => setShowHint(true)} className="rounded-full border border-[#ea580c]/30 bg-[#ea580c]/10 px-6 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#ea580c]">Show Hint</button>}
+            <button type="button" onClick={reveal} className="btn-gloss rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-8 py-3 text-xs font-black uppercase tracking-[0.14em] text-white">Reveal Answer (+5 XP)</button>
           </div>
         )}
       </div>
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Think you know it? Reveal to check — a new teaser appears each day.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Think you know it? Reveal to check — a new teaser appears each day.</p>
     </div>
   );
 }

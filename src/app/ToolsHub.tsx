@@ -9,7 +9,7 @@ interface Group { title: string; accent: string; items: Item[] }
 
 const GROUPS: Group[] = [
   {
-    title: "🏋️ Training Tools", accent: "#a78bfa", items: [
+    title: "🏋️ Training Tools", accent: "#f97316", items: [
       { id: "wod", icon: "🎲", label: "Workout of the Day", desc: "Generate a full session" },
       { id: "warmup", icon: "🔥", label: "Warm-Up Generator", desc: "Tailored dynamic warm-up" },
       { id: "cooldown", icon: "🧊", label: "Cool-Down & Stretch", desc: "Targeted recovery routine" },
@@ -19,7 +19,7 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "💪 Strength Calculators", accent: "#e879f9", items: [
+    title: "💪 Strength Calculators", accent: "#fb923c", items: [
       { id: "strengthstandards", icon: "📊", label: "Strength Standards", desc: "Rank your lifts" },
       { id: "dots", icon: "🏆", label: "DOTS Score", desc: "Relative-strength score" },
       { id: "rpe", icon: "🎚️", label: "RPE Load Calculator", desc: "Autoregulate your loads" },
@@ -44,7 +44,7 @@ const GROUPS: Group[] = [
     ],
   },
   {
-    title: "🍽️ Nutrition Tools", accent: "#d8b35a", items: [
+    title: "🍽️ Nutrition Tools", accent: "#ea580c", items: [
       { id: "macrobuilder", icon: "🍽️", label: "Macro Builder", desc: "Set your macro targets" },
       { id: "burnconvert", icon: "🔥", label: "Calorie Burn Converter", desc: "Work off any treat" },
       { id: "portion", icon: "✋", label: "Hand-Portion Guide", desc: "Portion without scales" },
@@ -60,7 +60,7 @@ export default function ToolsHubPage({ onNavigate }: { onNavigate: (id: string) 
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Tools Hub</h1>
-        <p className="text-sm text-[#f7f0df]/68">Every calculator, generator &amp; tracker in one place — {total} tools</p>
+        <p className="text-sm text-[#2a1e16]/68">Every calculator, generator &amp; tracker in one place — {total} tools</p>
       </div>
 
       {GROUPS.map((g) => (
@@ -72,7 +72,7 @@ export default function ToolsHubPage({ onNavigate }: { onNavigate: (id: string) 
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl text-2xl transition-transform group-hover:scale-110" style={{ background: `${g.accent}1f` }}>{it.icon}</span>
                 <div className="min-w-0">
                   <p className="text-sm font-black leading-tight">{it.label}</p>
-                  <p className="mt-0.5 text-[12px] text-[#f7f0df]/60">{it.desc}</p>
+                  <p className="mt-0.5 text-[12px] text-[#2a1e16]/60">{it.desc}</p>
                 </div>
               </button>
             ))}
@@ -80,7 +80,7 @@ export default function ToolsHubPage({ onNavigate }: { onNavigate: (id: string) 
         </div>
       ))}
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Tap any tool to open it. Many auto-fill from your profile stats.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Tap any tool to open it. Many auto-fill from your profile stats.</p>
     </div>
   );
 }

@@ -85,16 +85,16 @@ export default function NewsletterPage() {
   if (open) {
     return (
       <div className="space-y-6">
-        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-violet-200 hover:text-violet-100">← Back to newsletter</button>
+        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-orange-700 hover:text-orange-700">← Back to newsletter</button>
         <article className="glass-card rounded-2xl p-8">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#d8b35a]">📧 {open.date}</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#ea580c]">📧 {open.date}</p>
           <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.title}</h1>
-          <p className="mt-3 text-sm italic text-[#f7f0df]/65">{open.preview}</p>
+          <p className="mt-3 text-sm italic text-[#2a1e16]/65">{open.preview}</p>
           <div className="mt-5 space-y-3">
             {open.sections.map((s, i) => (
-              <div key={i} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
-                <p className="text-sm font-black text-violet-100">{s.heading}</p>
-                <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{s.text}</p>
+              <div key={i} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
+                <p className="text-sm font-black text-orange-700">{s.heading}</p>
+                <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{s.text}</p>
               </div>
             ))}
           </div>
@@ -107,33 +107,33 @@ export default function NewsletterPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Email Newsletter</h1>
-        <p className="text-sm text-[#f7f0df]/68">Get the best of The Titan delivered — tips, workouts & reads, weekly</p>
+        <p className="text-sm text-[#2a1e16]/68">Get the best of The Titan delivered — tips, workouts & reads, weekly</p>
       </div>
 
       {/* Signup card */}
-      <div className="glass-card rounded-3xl p-8" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.16) 0%, transparent 60%)" }}>
+      <div className="glass-card rounded-3xl p-8" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(249,115,22,0.16) 0%, transparent 60%)" }}>
         {subscribed ? (
           <div className="text-center">
             <div className="text-5xl">🎉</div>
             <p className="mt-3 text-xl font-black text-emerald-300">You're subscribed!</p>
-            <p className="mt-1 text-sm text-[#f7f0df]/68">The next <span className="font-bold text-[#f7f0df]">{freq}</span> issue will arrive at <span className="font-bold text-[#f7f0df]">{email}</span>.</p>
-            <button type="button" onClick={unsubscribe} className="mt-5 rounded-full border border-[#f7f0df]/15 bg-[#f7f0df]/5 px-5 py-2 text-xs font-bold text-[#f7f0df]/60 transition hover:bg-rose-400/10 hover:text-rose-200">Unsubscribe</button>
+            <p className="mt-1 text-sm text-[#2a1e16]/68">The next <span className="font-bold text-[#2a1e16]">{freq}</span> issue will arrive at <span className="font-bold text-[#2a1e16]">{email}</span>.</p>
+            <button type="button" onClick={unsubscribe} className="mt-5 rounded-full border border-[#2a1e16]/15 bg-[#2a1e16]/5 px-5 py-2 text-xs font-bold text-[#2a1e16]/60 transition hover:bg-rose-400/10 hover:text-rose-200">Unsubscribe</button>
           </div>
         ) : (
           <>
             <div className="text-center">
               <div className="text-4xl">📬</div>
               <p className="mt-2 text-xl font-black">Join 40,000+ readers</p>
-              <p className="mt-1 text-sm text-[#f7f0df]/68">Actionable fitness, nutrition & wellness tips. No spam, unsubscribe anytime.</p>
+              <p className="mt-1 text-sm text-[#2a1e16]/68">Actionable fitness, nutrition & wellness tips. No spam, unsubscribe anytime.</p>
             </div>
             <div className="mx-auto mt-5 max-w-md space-y-3">
-              <input type="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+              <input type="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
               <div className="flex justify-center gap-2">
                 {["weekly", "biweekly", "monthly"].map((f) => (
-                  <button key={f} type="button" onClick={() => setFreq(f)} className={`rounded-full px-4 py-1.5 text-xs font-bold capitalize transition ${freq === f ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68"}`}>{f}</button>
+                  <button key={f} type="button" onClick={() => setFreq(f)} className={`rounded-full px-4 py-1.5 text-xs font-bold capitalize transition ${freq === f ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68"}`}>{f}</button>
                 ))}
               </div>
-              <button type="button" onClick={subscribe} disabled={!validEmail} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white disabled:opacity-50">Subscribe Free</button>
+              <button type="button" onClick={subscribe} disabled={!validEmail} className="btn-gloss w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white disabled:opacity-50">Subscribe Free</button>
               {!validEmail && email.length > 0 && <p className="text-center text-[11px] text-rose-300">Enter a valid email address.</p>}
             </div>
           </>
@@ -142,14 +142,14 @@ export default function NewsletterPage() {
 
       {/* Archive */}
       <div>
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">📚 Past issues</p>
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">📚 Past issues</p>
         <div className="grid gap-3 md:grid-cols-2">
           {ISSUES.map((iss) => (
-            <button key={iss.id} type="button" onClick={() => setOpen(iss)} className="glass-card rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-violet-200/30">
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/50">📧 {iss.date}</p>
+            <button key={iss.id} type="button" onClick={() => setOpen(iss)} className="glass-card rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-orange-200/30">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#2a1e16]/50">📧 {iss.date}</p>
               <h3 className="mt-1.5 text-base font-black leading-tight">{iss.title}</h3>
-              <p className="mt-1.5 line-clamp-2 text-[13px] text-[#f7f0df]/62">{iss.preview}</p>
-              <p className="mt-3 text-[11px] font-bold text-violet-200">Read issue →</p>
+              <p className="mt-1.5 line-clamp-2 text-[13px] text-[#2a1e16]/62">{iss.preview}</p>
+              <p className="mt-3 text-[11px] font-bold text-orange-700">Read issue →</p>
             </button>
           ))}
         </div>

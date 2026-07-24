@@ -43,8 +43,8 @@ export default function MythBusterPage() {
   const grade = useMemo(() => {
     const pct = (score / CARDS.length) * 100;
     if (pct >= 85) return { label: "Myth-Busting Master 🧠", color: "#34d399" };
-    if (pct >= 60) return { label: "Well Informed 👍", color: "#a78bfa" };
-    if (pct >= 40) return { label: "Getting There 📚", color: "#d8b35a" };
+    if (pct >= 60) return { label: "Well Informed 👍", color: "#f97316" };
+    if (pct >= 40) return { label: "Getting There 📚", color: "#ea580c" };
     return { label: "Keep Learning 🌱", color: "#fb7185" };
   }, [score]);
 
@@ -64,13 +64,13 @@ export default function MythBusterPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-black tracking-[-0.04em]">Your Score</h1>
-          <p className="text-sm text-[#f7f0df]/68">How well do you know fitness &amp; nutrition fact from fiction?</p>
+          <p className="text-sm text-[#2a1e16]/68">How well do you know fitness &amp; nutrition fact from fiction?</p>
         </div>
         <div className="glass-card rounded-3xl p-8 text-center" style={{ background: `radial-gradient(ellipse at 50% 0%, ${grade.color}22 0%, transparent 60%)` }}>
-          <p className="text-6xl font-black tabular-nums" style={{ color: grade.color }}>{score}<span className="text-2xl text-[#f7f0df]/50">/{CARDS.length}</span></p>
+          <p className="text-6xl font-black tabular-nums" style={{ color: grade.color }}>{score}<span className="text-2xl text-[#2a1e16]/50">/{CARDS.length}</span></p>
           <p className="mt-3 text-2xl font-black" style={{ color: grade.color }}>{grade.label}</p>
         </div>
-        <button type="button" onClick={restart} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Play Again</button>
+        <button type="button" onClick={restart} className="btn-gloss w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Play Again</button>
       </div>
     );
   }
@@ -79,19 +79,19 @@ export default function MythBusterPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Myth or Fact?</h1>
-        <p className="text-sm text-[#f7f0df]/68">Test your knowledge — is each statement a myth or a fact?</p>
+        <p className="text-sm text-[#2a1e16]/68">Test your knowledge — is each statement a myth or a fact?</p>
       </div>
 
-      <div className="flex items-center justify-between text-xs font-bold text-[#f7f0df]/60">
+      <div className="flex items-center justify-between text-xs font-bold text-[#2a1e16]/60">
         <span>Card {i + 1} of {CARDS.length}</span>
-        <span className="text-[#d8b35a]">Score: {score}</span>
+        <span className="text-[#ea580c]">Score: {score}</span>
       </div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-[#f7f0df]/10">
-        <div className="h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-all duration-300" style={{ width: `${(i / CARDS.length) * 100}%` }} />
+      <div className="h-2 w-full overflow-hidden rounded-full bg-[#2a1e16]/10">
+        <div className="h-full rounded-full bg-gradient-to-r from-orange-400 to-amber-400 transition-all duration-300" style={{ width: `${(i / CARDS.length) * 100}%` }} />
       </div>
 
       <div className="glass-card rounded-3xl p-8 text-center">
-        <span className="rounded-full bg-violet-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-violet-200">{card.category}</span>
+        <span className="rounded-full bg-orange-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-orange-700">{card.category}</span>
         <p className="mx-auto mt-5 max-w-lg text-xl font-black leading-snug">"{card.statement}"</p>
 
         {choice === null ? (
@@ -102,8 +102,8 @@ export default function MythBusterPage() {
         ) : (
           <div className="mt-6">
             <p className="text-lg font-black" style={{ color: correct ? "#34d399" : "#fb7185" }}>{correct ? "✓ Correct!" : "✗ Not quite"} — it's a {card.isFact ? "Fact" : "Myth"}</p>
-            <p className="mx-auto mt-3 max-w-lg rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4 text-sm leading-relaxed text-[#f7f0df]/80">{card.explain}</p>
-            <button type="button" onClick={next} className="btn-gloss mt-5 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-8 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">{i < CARDS.length - 1 ? "Next →" : "See Score"}</button>
+            <p className="mx-auto mt-3 max-w-lg rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4 text-sm leading-relaxed text-[#2a1e16]/80">{card.explain}</p>
+            <button type="button" onClick={next} className="btn-gloss mt-5 rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-8 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">{i < CARDS.length - 1 ? "Next →" : "See Score"}</button>
           </div>
         )}
       </div>

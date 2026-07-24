@@ -60,25 +60,25 @@ export default function SplitFinderPage() {
     const r = RESULTS[winner];
     return (
       <div className="space-y-6">
-        <div><h1 className="text-3xl font-black tracking-[-0.04em]">Your Ideal Split</h1><p className="text-sm text-[#f7f0df]/68">Matched to your schedule, experience, and goals</p></div>
-        <div className="glass-card rounded-3xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.18) 0%, transparent 60%)" }}>
+        <div><h1 className="text-3xl font-black tracking-[-0.04em]">Your Ideal Split</h1><p className="text-sm text-[#2a1e16]/68">Matched to your schedule, experience, and goals</p></div>
+        <div className="glass-card rounded-3xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(249,115,22,0.18) 0%, transparent 60%)" }}>
           <div className="text-6xl">{r.icon}</div>
-          <p className="mt-2 text-3xl font-black text-violet-200">{r.name}</p>
-          <p className="text-sm font-bold text-[#d8b35a]">{r.days}</p>
-          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[#f7f0df]/78">{r.blurb}</p>
+          <p className="mt-2 text-3xl font-black text-orange-700">{r.name}</p>
+          <p className="text-sm font-bold text-[#ea580c]">{r.days}</p>
+          <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[#2a1e16]/78">{r.blurb}</p>
         </div>
         <div className="glass-card rounded-2xl p-6">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Weekly structure</p>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Weekly structure</p>
           <div className="space-y-2">
             {r.structure.map((s, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-sm font-semibold">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-violet-500/70 text-xs font-black">{i + 1}</span>{s}
+              <div key={i} className="flex items-center gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3 text-sm font-semibold">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-orange-500/70 text-xs font-black">{i + 1}</span>{s}
               </div>
             ))}
           </div>
         </div>
-        <button type="button" onClick={restart} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Retake</button>
-        <p className="text-center text-[11px] text-[#f7f0df]/55">Open the Split Planner to see the full day-by-day plan for this split.</p>
+        <button type="button" onClick={restart} className="btn-gloss w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Retake</button>
+        <p className="text-center text-[11px] text-[#2a1e16]/55">Open the Split Planner to see the full day-by-day plan for this split.</p>
       </div>
     );
   }
@@ -86,14 +86,14 @@ export default function SplitFinderPage() {
   const q = QUESTIONS[step];
   return (
     <div className="space-y-6">
-      <div><h1 className="text-3xl font-black tracking-[-0.04em]">Split Finder</h1><p className="text-sm text-[#f7f0df]/68">Find the training split that fits your life in {QUESTIONS.length} questions</p></div>
-      <div className="h-2 w-full overflow-hidden rounded-full bg-[#f7f0df]/10"><div className="h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-all duration-300" style={{ width: `${(step / QUESTIONS.length) * 100}%` }} /></div>
+      <div><h1 className="text-3xl font-black tracking-[-0.04em]">Split Finder</h1><p className="text-sm text-[#2a1e16]/68">Find the training split that fits your life in {QUESTIONS.length} questions</p></div>
+      <div className="h-2 w-full overflow-hidden rounded-full bg-[#2a1e16]/10"><div className="h-full rounded-full bg-gradient-to-r from-orange-400 to-amber-400 transition-all duration-300" style={{ width: `${(step / QUESTIONS.length) * 100}%` }} /></div>
       <div className="glass-card rounded-2xl p-6">
-        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#d8b35a]">Question {step + 1} of {QUESTIONS.length}</p>
+        <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#ea580c]">Question {step + 1} of {QUESTIONS.length}</p>
         <h2 className="mt-2 text-xl font-black">{q.q}</h2>
         <div className="mt-5 space-y-3">
           {q.options.map((o, i) => (
-            <button key={i} type="button" onClick={() => choose(o.w)} className="block w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 p-4 text-left text-sm font-semibold transition hover:border-violet-200/40 hover:bg-violet-400/10">{o.label}</button>
+            <button key={i} type="button" onClick={() => choose(o.w)} className="block w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/5 p-4 text-left text-sm font-semibold transition hover:border-orange-200/40 hover:bg-orange-400/10">{o.label}</button>
           ))}
         </div>
       </div>

@@ -60,17 +60,17 @@ export function DailyChecklist() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-bold">Today's Checklist</h2>
-          <p className="text-xs text-[#f7f0df]/65">Tap each ring to check it off — finish all for +40 XP</p>
+          <p className="text-xs text-[#2a1e16]/65">Tap each ring to check it off — finish all for +40 XP</p>
         </div>
         <div className="relative h-16 w-16 shrink-0">
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: `conic-gradient(#a78bfa ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`,
+              background: `conic-gradient(#f97316 ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`,
               transition: "background 0.5s ease",
             }}
           />
-          <div className="absolute inset-[5px] grid place-items-center rounded-full bg-[#0b0714]">
+          <div className="absolute inset-[5px] grid place-items-center rounded-full bg-[#fffdf9]">
             <span className="text-sm font-black">{completed}/{DEFAULT_TASKS.length}</span>
           </div>
         </div>
@@ -86,16 +86,16 @@ export function DailyChecklist() {
               onClick={() => toggle(task.id)}
               className={`flex w-full items-center gap-4 rounded-xl border p-3 text-left transition ${
                 isDone
-                  ? "border-violet-300/30 bg-violet-300/8"
-                  : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"
+                  ? "border-orange-300/30 bg-orange-300/8"
+                  : "border-[#2a1e16]/10 bg-[#2a1e16]/5 hover:bg-[#2a1e16]/10"
               }`}
             >
               <span className={`text-2xl transition ${isDone ? "" : "grayscale-[0.3]"}`}>{task.icon}</span>
               <div className="min-w-0 flex-1">
-                <p className={`font-semibold ${isDone ? "text-[#f7f0df]/62 line-through" : "text-[#f7f0df]"}`}>{task.title}</p>
-                <p className="text-xs text-[#f7f0df]/62">{task.meta}</p>
+                <p className={`font-semibold ${isDone ? "text-[#2a1e16]/62 line-through" : "text-[#2a1e16]"}`}>{task.title}</p>
+                <p className="text-xs text-[#2a1e16]/62">{task.meta}</p>
               </div>
-              <span className={`grid h-7 w-7 place-items-center rounded-full border-2 transition ${isDone ? "border-violet-300 bg-violet-300 text-[#14050a]" : "border-[#f7f0df]/25"}`}>
+              <span className={`grid h-7 w-7 place-items-center rounded-full border-2 transition ${isDone ? "border-orange-300 bg-orange-300 text-[#2a1e16]" : "border-[#2a1e16]/25"}`}>
                 {isDone && <span className="text-xs font-black">✓</span>}
               </span>
             </button>
@@ -116,8 +116,8 @@ export function DailyChecklist() {
 
 const MOODS = [
   { id: "great", emoji: "🤩", label: "Great", color: "#34d399" },
-  { id: "good", emoji: "🙂", label: "Good", color: "#a78bfa" },
-  { id: "okay", emoji: "😐", label: "Okay", color: "#d8b35a" },
+  { id: "good", emoji: "🙂", label: "Good", color: "#f97316" },
+  { id: "okay", emoji: "😐", label: "Okay", color: "#ea580c" },
   { id: "tired", emoji: "😮‍💨", label: "Tired", color: "#fb923c" },
   { id: "sore", emoji: "🤕", label: "Sore", color: "#fb7185" },
 ];
@@ -144,7 +144,7 @@ export function MoodCheckIn() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df]/68">How do you feel today?</h3>
+      <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#2a1e16]/68">How do you feel today?</h3>
       <div className="mt-4 flex justify-between gap-1.5">
         {MOODS.map((m) => (
           <button
@@ -153,7 +153,7 @@ export function MoodCheckIn() {
             onClick={() => pick(m.id)}
             aria-label={m.label}
             className={`flex flex-1 flex-col items-center gap-1 rounded-xl border py-3 transition ${
-              mood === m.id ? "scale-105 border-white/30 bg-white/10" : "border-transparent hover:bg-white/5"
+              mood === m.id ? "scale-105 border-black/30 bg-black/10" : "border-transparent hover:bg-black/5"
             }`}
             style={mood === m.id ? { boxShadow: `0 0 20px ${m.color}40` } : undefined}
           >
@@ -163,7 +163,7 @@ export function MoodCheckIn() {
         ))}
       </div>
       {selected && (
-        <p className="mt-4 rounded-xl bg-white/5 p-3 text-center text-xs text-[#f7f0df]/75">
+        <p className="mt-4 rounded-xl bg-black/5 p-3 text-center text-xs text-[#2a1e16]/75">
           {selected.id === "great" && "Amazing! Channel that energy into a hard session today. 🔥"}
           {selected.id === "good" && "Solid — a great day to hit your planned workout. 💪"}
           {selected.id === "okay" && "That's fine. A light workout or walk can lift your mood. 🚶"}
@@ -199,7 +199,7 @@ export function WeeklyActivity() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-bold">This Week's Activity</h2>
-          <p className="text-xs text-[#f7f0df]/65">Tap a bar for the day's detail · {activeDays}/7 active days · {totalMin} min total</p>
+          <p className="text-xs text-[#2a1e16]/65">Tap a bar for the day's detail · {activeDays}/7 active days · {totalMin} min total</p>
         </div>
         <span className="rounded-full bg-emerald-300/15 px-3 py-1 text-xs font-bold text-emerald-200">{Math.round(totalMin / 7)} min/day avg</span>
       </div>
@@ -215,20 +215,20 @@ export function WeeklyActivity() {
             <div className="relative flex w-full flex-1 items-end">
               <div
                 className={`w-full rounded-t-lg transition-all duration-500 ${
-                  sel === i ? "bg-gradient-to-t from-[#d8b35a] to-orange-300" : "bg-gradient-to-t from-violet-500 to-fuchsia-400 group-hover:from-violet-400 group-hover:to-fuchsia-300"
+                  sel === i ? "bg-gradient-to-t from-[#ea580c] to-orange-300" : "bg-gradient-to-t from-orange-500 to-amber-400 group-hover:from-orange-400 group-hover:to-amber-300"
                 }`}
                 style={{ height: `${(d.mins / max) * 100}%` }}
               />
             </div>
-            <span className={`text-[10px] font-bold uppercase ${sel === i ? "text-[#d8b35a]" : "text-[#f7f0df]/62"}`}>{d.label}</span>
+            <span className={`text-[10px] font-bold uppercase ${sel === i ? "text-[#ea580c]" : "text-[#2a1e16]/62"}`}>{d.label}</span>
           </button>
         ))}
       </div>
 
       {sel !== null && (
-        <div className="mt-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-center text-sm">
-          <span className="font-bold text-[#d8b35a]">{data[sel].label}</span>
-          <span className="text-[#f7f0df]/75"> — {data[sel].mins} active minutes · {data[sel].active ? "goal hit ✅" : "below goal"}</span>
+        <div className="mt-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3 text-center text-sm">
+          <span className="font-bold text-[#ea580c]">{data[sel].label}</span>
+          <span className="text-[#2a1e16]/75"> — {data[sel].mins} active minutes · {data[sel].active ? "goal hit ✅" : "below goal"}</span>
         </div>
       )}
     </div>
@@ -239,8 +239,8 @@ export function WeeklyActivity() {
 
 export function QuickActions({ onNavigate }: { onNavigate: (section: string) => void }) {
   const actions = [
-    { id: "workouts", icon: "💪", label: "Start Workout", color: "from-violet-400 to-fuchsia-500" },
-    { id: "dailyrewards", icon: "🎡", label: "Daily Spin", color: "from-[#d8b35a] to-orange-400" },
+    { id: "workouts", icon: "💪", label: "Start Workout", color: "from-orange-400 to-amber-500" },
+    { id: "dailyrewards", icon: "🎡", label: "Daily Spin", color: "from-[#ea580c] to-orange-400" },
     { id: "meditation", icon: "🧘", label: "Meditate", color: "from-sky-400 to-cyan-500" },
     { id: "aicoach", icon: "🤖", label: "Ask Coach", color: "from-emerald-400 to-teal-500" },
     { id: "gympartner", icon: "🤝", label: "Find Partner", color: "from-rose-400 to-pink-500" },
@@ -248,17 +248,17 @@ export function QuickActions({ onNavigate }: { onNavigate: (section: string) => 
   ];
   return (
     <div className="glass-card rounded-2xl p-6">
-      <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df]/68">Quick Actions</h3>
+      <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-[#2a1e16]/68">Quick Actions</h3>
       <div className="mt-4 grid grid-cols-3 gap-2.5">
         {actions.map((a) => (
           <button
             key={a.id}
             type="button"
             onClick={() => onNavigate(a.id)}
-            className="flex flex-col items-center gap-2 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 transition hover:-translate-y-0.5 hover:bg-[#f7f0df]/10"
+            className="flex flex-col items-center gap-2 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3 transition hover:-translate-y-0.5 hover:bg-[#2a1e16]/10"
           >
             <span className={`grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br ${a.color} text-lg`}>{a.icon}</span>
-            <span className="text-[10px] font-bold text-[#f7f0df]/80">{a.label}</span>
+            <span className="text-[10px] font-bold text-[#2a1e16]/80">{a.label}</span>
           </button>
         ))}
       </div>

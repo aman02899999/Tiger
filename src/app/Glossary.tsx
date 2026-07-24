@@ -48,7 +48,7 @@ const TERMS: Term[] = [
 ];
 
 const CATS = ["All", "Training", "Nutrition", "Cardio", "Ayurveda"];
-const CAT_COLOR: Record<string, string> = { Training: "#a78bfa", Nutrition: "#34d399", Cardio: "#38bdf8", Ayurveda: "#4ade80" };
+const CAT_COLOR: Record<string, string> = { Training: "#f97316", Nutrition: "#34d399", Cardio: "#38bdf8", Ayurveda: "#4ade80" };
 
 export default function GlossaryPage() {
   const [cat, setCat] = useState("All");
@@ -64,32 +64,32 @@ export default function GlossaryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Fitness Glossary</h1>
-        <p className="text-sm text-[#f7f0df]/68">Plain-language definitions of {TERMS.length} fitness, nutrition &amp; Ayurveda terms</p>
+        <p className="text-sm text-[#2a1e16]/68">Plain-language definitions of {TERMS.length} fitness, nutrition &amp; Ayurveda terms</p>
       </div>
 
       <div className="glass-card rounded-2xl p-4">
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search terms…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search terms…" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
         <div className="mt-3 flex flex-wrap gap-2">
           {CATS.map((c) => (
-            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{c}</button>
+            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{c}</button>
           ))}
         </div>
       </div>
 
       <div className="space-y-2.5">
         {filtered.map((t) => {
-          const color = CAT_COLOR[t.category] ?? "#a78bfa";
+          const color = CAT_COLOR[t.category] ?? "#f97316";
           return (
             <div key={t.term} className="glass-card rounded-2xl p-5">
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="text-base font-black">{t.term}</h3>
                 <span className="rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em]" style={{ background: `${color}22`, color }}>{t.category}</span>
               </div>
-              <p className="mt-1.5 text-sm leading-relaxed text-[#f7f0df]/72">{t.def}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-[#2a1e16]/72">{t.def}</p>
             </div>
           );
         })}
-        {filtered.length === 0 && <p className="glass-card rounded-2xl p-8 text-center text-sm text-[#f7f0df]/60">No terms match your search.</p>}
+        {filtered.length === 0 && <p className="glass-card rounded-2xl p-8 text-center text-sm text-[#2a1e16]/60">No terms match your search.</p>}
       </div>
     </div>
   );

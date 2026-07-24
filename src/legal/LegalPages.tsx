@@ -74,28 +74,28 @@ export default function LegalPage({ type, onBack }: { type: LegalType; onBack: (
   const content = legalContent[type];
 
   return (
-    <div className="min-h-screen bg-[#07040d] text-[#f7f0df]">
-      <header className="border-b border-[#f7f0df]/10 bg-[#0b0714]/60 backdrop-blur-xl sticky top-0 z-40">
+    <div className="min-h-screen bg-[#faf4ec] text-[#2a1e16]">
+      <header className="border-b border-[#2a1e16]/10 bg-[#fffdf9]/60 backdrop-blur-xl sticky top-0 z-40">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-          <button type="button" onClick={onBack} className="flex items-center gap-2 text-sm text-[#f7f0df]/60 hover:text-[#f7f0df]">
+          <button type="button" onClick={onBack} className="flex items-center gap-2 text-sm text-[#2a1e16]/60 hover:text-[#2a1e16]">
             ← Back to The Titan Fitness
           </button>
           <div className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">TT</div>
+            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-amber-500 to-[#ea580c] text-xs font-black text-[#f4ead9]">TT</div>
             <span className="text-xs font-semibold uppercase tracking-[0.24em]">The Titan Fitness</span>
           </div>
         </div>
       </header>
 
       <div className="mx-auto max-w-4xl px-6 py-16">
-        <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">{type === "help" ? "Help Center" : "Legal"}</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">{type === "help" ? "Help Center" : "Legal"}</p>
         <h1 className="mt-4 text-5xl font-black tracking-[-0.05em]">{content.title}</h1>
-        <p className="mt-3 text-sm text-[#f7f0df]/50">Last updated: {content.updated}</p>
+        <p className="mt-3 text-sm text-[#2a1e16]/50">Last updated: {content.updated}</p>
 
         {type === "help" && (
-          <div className="mt-8 rounded-2xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 px-5 py-3 flex items-center gap-3">
+          <div className="mt-8 rounded-2xl border border-[#2a1e16]/12 bg-[#2a1e16]/5 px-5 py-3 flex items-center gap-3">
             <span>🔍</span>
-            <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search help articles..." className="flex-1 bg-transparent text-sm outline-none placeholder:text-[#f7f0df]/30" />
+            <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search help articles..." className="flex-1 bg-transparent text-sm outline-none placeholder:text-[#2a1e16]/30" />
           </div>
         )}
 
@@ -103,32 +103,32 @@ export default function LegalPage({ type, onBack }: { type: LegalType; onBack: (
           {content.sections
             .filter((s) => !query || s.h.toLowerCase().includes(query.toLowerCase()) || s.p.some((p) => p.toLowerCase().includes(query.toLowerCase())))
             .map((section, i) => (
-              <div key={i} className="border-t border-[#f7f0df]/10 pt-6">
-                <h2 className="text-2xl font-black tracking-[-0.03em] text-[#f7f0df]">{section.h}</h2>
+              <div key={i} className="border-t border-[#2a1e16]/10 pt-6">
+                <h2 className="text-2xl font-black tracking-[-0.03em] text-[#2a1e16]">{section.h}</h2>
                 <div className="mt-4 space-y-3">
                   {section.p.map((paragraph, j) => (
-                    <p key={j} className="text-base leading-7 text-[#f7f0df]/70">{paragraph}</p>
+                    <p key={j} className="text-base leading-7 text-[#2a1e16]/70">{paragraph}</p>
                   ))}
                 </div>
               </div>
             ))}
         </div>
 
-        <div className="mt-16 rounded-2xl border border-violet-200/20 bg-violet-200/8 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100">Need more help?</p>
+        <div className="mt-16 rounded-2xl border border-orange-200/20 bg-orange-200/8 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-orange-700">Need more help?</p>
           <h3 className="mt-2 text-xl font-bold">Contact our support team</h3>
-          <p className="mt-1 text-sm text-[#f7f0df]/60">We typically respond within 24 hours.</p>
+          <p className="mt-1 text-sm text-[#2a1e16]/60">We typically respond within 24 hours.</p>
           <div className="mt-4 flex flex-wrap gap-3">
-            <a href="mailto:support@tigerfitpro.in" className="rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-white">📧 Email Support</a>
-            <a href="#" className="rounded-full border border-[#f7f0df]/18 bg-[#f7f0df]/8 px-6 py-3 text-xs font-bold">💬 Live Chat</a>
+            <a href="mailto:support@tigerfitpro.in" className="rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-6 py-3 text-xs font-black uppercase tracking-[0.2em] text-white">📧 Email Support</a>
+            <a href="#" className="rounded-full border border-[#2a1e16]/18 bg-[#2a1e16]/8 px-6 py-3 text-xs font-bold">💬 Live Chat</a>
           </div>
         </div>
       </div>
 
-      <footer className="border-t border-[#f7f0df]/10 bg-[#06040d] px-6 py-8">
+      <footer className="border-t border-[#2a1e16]/10 bg-[#06040d] px-6 py-8">
         <div className="mx-auto max-w-5xl flex flex-col items-center justify-between gap-4 sm:flex-row">
-          <p className="text-xs text-[#f7f0df]/32">© 2025 The Titan Fitness · Bengaluru, India</p>
-          <p className="text-xs text-[#f7f0df]/32">Made with ⚡ for a healthier India</p>
+          <p className="text-xs text-[#2a1e16]/32">© 2025 The Titan Fitness · Bengaluru, India</p>
+          <p className="text-xs text-[#2a1e16]/32">Made with ⚡ for a healthier India</p>
         </div>
       </footer>
     </div>

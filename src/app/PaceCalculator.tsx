@@ -54,16 +54,16 @@ export default function PaceCalculatorPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Running Pace Calculator</h1>
-        <p className="text-sm text-[#f7f0df]/68">Find your pace and predict race times from a single run</p>
+        <p className="text-sm text-[#2a1e16]/68">Find your pace and predict race times from a single run</p>
       </div>
 
       <div className="glass-card rounded-2xl p-6">
         <label className="block">
-          <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Distance (km)</span>
-          <input type="number" inputMode="decimal" value={distance} onChange={(e) => setDistance(e.target.value)} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+          <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Distance (km)</span>
+          <input type="number" inputMode="decimal" value={distance} onChange={(e) => setDistance(e.target.value)} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-200/40" />
         </label>
 
-        <p className="mb-1 mt-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Time</p>
+        <p className="mb-1 mt-4 text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Time</p>
         <div className="grid grid-cols-3 gap-3">
           {[
             { v: hours, set: setHours, label: "Hours" },
@@ -71,8 +71,8 @@ export default function PaceCalculatorPage() {
             { v: secs, set: setSecs, label: "Seconds" },
           ].map((f) => (
             <label key={f.label} className="block">
-              <span className="mb-1 block text-[10px] font-semibold text-[#f7f0df]/55">{f.label}</span>
-              <input type="number" inputMode="numeric" value={f.v} onChange={(e) => f.set(e.target.value)} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-center text-sm outline-none focus:border-violet-200/40" />
+              <span className="mb-1 block text-[10px] font-semibold text-[#2a1e16]/55">{f.label}</span>
+              <input type="number" inputMode="numeric" value={f.v} onChange={(e) => f.set(e.target.value)} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-center text-sm outline-none focus:border-orange-200/40" />
             </label>
           ))}
         </div>
@@ -80,7 +80,7 @@ export default function PaceCalculatorPage() {
         {/* Quick presets */}
         <div className="mt-4 flex flex-wrap gap-2">
           {RACES.map((r) => (
-            <button key={r.label} type="button" onClick={() => setDistance(String(r.km))} className="rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/5 px-4 py-1.5 text-xs font-bold text-[#f7f0df]/70 transition hover:text-[#f7f0df]">{r.label}</button>
+            <button key={r.label} type="button" onClick={() => setDistance(String(r.km))} className="rounded-full border border-[#2a1e16]/12 bg-[#2a1e16]/5 px-4 py-1.5 text-xs font-bold text-[#2a1e16]/70 transition hover:text-[#2a1e16]">{r.label}</button>
           ))}
         </div>
       </div>
@@ -88,28 +88,28 @@ export default function PaceCalculatorPage() {
       {calc ? (
         <>
           <div className="grid grid-cols-2 gap-3">
-            <div className="glass-card rounded-2xl p-6 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(167,139,250,0.16) 0%, transparent 60%)" }}>
-              <p className="text-3xl font-black tabular-nums text-violet-200">{fmtPace(calc.secPerKm)}</p>
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/62">min / km</p>
+            <div className="glass-card rounded-2xl p-6 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(249,115,22,0.16) 0%, transparent 60%)" }}>
+              <p className="text-3xl font-black tabular-nums text-orange-700">{fmtPace(calc.secPerKm)}</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/62">min / km</p>
             </div>
-            <div className="glass-card rounded-2xl p-6 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(232,121,249,0.16) 0%, transparent 60%)" }}>
-              <p className="text-3xl font-black tabular-nums text-fuchsia-300">{calc.kmh.toFixed(2)}</p>
-              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/62">km / h</p>
+            <div className="glass-card rounded-2xl p-6 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(251,146,60,0.16) 0%, transparent 60%)" }}>
+              <p className="text-3xl font-black tabular-nums text-amber-600">{calc.kmh.toFixed(2)}</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/62">km / h</p>
             </div>
           </div>
 
           {/* Race predictions */}
           <div className="glass-card rounded-2xl p-6">
-            <p className="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Predicted Race Times</p>
-            <p className="mb-4 text-[11px] text-[#f7f0df]/55">Estimated with Riegel's endurance model from your entered effort.</p>
+            <p className="mb-1 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Predicted Race Times</p>
+            <p className="mb-4 text-[11px] text-[#2a1e16]/55">Estimated with Riegel's endurance model from your entered effort.</p>
             <div className="space-y-2.5">
               {calc.predictions.map((p) => (
-                <div key={p.label} className="flex items-center justify-between rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+                <div key={p.label} className="flex items-center justify-between rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
                   <div>
                     <p className="text-sm font-black">{p.label}</p>
-                    <p className="text-[11px] text-[#f7f0df]/55">{p.km} km · {fmtPace(p.sec / p.km)} /km</p>
+                    <p className="text-[11px] text-[#2a1e16]/55">{p.km} km · {fmtPace(p.sec / p.km)} /km</p>
                   </div>
-                  <p className="text-lg font-black tabular-nums text-violet-100">{fmtTime(p.sec)}</p>
+                  <p className="text-lg font-black tabular-nums text-orange-700">{fmtTime(p.sec)}</p>
                 </div>
               ))}
             </div>
@@ -118,11 +118,11 @@ export default function PaceCalculatorPage() {
       ) : (
         <div className="glass-card rounded-2xl p-8 text-center">
           <div className="text-4xl">🏃</div>
-          <p className="mt-3 text-sm text-[#f7f0df]/68">Enter a distance and a time to see your pace and race predictions.</p>
+          <p className="mt-3 text-sm text-[#2a1e16]/68">Enter a distance and a time to see your pace and race predictions.</p>
         </div>
       )}
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Predictions assume similar effort and adequate training at each distance — treat them as targets, not guarantees.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Predictions assume similar effort and adequate training at each distance — treat them as targets, not guarantees.</p>
     </div>
   );
 }

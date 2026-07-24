@@ -173,17 +173,17 @@ export default function DietCalculator() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black tracking-[-0.04em]">Auto Diet Calculator</h1>
-          <p className="text-sm text-[#f7f0df]/50">Personalized Indian meal plans based on your goals</p>
+          <p className="text-sm text-[#2a1e16]/50">Personalized Indian meal plans based on your goals</p>
         </div>
         <div className="flex gap-2">
-          <select value={goal} onChange={(e) => setGoal(e.target.value as any)} className="rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-2.5 text-sm text-[#f7f0df] outline-none focus:border-violet-200/40">
+          <select value={goal} onChange={(e) => setGoal(e.target.value as any)} className="rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-2.5 text-sm text-[#2a1e16] outline-none focus:border-orange-200/40">
             <option value="fat-loss">Fat Loss</option>
             <option value="muscle-gain">Muscle Gain</option>
             <option value="wedding">Wedding Prep</option>
             <option value="maintenance">Maintenance</option>
             <option value="general">General Fitness</option>
           </select>
-          <select value={dietType} onChange={(e) => setDietType(e.target.value as any)} className="rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-2.5 text-sm text-[#f7f0df] outline-none focus:border-violet-200/40">
+          <select value={dietType} onChange={(e) => setDietType(e.target.value as any)} className="rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-2.5 text-sm text-[#2a1e16] outline-none focus:border-orange-200/40">
             <option value="veg">Vegetarian</option>
             <option value="nonveg">Non-Vegetarian</option>
             <option value="vegan">Vegan</option>
@@ -193,56 +193,56 @@ export default function DietCalculator() {
 
       {/* Stats Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">Daily Calories</p>
-          <p className="mt-3 bg-gradient-to-r from-violet-200 to-fuchsia-400 bg-clip-text text-4xl font-black text-transparent">{calculations.targetCalories}</p>
-          <p className="text-xs text-[#f7f0df]/50">kcal/day</p>
+        <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/44">Daily Calories</p>
+          <p className="mt-3 bg-gradient-to-r from-orange-200 to-amber-400 bg-clip-text text-4xl font-black text-transparent">{calculations.targetCalories}</p>
+          <p className="text-xs text-[#2a1e16]/50">kcal/day</p>
         </div>
-        <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">Protein</p>
+        <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/44">Protein</p>
           <p className="mt-3 bg-gradient-to-r from-emerald-300 to-cyan-400 bg-clip-text text-4xl font-black text-transparent">{calculations.protein}g</p>
-          <p className="text-xs text-[#f7f0df]/50">{calculations.proteinCal} kcal ({Math.round((calculations.proteinCal / calculations.targetCalories) * 100)}%)</p>
+          <p className="text-xs text-[#2a1e16]/50">{calculations.proteinCal} kcal ({Math.round((calculations.proteinCal / calculations.targetCalories) * 100)}%)</p>
         </div>
-        <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">Carbs</p>
-          <p className="mt-3 bg-gradient-to-r from-[#d8b35a] to-orange-400 bg-clip-text text-4xl font-black text-transparent">{calculations.carbs}g</p>
-          <p className="text-xs text-[#f7f0df]/50">{calculations.carbsCal} kcal ({Math.round((calculations.carbsCal / calculations.targetCalories) * 100)}%)</p>
+        <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/44">Carbs</p>
+          <p className="mt-3 bg-gradient-to-r from-[#ea580c] to-orange-400 bg-clip-text text-4xl font-black text-transparent">{calculations.carbs}g</p>
+          <p className="text-xs text-[#2a1e16]/50">{calculations.carbsCal} kcal ({Math.round((calculations.carbsCal / calculations.targetCalories) * 100)}%)</p>
         </div>
-        <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">Fat</p>
+        <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/44">Fat</p>
           <p className="mt-3 bg-gradient-to-r from-rose-300 to-pink-400 bg-clip-text text-4xl font-black text-transparent">{calculations.fat}g</p>
-          <p className="text-xs text-[#f7f0df]/50">{calculations.fatCal} kcal ({Math.round((calculations.fatCal / calculations.targetCalories) * 100)}%)</p>
+          <p className="text-xs text-[#2a1e16]/50">{calculations.fatCal} kcal ({Math.round((calculations.fatCal / calculations.targetCalories) * 100)}%)</p>
         </div>
       </div>
 
       {/* Macro Breakdown */}
-      <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
+      <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-6">
         <h3 className="mb-4 text-lg font-bold">Macro Distribution</h3>
         <div className="space-y-3">
           <div>
             <div className="mb-2 flex justify-between text-sm">
               <span className="font-semibold text-emerald-300">Protein</span>
-              <span className="text-[#f7f0df]/60">{Math.round((calculations.proteinCal / calculations.targetCalories) * 100)}%</span>
+              <span className="text-[#2a1e16]/60">{Math.round((calculations.proteinCal / calculations.targetCalories) * 100)}%</span>
             </div>
-            <div className="h-3 overflow-hidden rounded-full bg-[#f7f0df]/10">
+            <div className="h-3 overflow-hidden rounded-full bg-[#2a1e16]/10">
               <div className="h-full rounded-full bg-gradient-to-r from-emerald-300 to-cyan-400" style={{ width: `${(calculations.proteinCal / calculations.targetCalories) * 100}%` }} />
             </div>
           </div>
           <div>
             <div className="mb-2 flex justify-between text-sm">
-              <span className="font-semibold text-[#d8b35a]">Carbs</span>
-              <span className="text-[#f7f0df]/60">{Math.round((calculations.carbsCal / calculations.targetCalories) * 100)}%</span>
+              <span className="font-semibold text-[#ea580c]">Carbs</span>
+              <span className="text-[#2a1e16]/60">{Math.round((calculations.carbsCal / calculations.targetCalories) * 100)}%</span>
             </div>
-            <div className="h-3 overflow-hidden rounded-full bg-[#f7f0df]/10">
-              <div className="h-full rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400" style={{ width: `${(calculations.carbsCal / calculations.targetCalories) * 100}%` }} />
+            <div className="h-3 overflow-hidden rounded-full bg-[#2a1e16]/10">
+              <div className="h-full rounded-full bg-gradient-to-r from-[#ea580c] to-orange-400" style={{ width: `${(calculations.carbsCal / calculations.targetCalories) * 100}%` }} />
             </div>
           </div>
           <div>
             <div className="mb-2 flex justify-between text-sm">
               <span className="font-semibold text-rose-300">Fat</span>
-              <span className="text-[#f7f0df]/60">{Math.round((calculations.fatCal / calculations.targetCalories) * 100)}%</span>
+              <span className="text-[#2a1e16]/60">{Math.round((calculations.fatCal / calculations.targetCalories) * 100)}%</span>
             </div>
-            <div className="h-3 overflow-hidden rounded-full bg-[#f7f0df]/10">
+            <div className="h-3 overflow-hidden rounded-full bg-[#2a1e16]/10">
               <div className="h-full rounded-full bg-gradient-to-r from-rose-300 to-pink-400" style={{ width: `${(calculations.fatCal / calculations.targetCalories) * 100}%` }} />
             </div>
           </div>
@@ -253,20 +253,20 @@ export default function DietCalculator() {
       <div className="space-y-4">
         <h3 className="text-xl font-bold">Your Personalized Meal Plan</h3>
         {allMeals.map((mealData, i) => (
-          <div key={i} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
+          <div key={i} className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-6">
             <div className="mb-4 flex items-center gap-3">
               <span className="text-3xl">{mealData.icon}</span>
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-100/70">{mealData.time}</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-700/70">{mealData.time}</p>
                 <h4 className="text-lg font-bold">{mealData.meal}</h4>
               </div>
             </div>
             <div className="grid gap-3 md:grid-cols-3">
               {mealData.items.map((item: any, j: number) => (
-                <div key={j} className={`rounded-xl border p-4 transition hover:bg-[#f7f0df]/5 ${j === 0 ? "border-violet-200/30 bg-violet-200/10" : "border-[#f7f0df]/8"}`}>
-                  {j === 0 && <span className="mb-2 inline-block rounded-full bg-violet-200/20 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.16em] text-violet-100">Recommended</span>}
-                  <p className="text-sm font-semibold text-[#f7f0df]">{item.name}</p>
-                  <div className="mt-3 space-y-1 text-xs text-[#f7f0df]/50">
+                <div key={j} className={`rounded-xl border p-4 transition hover:bg-[#2a1e16]/5 ${j === 0 ? "border-orange-200/30 bg-orange-200/10" : "border-[#2a1e16]/8"}`}>
+                  {j === 0 && <span className="mb-2 inline-block rounded-full bg-orange-200/20 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.16em] text-orange-700">Recommended</span>}
+                  <p className="text-sm font-semibold text-[#2a1e16]">{item.name}</p>
+                  <div className="mt-3 space-y-1 text-xs text-[#2a1e16]/50">
                     <p>🔥 {item.kcal} kcal</p>
                     <p>💪 {item.protein}g protein</p>
                     <p>🌾 {item.carbs}g carbs</p>
@@ -280,27 +280,27 @@ export default function DietCalculator() {
       </div>
 
       {/* Daily Summary */}
-      <div className="rounded-2xl border border-[#d8b35a]/20 bg-gradient-to-br from-[#d8b35a]/10 to-violet-200/8 p-6">
+      <div className="rounded-2xl border border-[#ea580c]/20 bg-gradient-to-br from-[#ea580c]/10 to-orange-200/8 p-6">
         <h3 className="text-lg font-bold">Daily Totals (Recommended Options)</h3>
         <div className="mt-4 grid gap-4 sm:grid-cols-4">
           <div>
-            <p className="text-xs text-[#f7f0df]/50">Calories</p>
-            <p className="text-2xl font-black text-[#f7f0df]">{dailyTotals.kcal}</p>
+            <p className="text-xs text-[#2a1e16]/50">Calories</p>
+            <p className="text-2xl font-black text-[#2a1e16]">{dailyTotals.kcal}</p>
           </div>
           <div>
-            <p className="text-xs text-[#f7f0df]/50">Protein</p>
+            <p className="text-xs text-[#2a1e16]/50">Protein</p>
             <p className="text-2xl font-black text-emerald-300">{dailyTotals.protein}g</p>
           </div>
           <div>
-            <p className="text-xs text-[#f7f0df]/50">Carbs</p>
-            <p className="text-2xl font-black text-[#d8b35a]">{dailyTotals.carbs}g</p>
+            <p className="text-xs text-[#2a1e16]/50">Carbs</p>
+            <p className="text-2xl font-black text-[#ea580c]">{dailyTotals.carbs}g</p>
           </div>
           <div>
-            <p className="text-xs text-[#f7f0df]/50">Fat</p>
+            <p className="text-xs text-[#2a1e16]/50">Fat</p>
             <p className="text-2xl font-black text-rose-300">{dailyTotals.fat}g</p>
           </div>
         </div>
-        <p className="mt-4 text-sm text-[#f7f0df]/60">
+        <p className="mt-4 text-sm text-[#2a1e16]/60">
           {dailyTotals.kcal > calculations.targetCalories 
             ? `⚠️ ${dailyTotals.kcal - calculations.targetCalories} kcal over target. Consider smaller portions.`
             : dailyTotals.kcal < calculations.targetCalories - 200
@@ -310,9 +310,9 @@ export default function DietCalculator() {
       </div>
 
       {/* Tips */}
-      <div className="rounded-2xl border border-violet-200/20 bg-violet-200/8 p-6">
+      <div className="rounded-2xl border border-orange-200/20 bg-orange-200/8 p-6">
         <h3 className="mb-4 text-lg font-bold">💡 Pro Tips</h3>
-        <ul className="space-y-2.5 text-sm text-[#f7f0df]/68">
+        <ul className="space-y-2.5 text-sm text-[#2a1e16]/68">
           <li>• Eat protein within 30 minutes post-workout for optimal recovery</li>
           <li>• Drink 500ml water 30 minutes before each meal</li>
           <li>• Avoid eating 2-3 hours before bedtime</li>

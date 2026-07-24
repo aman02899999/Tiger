@@ -93,40 +93,40 @@ export default function FitnessToolbox() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Fitness Toolbox</h1>
-        <p className="text-sm text-[#f7f0df]/50">Advanced calculators powered by your body metrics</p>
+        <p className="text-sm text-[#2a1e16]/50">Advanced calculators powered by your body metrics</p>
       </div>
 
       {/* Input Section */}
-      <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
+      <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-6">
         <h2 className="text-lg font-bold mb-4">Your Measurements</h2>
         <div className="grid gap-4 md:grid-cols-3">
           <label className="block">
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Height (cm)</span>
-            <input type="number" value={measurements.height} onChange={(e) => setMeasurements({ ...measurements, height: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-orange-700/70">Height (cm)</span>
+            <input type="number" value={measurements.height} onChange={(e) => setMeasurements({ ...measurements, height: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
           </label>
           <label className="block">
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Weight (kg)</span>
-            <input type="number" value={measurements.weight} onChange={(e) => setMeasurements({ ...measurements, weight: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-orange-700/70">Weight (kg)</span>
+            <input type="number" value={measurements.weight} onChange={(e) => setMeasurements({ ...measurements, weight: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
           </label>
           <label className="block">
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Age</span>
-            <input type="number" value={measurements.age} onChange={(e) => setMeasurements({ ...measurements, age: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-orange-700/70">Age</span>
+            <input type="number" value={measurements.age} onChange={(e) => setMeasurements({ ...measurements, age: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
           </label>
           <label className="block">
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Body Fat %</span>
-            <input type="number" value={measurements.bodyFat} onChange={(e) => setMeasurements({ ...measurements, bodyFat: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-orange-700/70">Body Fat %</span>
+            <input type="number" value={measurements.bodyFat} onChange={(e) => setMeasurements({ ...measurements, bodyFat: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
           </label>
           <label className="block">
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Wrist (cm)</span>
-            <input type="number" value={measurements.wrist} onChange={(e) => setMeasurements({ ...measurements, wrist: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-orange-700/70">Wrist (cm)</span>
+            <input type="number" value={measurements.wrist} onChange={(e) => setMeasurements({ ...measurements, wrist: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
           </label>
           <label className="block">
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Waist (cm)</span>
-            <input type="number" value={measurements.waist} onChange={(e) => setMeasurements({ ...measurements, waist: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-orange-700/70">Waist (cm)</span>
+            <input type="number" value={measurements.waist} onChange={(e) => setMeasurements({ ...measurements, waist: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
           </label>
           <label className="block">
-            <span className="text-xs font-bold uppercase tracking-[0.16em] text-violet-100/70">Hip (cm)</span>
-            <input type="number" value={measurements.hip} onChange={(e) => setMeasurements({ ...measurements, hip: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-orange-700/70">Hip (cm)</span>
+            <input type="number" value={measurements.hip} onChange={(e) => setMeasurements({ ...measurements, hip: +e.target.value })} className="mt-2 w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
           </label>
         </div>
       </div>
@@ -134,41 +134,41 @@ export default function FitnessToolbox() {
       {/* Calculators Grid */}
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
         {[
-          { label: "Ideal Weight", value: `${calculations.idealWeight} kg`, sub: "Devine formula", color: "from-violet-300 to-fuchsia-400" },
-          { label: "Body Type", value: calculations.bodyType, sub: "Somatotype", color: "from-[#d8b35a] to-orange-400" },
+          { label: "Ideal Weight", value: `${calculations.idealWeight} kg`, sub: "Devine formula", color: "from-orange-300 to-amber-400" },
+          { label: "Body Type", value: calculations.bodyType, sub: "Somatotype", color: "from-[#ea580c] to-orange-400" },
           { label: "Lean Body Mass", value: `${calculations.lbm} kg`, sub: "Muscle mass", color: "from-emerald-300 to-cyan-400" },
           { label: "FFMI", value: calculations.ffmi, sub: "Muscle index", color: "from-blue-300 to-sky-400" },
           { label: "Protein Need", value: `${calculations.protein} g/day`, sub: "For muscle gain", color: "from-orange-300 to-rose-400" },
           { label: "Water Need", value: `${calculations.water} L/day`, sub: "Daily hydration", color: "from-cyan-300 to-blue-400" },
-          { label: "Lean Bulk", value: `${calculations.leanBulk} kcal`, sub: "Muscle gain", color: "from-[#d8b35a] to-orange-400" },
+          { label: "Lean Bulk", value: `${calculations.leanBulk} kcal`, sub: "Muscle gain", color: "from-[#ea580c] to-orange-400" },
           { label: "Cutting", value: `${calculations.cutting} kcal`, sub: "Fat loss", color: "from-emerald-300 to-cyan-400" },
-          { label: "Reverse Diet", value: `${calculations.reverse} kcal`, sub: "Metabolic repair", color: "from-blue-300 to-violet-400" },
+          { label: "Reverse Diet", value: `${calculations.reverse} kcal`, sub: "Metabolic repair", color: "from-blue-300 to-orange-400" },
           { label: "Max Heart Rate", value: `${calculations.maxHR} bpm`, sub: "Training zones", color: "from-rose-300 to-pink-400" },
         ].map((calc) => (
-          <div key={calc.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5 backdrop-blur-xl">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#f7f0df]/44">{calc.label}</p>
+          <div key={calc.label} className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5 backdrop-blur-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#2a1e16]/44">{calc.label}</p>
             <p className={`mt-3 bg-gradient-to-r ${calc.color} bg-clip-text text-3xl font-black text-transparent`}>{calc.value}</p>
-            <p className="mt-1 text-xs text-[#f7f0df]/50">{calc.sub}</p>
+            <p className="mt-1 text-xs text-[#2a1e16]/50">{calc.sub}</p>
           </div>
         ))}
       </div>
 
       {/* Additional Stats */}
       <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">BMR</p>
-          <p className="mt-3 text-4xl font-black text-[#f7f0df]">{calculations.bmr}</p>
-          <p className="text-xs text-[#f7f0df]/50">calories/day at rest</p>
+        <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/44">BMR</p>
+          <p className="mt-3 text-4xl font-black text-[#2a1e16]">{calculations.bmr}</p>
+          <p className="text-xs text-[#2a1e16]/50">calories/day at rest</p>
         </div>
-        <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/44">TDEE</p>
-          <p className="mt-3 text-4xl font-black text-[#f7f0df]">{calculations.tdee}</p>
-          <p className="text-xs text-[#f7f0df]/50">maintenance calories</p>
+        <div className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/44">TDEE</p>
+          <p className="mt-3 text-4xl font-black text-[#2a1e16]">{calculations.tdee}</p>
+          <p className="text-xs text-[#2a1e16]/50">maintenance calories</p>
         </div>
-        <div className="rounded-2xl border border-violet-200/20 bg-violet-200/10 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-100">BMI</p>
-          <p className="mt-3 text-4xl font-black text-violet-100">{calculations.bmi}</p>
-          <p className="text-xs text-violet-100/60">
+        <div className="rounded-2xl border border-orange-200/20 bg-orange-200/10 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-700">BMI</p>
+          <p className="mt-3 text-4xl font-black text-orange-700">{calculations.bmi}</p>
+          <p className="text-xs text-orange-700/60">
             {parseFloat(calculations.bmi) < 18.5 ? "Underweight" : parseFloat(calculations.bmi) < 25 ? "Normal" : parseFloat(calculations.bmi) < 30 ? "Overweight" : "Obese"}
           </p>
         </div>

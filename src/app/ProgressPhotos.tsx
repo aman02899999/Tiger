@@ -65,19 +65,19 @@ function UploadTile({ slot, shot, onUpload }: { slot: "before" | "after"; shot: 
   return (
     <div className="glass-card rounded-2xl p-4">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">{slot === "before" ? "📷 Before" : "✨ After"}</p>
-        {shot && <span className="text-[11px] text-[#f7f0df]/62">{shot.date}</span>}
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">{slot === "before" ? "📷 Before" : "✨ After"}</p>
+        {shot && <span className="text-[11px] text-[#2a1e16]/62">{shot.date}</span>}
       </div>
 
       <button
         type="button"
         onClick={() => inputRef.current?.click()}
-        className="relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-[#f7f0df]/15 bg-[#f7f0df]/5 transition hover:border-violet-300/40"
+        className="relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden rounded-xl border-2 border-dashed border-[#2a1e16]/15 bg-[#2a1e16]/5 transition hover:border-orange-300/40"
       >
         {shot ? (
           <img src={shot.data} alt={`${slot} progress`} className="h-full w-full object-cover" />
         ) : (
-          <span className="px-4 text-center text-xs text-[#f7f0df]/62">{busy ? "Processing…" : `Tap to upload your ${slot} photo`}</span>
+          <span className="px-4 text-center text-xs text-[#2a1e16]/62">{busy ? "Processing…" : `Tap to upload your ${slot} photo`}</span>
         )}
       </button>
 
@@ -88,7 +88,7 @@ function UploadTile({ slot, shot, onUpload }: { slot: "before" | "after"; shot: 
           type="number" inputMode="decimal" value={weight} placeholder="Weight (kg)"
           onChange={(e) => setWeight(e.target.value)}
           onBlur={() => shot && onUpload(slot, shot.data, weight)}
-          className="w-full rounded-lg border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-2 text-sm outline-none focus:border-violet-200/40"
+          className="w-full rounded-lg border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2 text-sm outline-none focus:border-orange-200/40"
         />
       </div>
     </div>
@@ -132,7 +132,7 @@ function CompareSlider({ before, after }: { before: Shot; after: Shot }) {
 
   return (
     <div className="glass-card rounded-2xl p-5">
-      <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Drag to reveal your transformation</p>
+      <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Drag to reveal your transformation</p>
       <div
         ref={ref}
         className="relative aspect-[3/4] w-full max-w-md mx-auto select-none overflow-hidden rounded-2xl"
@@ -144,20 +144,20 @@ function CompareSlider({ before, after }: { before: Shot; after: Shot }) {
         {/* before (clipped) */}
         <div className="absolute inset-0 overflow-hidden" style={{ width: `${pos}%` }}>
           <img src={before.data} alt="before" className="absolute inset-0 h-full w-full object-cover" style={{ width: ref.current?.clientWidth ?? "100%", maxWidth: "none" }} draggable={false} />
-          <span className="absolute left-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]">Before</span>
+          <span className="absolute left-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]">Before</span>
         </div>
-        <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#d8b35a]">After</span>
+        <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[#ea580c]">After</span>
         {/* handle */}
         <div className="absolute inset-y-0 flex items-center" style={{ left: `${pos}%`, transform: "translateX(-50%)" }}>
-          <div className="h-full w-0.5 bg-white/80" />
-          <div className="absolute grid h-9 w-9 place-items-center rounded-full border-2 border-white bg-violet-500 text-white shadow-lg">⇄</div>
+          <div className="h-full w-0.5 bg-black/80" />
+          <div className="absolute grid h-9 w-9 place-items-center rounded-full border-2 border-white bg-orange-500 text-white shadow-lg">⇄</div>
         </div>
       </div>
 
       {before.weight && after.weight && !Number.isNaN(wDiff) && (
         <div className="mt-4 text-center">
-          <p className="text-sm text-[#f7f0df]/75">
-            Weight change: <span className={`font-black tabular-nums ${wDiff < 0 ? "text-emerald-300" : wDiff > 0 ? "text-[#d8b35a]" : "text-[#f7f0df]"}`}>{wDiff > 0 ? "+" : ""}{wDiff.toFixed(1)} kg</span>
+          <p className="text-sm text-[#2a1e16]/75">
+            Weight change: <span className={`font-black tabular-nums ${wDiff < 0 ? "text-emerald-300" : wDiff > 0 ? "text-[#ea580c]" : "text-[#2a1e16]"}`}>{wDiff > 0 ? "+" : ""}{wDiff.toFixed(1)} kg</span>
           </p>
         </div>
       )}
@@ -190,22 +190,22 @@ export default function ProgressPhotosPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Progress Photos</h1>
-        <p className="text-sm text-[#f7f0df]/68">Upload a before &amp; after and drag to see how far you've come</p>
+        <p className="text-sm text-[#2a1e16]/68">Upload a before &amp; after and drag to see how far you've come</p>
       </div>
 
       {/* How this works */}
       <div className="glass-card rounded-2xl p-5">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How this works — 3 simple steps</p>
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">How this works — 3 simple steps</p>
         <div className="grid gap-3 sm:grid-cols-3">
           {[
             { n: "1", t: "Upload two photos", d: "Add a 'before' and an 'after' shot. Same pose, lighting and distance gives the clearest comparison." },
             { n: "2", t: "Add your weight", d: "Optionally log the weight for each photo — the tool shows your exact change in kg." },
             { n: "3", t: "Drag to compare", d: "Slide the handle across the combined image to reveal your transformation. Both photos stay private on your device." },
           ].map((s) => (
-            <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
-              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+            <div key={s.n} className="rounded-xl border border-black/8 bg-black/5 p-4">
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-600 text-sm font-black text-white">{s.n}</div>
+              <p className="text-sm font-bold text-[#2a1e16]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#2a1e16]/68">{s.d}</p>
             </div>
           ))}
         </div>
@@ -221,11 +221,11 @@ export default function ProgressPhotosPage() {
       ) : (
         <div className="glass-card rounded-2xl p-8 text-center">
           <div className="text-4xl">📸</div>
-          <p className="mt-3 text-sm text-[#f7f0df]/68">Upload both photos above to unlock the drag-to-compare slider (+20 XP).</p>
+          <p className="mt-3 text-sm text-[#2a1e16]/68">Upload both photos above to unlock the drag-to-compare slider (+20 XP).</p>
         </div>
       )}
 
-      <p className="text-center text-xs text-[#f7f0df]/55">🔒 Your photos never leave your device — they're stored only in this browser.</p>
+      <p className="text-center text-xs text-[#2a1e16]/55">🔒 Your photos never leave your device — they're stored only in this browser.</p>
     </div>
   );
 }

@@ -90,63 +90,63 @@ export default function SplitPlannerPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Workout Split Planner</h1>
-        <p className="text-sm text-[#f7f0df]/68">Get a proven weekly training split matched to your schedule</p>
+        <p className="text-sm text-[#2a1e16]/68">Get a proven weekly training split matched to your schedule</p>
       </div>
 
       {savedPlan && (
         <div className="glass-card rounded-2xl border-gold-glow p-4 text-sm">
-          <span className="text-[#d8b35a]">📌 Your saved split:</span> <span className="font-bold">{savedPlan.name}</span> · {savedPlan.days} days/week
+          <span className="text-[#ea580c]">📌 Your saved split:</span> <span className="font-bold">{savedPlan.name}</span> · {savedPlan.days} days/week
         </div>
       )}
 
       {/* Controls */}
       <div className="glass-card rounded-2xl p-6">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Days you can train per week</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Days you can train per week</p>
         <div className="flex flex-wrap gap-2">
           {[3, 4, 5, 6].map((d) => (
-            <button key={d} type="button" onClick={() => setDays(d)} className={`rounded-full px-5 py-2.5 text-sm font-black transition ${days === d ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{d} days</button>
+            <button key={d} type="button" onClick={() => setDays(d)} className={`rounded-full px-5 py-2.5 text-sm font-black transition ${days === d ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{d} days</button>
           ))}
         </div>
 
-        <p className="mb-2 mt-5 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Experience level</p>
+        <p className="mb-2 mt-5 text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Experience level</p>
         <div className="flex flex-wrap gap-2">
           {Object.entries(LEVEL_ADVICE).map(([k, v]) => (
-            <button key={k} type="button" onClick={() => setLevel(k)} className={`rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.12em] transition ${level === k ? "bg-fuchsia-500/80 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{v.label}</button>
+            <button key={k} type="button" onClick={() => setLevel(k)} className={`rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.12em] transition ${level === k ? "bg-amber-500/80 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{v.label}</button>
           ))}
         </div>
-        <p className="mt-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-[11px] text-[#f7f0df]/68">💡 {advice.text}</p>
+        <p className="mt-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3 text-[11px] text-[#2a1e16]/68">💡 {advice.text}</p>
       </div>
 
       {/* Plan */}
       <div className="glass-card rounded-2xl p-6">
         <div className="flex flex-wrap items-end justify-between gap-2">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">{split.name}</p>
-            <p className="mt-1 text-sm text-[#f7f0df]/68">{split.blurb}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">{split.name}</p>
+            <p className="mt-1 text-sm text-[#2a1e16]/68">{split.blurb}</p>
           </div>
           <span className="rounded-full bg-emerald-300/15 px-3 py-1 text-xs font-bold text-emerald-200">{restDays} rest day{restDays === 1 ? "" : "s"}</span>
         </div>
 
         <div className="mt-5 space-y-2.5">
           {split.days.map((d, i) => (
-            <div key={i} className="flex items-center gap-4 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+            <div key={i} className="flex items-center gap-4 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
               <div className="w-10 shrink-0 text-center">
-                <span className="text-[10px] font-black uppercase tracking-[0.12em] text-violet-300">{d.day}</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.12em] text-orange-600">{d.day}</span>
               </div>
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-violet-500/70 text-lg">{d.icon}</span>
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-orange-500/70 text-lg">{d.icon}</span>
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-black">{d.focus}</p>
-                <p className="text-[11px] text-[#f7f0df]/62">{d.muscles}</p>
+                <p className="text-[11px] text-[#2a1e16]/62">{d.muscles}</p>
               </div>
-              <p className="hidden max-w-[38%] text-right text-[11px] text-[#f7f0df]/55 sm:block">{d.cue}</p>
+              <p className="hidden max-w-[38%] text-right text-[11px] text-[#2a1e16]/55 sm:block">{d.cue}</p>
             </div>
           ))}
         </div>
 
-        <button type="button" onClick={savePlan} className={"btn-gloss mt-5 w-full rounded-full py-3 text-xs font-black uppercase tracking-[0.16em] text-white transition " + (saved ? "bg-emerald-500" : "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700")}>{saved ? "✓ Split Saved! (+10 XP)" : "Save This Split (+10 XP)"}</button>
+        <button type="button" onClick={savePlan} className={"btn-gloss mt-5 w-full rounded-full py-3 text-xs font-black uppercase tracking-[0.16em] text-white transition " + (saved ? "bg-emerald-500" : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700")}>{saved ? "✓ Split Saved! (+10 XP)" : "Save This Split (+10 XP)"}</button>
       </div>
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Consistency beats the perfect program — pick a split you can actually stick to every week.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Consistency beats the perfect program — pick a split you can actually stick to every week.</p>
     </div>
   );
 }

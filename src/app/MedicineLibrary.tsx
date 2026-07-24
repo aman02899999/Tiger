@@ -93,65 +93,65 @@ export default function MedicineLibraryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Medicine Library</h1>
-        <p className="text-sm text-[#f7f0df]/68">{MEDS.length} common medicines &amp; supplements — with what, how &amp; when to use each</p>
+        <p className="text-sm text-[#2a1e16]/68">{MEDS.length} common medicines &amp; supplements — with what, how &amp; when to use each</p>
       </div>
 
       {/* Prominent disclaimer */}
       <div className="rounded-2xl border border-rose-400/30 bg-rose-400/10 p-4">
         <p className="text-sm font-bold text-rose-200">⚕️ Educational information only</p>
-        <p className="mt-1 text-[11px] leading-relaxed text-[#f7f0df]/70">This library does not diagnose, prescribe, or replace professional care. Always read the label, follow dosing instructions, and consult a doctor or pharmacist before taking any medicine — especially if pregnant, on other medications, or managing a health condition. In an emergency, seek immediate medical help.</p>
+        <p className="mt-1 text-[11px] leading-relaxed text-[#2a1e16]/70">This library does not diagnose, prescribe, or replace professional care. Always read the label, follow dosing instructions, and consult a doctor or pharmacist before taking any medicine — especially if pregnant, on other medications, or managing a health condition. In an emergency, seek immediate medical help.</p>
       </div>
 
       <div className="glass-card rounded-2xl p-4">
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search medicines or symptoms…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search medicines or symptoms…" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
         <div className="mt-3 flex flex-wrap gap-2">
           {CATS.map((c) => (
-            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{c}</button>
+            <button key={c} type="button" onClick={() => setCat(c)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${cat === c ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{c}</button>
           ))}
         </div>
       </div>
 
       {open && (
         <div className="fixed inset-0 z-[60] flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm sm:items-center" onClick={() => setOpen(null)}>
-          <div className="glass-card w-full max-w-lg overflow-y-auto rounded-2xl bg-[#0b0714]/95 p-6" style={{ maxHeight: "88vh" }} onClick={(e) => e.stopPropagation()}>
+          <div className="glass-card w-full max-w-lg overflow-y-auto rounded-2xl bg-[#fffdf9]/95 p-6" style={{ maxHeight: "88vh" }} onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center gap-3">
-              <span className="grid h-12 w-12 place-items-center rounded-full bg-violet-500/15 text-2xl">{open.icon}</span>
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-orange-500/15 text-2xl">{open.icon}</span>
               <div>
                 <h2 className="text-xl font-black">{open.name}</h2>
-                {open.aka && <p className="text-[11px] text-[#f7f0df]/55">{open.aka}</p>}
+                {open.aka && <p className="text-[11px] text-[#2a1e16]/55">{open.aka}</p>}
               </div>
-              <span className="ml-auto rounded-full bg-violet-500/20 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-violet-200">{open.category}</span>
+              <span className="ml-auto rounded-full bg-orange-500/20 px-2.5 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-orange-700">{open.category}</span>
             </div>
 
             <div className="mt-4 space-y-3">
               {[
                 { label: "What it's for", text: open.use, icon: "🎯", c: "#34d399" },
-                { label: "How to use", text: open.how, icon: "🥄", c: "#d8b35a" },
+                { label: "How to use", text: open.how, icon: "🥄", c: "#ea580c" },
                 { label: "When to use", text: open.when, icon: "⏰", c: "#38bdf8" },
               ].map((row) => (
-                <div key={row.label} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+                <div key={row.label} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-4">
                   <p className="text-[11px] font-black uppercase tracking-[0.14em]" style={{ color: row.c }}>{row.icon} {row.label}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-[#f7f0df]/80">{row.text}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-[#2a1e16]/80">{row.text}</p>
                 </div>
               ))}
             </div>
 
-            <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#f7f0df]/78"><span className="font-bold text-rose-200">⚠️ Caution: </span>{open.caution}</p>
-            <button type="button" onClick={() => setOpen(null)} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Close</button>
+            <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#2a1e16]/78"><span className="font-bold text-rose-200">⚠️ Caution: </span>{open.caution}</p>
+            <button type="button" onClick={() => setOpen(null)} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Close</button>
           </div>
         </div>
       )}
 
       <div className="grid gap-3 md:grid-cols-2">
         {filtered.map((m) => (
-          <button key={m.id} type="button" onClick={() => setOpen(m)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-violet-200/30">
-            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-violet-500/15 text-2xl">{m.icon}</span>
+          <button key={m.id} type="button" onClick={() => setOpen(m)} className="glass-card flex items-center gap-4 rounded-2xl p-5 text-left transition hover:-translate-y-0.5 hover:border-orange-200/30">
+            <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-orange-500/15 text-2xl">{m.icon}</span>
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="text-base font-black leading-tight">{m.name}</h3>
-                <span className="rounded-full bg-violet-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-violet-200">{m.category}</span>
+                <span className="rounded-full bg-orange-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-orange-700">{m.category}</span>
               </div>
-              <p className="line-clamp-2 text-[13px] text-[#f7f0df]/62">{m.use}</p>
+              <p className="line-clamp-2 text-[13px] text-[#2a1e16]/62">{m.use}</p>
             </div>
           </button>
         ))}

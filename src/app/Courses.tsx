@@ -377,7 +377,7 @@ function StarRating({ rating }: { rating: number }) {
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
-      <span className="text-xs text-[#f7f0df]/60 ml-1">{rating}</span>
+      <span className="text-xs text-[#2a1e16]/60 ml-1">{rating}</span>
     </span>
   );
 }
@@ -397,10 +397,10 @@ function CourseCard({
   return (
     <div
       onClick={onClick}
-      className="relative bg-[#0f0a1a] border border-violet-900/30 rounded-2xl overflow-hidden cursor-pointer group hover:border-violet-500/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all duration-300"
+      className="relative bg-[#0f0a1a] border border-orange-900/30 rounded-2xl overflow-hidden cursor-pointer group hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all duration-300"
     >
       {course.featured && (
-        <div className="absolute top-3 right-3 z-10 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+        <div className="absolute top-3 right-3 z-10 bg-gradient-to-r from-orange-600 to-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
           Featured
         </div>
       )}
@@ -409,7 +409,7 @@ function CourseCard({
           Enrolled
         </div>
       )}
-      <div className="h-32 bg-gradient-to-br from-violet-900/40 to-fuchsia-900/30 flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-300">
+      <div className="h-32 bg-gradient-to-br from-orange-900/40 to-amber-900/30 flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-300">
         {course.emoji}
       </div>
       <div className="p-4 flex flex-col gap-2">
@@ -417,15 +417,15 @@ function CourseCard({
           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${getLevelColor(course.level)}`}>
             {course.level}
           </span>
-          <span className="text-[10px] text-[#f7f0df]/40 bg-white/5 px-2 py-0.5 rounded-full">
+          <span className="text-[10px] text-[#2a1e16]/40 bg-black/5 px-2 py-0.5 rounded-full">
             {course.category}
           </span>
         </div>
-        <h3 className="text-[#f7f0df] font-bold text-sm leading-tight group-hover:text-violet-300 transition-colors">
+        <h3 className="text-[#2a1e16] font-bold text-sm leading-tight group-hover:text-orange-600 transition-colors">
           {course.title}
         </h3>
-        <p className="text-[#f7f0df]/50 text-xs">{course.instructor}</p>
-        <div className="flex items-center gap-3 text-[10px] text-[#f7f0df]/40">
+        <p className="text-[#2a1e16]/50 text-xs">{course.instructor}</p>
+        <div className="flex items-center gap-3 text-[10px] text-[#2a1e16]/40">
           <span>{course.duration}</span>
           <span>•</span>
           <span>{course.lessons} lessons</span>
@@ -433,10 +433,10 @@ function CourseCard({
           <span>{course.students.toLocaleString()} students</span>
         </div>
         <StarRating rating={course.rating} />
-        <div className="flex items-center justify-between mt-1 pt-2 border-t border-violet-900/20">
+        <div className="flex items-center justify-between mt-1 pt-2 border-t border-orange-900/20">
           <div className="flex items-center gap-2">
-            <span className="text-violet-400 font-bold text-base">₹{course.price.toLocaleString()}</span>
-            <span className="text-[#f7f0df]/30 text-xs line-through">₹{course.originalPrice.toLocaleString()}</span>
+            <span className="text-orange-400 font-bold text-base">₹{course.price.toLocaleString()}</span>
+            <span className="text-[#2a1e16]/30 text-xs line-through">₹{course.originalPrice.toLocaleString()}</span>
             <span className="text-green-400 text-[10px] font-semibold">{savingsPct}% off</span>
           </div>
         </div>
@@ -445,7 +445,7 @@ function CourseCard({
             e.stopPropagation();
             onClick();
           }}
-          className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white text-xs font-semibold transition-all duration-200 hover:shadow-[0_0_15px_rgba(139,92,246,0.4)]"
+          className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-semibold transition-all duration-200 hover:shadow-[0_0_15px_rgba(139,92,246,0.4)]"
         >
           {enrolled ? 'View Course' : 'Enroll Now'}
         </button>
@@ -467,30 +467,30 @@ function PaymentModal({
 }) {
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-      <div className="bg-[#0f0a1a] border border-violet-500/30 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+      <div className="bg-[#0f0a1a] border border-orange-500/30 rounded-2xl p-6 max-w-sm w-full shadow-2xl">
         <div className="text-center mb-6">
           <div className="text-4xl mb-3">{course.emoji}</div>
-          <h3 className="text-[#f7f0df] font-bold text-lg">Complete Payment</h3>
-          <p className="text-[#f7f0df]/50 text-sm mt-1">{course.title}</p>
+          <h3 className="text-[#2a1e16] font-bold text-lg">Complete Payment</h3>
+          <p className="text-[#2a1e16]/50 text-sm mt-1">{course.title}</p>
         </div>
-        <div className="bg-violet-900/20 border border-violet-700/30 rounded-xl p-4 mb-4 text-center">
-          <p className="text-[#f7f0df]/60 text-xs mb-1">Amount to Pay</p>
-          <p className="text-3xl font-bold bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+        <div className="bg-orange-900/20 border border-orange-700/30 rounded-xl p-4 mb-4 text-center">
+          <p className="text-[#2a1e16]/60 text-xs mb-1">Amount to Pay</p>
+          <p className="text-3xl font-bold bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
             ₹{course.price.toLocaleString()}
           </p>
           <p className="text-green-400 text-xs mt-1">
             You save ₹{(course.originalPrice - course.price).toLocaleString()}
           </p>
         </div>
-        <div className="bg-white/5 rounded-xl p-4 mb-5">
-          <p className="text-[#f7f0df]/60 text-xs font-semibold mb-2 uppercase tracking-wider">Pay via UPI</p>
+        <div className="bg-black/5 rounded-xl p-4 mb-5">
+          <p className="text-[#2a1e16]/60 text-xs font-semibold mb-2 uppercase tracking-wider">Pay via UPI</p>
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-violet-600 to-fuchsia-600 rounded-lg flex items-center justify-center text-lg">
+            <div className="w-10 h-10 bg-gradient-to-br from-orange-600 to-amber-600 rounded-lg flex items-center justify-center text-lg">
               📲
             </div>
             <div>
-              <p className="text-[#f7f0df] text-sm font-semibold">titanfit@upi</p>
-              <p className="text-[#f7f0df]/40 text-xs">Scan or pay via any UPI app</p>
+              <p className="text-[#2a1e16] text-sm font-semibold">titanfit@upi</p>
+              <p className="text-[#2a1e16]/40 text-xs">Scan or pay via any UPI app</p>
             </div>
           </div>
         </div>
@@ -498,18 +498,18 @@ function PaymentModal({
           <button
             onClick={onCancel}
             disabled={loading}
-            className="flex-1 py-2.5 rounded-xl border border-violet-700/40 text-[#f7f0df]/60 text-sm font-medium hover:bg-white/5 transition-colors disabled:opacity-50"
+            className="flex-1 py-2.5 rounded-xl border border-orange-700/40 text-[#2a1e16]/60 text-sm font-medium hover:bg-black/5 transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
             disabled={loading}
-            className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white text-sm font-semibold transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-sm font-semibold transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
-                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <span className="w-4 h-4 border-2 border-black/30 border-t-white rounded-full animate-spin" />
                 Processing...
               </>
             ) : (
@@ -517,7 +517,7 @@ function PaymentModal({
             )}
           </button>
         </div>
-        <p className="text-center text-[#f7f0df]/30 text-[10px] mt-3">
+        <p className="text-center text-[#2a1e16]/30 text-[10px] mt-3">
           By confirming, you agree to our terms of service
         </p>
       </div>
@@ -544,19 +544,19 @@ function CourseDetailModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="bg-[#0b0714] border border-violet-800/40 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
+      <div className="bg-[#fffdf9] border border-orange-800/40 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl">
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-[#0b0714]/95 backdrop-blur-sm border-b border-violet-900/30 p-4 flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-[#fffdf9]/95 backdrop-blur-sm border-b border-orange-900/30 p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-2xl">{course.emoji}</span>
             <div>
-              <h2 className="text-[#f7f0df] font-bold text-base leading-tight">{course.title}</h2>
-              <p className="text-[#f7f0df]/50 text-xs">{course.subtitle}</p>
+              <h2 className="text-[#2a1e16] font-bold text-base leading-tight">{course.title}</h2>
+              <p className="text-[#2a1e16]/50 text-xs">{course.subtitle}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-[#f7f0df]/60 hover:text-[#f7f0df] transition-colors text-sm"
+            className="w-8 h-8 rounded-full bg-black/10 hover:bg-black/20 flex items-center justify-center text-[#2a1e16]/60 hover:text-[#2a1e16] transition-colors text-sm"
           >
             ✕
           </button>
@@ -571,10 +571,10 @@ function CourseDetailModal({
               { label: 'Students', value: course.students.toLocaleString(), icon: '👥' },
               { label: 'Rating', value: course.rating, icon: '⭐' },
             ].map((stat) => (
-              <div key={stat.label} className="bg-white/5 rounded-xl p-3 text-center">
+              <div key={stat.label} className="bg-black/5 rounded-xl p-3 text-center">
                 <div className="text-xl mb-1">{stat.icon}</div>
-                <div className="text-[#f7f0df] font-bold text-sm">{stat.value}</div>
-                <div className="text-[#f7f0df]/40 text-[10px]">{stat.label}</div>
+                <div className="text-[#2a1e16] font-bold text-sm">{stat.value}</div>
+                <div className="text-[#2a1e16]/40 text-[10px]">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -584,24 +584,24 @@ function CourseDetailModal({
             <span className={`text-xs font-semibold px-3 py-1 rounded-full ${getLevelColor(course.level)}`}>
               {course.level}
             </span>
-            <span className="text-xs text-[#f7f0df]/40 bg-white/5 px-3 py-1 rounded-full">{course.category}</span>
+            <span className="text-xs text-[#2a1e16]/40 bg-black/5 px-3 py-1 rounded-full">{course.category}</span>
             <StarRating rating={course.rating} />
           </div>
 
           {/* Description */}
           <div>
-            <h3 className="text-[#f7f0df] font-semibold text-sm mb-2">About This Course</h3>
-            <p className="text-[#f7f0df]/60 text-sm leading-relaxed">{course.description}</p>
+            <h3 className="text-[#2a1e16] font-semibold text-sm mb-2">About This Course</h3>
+            <p className="text-[#2a1e16]/60 text-sm leading-relaxed">{course.description}</p>
           </div>
 
           {/* Outcomes */}
           <div>
-            <h3 className="text-[#f7f0df] font-semibold text-sm mb-3">What You'll Learn</h3>
+            <h3 className="text-[#2a1e16] font-semibold text-sm mb-3">What You'll Learn</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {course.outcomes.map((outcome, i) => (
-                <div key={i} className="flex items-start gap-2 bg-violet-900/10 rounded-lg p-2.5">
+                <div key={i} className="flex items-start gap-2 bg-orange-900/10 rounded-lg p-2.5">
                   <span className="text-green-400 mt-0.5 text-sm flex-shrink-0">✓</span>
-                  <span className="text-[#f7f0df]/70 text-xs leading-relaxed">{outcome}</span>
+                  <span className="text-[#2a1e16]/70 text-xs leading-relaxed">{outcome}</span>
                 </div>
               ))}
             </div>
@@ -609,19 +609,19 @@ function CourseDetailModal({
 
           {/* Curriculum */}
           <div>
-            <h3 className="text-[#f7f0df] font-semibold text-sm mb-3">Curriculum</h3>
+            <h3 className="text-[#2a1e16] font-semibold text-sm mb-3">Curriculum</h3>
             <div className="flex flex-col gap-2">
               {course.curriculum.map((item, i) => (
-                <div key={i} className="border border-violet-900/30 rounded-xl overflow-hidden">
+                <div key={i} className="border border-orange-900/30 rounded-xl overflow-hidden">
                   <button
                     onClick={() => setExpandedWeek(expandedWeek === i ? null : i)}
-                    className="w-full flex items-center justify-between px-4 py-3 bg-white/3 hover:bg-white/5 transition-colors text-left"
+                    className="w-full flex items-center justify-between px-4 py-3 bg-black/3 hover:bg-black/5 transition-colors text-left"
                   >
-                    <span className="text-[#f7f0df] text-xs font-semibold">{item.week}</span>
+                    <span className="text-[#2a1e16] text-xs font-semibold">{item.week}</span>
                     <div className="flex items-center gap-2">
-                      <span className="text-[#f7f0df]/40 text-[10px]">{item.topics.length} topics</span>
+                      <span className="text-[#2a1e16]/40 text-[10px]">{item.topics.length} topics</span>
                       <svg
-                        className={`w-4 h-4 text-violet-400 transition-transform duration-200 ${expandedWeek === i ? 'rotate-180' : ''}`}
+                        className={`w-4 h-4 text-orange-400 transition-transform duration-200 ${expandedWeek === i ? 'rotate-180' : ''}`}
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -633,8 +633,8 @@ function CourseDetailModal({
                   {expandedWeek === i && (
                     <div className="px-4 pb-3 pt-1 bg-black/20 flex flex-col gap-1.5">
                       {item.topics.map((topic, j) => (
-                        <div key={j} className="flex items-center gap-2 text-[#f7f0df]/60 text-xs">
-                          <span className="w-1.5 h-1.5 rounded-full bg-violet-500 flex-shrink-0" />
+                        <div key={j} className="flex items-center gap-2 text-[#2a1e16]/60 text-xs">
+                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 flex-shrink-0" />
                           {topic}
                         </div>
                       ))}
@@ -646,15 +646,15 @@ function CourseDetailModal({
           </div>
 
           {/* Instructor */}
-          <div className="bg-gradient-to-r from-violet-900/20 to-fuchsia-900/10 border border-violet-800/30 rounded-xl p-4">
-            <h3 className="text-[#f7f0df] font-semibold text-sm mb-3">Your Instructor</h3>
+          <div className="bg-gradient-to-r from-orange-900/20 to-amber-900/10 border border-orange-800/30 rounded-xl p-4">
+            <h3 className="text-[#2a1e16] font-semibold text-sm mb-3">Your Instructor</h3>
             <div className="flex items-start gap-3">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center text-xl flex-shrink-0">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-600 to-amber-600 flex items-center justify-center text-xl flex-shrink-0">
                 👤
               </div>
               <div>
-                <p className="text-[#f7f0df] font-semibold text-sm">{course.instructor}</p>
-                <p className="text-[#f7f0df]/55 text-xs mt-1 leading-relaxed">{course.instructorBio}</p>
+                <p className="text-[#2a1e16] font-semibold text-sm">{course.instructor}</p>
+                <p className="text-[#2a1e16]/55 text-xs mt-1 leading-relaxed">{course.instructorBio}</p>
               </div>
             </div>
           </div>
@@ -666,7 +666,7 @@ function CourseDetailModal({
                 <span className="text-green-400 text-lg">✅</span>
                 <div>
                   <p className="text-green-400 font-semibold text-sm">You're enrolled!</p>
-                  <p className="text-[#f7f0df]/40 text-xs">
+                  <p className="text-[#2a1e16]/40 text-xs">
                     Enrolled on {new Date(enrollment.enrolledAt).toLocaleDateString('en-IN')}
                   </p>
                 </div>
@@ -681,20 +681,20 @@ function CourseDetailModal({
                   <span>📄</span> Download Course PDF
                 </a>
               ) : (
-                <div className="flex items-center gap-2 text-[#f7f0df]/50 text-sm bg-white/5 rounded-xl py-2.5 px-4 justify-center">
+                <div className="flex items-center gap-2 text-[#2a1e16]/50 text-sm bg-black/5 rounded-xl py-2.5 px-4 justify-center">
                   <span>📧</span>
                   <span>PDF will be emailed to you</span>
                 </div>
               )}
             </div>
           ) : (
-            <div className="bg-gradient-to-r from-violet-900/30 to-fuchsia-900/20 border border-violet-700/40 rounded-xl p-4">
+            <div className="bg-gradient-to-r from-orange-900/30 to-amber-900/20 border border-orange-700/40 rounded-xl p-4">
               <div className="flex items-center justify-between mb-3">
                 <div>
-                  <p className="text-[#f7f0df]/60 text-xs mb-1">Course Price</p>
+                  <p className="text-[#2a1e16]/60 text-xs mb-1">Course Price</p>
                   <div className="flex items-center gap-2">
-                    <span className="text-2xl font-bold text-violet-400">₹{course.price.toLocaleString()}</span>
-                    <span className="text-[#f7f0df]/30 text-sm line-through">
+                    <span className="text-2xl font-bold text-orange-400">₹{course.price.toLocaleString()}</span>
+                    <span className="text-[#2a1e16]/30 text-sm line-through">
                       ₹{course.originalPrice.toLocaleString()}
                     </span>
                   </div>
@@ -707,18 +707,18 @@ function CourseDetailModal({
               <button
                 onClick={onEnroll}
                 disabled={enrolling}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-semibold text-sm transition-all duration-200 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-semibold text-sm transition-all duration-200 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {enrolling ? (
                   <>
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span className="w-4 h-4 border-2 border-black/30 border-t-white rounded-full animate-spin" />
                     Processing...
                   </>
                 ) : (
                   <>Enroll Now — Pay ₹{course.price.toLocaleString()}</>
                 )}
               </button>
-              <p className="text-center text-[#f7f0df]/30 text-[10px] mt-2">30-day money-back guarantee</p>
+              <p className="text-center text-[#2a1e16]/30 text-[10px] mt-2">30-day money-back guarantee</p>
             </div>
           )}
         </div>
@@ -743,8 +743,8 @@ function LevelFilterTabs({
           onClick={() => onChange(lvl)}
           className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
             active === lvl
-              ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.35)]'
-              : 'bg-white/5 text-[#f7f0df]/50 hover:bg-white/10 hover:text-[#f7f0df]/80'
+              ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.35)]'
+              : 'bg-black/5 text-[#2a1e16]/50 hover:bg-black/10 hover:text-[#2a1e16]/80'
           }`}
         >
           {lvl}
@@ -767,7 +767,7 @@ function CourseGrid({
     return (
       <div className="col-span-full flex flex-col items-center justify-center py-16 text-center">
         <div className="text-5xl mb-4">🎓</div>
-        <p className="text-[#f7f0df]/50 text-sm">No courses found for this filter.</p>
+        <p className="text-[#2a1e16]/50 text-sm">No courses found for this filter.</p>
       </div>
     );
   }
@@ -815,20 +815,20 @@ export function CoursesSection() {
   const filtered = levelFilter === 'All' ? courses : courses.filter((c) => c.level === levelFilter);
 
   return (
-    <section id="courses" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#07040d]">
+    <section id="courses" className="py-20 px-4 sm:px-6 lg:px-8 bg-[#faf4ec]">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-1.5 mb-4">
-            <span className="text-violet-400 text-xs font-semibold uppercase tracking-widest">Courses & Certifications</span>
+          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-1.5 mb-4">
+            <span className="text-orange-400 text-xs font-semibold uppercase tracking-widest">Courses & Certifications</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-[#f7f0df] mb-3">
+          <h2 className="text-3xl sm:text-4xl font-black text-[#2a1e16] mb-3">
             Level Up Your{' '}
-            <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
               Fitness Career
             </span>
           </h2>
-          <p className="text-[#f7f0df]/50 text-base max-w-xl mx-auto">
+          <p className="text-[#2a1e16]/50 text-base max-w-xl mx-auto">
             Industry-recognized certifications and courses taught by world-class instructors.
           </p>
         </div>
@@ -836,13 +836,13 @@ export function CoursesSection() {
         {/* Filters */}
         <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
           <LevelFilterTabs active={levelFilter} onChange={setLevelFilter} />
-          <p className="text-[#f7f0df]/30 text-xs">{filtered.length} course{filtered.length !== 1 ? 's' : ''}</p>
+          <p className="text-[#2a1e16]/30 text-xs">{filtered.length} course{filtered.length !== 1 ? 's' : ''}</p>
         </div>
 
         {/* Grid */}
         <CourseGrid courses={filtered} enrollments={{}} onSelect={setSelected} />
         <div className="text-center mt-10">
-          <a href="#app" className="inline-block bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 text-white font-bold px-8 py-3 rounded-xl transition-all">
+          <a href="#app" className="inline-block bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold px-8 py-3 rounded-xl transition-all">
             Sign In to Enroll →
           </a>
         </div>
@@ -946,34 +946,34 @@ export default function CoursesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07040d] text-[#f7f0df]">
+    <div className="min-h-screen bg-[#faf4ec] text-[#2a1e16]">
       {/* Page Header */}
-      <div className="bg-gradient-to-b from-[#0b0714] to-[#07040d] border-b border-violet-900/20 px-4 sm:px-6 lg:px-8 pt-10 pb-6">
+      <div className="bg-gradient-to-b from-[#fffdf9] to-[#faf4ec] border-b border-orange-900/20 px-4 sm:px-6 lg:px-8 pt-10 pb-6">
         <div className="max-w-6xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-violet-500/10 border border-violet-500/20 rounded-full px-4 py-1.5 mb-4">
-            <span className="text-violet-400 text-xs font-semibold uppercase tracking-widest">
+          <div className="inline-flex items-center gap-2 bg-orange-500/10 border border-orange-500/20 rounded-full px-4 py-1.5 mb-4">
+            <span className="text-orange-400 text-xs font-semibold uppercase tracking-widest">
               TitanFit Pro Academy
             </span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black mb-2">
-            <span className="bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
               Courses & Certifications
             </span>
           </h1>
-          <p className="text-[#f7f0df]/50 text-sm max-w-xl">
+          <p className="text-[#2a1e16]/50 text-sm max-w-xl">
             Advance your fitness career with world-class certifications and courses.
           </p>
 
           {/* Tabs */}
-          <div className="flex items-center gap-1 mt-6 bg-white/5 rounded-xl p-1 w-fit">
+          <div className="flex items-center gap-1 mt-6 bg-black/5 rounded-xl p-1 w-fit">
             {(['all', 'my-courses'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                   activeTab === tab
-                    ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.3)]'
-                    : 'text-[#f7f0df]/50 hover:text-[#f7f0df]/80'
+                    ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.3)]'
+                    : 'text-[#2a1e16]/50 hover:text-[#2a1e16]/80'
                 }`}
               >
                 {tab === 'all' ? 'All Courses' : `My Courses${enrolledCourses.length > 0 ? ` (${enrolledCourses.length})` : ''}`}
@@ -989,7 +989,7 @@ export default function CoursesPage() {
             {/* Filters */}
             <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
               <LevelFilterTabs active={levelFilter} onChange={setLevelFilter} />
-              <p className="text-[#f7f0df]/30 text-xs">
+              <p className="text-[#2a1e16]/30 text-xs">
                 {filtered.length} course{filtered.length !== 1 ? 's' : ''}
               </p>
             </div>
@@ -1000,20 +1000,20 @@ export default function CoursesPage() {
           enrolledCourses.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-24 text-center">
               <div className="text-6xl mb-5">🎓</div>
-              <h3 className="text-[#f7f0df] font-bold text-xl mb-2">No Enrollments Yet</h3>
-              <p className="text-[#f7f0df]/40 text-sm mb-6 max-w-xs">
+              <h3 className="text-[#2a1e16] font-bold text-xl mb-2">No Enrollments Yet</h3>
+              <p className="text-[#2a1e16]/40 text-sm mb-6 max-w-xs">
                 Browse our courses and enroll to start your fitness education journey.
               </p>
               <button
                 onClick={() => setActiveTab('all')}
-                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white text-sm font-semibold hover:from-violet-500 hover:to-fuchsia-500 transition-all duration-200"
+                className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white text-sm font-semibold hover:from-orange-500 hover:to-amber-500 transition-all duration-200"
               >
                 Browse Courses
               </button>
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              <p className="text-[#f7f0df]/40 text-sm mb-2">
+              <p className="text-[#2a1e16]/40 text-sm mb-2">
                 You are enrolled in {enrolledCourses.length} course{enrolledCourses.length !== 1 ? 's' : ''}.
               </p>
               {enrolledCourses.map((course) => {
@@ -1021,22 +1021,22 @@ export default function CoursesPage() {
                 return (
                   <div
                     key={course.id}
-                    className="bg-[#0f0a1a] border border-violet-900/30 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 hover:border-violet-500/40 transition-colors"
+                    className="bg-[#0f0a1a] border border-orange-900/30 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center gap-4 hover:border-orange-500/40 transition-colors"
                   >
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-violet-900/60 to-fuchsia-900/40 flex items-center justify-center text-3xl flex-shrink-0">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-900/60 to-amber-900/40 flex items-center justify-center text-3xl flex-shrink-0">
                       {course.emoji}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <h3 className="text-[#f7f0df] font-bold text-base leading-tight">{course.title}</h3>
+                        <h3 className="text-[#2a1e16] font-bold text-base leading-tight">{course.title}</h3>
                         <span
                           className={`text-[10px] font-semibold px-2 py-0.5 rounded-full ${getLevelColor(course.level)}`}
                         >
                           {course.level}
                         </span>
                       </div>
-                      <p className="text-[#f7f0df]/50 text-xs mb-1">{course.instructor}</p>
-                      <div className="flex items-center gap-3 text-[10px] text-[#f7f0df]/35">
+                      <p className="text-[#2a1e16]/50 text-xs mb-1">{course.instructor}</p>
+                      <div className="flex items-center gap-3 text-[10px] text-[#2a1e16]/35">
                         <span>{course.duration}</span>
                         <span>•</span>
                         <span>{course.lessons} lessons</span>
@@ -1049,7 +1049,7 @@ export default function CoursesPage() {
                     <div className="flex items-center gap-3 flex-shrink-0">
                       <button
                         onClick={() => setSelected(course)}
-                        className="px-4 py-2 rounded-xl border border-violet-700/40 text-violet-400 text-xs font-semibold hover:bg-violet-900/20 transition-colors"
+                        className="px-4 py-2 rounded-xl border border-orange-700/40 text-orange-400 text-xs font-semibold hover:bg-orange-900/20 transition-colors"
                       >
                         View Details
                       </button>
@@ -1063,7 +1063,7 @@ export default function CoursesPage() {
                           <span>📄</span> Download PDF
                         </a>
                       ) : (
-                        <div className="px-4 py-2 rounded-xl bg-white/5 text-[#f7f0df]/40 text-xs flex items-center gap-1.5">
+                        <div className="px-4 py-2 rounded-xl bg-black/5 text-[#2a1e16]/40 text-xs flex items-center gap-1.5">
                           <span>📧</span> PDF via Email
                         </div>
                       )}
@@ -1103,11 +1103,11 @@ export default function CoursesPage() {
           <span className="text-green-400 text-xl">✅</span>
           <div>
             <p className="text-green-400 font-semibold text-sm">Enrollment Successful!</p>
-            <p className="text-[#f7f0df]/50 text-xs">Check your email for course materials.</p>
+            <p className="text-[#2a1e16]/50 text-xs">Check your email for course materials.</p>
           </div>
           <button
             onClick={() => setPaymentDone(false)}
-            className="ml-3 text-[#f7f0df]/30 hover:text-[#f7f0df]/60 text-sm"
+            className="ml-3 text-[#2a1e16]/30 hover:text-[#2a1e16]/60 text-sm"
           >
             ✕
           </button>

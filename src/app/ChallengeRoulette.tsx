@@ -93,22 +93,22 @@ export default function ChallengeRoulettePage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Challenge Roulette</h1>
-        <p className="text-sm text-[#f7f0df]/68">Draw a surprise micro-challenge for today — one spin, one mission</p>
+        <p className="text-sm text-[#2a1e16]/68">Draw a surprise micro-challenge for today — one spin, one mission</p>
       </div>
 
-      <div className="glass-card relative overflow-hidden rounded-3xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(216,179,90,0.14) 0%, transparent 60%)" }}>
+      <div className="glass-card relative overflow-hidden rounded-3xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(234,88,12,0.14) 0%, transparent 60%)" }}>
         {/* reel window */}
-        <div className="relative mx-auto flex h-44 w-full max-w-md items-center justify-center overflow-hidden rounded-2xl border border-[#d8b35a]/25 bg-black/30">
+        <div className="relative mx-auto flex h-44 w-full max-w-md items-center justify-center overflow-hidden rounded-2xl border border-[#ea580c]/25 bg-black/30">
           <div className={`text-center transition ${spinning ? "blur-[1px]" : ""}`}>
             <div className={`text-6xl ${spinning ? "animate-bounce" : ""}`} style={{ animationDuration: "0.4s" }}>{shown.icon}</div>
-            <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#d8b35a]">{shown.tag}</p>
+            <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#ea580c]">{shown.tag}</p>
           </div>
         </div>
 
         {state.drawn ? (
           <div className="mt-6">
             <p className="text-xl font-black leading-snug">{todaysChallenge.text}</p>
-            <p className="mt-2 text-sm font-bold text-[#d8b35a]">Reward: +{todaysChallenge.xp} XP</p>
+            <p className="mt-2 text-sm font-bold text-[#ea580c]">Reward: +{todaysChallenge.xp} XP</p>
             {state.done ? (
               <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-300/10 px-6 py-3">
                 <span className="text-lg">🎉</span>
@@ -122,15 +122,15 @@ export default function ChallengeRoulettePage() {
           </div>
         ) : (
           <div className="mt-6">
-            <p className="text-sm text-[#f7f0df]/68">Your daily challenge is waiting behind the spin.</p>
-            <button type="button" onClick={draw} disabled={spinning} className="btn-gloss mt-5 rounded-full bg-gradient-to-r from-[#d8b35a] to-orange-400 px-12 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#090511] disabled:opacity-60">
+            <p className="text-sm text-[#2a1e16]/68">Your daily challenge is waiting behind the spin.</p>
+            <button type="button" onClick={draw} disabled={spinning} className="btn-gloss mt-5 rounded-full bg-gradient-to-r from-[#ea580c] to-orange-400 px-12 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#f4ead9] disabled:opacity-60">
               {spinning ? "Rolling…" : "🎰 Spin the Roulette"}
             </button>
           </div>
         )}
       </div>
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">A fresh challenge unlocks every day at midnight. Come back tomorrow for a new one.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">A fresh challenge unlocks every day at midnight. Come back tomorrow for a new one.</p>
     </div>
   );
 }

@@ -19,10 +19,10 @@ function loadDays(email: string | null | undefined): Record<string, number> {
 
 const LEVEL_BG = [
   "rgba(247,240,223,0.06)", // 0 — none
-  "rgba(167,139,250,0.35)", // 1
-  "rgba(167,139,250,0.60)", // 2
-  "rgba(232,121,249,0.75)", // 3
-  "linear-gradient(135deg,#e879f9,#d8b35a)", // 4 — max
+  "rgba(249,115,22,0.35)", // 1
+  "rgba(249,115,22,0.60)", // 2
+  "rgba(251,146,60,0.75)", // 3
+  "linear-gradient(135deg,#fb923c,#ea580c)", // 4 — max
 ];
 
 export default function ConsistencyHub() {
@@ -96,9 +96,9 @@ export default function ConsistencyHub() {
   }, [activeKeys]);
 
   const stats = [
-    { label: "Current Streak", value: `${currentStreak}`, unit: "days", color: "#d8b35a" },
-    { label: "Best Streak", value: `${bestStreak}`, unit: "days", color: "#e879f9" },
-    { label: "Active Days", value: `${totalActive}`, unit: "logged", color: "#a78bfa" },
+    { label: "Current Streak", value: `${currentStreak}`, unit: "days", color: "#ea580c" },
+    { label: "Best Streak", value: `${bestStreak}`, unit: "days", color: "#fb923c" },
+    { label: "Active Days", value: `${totalActive}`, unit: "logged", color: "#f97316" },
     { label: "Effort Points", value: `${totalPoints}`, unit: "total", color: "#34d399" },
   ];
 
@@ -106,7 +106,7 @@ export default function ConsistencyHub() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Consistency</h1>
-        <p className="text-sm text-[#f7f0df]/68">Don't break the chain — tap each day you train to build your streak</p>
+        <p className="text-sm text-[#2a1e16]/68">Don't break the chain — tap each day you train to build your streak</p>
       </div>
 
       {/* Stats */}
@@ -114,7 +114,7 @@ export default function ConsistencyHub() {
         {stats.map((s) => (
           <div key={s.label} className="glass-card rounded-2xl p-4">
             <p className="text-3xl font-black tabular-nums" style={{ color: s.color }}>{s.value}</p>
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65">{s.unit} · {s.label}</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#2a1e16]/65">{s.unit} · {s.label}</p>
           </div>
         ))}
       </div>
@@ -122,8 +122,8 @@ export default function ConsistencyHub() {
       {/* Heatmap */}
       <div className="glass-card rounded-2xl p-6">
         <div className="mb-4 flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Last {WEEKS} weeks</p>
-          <p className="text-[11px] text-[#f7f0df]/62">Tap a day to cycle intensity · +3 XP first log</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Last {WEEKS} weeks</p>
+          <p className="text-[11px] text-[#2a1e16]/62">Tap a day to cycle intensity · +3 XP first log</p>
         </div>
         <div className="overflow-x-auto">
           <div className="flex gap-1" style={{ minWidth: WEEKS * 18 }}>
@@ -138,7 +138,7 @@ export default function ConsistencyHub() {
                       disabled={cell.future}
                       onClick={() => cycle(cell.key, cell.future)}
                       title={cell.future ? "" : `${cell.key}${lvl ? ` · level ${lvl}` : ""}`}
-                      className={`h-3.5 w-3.5 rounded-sm transition ${cell.future ? "opacity-0" : "hover:ring-2 hover:ring-violet-300/50"}`}
+                      className={`h-3.5 w-3.5 rounded-sm transition ${cell.future ? "opacity-0" : "hover:ring-2 hover:ring-orange-300/50"}`}
                       style={{ background: LEVEL_BG[lvl] }}
                     />
                   );
@@ -148,7 +148,7 @@ export default function ConsistencyHub() {
           </div>
         </div>
         {/* legend */}
-        <div className="mt-4 flex items-center justify-end gap-2 text-[10px] text-[#f7f0df]/62">
+        <div className="mt-4 flex items-center justify-end gap-2 text-[10px] text-[#2a1e16]/62">
           <span>Less</span>
           {LEVEL_BG.map((bg, i) => <span key={i} className="h-3 w-3 rounded-sm" style={{ background: bg }} />)}
           <span>More</span>
@@ -156,8 +156,8 @@ export default function ConsistencyHub() {
       </div>
 
       <div className="glass-card rounded-2xl p-5">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">💡 The chain method</p>
-        <p className="mt-2 text-sm leading-relaxed text-[#f7f0df]/75">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">💡 The chain method</p>
+        <p className="mt-2 text-sm leading-relaxed text-[#2a1e16]/75">
           Jerry Seinfeld's productivity trick: mark an X for every day you show up. Soon you'll have a chain of X's —
           and your only job becomes "don't break the chain." One tap a day is all it takes.
         </p>
