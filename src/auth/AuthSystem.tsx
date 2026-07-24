@@ -24,6 +24,10 @@ export type UserProfile = {
   weight: number;
   goal: "fat-loss" | "muscle-gain" | "maintenance" | "wedding" | "general";
   plan: "Free" | "Pro" | "Elite";
+  /** Which side of the app the user lands in. Unset → role picker shown. */
+  role?: "general" | "trainer";
+  /** Trainer subscription tier (separate from the member `plan`). */
+  trainerPlan?: "Free" | "Coach" | "Studio";
   joinDate: string;
   streak: number;
   onboardingComplete: boolean;

@@ -50,6 +50,8 @@ import CardioTrackerPage from "./CardioTracker";
 import WellnessScorePage from "./WellnessScore";
 import { requestNotificationPermission, sendNotification } from "./notifications";
 import { isPushConfigured, subscribeToPush } from "./push";
+import RoleSelect from "./RoleSelect";
+import TrainerApp from "./TrainerApp";
 import BodyFatEstimatorPage from "./BodyFatEstimator";
 import WeightGoalProjectorPage from "./WeightGoalProjector";
 import HydrationTrackerPage from "./HydrationTracker";
@@ -1067,6 +1069,11 @@ function SettingsPage() {
             <button type="button" onClick={saveProfile} className={"rounded-full px-7 py-3 text-xs font-black uppercase tracking-[0.2em] text-white transition " + (saved ? "bg-emerald-500" : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700")}>{saved ? "✓ Saved!" : "Save Changes"}</button>
             <button type="button" onClick={logout} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-7 py-3 text-xs font-black uppercase tracking-[0.2em] text-rose-600 hover:bg-rose-400/20">Sign Out</button>
           </div>
+          <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/8 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">🧑‍🏫 Trainer Studio</p>
+            <p className="mt-1 text-sm text-[#2a1e16]/68">Train clients? Switch to the coaching workspace to manage clients, fees, attendance, plans and pro tools.</p>
+            <button type="button" onClick={() => updateUser({ role: "trainer" })} className="btn-gloss mt-3 rounded-full bg-gradient-to-r from-orange-400 to-emerald-600 px-6 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Switch to Trainer mode →</button>
+          </div>
         </div>
       )}
 
@@ -1202,6 +1209,16 @@ function SaaSAppInner() {
   // Logged in but onboarding incomplete → show wizard
   if (!user.onboardingComplete) {
     return <OnboardingWizard onComplete={() => setSection("dashboard")} />;
+  }
+
+  // Onboarded but hasn't picked a role → show the role chooser
+  if (!user.role) {
+    return <RoleSelect />;
+  }
+
+  // Trainer → dedicated coaching workspace
+  if (user.role === "trainer") {
+    return <TrainerApp />;
   }
 
   // Logged in + onboarded → show app shell
