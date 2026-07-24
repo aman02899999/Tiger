@@ -14,13 +14,13 @@ function RotatingKnot() {
   return (
     <TorusKnot ref={mesh} args={[1, 0.32, 200, 24, 2, 5]}>
       <MeshDistortMaterial
-        color="#7c3aed"
-        roughness={0.25}
-        metalness={0.7}
+        color="#f97316"
+        roughness={0.2}
+        metalness={0.65}
         distort={0.25}
         speed={1.8}
-        emissive="#4c1d95"
-        emissiveIntensity={0.35}
+        emissive="#c2410c"
+        emissiveIntensity={0.4}
       />
     </TorusKnot>
   );
@@ -36,11 +36,11 @@ export default function HeroOrb({ className = "" }: { className?: string }) {
       >
         {/* No <Environment> — it fetches an HDR from a CDN and would crash the
             app if the network blocks it. Lights alone give the metallic look. */}
-        <ambientLight intensity={0.6} />
-        <pointLight position={[4, 4, 4]} intensity={70} color="#c4b5fd" />
-        <pointLight position={[-4, -2, 2]} intensity={50} color="#d8b35a" />
-        <pointLight position={[0, -4, -2]} intensity={30} color="#e879f9" />
-        <pointLight position={[0, 3, 3]} intensity={25} color="#ffffff" />
+        <ambientLight intensity={0.8} />
+        <pointLight position={[4, 4, 4]} intensity={70} color="#fdba74" />
+        <pointLight position={[-4, -2, 2]} intensity={55} color="#f59e0b" />
+        <pointLight position={[0, -4, -2]} intensity={32} color="#fb923c" />
+        <pointLight position={[0, 3, 3]} intensity={28} color="#ffffff" />
         <RotatingKnot />
       </Canvas>
     </div>
