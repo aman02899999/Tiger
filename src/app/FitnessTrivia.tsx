@@ -104,7 +104,7 @@ export default function FitnessTriviaPage() {
           {questions.map((q) => (
             <div key={q.q} className="glass-card rounded-2xl p-4">
               <p className="text-sm font-semibold">{q.q}</p>
-              <p className="mt-1 text-xs text-emerald-300">✓ {q.options[q.answer]}</p>
+              <p className="mt-1 text-xs text-emerald-600">✓ {q.options[q.answer]}</p>
               <p className="mt-1 text-[11px] leading-relaxed text-[#2a1e16]/62">{q.why}</p>
             </div>
           ))}
@@ -146,8 +146,8 @@ export default function FitnessTriviaPage() {
               <button key={opt} type="button" onClick={() => choose(i)} disabled={picked !== null} className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left text-sm font-semibold transition ${cls}`}>
                 <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-[#2a1e16]/20 text-xs">{String.fromCharCode(65 + i)}</span>
                 <span className="flex-1">{opt}</span>
-                {picked !== null && isAnswer && <span className="text-emerald-300">✓</span>}
-                {picked !== null && isPicked && !isAnswer && <span className="text-rose-300">✕</span>}
+                {picked !== null && isAnswer && <span className="text-emerald-600">✓</span>}
+                {picked !== null && isPicked && !isAnswer && <span className="text-rose-600">✕</span>}
               </button>
             );
           })}

@@ -98,7 +98,7 @@ export default function MedicineLibraryPage() {
 
       {/* Prominent disclaimer */}
       <div className="rounded-2xl border border-rose-400/30 bg-rose-400/10 p-4">
-        <p className="text-sm font-bold text-rose-200">⚕️ Educational information only</p>
+        <p className="text-sm font-bold text-rose-600">⚕️ Educational information only</p>
         <p className="mt-1 text-[11px] leading-relaxed text-[#2a1e16]/70">This library does not diagnose, prescribe, or replace professional care. Always read the label, follow dosing instructions, and consult a doctor or pharmacist before taking any medicine — especially if pregnant, on other medications, or managing a health condition. In an emergency, seek immediate medical help.</p>
       </div>
 
@@ -136,7 +136,7 @@ export default function MedicineLibraryPage() {
               ))}
             </div>
 
-            <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#2a1e16]/78"><span className="font-bold text-rose-200">⚠️ Caution: </span>{open.caution}</p>
+            <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#2a1e16]/78"><span className="font-bold text-rose-600">⚠️ Caution: </span>{open.caution}</p>
             <button type="button" onClick={() => setOpen(null)} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Close</button>
           </div>
         </div>

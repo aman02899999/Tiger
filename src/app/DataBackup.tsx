@@ -100,7 +100,7 @@ export default function DataBackupPage() {
           <input ref={fileRef} type="file" accept="application/json,.json" className="hidden" onChange={(e) => importData(e.target.files?.[0])} />
 
           {status && (
-            <p className={`mt-3 rounded-xl p-3 text-center text-xs font-semibold ${status.kind === "ok" ? "bg-emerald-300/10 text-emerald-200" : "bg-rose-400/10 text-rose-200"}`}>{status.msg}</p>
+            <p className={`mt-3 rounded-xl p-3 text-center text-xs font-semibold ${status.kind === "ok" ? "bg-emerald-300/10 text-emerald-600" : "bg-rose-400/10 text-rose-600"}`}>{status.msg}</p>
           )}
           <p className="mt-3 text-[11px] text-[#2a1e16]/55">🔒 Your backup is a plain file on your device — nothing is uploaded to any server.</p>
         </div>

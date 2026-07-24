@@ -259,7 +259,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
         ) : step === "success" ? (
           <div className="flex flex-col items-center justify-center gap-3 p-12 text-center">
             <div className="grid h-16 w-16 place-items-center rounded-full bg-emerald-400/15 text-4xl">✅</div>
-            <h3 className="text-xl font-black text-emerald-300">Payment Successful!</h3>
+            <h3 className="text-xl font-black text-emerald-600">Payment Successful!</h3>
             <p className="text-sm text-[#2a1e16]/70">
               {state.kind === "plan" ? (
                 <>Welcome to <span className="font-bold text-[#ea580c]">{title}</span> — your account has been upgraded instantly.</>
@@ -286,7 +286,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                 <span className="text-4xl font-black tabular-nums text-[#ea580c]">₹{finalPrice}</span>
                 {isRecurring && <span className="pb-1 text-xs text-[#2a1e16]/62">/{state.kind === "plan" && state.cycle === "annual" ? "year" : "month"}</span>}
               </div>
-              {discount > 0 && <p className="mt-1 text-xs font-bold text-emerald-300">You saved ₹{discount} with {appliedCoupon?.code}</p>}
+              {discount > 0 && <p className="mt-1 text-xs font-bold text-emerald-600">You saved ₹{discount} with {appliedCoupon?.code}</p>}
             </div>
 
             <div className="p-6">
@@ -299,7 +299,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                   <div className="mb-4 flex items-center gap-3 rounded-xl border border-emerald-300/25 bg-emerald-300/8 px-4 py-3">
                     <span className="text-xl">▶️</span>
                     <div>
-                      <p className="text-sm font-bold text-emerald-200">Google Play Billing</p>
+                      <p className="text-sm font-bold text-emerald-600">Google Play Billing</p>
                       <p className="text-xs text-[#2a1e16]/62">Charged to your Play Store payment method — cancel anytime from Play Store {'>'} Subscriptions.</p>
                     </div>
                   </div>
@@ -340,12 +340,12 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                     <input value={coupon} onChange={(e) => { setCoupon(e.target.value); setCouponMsg(null); }} placeholder="Coupon code (try LAUNCH20)" className="flex-1 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-200/40" />
                     <button type="button" onClick={applyCoupon} className="rounded-xl border border-[#ea580c]/30 bg-[#ea580c]/10 px-4 text-xs font-bold text-[#ea580c] hover:bg-[#ea580c]/20">Apply</button>
                   </div>
-                  {couponMsg && <p className={`mt-1.5 text-xs font-semibold ${appliedCoupon ? "text-emerald-300" : "text-rose-300"}`}>{couponMsg}</p>}
+                  {couponMsg && <p className={`mt-1.5 text-xs font-semibold ${appliedCoupon ? "text-emerald-600" : "text-rose-600"}`}>{couponMsg}</p>}
 
                   <button type="button" onClick={pay} disabled={!canPay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40">
                     🔒 Pay ₹{finalPrice} Securely
                   </button>
-                  {payError && <p className="mt-2 text-center text-xs font-semibold text-rose-300">{payError}</p>}
+                  {payError && <p className="mt-2 text-center text-xs font-semibold text-rose-600">{payError}</p>}
                   <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#2a1e16]/50">
                     <span>🔒 256-bit encrypted</span>
                     <span>·</span>

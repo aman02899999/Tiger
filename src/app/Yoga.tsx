@@ -379,7 +379,7 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
           />
           <div className="absolute inset-2 rounded-full bg-[#fffdf9]" />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className={`text-2xl font-black tracking-[-0.04em] tabular-nums ${done ? 'text-emerald-300' : 'text-[#2a1e16]'}`}>
+            <span className={`text-2xl font-black tracking-[-0.04em] tabular-nums ${done ? 'text-emerald-600' : 'text-[#2a1e16]'}`}>
               {done ? 'Om' : `${mm}:${ss}`}
             </span>
             <span className="text-[10px] uppercase tracking-[0.2em] text-[#2a1e16]/62">
@@ -430,7 +430,7 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
 
 function LevelBadge({ level }: { level: string }) {
   const styles: Record<string, string> = {
-    Beginner: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
+    Beginner: 'bg-emerald-500/20 text-emerald-600 border border-emerald-500/30',
     Intermediate: 'bg-amber-500/20 text-amber-600 border border-amber-500/30',
     Advanced: 'bg-red-500/20 text-red-300 border border-red-500/30',
   }
@@ -632,7 +632,7 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
               </h3>
               <ul className="space-y-1">
                 {pose.contraindications.map((c, i) => (
-                  <li key={i} className="text-sm text-amber-200/75">{c}</li>
+                  <li key={i} className="text-sm text-amber-600/75">{c}</li>
                 ))}
               </ul>
             </section>
@@ -643,7 +643,7 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
             onClick={onTogglePracticed}
             className={`btn-gloss w-full rounded-2xl py-3 text-sm font-bold transition-all duration-200 ${
               isPracticed
-                ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/30'
+                ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 hover:bg-emerald-500/30'
                 : 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-900/40 hover:from-orange-500 hover:to-amber-500'
             }`}
           >
@@ -807,7 +807,7 @@ export default function YogaPage() {
       {/* ---- Hero Header ---- */}
       <div
         className="relative px-4 pt-12 pb-8 text-center overflow-hidden"
-        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(234,88,12,0.18) 0%, transparent 60%)' }}
       >
         {/* Real demonstration hero photo */}
         <img

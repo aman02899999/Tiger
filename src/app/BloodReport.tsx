@@ -1436,7 +1436,7 @@ export default function BloodReportPage() {
                   padding: "9px 15px",
                   borderRadius: 999,
                   border: active ? "1.5px solid rgba(249,115,22,0.85)" : "1.5px solid rgba(255,255,255,0.08)",
-                  background: active ? "linear-gradient(135deg, rgba(124,58,237,0.42), rgba(219,39,119,0.26))" : "rgba(255,255,255,0.03)",
+                  background: active ? "linear-gradient(135deg, rgba(234,88,12,0.42), rgba(219,39,119,0.26))" : "rgba(255,255,255,0.03)",
                   color: active ? "#2a1e16" : "rgba(247,240,223,0.62)",
                   fontWeight: active ? 700 : 500,
                   fontSize: 13,

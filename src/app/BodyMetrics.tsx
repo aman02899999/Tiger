@@ -51,7 +51,7 @@ function TrendChart({ entries, metric }: { entries: Entry[]; metric: typeof METR
       </div>
       <div className="mt-2 flex justify-between text-[11px] text-[#2a1e16]/62">
         <span>Start {first}{metric.unit}</span>
-        <span className={change < 0 ? "font-bold text-emerald-300" : change > 0 ? "font-bold text-[#ea580c]" : ""}>
+        <span className={change < 0 ? "font-bold text-emerald-600" : change > 0 ? "font-bold text-[#ea580c]" : ""}>
           {change > 0 ? "+" : ""}{change.toFixed(1)}{metric.unit}
         </span>
         <span>Now {last}{metric.unit}</span>
@@ -214,7 +214,7 @@ export default function BodyMetricsPage() {
               <div>
                 <p className="text-sm font-bold">{goalProgress.m.label} goal</p>
                 <p className="text-xs text-[#2a1e16]/68">Now {goalProgress.latest}{goalProgress.m.unit} → target {goalProgress.target}{goalProgress.m.unit}</p>
-                {goalProgress.pct >= 100 && <p className="mt-1 text-xs font-bold text-emerald-300">🎉 Goal reached!</p>}
+                {goalProgress.pct >= 100 && <p className="mt-1 text-xs font-bold text-emerald-600">🎉 Goal reached!</p>}
               </div>
             </div>
           )}

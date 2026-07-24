@@ -196,7 +196,7 @@ export default function AyurvedaLibraryPage() {
     const color = CAT_COLOR[open.category] ?? "#f97316";
     return (
       <div className="space-y-6">
-        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-emerald-200 hover:text-emerald-100">← Back to library</button>
+        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-emerald-600 hover:text-emerald-100">← Back to library</button>
         <div className="glass-card rounded-2xl p-8">
           <div className="flex items-center gap-3">
             <span className="grid h-14 w-14 place-items-center rounded-2xl text-3xl" style={{ background: `${color}22` }}>{open.icon}</span>
@@ -220,7 +220,7 @@ export default function AyurvedaLibraryPage() {
             ))}
           </div>
 
-          <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#2a1e16]/78"><span className="font-bold text-rose-200">⚠️ Precautions: </span>{open.caution}</p>
+          <p className="mt-4 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[12px] text-[#2a1e16]/78"><span className="font-bold text-rose-600">⚠️ Precautions: </span>{open.caution}</p>
           <p className="mt-4 text-center text-[11px] text-[#2a1e16]/55">Educational reference from traditional Ayurveda — not medical advice. Consult a qualified practitioner before starting any herb, remedy, or therapy.</p>
         </div>
       </div>

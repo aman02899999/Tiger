@@ -21,7 +21,7 @@ function Button({ children, variant = "primary", onClick, className = "", disabl
   const variants = {
     primary: "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 text-white shadow-[0_12px_40px_rgba(249,115,22,0.3)] hover:shadow-[0_18px_60px_rgba(249,115,22,0.4)]",
     secondary: "border border-[#2a1e16]/18 bg-[#2a1e16]/8 text-[#2a1e16] hover:bg-[#2a1e16]/14",
-    danger: "bg-rose-500/20 border border-rose-400/30 text-rose-200 hover:bg-rose-500/30",
+    danger: "bg-rose-500/20 border border-rose-400/30 text-rose-600 hover:bg-rose-500/30",
     ghost: "text-[#2a1e16]/60 hover:text-[#2a1e16] hover:bg-black/10",
   };
   return (
@@ -452,7 +452,7 @@ function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => vo
           <div key={c.id} className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">
             <div className="flex items-start justify-between gap-2">
               <span className="text-3xl">{c.emoji}</span>
-              <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${c.published ? "bg-green-400/20 text-green-300" : "bg-yellow-400/20 text-yellow-300"}`}>{c.published ? "Live" : "Draft"}</span>
+              <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${c.published ? "bg-green-400/20 text-green-600" : "bg-yellow-400/20 text-yellow-300"}`}>{c.published ? "Live" : "Draft"}</span>
             </div>
             <h3 className="mt-2 font-bold text-[#2a1e16]">{c.title}</h3>
             <p className="mt-1 text-xs text-[#2a1e16]/50">{c.instructor} · {c.level} · {c.duration}</p>
@@ -658,7 +658,7 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
           ))}
         </nav>
         <div className="mt-10 space-y-2">
-          <button type="button" onClick={resetAll} className="w-full rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-2.5 text-xs font-bold text-rose-200 hover:bg-rose-400/20">Reset All Data</button>
+          <button type="button" onClick={resetAll} className="w-full rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-400/20">Reset All Data</button>
           <button type="button" onClick={onClose} className="w-full rounded-xl border border-[#2a1e16]/10 px-4 py-2.5 text-xs font-bold text-[#2a1e16]/50 hover:bg-[#2a1e16]/5">Exit Admin</button>
         </div>
       </aside>

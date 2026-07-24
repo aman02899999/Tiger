@@ -112,7 +112,7 @@ export default function ChallengeRoulettePage() {
             {state.done ? (
               <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-emerald-300/30 bg-emerald-300/10 px-6 py-3">
                 <span className="text-lg">🎉</span>
-                <span className="font-black text-emerald-200">Challenge complete! +{todaysChallenge.xp} XP claimed</span>
+                <span className="font-black text-emerald-600">Challenge complete! +{todaysChallenge.xp} XP claimed</span>
               </div>
             ) : (
               <button type="button" onClick={complete} className="btn-gloss mt-5 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 px-10 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#052e1f]">

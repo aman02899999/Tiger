@@ -308,12 +308,12 @@ export default function PhysiotherapyLibraryPage() {
   if (open) {
     return (
       <div className="space-y-6">
-        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-sky-200 hover:text-sky-100">← Back to protocols</button>
+        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-sky-600 hover:text-sky-100">← Back to protocols</button>
         <div className="glass-card rounded-2xl p-8">
           <div className="flex items-center gap-3">
             <span className="grid h-14 w-14 place-items-center rounded-2xl bg-sky-500/15 text-3xl">{open.icon}</span>
             <div>
-              <span className="rounded-full bg-sky-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-sky-200">{open.region}</span>
+              <span className="rounded-full bg-sky-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-sky-600">{open.region}</span>
               <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.name}</h1>
             </div>
           </div>
@@ -337,7 +337,7 @@ export default function PhysiotherapyLibraryPage() {
             ))}
           </div>
 
-          <p className="mt-6 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[11px] text-[#2a1e16]/75"><span className="font-bold text-rose-200">🚩 Red flags — see a professional: </span>{open.redFlags}</p>
+          <p className="mt-6 rounded-xl border border-rose-400/25 bg-rose-400/10 p-3 text-[11px] text-[#2a1e16]/75"><span className="font-bold text-rose-600">🚩 Red flags — see a professional: </span>{open.redFlags}</p>
         </div>
       </div>
     );

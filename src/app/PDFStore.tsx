@@ -190,7 +190,7 @@ function BuyModal({
         <button
           onClick={onClose}
           className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-lg transition-colors"
-          style={{ color: "#2a1e16", background: "rgba(124,58,237,0.2)" }}
+          style={{ color: "#2a1e16", background: "rgba(234,88,12,0.2)" }}
         >
           ×
         </button>
@@ -201,7 +201,7 @@ function BuyModal({
         </div>
         <div
           className="rounded-xl p-4 mb-6 text-center text-sm"
-          style={{ background: "rgba(124,58,237,0.1)", color: "#fdba74", border: "1px solid rgba(124,58,237,0.3)" }}
+          style={{ background: "rgba(234,88,12,0.1)", color: "#fdba74", border: "1px solid rgba(234,88,12,0.3)" }}
         >
           Secure digital delivery after payment. Instant PDF download link sent to your email.
         </div>
@@ -224,7 +224,7 @@ function GuideCard({ guide, owned, onBuy, onDownload }: { guide: Guide; owned: b
   return (
     <div
       className="relative flex flex-col rounded-2xl p-5 border transition-all duration-200 hover:scale-[1.02] hover:shadow-xl"
-      style={{ background: "#0f0a1e", borderColor: "rgba(124,58,237,0.3)", color: "#2a1e16" }}
+      style={{ background: "#0f0a1e", borderColor: "rgba(234,88,12,0.3)", color: "#2a1e16" }}
     >
       {guide.badge && (
         <span
@@ -238,7 +238,7 @@ function GuideCard({ guide, owned, onBuy, onDownload }: { guide: Guide; owned: b
       <h3 className="font-bold text-sm leading-tight mb-2" style={{ color: "#2a1e16" }}>{guide.title}</h3>
       <p className="text-xs mb-3 opacity-70 flex-1 leading-relaxed" style={{ color: "#2a1e16" }}>{guide.description}</p>
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(124,58,237,0.2)", color: "#f97316" }}>
+        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(234,88,12,0.2)", color: "#f97316" }}>
           {guide.pages}
         </span>
         <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(234,88,12,0.1)", color: "#ea580c" }}>
@@ -404,7 +404,7 @@ export default function PDFStorePage() {
                 style={
                   activeCategory === cat
                     ? { background: "linear-gradient(135deg, #c2410c, #a21caf)", color: "#2a1e16" }
-                    : { background: "rgba(124,58,237,0.1)", color: "#f97316", border: "1px solid rgba(124,58,237,0.3)" }
+                    : { background: "rgba(234,88,12,0.1)", color: "#f97316", border: "1px solid rgba(234,88,12,0.3)" }
                 }
               >
                 {cat}
@@ -417,7 +417,7 @@ export default function PDFStorePage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="px-4 py-2 rounded-xl text-sm outline-none w-full sm:w-64 transition-colors"
-            style={{ background: "rgba(124,58,237,0.1)", color: "#2a1e16", border: "1px solid rgba(124,58,237,0.3)" }}
+            style={{ background: "rgba(234,88,12,0.1)", color: "#2a1e16", border: "1px solid rgba(234,88,12,0.3)" }}
           />
         </div>
 

@@ -65,7 +65,7 @@ export default function BrainTeaserPage() {
 
         {revealed ? (
           <div className="mx-auto mt-5 max-w-lg rounded-2xl border border-emerald-400/25 bg-emerald-400/10 p-5">
-            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-emerald-300">Answer</p>
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-emerald-600">Answer</p>
             <p className="mt-2 text-sm leading-relaxed text-[#2a1e16]/85">{t.a}</p>
             <p className="mt-3 text-[11px] text-[#2a1e16]/55">🎉 +5 XP · Come back tomorrow for a new teaser!</p>
           </div>

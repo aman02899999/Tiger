@@ -123,7 +123,7 @@ function FastingTimer() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-300">⏳ Fasting Timer</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">⏳ Fasting Timer</p>
       <h2 className="mt-1 text-xl font-black">Track your fasting window</h2>
 
       <div className="mt-4 flex flex-wrap gap-2">
@@ -205,7 +205,7 @@ function GroceryList({ suggestions }: { suggestions: string[] }) {
             <button key={i} type="button" onClick={() => save(items.map((x, xi) => xi === i ? { ...x, done: !x.done } : x))} className="flex w-full items-center gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3 text-left transition hover:bg-[#2a1e16]/10">
               <span className={`grid h-6 w-6 place-items-center rounded-full border-2 ${it.done ? "border-emerald-300 bg-emerald-300 text-[#fffdf9]" : "border-[#2a1e16]/25"}`}>{it.done && <span className="text-xs font-black">✓</span>}</span>
               <span className={`flex-1 text-sm ${it.done ? "text-[#2a1e16]/50 line-through" : ""}`}>{it.text}</span>
-              <span onClick={(e) => { e.stopPropagation(); save(items.filter((_, xi) => xi !== i)); }} className="text-xs text-[#2a1e16]/45 hover:text-rose-200">✕</span>
+              <span onClick={(e) => { e.stopPropagation(); save(items.filter((_, xi) => xi !== i)); }} className="text-xs text-[#2a1e16]/45 hover:text-rose-600">✕</span>
             </button>
           ))
         )}
@@ -269,7 +269,7 @@ export default function RecipeHubPage() {
               <div className="mt-2 flex gap-2 text-[11px] font-bold">
                 <span className="rounded-full bg-orange-200/12 px-2 py-0.5 text-orange-700">P {r.p}g</span>
                 <span className="rounded-full bg-[#ea580c]/15 px-2 py-0.5 text-[#ea580c]">C {r.c}g</span>
-                <span className="rounded-full bg-amber-300/12 px-2 py-0.5 text-amber-200">F {r.f}g</span>
+                <span className="rounded-full bg-amber-300/12 px-2 py-0.5 text-amber-600">F {r.f}g</span>
               </div>
               <button type="button" onClick={() => setOpen(r)} className="btn-gloss mt-3 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-2.5 text-xs font-black uppercase tracking-[0.14em] text-white">View Recipe</button>
             </div>

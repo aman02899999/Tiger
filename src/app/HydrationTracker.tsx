@@ -95,7 +95,7 @@ export default function HydrationTrackerPage() {
             <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#38bdf8 ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.5s ease" }} />
             <div className="absolute inset-[11px] grid place-items-center rounded-full bg-[#fffdf9] text-center">
               <div>
-                <p className="text-3xl font-black tabular-nums text-sky-300">{(todayMl / 1000).toFixed(2)}<span className="text-base">L</span></p>
+                <p className="text-3xl font-black tabular-nums text-sky-600">{(todayMl / 1000).toFixed(2)}<span className="text-base">L</span></p>
                 <p className="text-[10px] uppercase tracking-[0.16em] text-[#2a1e16]/62">of {(goalMl / 1000).toFixed(2)} L</p>
                 <p className="mt-1 text-xs font-bold text-[#ea580c]">{Math.round(pct * 100)}%</p>
               </div>
@@ -118,7 +118,7 @@ export default function HydrationTrackerPage() {
             <div className="mt-3 flex gap-2">
               <button type="button" onClick={() => add(-GLASS_ML)} className="flex-1 rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/5 py-2.5 text-xs font-bold text-[#2a1e16]/70 transition hover:bg-[#2a1e16]/10">− Undo a glass</button>
             </div>
-            {pct >= 1 && <p className="mt-3 text-center text-sm font-black text-emerald-300">🎉 Goal smashed — you're fully hydrated! (+12 XP)</p>}
+            {pct >= 1 && <p className="mt-3 text-center text-sm font-black text-emerald-600">🎉 Goal smashed — you're fully hydrated! (+12 XP)</p>}
           </div>
         </div>
       </div>
@@ -131,7 +131,7 @@ export default function HydrationTrackerPage() {
           { v: `${Math.max(0, Math.ceil((goalMl - todayMl) / GLASS_ML))}`, l: "glasses to go" },
         ].map((s) => (
           <div key={s.l} className="glass-card rounded-2xl p-4 text-center">
-            <p className="text-2xl font-black tabular-nums text-sky-300">{s.v}</p>
+            <p className="text-2xl font-black tabular-nums text-sky-600">{s.v}</p>
             <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#2a1e16]/62">{s.l}</p>
           </div>
         ))}

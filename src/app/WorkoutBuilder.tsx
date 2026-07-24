@@ -128,7 +128,7 @@ export default function WorkoutBuilderPage() {
                     </div>
                     <p className="mt-1 text-[11px] text-[#2a1e16]/62">{e.group} · {e.equip}</p>
                     <p className="mt-2 text-xs leading-relaxed text-[#2a1e16]/72">💡 {e.cue}</p>
-                    <button type="button" onClick={() => addToRoutine(e.id)} disabled={added} className={`btn-gloss mt-3 w-full rounded-full py-2.5 text-xs font-black uppercase tracking-[0.14em] transition ${added ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-200" : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 text-white"}`}>
+                    <button type="button" onClick={() => addToRoutine(e.id)} disabled={added} className={`btn-gloss mt-3 w-full rounded-full py-2.5 text-xs font-black uppercase tracking-[0.14em] transition ${added ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-600" : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 text-white"}`}>
                       {added ? "✓ In your routine" : "+ Add to routine"}
                     </button>
                   </div>
@@ -157,7 +157,7 @@ export default function WorkoutBuilderPage() {
                       <div className="flex items-center gap-2">
                         <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-orange-500/70 text-[11px] font-black text-white">{i + 1}</span>
                         <p className="min-w-0 flex-1 truncate text-sm font-semibold">{ex.name}</p>
-                        <button type="button" onClick={() => remove(it.exId)} aria-label="Remove" className="text-xs text-[#2a1e16]/55 hover:text-rose-200">✕</button>
+                        <button type="button" onClick={() => remove(it.exId)} aria-label="Remove" className="text-xs text-[#2a1e16]/55 hover:text-rose-600">✕</button>
                       </div>
                       <div className="mt-2 flex items-center gap-2 pl-8">
                         <label className="flex items-center gap-1 text-[11px] text-[#2a1e16]/65">

@@ -124,7 +124,7 @@ export default function SplitPlannerPage() {
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">{split.name}</p>
             <p className="mt-1 text-sm text-[#2a1e16]/68">{split.blurb}</p>
           </div>
-          <span className="rounded-full bg-emerald-300/15 px-3 py-1 text-xs font-bold text-emerald-200">{restDays} rest day{restDays === 1 ? "" : "s"}</span>
+          <span className="rounded-full bg-emerald-300/15 px-3 py-1 text-xs font-bold text-emerald-600">{restDays} rest day{restDays === 1 ? "" : "s"}</span>
         </div>
 
         <div className="mt-5 space-y-2.5">

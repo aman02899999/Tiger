@@ -67,7 +67,7 @@ export default function FlashcardsPage() {
 
       <div className="flex items-center justify-between text-xs font-bold text-[#2a1e16]/60">
         <span>Card {i + 1} of {cards.length}</span>
-        <span className="text-emerald-300">{knownInDeck} known ✓</span>
+        <span className="text-emerald-600">{knownInDeck} known ✓</span>
       </div>
 
       {/* Flip card */}
@@ -79,12 +79,12 @@ export default function FlashcardsPage() {
             <p className="mt-6 text-[11px] text-[#2a1e16]/45">Tap to {flipped ? "see question" : "reveal answer"}</p>
           </div>
         </div>
-        {known.has(card.idx) && <span className="absolute right-4 top-4 rounded-full bg-emerald-400/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-300">Known ✓</span>}
+        {known.has(card.idx) && <span className="absolute right-4 top-4 rounded-full bg-emerald-400/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-600">Known ✓</span>}
       </button>
 
       <div className="flex items-center gap-3">
         <button type="button" onClick={() => go(-1)} className="flex-1 rounded-full border border-[#2a1e16]/12 bg-[#2a1e16]/5 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#2a1e16]/70 transition hover:bg-[#2a1e16]/10">← Prev</button>
-        <button type="button" onClick={toggleKnown} className={`flex-1 rounded-full py-3 text-xs font-black uppercase tracking-[0.14em] transition ${known.has(card.idx) ? "bg-emerald-500/80 text-white" : "border border-emerald-400/30 bg-emerald-400/10 text-emerald-200"}`}>{known.has(card.idx) ? "✓ Known" : "Mark Known"}</button>
+        <button type="button" onClick={toggleKnown} className={`flex-1 rounded-full py-3 text-xs font-black uppercase tracking-[0.14em] transition ${known.has(card.idx) ? "bg-emerald-500/80 text-white" : "border border-emerald-400/30 bg-emerald-400/10 text-emerald-600"}`}>{known.has(card.idx) ? "✓ Known" : "Mark Known"}</button>
         <button type="button" onClick={() => go(1)} className="flex-1 rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.14em] text-white">Next →</button>
       </div>
     </div>

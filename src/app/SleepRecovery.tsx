@@ -138,7 +138,7 @@ function SleepLogger() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-300">😴 Log last night</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">😴 Log last night</p>
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <label className="block">

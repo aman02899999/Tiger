@@ -40,7 +40,7 @@ const MeditationFigure: React.FC<{ pose: string; size?: number; rounded?: number
         overflow: 'hidden',
         background: FALLBACK_GRADIENT,
         flexShrink: 0,
-        boxShadow: '0 8px 32px rgba(124,58,237,0.25)',
+        boxShadow: '0 8px 32px rgba(234,88,12,0.25)',
       }}
     >
       <img
@@ -792,7 +792,7 @@ const BreathingCoach: React.FC<{ onSessionComplete: (minutes: number) => void }>
               style={{
                 width: 180,
                 height: 180,
-                background: 'linear-gradient(135deg, rgba(249,115,22,0.9) 0%, rgba(124,58,237,0.85) 45%, rgba(234,88,12,0.75) 100%)',
+                background: 'linear-gradient(135deg, rgba(249,115,22,0.9) 0%, rgba(234,88,12,0.85) 45%, rgba(234,88,12,0.75) 100%)',
                 boxShadow: '0 0 60px rgba(249,115,22,0.45), inset 0 0 40px rgba(255,255,255,0.15)',
                 transform: `scale(${scale})`,
                 transition: `transform ${transitionSec}s ease-in-out`,

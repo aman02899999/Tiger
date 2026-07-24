@@ -87,7 +87,7 @@ export default function HealthIqQuizPage() {
             }
             return (
               <button key={idx} type="button" onClick={() => pick(idx)} className={`block w-full rounded-xl border p-4 text-left text-sm font-semibold transition ${cls}`}>
-                {o}{picked !== null && isAns && <span className="ml-2 text-emerald-300">✓</span>}
+                {o}{picked !== null && isAns && <span className="ml-2 text-emerald-600">✓</span>}
               </button>
             );
           })}

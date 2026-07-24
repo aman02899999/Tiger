@@ -283,7 +283,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
                 <p className="truncate text-[10px] text-[#2a1e16]/65">{user?.email}</p>
               </div>
             </div>
-            <button type="button" onClick={onLogout} className="mt-3 w-full rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 py-2 text-xs font-bold text-[#2a1e16]/60 hover:bg-rose-400/10 hover:text-rose-200">Sign Out</button>
+            <button type="button" onClick={onLogout} className="mt-3 w-full rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 py-2 text-xs font-bold text-[#2a1e16]/60 hover:bg-rose-400/10 hover:text-rose-600">Sign Out</button>
           </div>
         </div>
       </aside>
@@ -401,7 +401,7 @@ function Dashboard({ onNavigate }: { onNavigate: (section: string) => void }) {
               </div>
               <div className="flex justify-between">
                 <span className="text-sm text-[#2a1e16]/60">Metabolic Age</span>
-                <span className="font-bold text-emerald-300">{user.age - 4} yrs</span>
+                <span className="font-bold text-emerald-600">{user.age - 4} yrs</span>
               </div>
             </div>
           </div>
@@ -478,7 +478,7 @@ function WorkoutsPage() {
           <h1 className="text-3xl font-black tracking-[-0.04em]">Workouts</h1>
           <p className="text-sm text-[#2a1e16]/68">AI-personalized based on your goals and recovery</p>
         </div>
-        <div className="rounded-full bg-emerald-300/15 px-4 py-2 text-xs font-bold text-emerald-200">Energy: 82% · Go hard today!</div>
+        <div className="rounded-full bg-emerald-300/15 px-4 py-2 text-xs font-bold text-emerald-600">Energy: 82% · Go hard today!</div>
       </div>
 
       {started ? (
@@ -623,7 +623,7 @@ function ProgressPage() {
         {[
           { label: "Starting Weight", value: `${log[0]?.weight || "--"} kg`, icon: "⚖️" },
           { label: "Current Weight", value: `${log[log.length - 1]?.weight || "--"} kg`, icon: "📍" },
-          { label: isLoss ? "Total Lost" : "Total Gained", value: `${Math.abs(parseFloat(totalChange))} kg`, icon: isLoss ? "🎉" : "💪", color: isLoss ? "text-emerald-300" : "text-orange-600" },
+          { label: isLoss ? "Total Lost" : "Total Gained", value: `${Math.abs(parseFloat(totalChange))} kg`, icon: isLoss ? "🎉" : "💪", color: isLoss ? "text-emerald-600" : "text-orange-600" },
         ].map((s) => (
           <div key={s.label} className="rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/65">{s.label}</p>
@@ -685,7 +685,7 @@ function ProgressPage() {
             {[["Chest", "102 cm", "-2 cm"], ["Waist", "82 cm", "-4 cm"], ["Hips", "98 cm", "-1 cm"], ["Biceps", "36 cm", "+1.5 cm"]].map(([part, val, change]) => (
               <div key={part} className="flex justify-between border-t border-[#2a1e16]/8 pt-3">
                 <span className="text-sm">{part}</span>
-                <span className="text-sm font-bold">{val} <span className="text-xs text-emerald-300">({change})</span></span>
+                <span className="text-sm font-bold">{val} <span className="text-xs text-emerald-600">({change})</span></span>
               </div>
             ))}
           </div>
@@ -837,7 +837,7 @@ const COMPARISON_ROWS: { label: string; free: boolean | string; pro: boolean | s
 ];
 
 function ComparisonCell({ v }: { v: boolean | string }) {
-  if (v === true) return <span className="text-emerald-300">✓</span>;
+  if (v === true) return <span className="text-emerald-600">✓</span>;
   if (v === false) return <span className="text-[#2a1e16]/30">—</span>;
   return <span className="text-xs font-semibold text-[#2a1e16]/80">{v}</span>;
 }
@@ -879,7 +879,7 @@ function PremiumPage() {
         <div className="inline-flex items-center gap-1 rounded-full border border-[#2a1e16]/12 bg-[#2a1e16]/5 p-1">
           <button type="button" onClick={() => setCycle("monthly")} className={`rounded-full px-5 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${cycle === "monthly" ? "bg-orange-500 text-white" : "text-[#2a1e16]/62"}`}>Monthly</button>
           <button type="button" onClick={() => setCycle("annual")} className={`flex items-center gap-2 rounded-full px-5 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${cycle === "annual" ? "bg-orange-500 text-white" : "text-[#2a1e16]/62"}`}>
-            Annual <span className="rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] text-emerald-300">Save 37%</span>
+            Annual <span className="rounded-full bg-emerald-400/20 px-2 py-0.5 text-[10px] text-emerald-600">Save 37%</span>
           </button>
         </div>
       </div>
@@ -898,7 +898,7 @@ function PremiumPage() {
                 {p.id !== "free" && <span className="pb-2 text-sm text-[#2a1e16]/65">/{cycle === "annual" ? "yr" : "mo"}</span>}
               </div>
               {isCurrent ? (
-                <div className="mt-6 rounded-full border border-emerald-300/30 bg-emerald-300/10 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-emerald-200">Current Plan</div>
+                <div className="mt-6 rounded-full border border-emerald-300/30 bg-emerald-300/10 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-emerald-600">Current Plan</div>
               ) : p.id === "free" ? (
                 <div className="mt-6 rounded-full border border-[#2a1e16]/12 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-[#2a1e16]/50">Always Free</div>
               ) : (
@@ -1061,7 +1061,7 @@ function SettingsPage() {
           </div>
           <div className="mt-6 flex gap-3">
             <button type="button" onClick={saveProfile} className={"rounded-full px-7 py-3 text-xs font-black uppercase tracking-[0.2em] text-white transition " + (saved ? "bg-emerald-500" : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700")}>{saved ? "✓ Saved!" : "Save Changes"}</button>
-            <button type="button" onClick={logout} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-7 py-3 text-xs font-black uppercase tracking-[0.2em] text-rose-200 hover:bg-rose-400/20">Sign Out</button>
+            <button type="button" onClick={logout} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-7 py-3 text-xs font-black uppercase tracking-[0.2em] text-rose-600 hover:bg-rose-400/20">Sign Out</button>
           </div>
         </div>
       )}
@@ -1113,7 +1113,7 @@ function SettingsPage() {
           </div>
           <div className="flex items-center justify-between border-t border-[#2a1e16]/10 pt-4">
             <div><p className="font-bold">Delete Account</p><p className="text-xs text-[#2a1e16]/68">Permanently delete all your data</p></div>
-            <button type="button" onClick={deleteAccount} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-5 py-2.5 text-xs font-bold text-rose-200 hover:bg-rose-400/20">Delete</button>
+            <button type="button" onClick={deleteAccount} className="rounded-full border border-rose-400/30 bg-rose-400/10 px-5 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-400/20">Delete</button>
           </div>
           <p className="border-t border-[#2a1e16]/10 pt-4 text-xs text-[#2a1e16]/62">Version 2.1.0 · Built with ⚡ in India</p>
         </div>

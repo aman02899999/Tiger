@@ -147,7 +147,7 @@ export default function AchievementsPage() {
                   <h3 className="font-black">{b.title}</h3>
                   <p className="mt-0.5 text-xs text-[#2a1e16]/68">{b.desc}</p>
                 </div>
-                {done && <span className="rounded-full bg-emerald-300/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-emerald-200">✓ Done</span>}
+                {done && <span className="rounded-full bg-emerald-300/15 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.14em] text-emerald-600">✓ Done</span>}
               </div>
               {!done && (
                 <div className="mt-4">

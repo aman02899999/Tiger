@@ -122,7 +122,7 @@ export default function AICoachPage() {
           </div>
           <div>
             <p className="text-sm font-black">Coach Titan</p>
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-300">Online · replies instantly</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-600">Online · replies instantly</p>
           </div>
         </div>
 

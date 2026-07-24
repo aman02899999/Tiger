@@ -157,7 +157,7 @@ function CompareSlider({ before, after }: { before: Shot; after: Shot }) {
       {before.weight && after.weight && !Number.isNaN(wDiff) && (
         <div className="mt-4 text-center">
           <p className="text-sm text-[#2a1e16]/75">
-            Weight change: <span className={`font-black tabular-nums ${wDiff < 0 ? "text-emerald-300" : wDiff > 0 ? "text-[#ea580c]" : "text-[#2a1e16]"}`}>{wDiff > 0 ? "+" : ""}{wDiff.toFixed(1)} kg</span>
+            Weight change: <span className={`font-black tabular-nums ${wDiff < 0 ? "text-emerald-600" : wDiff > 0 ? "text-[#ea580c]" : "text-[#2a1e16]"}`}>{wDiff > 0 ? "+" : ""}{wDiff.toFixed(1)} kg</span>
           </p>
         </div>
       )}

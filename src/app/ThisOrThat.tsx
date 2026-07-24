@@ -87,7 +87,7 @@ export default function ThisOrThatPage() {
             <div>
               <div className="text-5xl">{r[side].icon}</div>
               <p className="mt-3 text-sm font-black">{r[side].label}</p>
-              {picked !== null && side === r.correct && <p className="mt-1 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-300">Correct ✓</p>}
+              {picked !== null && side === r.correct && <p className="mt-1 text-[10px] font-black uppercase tracking-[0.12em] text-emerald-600">Correct ✓</p>}
             </div>
           </button>
         ))}

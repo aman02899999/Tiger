@@ -83,7 +83,7 @@ export default function GymPartnerPage() {
           <h1 className="text-3xl font-black tracking-[-0.04em]">Let's Gym 🤝</h1>
           <p className="text-sm text-[#2a1e16]/68">Find a nearby workout partner who matches your goals — never train alone again</p>
         </div>
-        <div className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-4 py-2 text-xs font-bold text-emerald-200">
+        <div className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-4 py-2 text-xs font-bold text-emerald-600">
           {results.length} partners near you
         </div>
       </div>
@@ -144,7 +144,7 @@ export default function GymPartnerPage() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`text-lg font-black ${score >= 85 ? "text-emerald-300" : score >= 70 ? "text-[#ea580c]" : "text-[#2a1e16]/70"}`}>{score}%</p>
+                    <p className={`text-lg font-black ${score >= 85 ? "text-emerald-600" : score >= 70 ? "text-[#ea580c]" : "text-[#2a1e16]/70"}`}>{score}%</p>
                     <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#2a1e16]/62">match</p>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export default function GymPartnerPage() {
                     disabled={requested}
                     className={`btn-gloss flex-1 rounded-full py-3 text-xs font-black uppercase tracking-[0.16em] transition ${
                       requested
-                        ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-200"
+                        ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-600"
                         : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 text-white"
                     }`}
                   >
@@ -211,7 +211,7 @@ export default function GymPartnerPage() {
               disabled={sent.has(selected.id)}
               className={`btn-gloss mt-6 w-full rounded-full py-4 text-xs font-black uppercase tracking-[0.18em] ${
                 sent.has(selected.id)
-                  ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-200"
+                  ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-600"
                   : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 text-white"
               }`}
             >

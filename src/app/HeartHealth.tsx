@@ -190,7 +190,7 @@ export default function HeartHealthPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         {/* Beating heart */}
         <div className="glass-card rounded-2xl p-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-rose-300">Heart Rate</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-rose-600">Heart Rate</p>
           <div className="mt-3 text-5xl" style={{ animation: running ? `heartBeat ${beatDur}s ease-in-out infinite` : "none" }}>❤️</div>
           <p className="mt-3 text-3xl font-black tabular-nums">{bpm}<span className="text-sm font-normal text-[#2a1e16]/62"> bpm</span></p>
           <p className="text-[11px] text-[#2a1e16]/62">{running ? "settling as you breathe…" : "start to see it drop"}</p>

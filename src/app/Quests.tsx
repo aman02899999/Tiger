@@ -95,7 +95,7 @@ function DailyQuests() {
           );
         })}
       </div>
-      {completed === quests.length && <div className="mt-4 rounded-xl border border-emerald-300/30 bg-emerald-300/10 p-3 text-center text-sm font-bold text-emerald-200">🎉 All quests done! +25 XP bonus claimed</div>}
+      {completed === quests.length && <div className="mt-4 rounded-xl border border-emerald-300/30 bg-emerald-300/10 p-3 text-center text-sm font-bold text-emerald-600">🎉 All quests done! +25 XP bonus claimed</div>}
     </div>
   );
 }

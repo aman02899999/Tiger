@@ -203,7 +203,7 @@ function PersonalRecords() {
                   <p className="text-sm font-semibold">{p.lift} — <span className="tabular-nums">{p.weight} kg</span> {isBest && <span className="text-[10px] font-black text-[#ea580c]">PR</span>}</p>
                   <p className="text-[11px] text-[#2a1e16]/62">{p.date}</p>
                 </div>
-                <button type="button" onClick={() => remove(p.id)} aria-label="Delete entry" className="rounded-lg border border-[#2a1e16]/12 px-2.5 py-1 text-xs text-[#2a1e16]/60 hover:bg-rose-400/10 hover:text-rose-200">✕</button>
+                <button type="button" onClick={() => remove(p.id)} aria-label="Delete entry" className="rounded-lg border border-[#2a1e16]/12 px-2.5 py-1 text-xs text-[#2a1e16]/60 hover:bg-rose-400/10 hover:text-rose-600">✕</button>
               </div>
             );
           })
@@ -256,7 +256,7 @@ function RestTimer() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-300">⏱️ Rest Timer</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">⏱️ Rest Timer</p>
       <h2 className="mt-1 text-xl font-black">Time your rest between sets</h2>
 
       <div className="mt-5 flex items-center gap-6">

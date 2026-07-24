@@ -96,7 +96,7 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
               <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-4 py-3.5 text-sm text-[#2a1e16] outline-none focus:border-orange-200/40 focus:bg-[#2a1e16]/10" placeholder="Enter your password" />
             </label>
 
-            {error && <div className="rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-200">{error}</div>}
+            {error && <div className="rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-600">{error}</div>}
 
             <button type="submit" disabled={loading} className="w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_60px_rgba(249,115,22,0.35)] transition-all hover:shadow-[0_24px_80px_rgba(249,115,22,0.45)] disabled:opacity-60">
               {loading ? "Signing in…" : "Sign In"}
@@ -203,7 +203,7 @@ export function SignupPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSu
               <span>I agree to the <a href="#legal/terms" className="text-orange-700 hover:underline">Terms of Service</a> and <a href="#legal/privacy" className="text-orange-700 hover:underline">Privacy Policy</a></span>
             </label>
 
-            {error && <div className="rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-200">{error}</div>}
+            {error && <div className="rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-600">{error}</div>}
 
             <button type="submit" disabled={loading} className="w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-4 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_60px_rgba(249,115,22,0.35)] transition hover:shadow-[0_24px_80px_rgba(249,115,22,0.45)] disabled:opacity-60">
               {loading ? "Creating account…" : "Create Free Account"}

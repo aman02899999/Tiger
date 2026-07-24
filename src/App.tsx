@@ -975,7 +975,7 @@ function Newsletter() {
           <h2 className="mt-5 text-3xl font-black tracking-[-0.05em] sm:text-4xl lg:text-5xl">Get free fitness tips in your inbox.</h2>
           <p className="mt-5 text-base leading-7 text-[#2a1e16]/66">One email per week. Workouts, Indian diet charts, science, and exclusive discounts. No spam, ever.</p>
           {submitted ? (
-            <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-emerald-300/30 bg-emerald-300/12 px-6 py-4 text-emerald-200">
+            <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-emerald-300/30 bg-emerald-300/12 px-6 py-4 text-emerald-600">
               <span className="text-xl">⚡</span>
               <span className="font-bold">You're in! Check your inbox for a welcome gift.</span>
             </div>

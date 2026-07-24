@@ -104,7 +104,7 @@ export function DailyChecklist() {
       </div>
 
       {completed === DEFAULT_TASKS.length && (
-        <div className="mt-4 rounded-xl border border-emerald-300/30 bg-emerald-300/10 p-3 text-center text-sm font-bold text-emerald-200">
+        <div className="mt-4 rounded-xl border border-emerald-300/30 bg-emerald-300/10 p-3 text-center text-sm font-bold text-emerald-600">
           🎉 Perfect day complete! +40 XP earned
         </div>
       )}
@@ -201,7 +201,7 @@ export function WeeklyActivity() {
           <h2 className="text-lg font-bold">This Week's Activity</h2>
           <p className="text-xs text-[#2a1e16]/65">Tap a bar for the day's detail · {activeDays}/7 active days · {totalMin} min total</p>
         </div>
-        <span className="rounded-full bg-emerald-300/15 px-3 py-1 text-xs font-bold text-emerald-200">{Math.round(totalMin / 7)} min/day avg</span>
+        <span className="rounded-full bg-emerald-300/15 px-3 py-1 text-xs font-bold text-emerald-600">{Math.round(totalMin / 7)} min/day avg</span>
       </div>
 
       <div className="mt-6 flex h-40 items-end justify-between gap-2">

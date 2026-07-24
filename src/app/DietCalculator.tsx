@@ -221,7 +221,7 @@ export default function DietCalculator() {
         <div className="space-y-3">
           <div>
             <div className="mb-2 flex justify-between text-sm">
-              <span className="font-semibold text-emerald-300">Protein</span>
+              <span className="font-semibold text-emerald-600">Protein</span>
               <span className="text-[#2a1e16]/60">{Math.round((calculations.proteinCal / calculations.targetCalories) * 100)}%</span>
             </div>
             <div className="h-3 overflow-hidden rounded-full bg-[#2a1e16]/10">
@@ -239,7 +239,7 @@ export default function DietCalculator() {
           </div>
           <div>
             <div className="mb-2 flex justify-between text-sm">
-              <span className="font-semibold text-rose-300">Fat</span>
+              <span className="font-semibold text-rose-600">Fat</span>
               <span className="text-[#2a1e16]/60">{Math.round((calculations.fatCal / calculations.targetCalories) * 100)}%</span>
             </div>
             <div className="h-3 overflow-hidden rounded-full bg-[#2a1e16]/10">
@@ -289,7 +289,7 @@ export default function DietCalculator() {
           </div>
           <div>
             <p className="text-xs text-[#2a1e16]/50">Protein</p>
-            <p className="text-2xl font-black text-emerald-300">{dailyTotals.protein}g</p>
+            <p className="text-2xl font-black text-emerald-600">{dailyTotals.protein}g</p>
           </div>
           <div>
             <p className="text-xs text-[#2a1e16]/50">Carbs</p>
@@ -297,7 +297,7 @@ export default function DietCalculator() {
           </div>
           <div>
             <p className="text-xs text-[#2a1e16]/50">Fat</p>
-            <p className="text-2xl font-black text-rose-300">{dailyTotals.fat}g</p>
+            <p className="text-2xl font-black text-rose-600">{dailyTotals.fat}g</p>
           </div>
         </div>
         <p className="mt-4 text-sm text-[#2a1e16]/60">

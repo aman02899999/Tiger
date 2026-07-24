@@ -115,9 +115,9 @@ export default function NewsletterPage() {
         {subscribed ? (
           <div className="text-center">
             <div className="text-5xl">🎉</div>
-            <p className="mt-3 text-xl font-black text-emerald-300">You're subscribed!</p>
+            <p className="mt-3 text-xl font-black text-emerald-600">You're subscribed!</p>
             <p className="mt-1 text-sm text-[#2a1e16]/68">The next <span className="font-bold text-[#2a1e16]">{freq}</span> issue will arrive at <span className="font-bold text-[#2a1e16]">{email}</span>.</p>
-            <button type="button" onClick={unsubscribe} className="mt-5 rounded-full border border-[#2a1e16]/15 bg-[#2a1e16]/5 px-5 py-2 text-xs font-bold text-[#2a1e16]/60 transition hover:bg-rose-400/10 hover:text-rose-200">Unsubscribe</button>
+            <button type="button" onClick={unsubscribe} className="mt-5 rounded-full border border-[#2a1e16]/15 bg-[#2a1e16]/5 px-5 py-2 text-xs font-bold text-[#2a1e16]/60 transition hover:bg-rose-400/10 hover:text-rose-600">Unsubscribe</button>
           </div>
         ) : (
           <>
@@ -134,7 +134,7 @@ export default function NewsletterPage() {
                 ))}
               </div>
               <button type="button" onClick={subscribe} disabled={!validEmail} className="btn-gloss w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white disabled:opacity-50">Subscribe Free</button>
-              {!validEmail && email.length > 0 && <p className="text-center text-[11px] text-rose-300">Enter a valid email address.</p>}
+              {!validEmail && email.length > 0 && <p className="text-center text-[11px] text-rose-600">Enter a valid email address.</p>}
             </div>
           </>
         )}

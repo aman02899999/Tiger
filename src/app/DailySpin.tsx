@@ -140,7 +140,7 @@ function WaterTracker({ email }: { email: string }) {
 
   return (
     <div className="glass-card rounded-3xl p-6 sm:p-8">
-      <p className="text-xs font-bold uppercase tracking-[0.28em] text-sky-300">💧 Hydration</p>
+      <p className="text-xs font-bold uppercase tracking-[0.28em] text-sky-600">💧 Hydration</p>
       <h2 className="mt-2 text-2xl font-black">Water Tracker</h2>
       <p className="mt-1 text-sm text-[#2a1e16]/68">Hit {GOAL_ML / 1000}L today and earn +25 XP</p>
 
@@ -167,12 +167,12 @@ function WaterTracker({ email }: { email: string }) {
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#2a1e16]/10">
             <div className="h-full rounded-full bg-gradient-to-r from-sky-300 to-sky-500 transition-all duration-700" style={{ width: `${pct * 100}%` }} />
           </div>
-          {pct >= 1 && <p className="mt-3 text-sm font-bold text-emerald-300">Goal smashed! +25 XP awarded 🎉</p>}
+          {pct >= 1 && <p className="mt-3 text-sm font-bold text-emerald-600">Goal smashed! +25 XP awarded 🎉</p>}
           <div className="mt-5 flex flex-wrap gap-3">
             <button type="button" onClick={() => drink(GLASS_ML)} className="btn-gloss rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-6 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">
               + Glass ({GLASS_ML}ml)
             </button>
-            <button type="button" onClick={() => drink(500)} className="rounded-full border border-sky-300/30 bg-sky-300/10 px-6 py-3 text-xs font-black uppercase tracking-[0.16em] text-sky-200 hover:bg-sky-300/20">
+            <button type="button" onClick={() => drink(500)} className="rounded-full border border-sky-300/30 bg-sky-300/10 px-6 py-3 text-xs font-black uppercase tracking-[0.16em] text-sky-600 hover:bg-sky-300/20">
               + Bottle (500ml)
             </button>
             <button type="button" onClick={() => drink(-GLASS_ML)} className="rounded-full border border-[#2a1e16]/15 px-4 py-3 text-xs font-bold text-[#2a1e16]/65 hover:bg-[#2a1e16]/8">

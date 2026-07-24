@@ -161,7 +161,7 @@ export default function MacroBuilderPage() {
             <div className="mt-5">
               <div className="mb-1 flex justify-between text-xs text-[#2a1e16]/65">
                 <span>Daily goal</span>
-                <span className={goalPct >= 100 ? "font-bold text-emerald-300" : ""}>{Math.round(totals.kcal)} / {goalKcal} kcal</span>
+                <span className={goalPct >= 100 ? "font-bold text-emerald-600" : ""}>{Math.round(totals.kcal)} / {goalKcal} kcal</span>
               </div>
               <div className="h-2 overflow-hidden rounded-full bg-[#2a1e16]/10">
                 <div className="h-full rounded-full bg-gradient-to-r from-orange-400 via-amber-400 to-[#ea580c] transition-all duration-500" style={{ width: `${goalPct}%` }} />
@@ -173,7 +173,7 @@ export default function MacroBuilderPage() {
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center justify-between">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">🍽️ Your plate</p>
-              {plate.length > 0 && <button type="button" onClick={() => setPlate([])} className="text-xs text-[#2a1e16]/60 hover:text-rose-200">Clear all</button>}
+              {plate.length > 0 && <button type="button" onClick={() => setPlate([])} className="text-xs text-[#2a1e16]/60 hover:text-rose-600">Clear all</button>}
             </div>
             {plate.length === 0 ? (
               <p className="mt-4 rounded-xl bg-black/5 p-4 text-center text-xs text-[#2a1e16]/62">Tap foods on the left to build your meal.</p>

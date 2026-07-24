@@ -112,7 +112,7 @@ export default function Vo2MaxEstimatorPage() {
             </div>
             <div className="glass-card rounded-3xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(52,211,153,0.14) 0%, transparent 60%)" }}>
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/62">Estimated Fitness Age</p>
-              <p className="mt-2 text-5xl font-black tabular-nums text-emerald-300">{result.fitnessAge}</p>
+              <p className="mt-2 text-5xl font-black tabular-nums text-emerald-600">{result.fitnessAge}</p>
               <p className="text-[11px] text-[#2a1e16]/55">years</p>
               <p className="mt-3 text-sm font-bold text-[#2a1e16]/75">{result.fitnessAge < Number(age) ? `🎉 ${Number(age) - result.fitnessAge} yrs younger than your age!` : result.fitnessAge > Number(age) ? "Room to improve — keep training!" : "Right on par with your age."}</p>
             </div>

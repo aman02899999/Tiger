@@ -151,7 +151,7 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
               <button
                 type="button"
                 onClick={() => toggleDone(today)}
-                className={`rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition ${todayEntry.done ? "border border-emerald-300/30 bg-emerald-300/10 text-emerald-200" : "border border-[#2a1e16]/15 bg-[#2a1e16]/5 text-[#2a1e16]/80 hover:bg-[#2a1e16]/10"}`}
+                className={`rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition ${todayEntry.done ? "border border-emerald-300/30 bg-emerald-300/10 text-emerald-600" : "border border-[#2a1e16]/15 bg-[#2a1e16]/5 text-[#2a1e16]/80 hover:bg-[#2a1e16]/10"}`}
               >
                 {todayEntry.done ? "✓ Done" : "Mark Done (+20 XP)"}
               </button>
@@ -246,7 +246,7 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
               ))}
             </div>
             {calendar[pickerDay] && (
-              <button type="button" onClick={() => assign(pickerDay, "")} className="mt-3 w-full rounded-xl border border-rose-400/25 bg-rose-400/5 py-2.5 text-xs font-bold text-rose-200 hover:bg-rose-400/10">Clear this day</button>
+              <button type="button" onClick={() => assign(pickerDay, "")} className="mt-3 w-full rounded-xl border border-rose-400/25 bg-rose-400/5 py-2.5 text-xs font-bold text-rose-600 hover:bg-rose-400/10">Clear this day</button>
             )}
           </div>
         </div>

@@ -123,7 +123,7 @@ export default function SupplementsPage() {
                         <p className={`text-sm font-semibold ${done[it.id] ? "text-[#2a1e16]/62 line-through" : ""}`}>{it.name}</p>
                         {it.note && <p className="text-[11px] text-[#2a1e16]/62">{it.note}</p>}
                       </div>
-                      <button type="button" onClick={() => remove(it.id)} aria-label="Remove" className="text-xs text-[#2a1e16]/45 hover:text-rose-200">✕</button>
+                      <button type="button" onClick={() => remove(it.id)} aria-label="Remove" className="text-xs text-[#2a1e16]/45 hover:text-rose-600">✕</button>
                     </div>
                   ))}
                 </div>

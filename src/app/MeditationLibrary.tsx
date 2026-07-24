@@ -124,13 +124,13 @@ export default function MeditationLibraryPage() {
   if (open) {
     return (
       <div className="space-y-6">
-        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-amber-200 hover:text-amber-100">← Back to techniques</button>
+        <button type="button" onClick={() => setOpen(null)} className="text-sm font-bold text-amber-600 hover:text-amber-100">← Back to techniques</button>
         <div className="glass-card rounded-2xl p-8">
           <div className="flex items-center gap-3">
             <span className="grid h-14 w-14 place-items-center rounded-2xl bg-amber-500/15 text-3xl">{open.icon}</span>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-amber-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-amber-200">{open.category}</span>
+                <span className="rounded-full bg-amber-500/20 px-3 py-1 text-[10px] font-black uppercase tracking-[0.12em] text-amber-600">{open.category}</span>
                 <span className="text-[11px] text-[#2a1e16]/55">⏱ {open.duration}</span>
               </div>
               <h1 className="mt-2 text-2xl font-black tracking-[-0.03em]">{open.name}</h1>
@@ -181,7 +181,7 @@ export default function MeditationLibraryPage() {
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <h3 className="text-base font-black">{t.name}</h3>
-                <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-amber-200">{t.category}</span>
+                <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-[0.1em] text-amber-600">{t.category}</span>
               </div>
               <p className="mt-0.5 text-[13px] text-[#2a1e16]/62">⏱ {t.duration} · {t.best}</p>
             </div>

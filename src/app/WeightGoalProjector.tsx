@@ -69,7 +69,7 @@ export default function WeightGoalProjectorPage() {
         <>
           <div className="glass-card rounded-3xl p-8 text-center" style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(52,211,153,0.14) 0%, transparent 60%)" }}>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/62">You'll reach {target} kg by</p>
-            <p className="mt-2 text-3xl font-black text-emerald-300">{fmtDate(plan.finish)}</p>
+            <p className="mt-2 text-3xl font-black text-emerald-600">{fmtDate(plan.finish)}</p>
             <p className="mt-2 text-sm text-[#2a1e16]/68">{plan.losing ? "Losing" : "Gaining"} {plan.totalChange.toFixed(1)} kg over {plan.weeks} week{plan.weeks === 1 ? "" : "s"}</p>
             <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-[#ea580c]/30 bg-[#ea580c]/10 px-5 py-3">
               <span className="text-lg">{plan.losing ? "🔻" : "🔺"}</span>

@@ -1007,7 +1007,7 @@ const SEE_A_PRO = [
 /* --------------------------- Shared UI pieces --------------------------- */
 
 const FALLBACK_GRADIENT =
-  "linear-gradient(135deg, rgba(139,92,246,0.35) 0%, rgba(251,146,60,0.25) 50%, rgba(234,88,12,0.3) 100%)";
+  "linear-gradient(135deg, rgba(249,115,22,0.35) 0%, rgba(251,146,60,0.25) 50%, rgba(234,88,12,0.3) 100%)";
 
 function RehabImg({ src, alt, className }: { src: string; alt: string; className?: string }) {
   const [failed, setFailed] = useState(false);
@@ -1267,7 +1267,7 @@ function ExerciseModal({
             onClick={onToggleDone}
             className={`btn-gloss w-full rounded-2xl px-5 py-3 text-sm font-black tracking-wide transition-all ${
               done
-                ? "border border-emerald-500/40 bg-emerald-500/15 text-emerald-300"
+                ? "border border-emerald-500/40 bg-emerald-500/15 text-emerald-600"
                 : "bg-gradient-to-r from-orange-600 to-amber-600 text-white"
             }`}
           >
@@ -1491,7 +1491,7 @@ export default function PhysioRehabPage() {
               })}
             </div>
             {doneInPart === part.exercises.length && (
-              <p className="mt-5 rounded-xl border border-emerald-500/30 bg-emerald-500/8 p-4 text-center text-sm font-bold text-emerald-300">
+              <p className="mt-5 rounded-xl border border-emerald-500/30 bg-emerald-500/8 p-4 text-center text-sm font-bold text-emerald-600">
                 Session complete — great work. Recheck symptoms tomorrow before progressing.
               </p>
             )}

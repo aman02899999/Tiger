@@ -137,7 +137,7 @@ export function Transformations() {
                 <div className="mt-3 flex items-center gap-4">
                   <div className="text-center"><p className="text-xs text-[#2a1e16]/50">Before</p><p className="text-2xl font-black">{t.weightBefore} kg</p></div>
                   <span className="text-2xl">→</span>
-                  <div className="text-center"><p className="text-xs text-[#2a1e16]/50">After</p><p className="text-2xl font-black text-emerald-300">{t.weightAfter} kg</p></div>
+                  <div className="text-center"><p className="text-xs text-[#2a1e16]/50">After</p><p className="text-2xl font-black text-emerald-600">{t.weightAfter} kg</p></div>
                 </div>
                 <p className="mt-3 text-sm text-[#2a1e16]/60">{t.notes}</p>
               </div>
@@ -157,7 +157,7 @@ export function Transformations() {
               <p className="mt-1 text-sm text-[#2a1e16]/60">by {t.user}</p>
               <div className="mt-4 flex items-center justify-between">
                 <div><p className="text-xs text-[#2a1e16]/50">Before</p><p className="text-xl font-black">{t.before}</p></div>
-                <div><p className="text-xs text-[#2a1e16]/50">After</p><p className="text-xl font-black text-emerald-300">{t.after}</p></div>
+                <div><p className="text-xs text-[#2a1e16]/50">After</p><p className="text-xl font-black text-emerald-600">{t.after}</p></div>
                 <div><p className="text-xs text-[#2a1e16]/50">Duration</p><p className="text-sm font-bold">{t.duration}</p></div>
               </div>
             </div>
@@ -254,7 +254,7 @@ export function Referrals() {
                   <p className="font-bold capitalize">{t.type === "referral" ? `Referral from ${t.from || "User"}` : "Redemption"}</p>
                   <p className="text-xs text-[#2a1e16]/50">{t.date}</p>
                 </div>
-                <p className={`font-bold ${t.type === "referral" ? "text-emerald-300" : "text-rose-300"}`}>{t.type === "referral" ? "+" : "-"}₹{t.amount}</p>
+                <p className={`font-bold ${t.type === "referral" ? "text-emerald-600" : "text-rose-600"}`}>{t.type === "referral" ? "+" : "-"}₹{t.amount}</p>
               </div>
             ))}
           </div>

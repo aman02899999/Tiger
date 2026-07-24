@@ -397,7 +397,7 @@ function CourseCard({
   return (
     <div
       onClick={onClick}
-      className="relative bg-[#0f0a1a] border border-orange-900/30 rounded-2xl overflow-hidden cursor-pointer group hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] transition-all duration-300"
+      className="relative bg-[#0f0a1a] border border-orange-900/30 rounded-2xl overflow-hidden cursor-pointer group hover:border-orange-500/50 hover:shadow-[0_0_30px_rgba(249,115,22,0.15)] transition-all duration-300"
     >
       {course.featured && (
         <div className="absolute top-3 right-3 z-10 bg-gradient-to-r from-orange-600 to-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
@@ -445,7 +445,7 @@ function CourseCard({
             e.stopPropagation();
             onClick();
           }}
-          className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-semibold transition-all duration-200 hover:shadow-[0_0_15px_rgba(139,92,246,0.4)]"
+          className="w-full mt-1 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-semibold transition-all duration-200 hover:shadow-[0_0_15px_rgba(249,115,22,0.4)]"
         >
           {enrolled ? 'View Course' : 'Enroll Now'}
         </button>
@@ -707,7 +707,7 @@ function CourseDetailModal({
               <button
                 onClick={onEnroll}
                 disabled={enrolling}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-semibold text-sm transition-all duration-200 hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] disabled:opacity-60 flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white font-semibold text-sm transition-all duration-200 hover:shadow-[0_0_20px_rgba(249,115,22,0.4)] disabled:opacity-60 flex items-center justify-center gap-2"
               >
                 {enrolling ? (
                   <>
@@ -743,7 +743,7 @@ function LevelFilterTabs({
           onClick={() => onChange(lvl)}
           className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
             active === lvl
-              ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.35)]'
+              ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-[0_0_12px_rgba(249,115,22,0.35)]'
               : 'bg-black/5 text-[#2a1e16]/50 hover:bg-black/10 hover:text-[#2a1e16]/80'
           }`}
         >
@@ -972,7 +972,7 @@ export default function CoursesPage() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
                   activeTab === tab
-                    ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-[0_0_12px_rgba(139,92,246,0.3)]'
+                    ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-[0_0_12px_rgba(249,115,22,0.3)]'
                     : 'text-[#2a1e16]/50 hover:text-[#2a1e16]/80'
                 }`}
               >
