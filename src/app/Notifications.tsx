@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { getXP, LEVELS, BADGES } from "./Achievements";
+import { sendNotificationOnce } from "./notifications";
 
 /* ---------------------------------------------------------------- */
 /* Notifications Center — a bell icon + dropdown that surfaces real,  */
@@ -95,6 +96,16 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
     try { setReadIds(JSON.parse(localStorage.getItem(readSeenKey(user?.email)) ?? "[]")); } catch { setReadIds([]); }
   }, [user?.email]);
 
+  // When push notifications are enabled, surface the most important live
+  // alerts as real browser notifications (once per alert per day).
+  useEffect(() => {
+    if (!user?.preferences?.pushNotifications) return;
+    const important = notifications.filter((n) => n.tone === "warning" || n.tone === "success").slice(0, 2);
+    important.forEach((n) => {
+      sendNotificationOnce(`${user.email}-${n.id}`, `${n.icon} ${n.title}`, { body: n.detail, tag: n.id });
+    });
+  }, [notifications, user?.preferences?.pushNotifications, user?.email]);
+
   useEffect(() => {
     function onClickAway(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
@@ -123,7 +134,7 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
   }
 
   const unreadCount = notifications.filter((n) => !readIds.includes(n.id)).length;
-  const toneColor: Record<NotificationItem["tone"], string> = { info: "#a78bfa", success: "#34d399", warning: "#d8b35a" };
+  const toneColor: Record<NotificationItem["tone"], string> = { info: "#f97316", success: "#059669", warning: "#ea580c" };
 
   return (
     <div className="relative" ref={ref}>
@@ -131,29 +142,29 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label="Notifications"
-        className="relative grid h-10 w-10 place-items-center rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-lg transition hover:bg-[#f7f0df]/10"
+        className="relative grid h-10 w-10 place-items-center rounded-full border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-lg transition hover:bg-[#2a1e16]/10"
       >
         🔔
         {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 grid h-5 min-w-[20px] place-items-center rounded-full bg-gradient-to-r from-fuchsia-500 to-rose-500 px-1 text-[10px] font-black text-white">
+          <span className="absolute -right-1 -top-1 grid h-5 min-w-[20px] place-items-center rounded-full bg-gradient-to-r from-amber-500 to-rose-500 px-1 text-[10px] font-black text-white">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
       </button>
 
       {open && (
-        <div className="absolute right-0 top-12 z-50 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-[#f7f0df]/12 bg-[#0b0714]/97 shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center justify-between border-b border-[#f7f0df]/10 px-4 py-3">
+        <div className="absolute right-0 top-12 z-50 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-[#2a1e16]/12 bg-[#fffdf9]/97 shadow-2xl backdrop-blur-xl">
+          <div className="flex items-center justify-between border-b border-[#2a1e16]/10 px-4 py-3">
             <p className="text-sm font-black">Notifications</p>
             {notifications.length > 0 && (
-              <button type="button" onClick={markAllRead} className="text-[11px] font-bold text-violet-300 hover:text-violet-200">Mark all read</button>
+              <button type="button" onClick={markAllRead} className="text-[11px] font-bold text-orange-600 hover:text-orange-700">Mark all read</button>
             )}
           </div>
           <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="px-4 py-8 text-center">
                 <div className="text-3xl">✨</div>
-                <p className="mt-2 text-xs text-[#f7f0df]/60">You're all caught up.</p>
+                <p className="mt-2 text-xs text-[#2a1e16]/60">You're all caught up.</p>
               </div>
             ) : (
               notifications.map((n) => {
@@ -163,12 +174,12 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
                     key={n.id}
                     type="button"
                     onClick={() => handleClick(n)}
-                    className={`flex w-full items-start gap-3 border-b border-[#f7f0df]/6 px-4 py-3 text-left transition hover:bg-[#f7f0df]/5 ${isRead ? "opacity-55" : ""}`}
+                    className={`flex w-full items-start gap-3 border-b border-[#2a1e16]/6 px-4 py-3 text-left transition hover:bg-[#2a1e16]/5 ${isRead ? "opacity-55" : ""}`}
                   >
                     <span className="text-xl">{n.icon}</span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-bold text-[#f7f0df]">{n.title}</p>
-                      <p className="mt-0.5 text-[11px] leading-relaxed text-[#f7f0df]/62">{n.detail}</p>
+                      <p className="text-xs font-bold text-[#2a1e16]">{n.title}</p>
+                      <p className="mt-0.5 text-[11px] leading-relaxed text-[#2a1e16]/62">{n.detail}</p>
                     </div>
                     {!isRead && <span className="mt-1 h-2 w-2 shrink-0 rounded-full" style={{ background: toneColor[n.tone] }} />}
                   </button>

@@ -110,19 +110,19 @@ export default function AICoachPage() {
     <div className="flex h-[calc(100vh-140px)] min-h-[480px] flex-col space-y-4">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">AI Coach</h1>
-        <p className="text-sm text-[#f7f0df]/68">24/7 answers on training, nutrition & recovery</p>
+        <p className="text-sm text-[#2a1e16]/68">24/7 answers on training, nutrition & recovery</p>
       </div>
 
       {/* chat window */}
       <div className="glass-card flex min-h-0 flex-1 flex-col rounded-3xl">
-        <div className="flex items-center gap-3 border-b border-[#f7f0df]/8 px-6 py-4">
-          <div className="relative grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-lg">
+        <div className="flex items-center gap-3 border-b border-[#2a1e16]/8 px-6 py-4">
+          <div className="relative grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-amber-500 to-[#ea580c] text-lg">
             ⚡
-            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0b0714] bg-emerald-400" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#fffdf9] bg-emerald-400" />
           </div>
           <div>
             <p className="text-sm font-black">Coach Titan</p>
-            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-300">Online · replies instantly</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-emerald-600">Online · replies instantly</p>
           </div>
         </div>
 
@@ -132,8 +132,8 @@ export default function AICoachPage() {
               <div
                 className={`max-w-[85%] rounded-2xl px-5 py-3.5 text-sm leading-relaxed ${
                   m.role === "user"
-                    ? "rounded-br-md bg-gradient-to-r from-violet-400 to-fuchsia-500 text-white shadow-[0_8px_24px_rgba(167,139,250,0.25)]"
-                    : "rounded-bl-md border border-[#f7f0df]/10 bg-[#f7f0df]/6 text-[#f7f0df]/92"
+                    ? "rounded-br-md bg-gradient-to-r from-orange-400 to-amber-500 text-white shadow-[0_8px_24px_rgba(249,115,22,0.25)]"
+                    : "rounded-bl-md border border-[#2a1e16]/10 bg-[#2a1e16]/6 text-[#2a1e16]/92"
                 }`}
               >
                 {m.text}
@@ -142,9 +142,9 @@ export default function AICoachPage() {
           ))}
           {typing && (
             <div className="flex justify-start">
-              <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-[#f7f0df]/10 bg-[#f7f0df]/6 px-5 py-4">
+              <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-[#2a1e16]/10 bg-[#2a1e16]/6 px-5 py-4">
                 {[0, 1, 2].map((d) => (
-                  <span key={d} className="h-2 w-2 animate-bounce rounded-full bg-violet-300" style={{ animationDelay: `${d * 0.15}s` }} />
+                  <span key={d} className="h-2 w-2 animate-bounce rounded-full bg-orange-300" style={{ animationDelay: `${d * 0.15}s` }} />
                 ))}
               </div>
             </div>
@@ -159,7 +159,7 @@ export default function AICoachPage() {
               key={q}
               type="button"
               onClick={() => send(q)}
-              className="whitespace-nowrap rounded-full border border-violet-200/25 bg-violet-200/8 px-4 py-2 text-xs font-bold text-violet-100 transition hover:bg-violet-200/18"
+              className="whitespace-nowrap rounded-full border border-orange-200/25 bg-orange-200/8 px-4 py-2 text-xs font-bold text-orange-700 transition hover:bg-orange-200/18"
             >
               {q}
             </button>
@@ -167,18 +167,18 @@ export default function AICoachPage() {
         </div>
 
         {/* input */}
-        <div className="flex gap-3 border-t border-[#f7f0df]/8 px-6 py-4">
+        <div className="flex gap-3 border-t border-[#2a1e16]/8 px-6 py-4">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send(input)}
             placeholder="Ask your coach anything…"
-            className="min-w-0 flex-1 rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-5 py-3 text-sm outline-none placeholder:text-[#f7f0df]/45 focus:border-violet-200/40"
+            className="min-w-0 flex-1 rounded-full border border-[#2a1e16]/12 bg-[#2a1e16]/6 px-5 py-3 text-sm outline-none placeholder:text-[#2a1e16]/45 focus:border-orange-200/40"
           />
           <button
             type="button"
             onClick={() => send(input)}
-            className="btn-gloss rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-7 py-3 text-xs font-black uppercase tracking-[0.16em] text-white"
+            className="btn-gloss rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-7 py-3 text-xs font-black uppercase tracking-[0.16em] text-white"
           >
             Send ➤
           </button>

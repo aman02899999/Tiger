@@ -51,9 +51,9 @@ interface RoutineItem { exId: string; sets: number; reps: string }
 function ExercisePhoto({ src, alt }: { src: string; alt: string }) {
   const [fail, setFail] = useState(false);
   return (
-    <div className="relative h-32 w-full overflow-hidden rounded-t-xl bg-gradient-to-br from-violet-950 to-fuchsia-950">
+    <div className="relative h-32 w-full overflow-hidden rounded-t-xl bg-gradient-to-br from-orange-950 to-amber-950">
       {!fail && <img src={src} alt={alt} loading="lazy" onError={() => setFail(true)} className="h-full w-full object-cover" />}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0714]/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#fffdf9]/70 to-transparent" />
     </div>
   );
 }
@@ -100,17 +100,17 @@ export default function WorkoutBuilderPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Workout Builder</h1>
-        <p className="text-sm text-[#f7f0df]/68">Browse the exercise library and build your own routine</p>
+        <p className="text-sm text-[#2a1e16]/68">Browse the exercise library and build your own routine</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Library */}
         <div className="lg:col-span-2 space-y-4">
           <div className="glass-card rounded-2xl p-4">
-            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search exercises or equipment…" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+            <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search exercises or equipment…" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
             <div className="mt-3 flex flex-wrap gap-1.5">
               {GROUPS.map((g) => (
-                <button key={g} type="button" onClick={() => setGroup(g)} className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${group === g ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{g}</button>
+                <button key={g} type="button" onClick={() => setGroup(g)} className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${group === g ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>{g}</button>
               ))}
             </div>
           </div>
@@ -124,11 +124,11 @@ export default function WorkoutBuilderPage() {
                   <div className="p-4">
                     <div className="flex items-start justify-between gap-2">
                       <h3 className="font-black leading-tight">{e.name}</h3>
-                      <span className="shrink-0 rounded-full bg-violet-200/12 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-violet-100">{e.level}</span>
+                      <span className="shrink-0 rounded-full bg-orange-200/12 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.12em] text-orange-700">{e.level}</span>
                     </div>
-                    <p className="mt-1 text-[11px] text-[#f7f0df]/62">{e.group} · {e.equip}</p>
-                    <p className="mt-2 text-xs leading-relaxed text-[#f7f0df]/72">💡 {e.cue}</p>
-                    <button type="button" onClick={() => addToRoutine(e.id)} disabled={added} className={`btn-gloss mt-3 w-full rounded-full py-2.5 text-xs font-black uppercase tracking-[0.14em] transition ${added ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-200" : "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 text-white"}`}>
+                    <p className="mt-1 text-[11px] text-[#2a1e16]/62">{e.group} · {e.equip}</p>
+                    <p className="mt-2 text-xs leading-relaxed text-[#2a1e16]/72">💡 {e.cue}</p>
+                    <button type="button" onClick={() => addToRoutine(e.id)} disabled={added} className={`btn-gloss mt-3 w-full rounded-full py-2.5 text-xs font-black uppercase tracking-[0.14em] transition ${added ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-600" : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 text-white"}`}>
                       {added ? "✓ In your routine" : "+ Add to routine"}
                     </button>
                   </div>
@@ -142,31 +142,31 @@ export default function WorkoutBuilderPage() {
         <div className="space-y-4">
           <div className="glass-card sticky top-4 rounded-2xl p-5">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">🗒️ My Routine</p>
-              <span className="text-[11px] text-[#f7f0df]/62">{routine.length} moves</span>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">🗒️ My Routine</p>
+              <span className="text-[11px] text-[#2a1e16]/62">{routine.length} moves</span>
             </div>
 
             {routine.length === 0 ? (
-              <p className="mt-4 rounded-xl bg-white/5 p-4 text-center text-xs text-[#f7f0df]/62">Add exercises from the library to build your custom workout.</p>
+              <p className="mt-4 rounded-xl bg-black/5 p-4 text-center text-xs text-[#2a1e16]/62">Add exercises from the library to build your custom workout.</p>
             ) : (
               <div className="mt-4 space-y-2">
                 {routine.map((it, i) => {
                   const ex = byId(it.exId);
                   return (
-                    <div key={it.exId} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
+                    <div key={it.exId} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3">
                       <div className="flex items-center gap-2">
-                        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-violet-500/70 text-[11px] font-black text-white">{i + 1}</span>
+                        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-orange-500/70 text-[11px] font-black text-white">{i + 1}</span>
                         <p className="min-w-0 flex-1 truncate text-sm font-semibold">{ex.name}</p>
-                        <button type="button" onClick={() => remove(it.exId)} aria-label="Remove" className="text-xs text-[#f7f0df]/55 hover:text-rose-200">✕</button>
+                        <button type="button" onClick={() => remove(it.exId)} aria-label="Remove" className="text-xs text-[#2a1e16]/55 hover:text-rose-600">✕</button>
                       </div>
                       <div className="mt-2 flex items-center gap-2 pl-8">
-                        <label className="flex items-center gap-1 text-[11px] text-[#f7f0df]/65">
+                        <label className="flex items-center gap-1 text-[11px] text-[#2a1e16]/65">
                           Sets
-                          <input type="number" min={1} max={10} value={it.sets} onChange={(e) => updateItem(it.exId, { sets: Number(e.target.value) })} className="w-12 rounded-md border border-[#f7f0df]/12 bg-[#0b0714] px-2 py-1 text-xs outline-none" />
+                          <input type="number" min={1} max={10} value={it.sets} onChange={(e) => updateItem(it.exId, { sets: Number(e.target.value) })} className="w-12 rounded-md border border-[#2a1e16]/12 bg-[#fffdf9] px-2 py-1 text-xs outline-none" />
                         </label>
-                        <label className="flex items-center gap-1 text-[11px] text-[#f7f0df]/65">
+                        <label className="flex items-center gap-1 text-[11px] text-[#2a1e16]/65">
                           Reps
-                          <input value={it.reps} onChange={(e) => updateItem(it.exId, { reps: e.target.value })} className="w-16 rounded-md border border-[#f7f0df]/12 bg-[#0b0714] px-2 py-1 text-xs outline-none" />
+                          <input value={it.reps} onChange={(e) => updateItem(it.exId, { reps: e.target.value })} className="w-16 rounded-md border border-[#2a1e16]/12 bg-[#fffdf9] px-2 py-1 text-xs outline-none" />
                         </label>
                       </div>
                     </div>
@@ -175,11 +175,11 @@ export default function WorkoutBuilderPage() {
               </div>
             )}
 
-            <button type="button" onClick={saveRoutine} disabled={routine.length === 0} className={`btn-gloss mt-4 w-full rounded-full py-3 text-xs font-black uppercase tracking-[0.16em] transition ${saved ? "bg-emerald-500 text-white" : "bg-gradient-to-r from-[#d8b35a] to-orange-400 text-[#090511]"} ${routine.length === 0 ? "opacity-50" : ""}`}>
+            <button type="button" onClick={saveRoutine} disabled={routine.length === 0} className={`btn-gloss mt-4 w-full rounded-full py-3 text-xs font-black uppercase tracking-[0.16em] transition ${saved ? "bg-emerald-500 text-white" : "bg-gradient-to-r from-[#ea580c] to-orange-400 text-[#f4ead9]"} ${routine.length === 0 ? "opacity-50" : ""}`}>
               {saved ? "✓ Routine Saved!" : "Save Routine (+15 XP)"}
             </button>
             {routine.length > 0 && (
-              <p className="mt-2 text-center text-[11px] text-[#f7f0df]/62">
+              <p className="mt-2 text-center text-[11px] text-[#2a1e16]/62">
                 Est. {routine.reduce((s, r) => s + r.sets, 0)} sets · ~{Math.round(routine.reduce((s, r) => s + r.sets, 0) * 2.5)} min
               </p>
             )}

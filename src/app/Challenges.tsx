@@ -203,7 +203,7 @@ export default function ChallengesPage() {
       <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white py-12 px-6">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl font-black mb-2">🏆 Fitness Challenges</h1>
-          <p className="text-orange-100">Compete with real people. Win real prizes. Transform your body.</p>
+          <p className="text-orange-700">Compete with real people. Win real prizes. Transform your body.</p>
         </div>
       </div>
 

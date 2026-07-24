@@ -71,12 +71,12 @@ function DailyQuests() {
     <div className="glass-card rounded-2xl p-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">⚔️ Today's Quests</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">⚔️ Today's Quests</p>
           <h2 className="mt-1 text-xl font-black">Complete all 4 for a +25 XP bonus</h2>
         </div>
         <div className="relative h-16 w-16 shrink-0">
-          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#d8b35a ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.4s ease" }} />
-          <div className="absolute inset-[5px] grid place-items-center rounded-full bg-[#0b0714]"><span className="text-sm font-black">{completed}/4</span></div>
+          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#ea580c ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.4s ease" }} />
+          <div className="absolute inset-[5px] grid place-items-center rounded-full bg-[#fffdf9]"><span className="text-sm font-black">{completed}/4</span></div>
         </div>
       </div>
 
@@ -84,18 +84,18 @@ function DailyQuests() {
         {quests.map((q) => {
           const isDone = !!done[q.id];
           return (
-            <button key={q.id} type="button" onClick={() => toggle(q)} className={`flex w-full items-center gap-4 rounded-xl border p-3 text-left transition ${isDone ? "border-[#d8b35a]/30 bg-[#d8b35a]/10" : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"}`}>
+            <button key={q.id} type="button" onClick={() => toggle(q)} className={`flex w-full items-center gap-4 rounded-xl border p-3 text-left transition ${isDone ? "border-[#ea580c]/30 bg-[#ea580c]/10" : "border-[#2a1e16]/10 bg-[#2a1e16]/5 hover:bg-[#2a1e16]/10"}`}>
               <span className={`text-2xl ${isDone ? "" : "grayscale-[0.3]"}`}>{q.icon}</span>
               <div className="min-w-0 flex-1">
-                <p className={`font-semibold ${isDone ? "text-[#f7f0df]/62 line-through" : ""}`}>{q.text}</p>
-                <p className="text-[11px] font-bold text-[#d8b35a]">+{q.xp} XP</p>
+                <p className={`font-semibold ${isDone ? "text-[#2a1e16]/62 line-through" : ""}`}>{q.text}</p>
+                <p className="text-[11px] font-bold text-[#ea580c]">+{q.xp} XP</p>
               </div>
-              <span className={`grid h-7 w-7 place-items-center rounded-full border-2 ${isDone ? "border-[#d8b35a] bg-[#d8b35a] text-[#0b0714]" : "border-[#f7f0df]/25"}`}>{isDone && <span className="text-xs font-black">✓</span>}</span>
+              <span className={`grid h-7 w-7 place-items-center rounded-full border-2 ${isDone ? "border-[#ea580c] bg-[#ea580c] text-[#fffdf9]" : "border-[#2a1e16]/25"}`}>{isDone && <span className="text-xs font-black">✓</span>}</span>
             </button>
           );
         })}
       </div>
-      {completed === quests.length && <div className="mt-4 rounded-xl border border-emerald-300/30 bg-emerald-300/10 p-3 text-center text-sm font-bold text-emerald-200">🎉 All quests done! +25 XP bonus claimed</div>}
+      {completed === quests.length && <div className="mt-4 rounded-xl border border-emerald-300/30 bg-emerald-300/10 p-3 text-center text-sm font-bold text-emerald-600">🎉 All quests done! +25 XP bonus claimed</div>}
     </div>
   );
 }
@@ -118,7 +118,7 @@ function ShareCard() {
 
     // background gradient
     const g = ctx.createLinearGradient(0, 0, W, H);
-    g.addColorStop(0, "#2a0e52"); g.addColorStop(0.5, "#1e1b4b"); g.addColorStop(1, "#07040d");
+    g.addColorStop(0, "#2a0e52"); g.addColorStop(0.5, "#1e1b4b"); g.addColorStop(1, "#faf4ec");
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
 
     // glow blobs
@@ -127,15 +127,15 @@ function ShareCard() {
       rg.addColorStop(0, c); rg.addColorStop(1, "rgba(0,0,0,0)");
       ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
     };
-    blob(220, 220, 360, "rgba(167,139,250,0.4)");
-    blob(880, 820, 420, "rgba(232,121,249,0.35)");
+    blob(220, 220, 360, "rgba(249,115,22,0.4)");
+    blob(880, 820, 420, "rgba(251,146,60,0.35)");
 
     ctx.textAlign = "center";
-    ctx.fillStyle = "#d8b35a";
+    ctx.fillStyle = "#ea580c";
     ctx.font = "bold 40px sans-serif";
     ctx.fillText("THE TITAN FITNESS", W / 2, 150);
 
-    ctx.fillStyle = "#f7f0df";
+    ctx.fillStyle = "#2a1e16";
     ctx.font = "900 84px sans-serif";
     ctx.fillText(user?.name ?? "My Progress", W / 2, 300);
 
@@ -145,16 +145,16 @@ function ShareCard() {
 
     // stat tiles
     const stats = [
-      { v: `${xp.toLocaleString()}`, l: "TOTAL XP", c: "#d8b35a" },
-      { v: `${workouts}`, l: "WORKOUTS", c: "#a78bfa" },
-      { v: `${streak}`, l: "DAY STREAK", c: "#e879f9" },
+      { v: `${xp.toLocaleString()}`, l: "TOTAL XP", c: "#ea580c" },
+      { v: `${workouts}`, l: "WORKOUTS", c: "#f97316" },
+      { v: `${streak}`, l: "DAY STREAK", c: "#fb923c" },
     ];
     const tileW = 300, gap = 30, startX = (W - (tileW * 3 + gap * 2)) / 2, y = 460, tileH = 300;
     stats.forEach((s, i) => {
       const x = startX + i * (tileW + gap);
       ctx.fillStyle = "rgba(247,240,223,0.06)";
       roundRect(ctx, x, y, tileW, tileH, 32); ctx.fill();
-      ctx.strokeStyle = "rgba(167,139,250,0.25)"; ctx.lineWidth = 2; roundRect(ctx, x, y, tileW, tileH, 32); ctx.stroke();
+      ctx.strokeStyle = "rgba(249,115,22,0.25)"; ctx.lineWidth = 2; roundRect(ctx, x, y, tileW, tileH, 32); ctx.stroke();
       ctx.fillStyle = s.c; ctx.font = "900 96px sans-serif";
       ctx.fillText(s.v, x + tileW / 2, y + 160);
       ctx.fillStyle = "rgba(247,240,223,0.65)"; ctx.font = "bold 30px sans-serif";
@@ -162,7 +162,7 @@ function ShareCard() {
     });
 
     // footer
-    ctx.fillStyle = "#f7f0df"; ctx.font = "900 60px sans-serif";
+    ctx.fillStyle = "#2a1e16"; ctx.font = "900 60px sans-serif";
     ctx.fillText("⚡ Stronger every day", W / 2, 900);
     ctx.fillStyle = "rgba(247,240,223,0.5)"; ctx.font = "bold 30px sans-serif";
     ctx.fillText("The Titan Fitness", W / 2, 970);
@@ -191,15 +191,15 @@ function ShareCard() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">📸 Shareable Progress Card</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">📸 Shareable Progress Card</p>
       <h2 className="mt-1 text-xl font-black">Show off your journey</h2>
-      <p className="mt-1 text-xs text-[#f7f0df]/65">A ready-to-post image with your live stats — download and share it anywhere.</p>
+      <p className="mt-1 text-xs text-[#2a1e16]/65">A ready-to-post image with your live stats — download and share it anywhere.</p>
 
-      <div className="mt-4 overflow-hidden rounded-2xl border border-[#f7f0df]/10">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-[#2a1e16]/10">
         <canvas ref={canvasRef} className="block w-full" style={{ aspectRatio: "1/1" }} />
       </div>
 
-      <button type="button" onClick={download} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">⬇ Download Card (PNG)</button>
+      <button type="button" onClick={download} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">⬇ Download Card (PNG)</button>
     </div>
   );
 }
@@ -209,7 +209,7 @@ export default function QuestsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Quests &amp; Share</h1>
-        <p className="text-sm text-[#f7f0df]/68">Knock out daily quests for XP, then share your progress card</p>
+        <p className="text-sm text-[#2a1e16]/68">Knock out daily quests for XP, then share your progress card</p>
       </div>
       <div className="grid gap-6 lg:grid-cols-2">
         <DailyQuests />

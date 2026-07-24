@@ -75,42 +75,42 @@ export default function CardioTrackerPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Cardio &amp; Steps</h1>
-        <p className="text-sm text-[#f7f0df]/68">Log your daily movement and watch the calories add up</p>
+        <p className="text-sm text-[#2a1e16]/68">Log your daily movement and watch the calories add up</p>
       </div>
 
       {/* Today's log */}
       <div className="glass-card rounded-2xl p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Log Today</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Log Today</p>
 
         <div className="mt-4 flex items-center gap-6">
           {/* step ring */}
           <div className="relative h-24 w-24 shrink-0">
-            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#34d399 ${stepPct * 360}deg, rgba(247,240,223,0.1) ${stepPct * 360}deg)`, transition: "background 0.5s ease" }} />
-            <div className="absolute inset-[7px] grid place-items-center rounded-full bg-[#0b0714] text-center">
+            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#059669 ${stepPct * 360}deg, rgba(247,240,223,0.1) ${stepPct * 360}deg)`, transition: "background 0.5s ease" }} />
+            <div className="absolute inset-[7px] grid place-items-center rounded-full bg-[#fffdf9] text-center">
               <div>
                 <p className="text-sm font-black tabular-nums">{Math.round(stepPct * 100)}%</p>
-                <p className="text-[8px] uppercase tracking-[0.14em] text-[#f7f0df]/62">of goal</p>
+                <p className="text-[8px] uppercase tracking-[0.14em] text-[#2a1e16]/62">of goal</p>
               </div>
             </div>
           </div>
           <div className="min-w-0 flex-1 space-y-3">
             <label className="block">
-              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Steps today (goal {STEP_GOAL.toLocaleString()})</span>
-              <input type="number" inputMode="numeric" value={steps} onChange={(e) => setSteps(e.target.value)} placeholder="e.g. 6500" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Steps today (goal {STEP_GOAL.toLocaleString()})</span>
+              <input type="number" inputMode="numeric" value={steps} onChange={(e) => setSteps(e.target.value)} placeholder="e.g. 6500" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-200/40" />
             </label>
           </div>
         </div>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <label className="block">
-            <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Cardio activity</span>
-            <select value={activity} onChange={(e) => setActivity(e.target.value)} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-2.5 text-sm outline-none">
+            <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Cardio activity</span>
+            <select value={activity} onChange={(e) => setActivity(e.target.value)} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none">
               {ACTIVITIES.map((a) => <option key={a.id} value={a.id}>{a.icon} {a.label}</option>)}
             </select>
           </label>
           <label className="block">
-            <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">Minutes</span>
-            <input type="number" inputMode="numeric" value={minutes} onChange={(e) => setMinutes(e.target.value)} placeholder="e.g. 30" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+            <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Minutes</span>
+            <input type="number" inputMode="numeric" value={minutes} onChange={(e) => setMinutes(e.target.value)} placeholder="e.g. 30" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-200/40" />
           </label>
         </div>
 
@@ -123,9 +123,9 @@ export default function CardioTrackerPage() {
               { v: `${todayEntry.minutes || 0}m`, l: "cardio" },
               { v: `${kcal}`, l: "kcal burned" },
             ].map((s) => (
-              <div key={s.l} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
-                <p className="text-lg font-black tabular-nums text-[#d8b35a]">{s.v}</p>
-                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/62">{s.l}</p>
+              <div key={s.l} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3">
+                <p className="text-lg font-black tabular-nums text-[#ea580c]">{s.v}</p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/62">{s.l}</p>
               </div>
             ))}
           </div>
@@ -135,8 +135,8 @@ export default function CardioTrackerPage() {
       {/* Weekly chart */}
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">This Week's Steps</p>
-          <p className="text-xs text-[#f7f0df]/62">{weekTotal.toLocaleString()} total · {activeDays}/7 hit goal</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">This Week's Steps</p>
+          <p className="text-xs text-[#2a1e16]/62">{weekTotal.toLocaleString()} total · {activeDays}/7 hit goal</p>
         </div>
         <div className="mt-5 flex h-32 items-end justify-between gap-2">
           {last7.map((d) => {
@@ -145,14 +145,14 @@ export default function CardioTrackerPage() {
             return (
               <div key={d.key} className="flex flex-1 flex-col items-center gap-1.5">
                 <div className="flex w-full flex-1 items-end">
-                  <div className="w-full rounded-t-md transition-all duration-500" style={{ height: d.steps ? `${Math.max(4, h)}%` : "3px", background: hitGoal ? "linear-gradient(to top,#34d399,#6ee7b7)" : "linear-gradient(to top,#38bdf8,#7dd3fc)", opacity: d.steps ? 1 : 0.3 }} title={`${d.steps.toLocaleString()} steps`} />
+                  <div className="w-full rounded-t-md transition-all duration-500" style={{ height: d.steps ? `${Math.max(4, h)}%` : "3px", background: hitGoal ? "linear-gradient(to top,#059669,#10b981)" : "linear-gradient(to top,#0284c7,#0ea5e9)", opacity: d.steps ? 1 : 0.3 }} title={`${d.steps.toLocaleString()} steps`} />
                 </div>
-                <span className="text-[10px] font-bold text-[#f7f0df]/62">{d.label}</span>
+                <span className="text-[10px] font-bold text-[#2a1e16]/62">{d.label}</span>
               </div>
             );
           })}
         </div>
-        <p className="mt-3 text-center text-[11px] text-[#f7f0df]/55">Green bars = you hit the {STEP_GOAL.toLocaleString()}-step goal that day.</p>
+        <p className="mt-3 text-center text-[11px] text-[#2a1e16]/55">Green bars = you hit the {STEP_GOAL.toLocaleString()}-step goal that day.</p>
       </div>
     </div>
   );

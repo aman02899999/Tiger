@@ -2,28 +2,47 @@
 
 /* ── Gradient / Glass Design Tokens ─────────────────────────────── */
 :root {
-  --clr-bg:         #07040d;
-  --clr-surface:    #0b0714;
-  --clr-text:       #f7f0df;
-  --clr-gold:       #d8b35a;
-  --clr-violet:     #a78bfa;
-  --clr-fuchsia:    #e879f9;
+  --clr-bg:         #faf4ec;
+  --clr-surface:    #fffdf9;
+  --clr-text:       #2a1e16;
+  --clr-gold:       #ea580c;
+  --clr-violet:     #f97316;
+  --clr-fuchsia:    #fb923c;
 
-  /* Gradient presets */
-  --grad-hero:      linear-gradient(135deg, #3b0764 0%, #1e1b4b 40%, #07040d 100%);
-  --grad-gold-glow: linear-gradient(135deg, #d8b35a 0%, #f59e0b 50%, #d97706 100%);
-  --grad-violet:    linear-gradient(135deg, #c4b5fd 0%, #e879f9 50%, #7c3aed 100%);
-  --grad-card:      linear-gradient(160deg, rgba(167,139,250,0.08) 0%, rgba(232,121,249,0.04) 100%);
-  --grad-red-depth: linear-gradient(135deg, #7f1d1d 0%, #450a0a 60%, #07040d 100%);
+  /* Gradient presets — warm off-white + orange */
+  --grad-hero:      linear-gradient(135deg, #ffedd5 0%, #fed7aa 40%, #faf4ec 100%);
+  --grad-gold-glow: linear-gradient(135deg, #ea580c 0%, #f59e0b 50%, #d97706 100%);
+  --grad-violet:    linear-gradient(135deg, #fdba74 0%, #fb923c 50%, #ea580c 100%);
+  --grad-card:      linear-gradient(160deg, rgba(249,115,22,0.06) 0%, rgba(251,146,60,0.03) 100%);
+  --grad-red-depth: linear-gradient(135deg, #fdba74 0%, #f97316 60%, #faf4ec 100%);
 
-  /* Glass card */
-  --glass-bg:       rgba(247,240,223,0.04);
-  --glass-border:   rgba(167,139,250,0.18);
-  --glass-shadow:   0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
-  --glass-shadow-hover: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(167,139,250,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+  /* Glass card — light (the whole app is off-white now) */
+  --glass-bg:       rgba(255,253,249,0.72);
+  --glass-border:   rgba(234,88,12,0.16);
+  --glass-shadow:   0 8px 30px rgba(120,60,10,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+  --glass-shadow-hover: 0 20px 54px rgba(234,88,12,0.14), inset 0 1px 0 rgba(255,255,255,0.7);
 
   /* Glossy button */
-  --btn-gloss:      linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 60%);
+  --btn-gloss:      linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 60%);
+}
+
+/* Warm off-white page base */
+html, body { background: #faf4ec; color: #2a1e16; }
+
+/* ── Light landing theme (off-white + orange) ───────────────────── */
+/* Used by the public marketing page (App.tsx). The logged-in app keeps
+   its own dark .glass-card treatment untouched. */
+.light-card {
+  background: rgba(255, 253, 249, 0.75);
+  border: 1px solid rgba(234, 88, 12, 0.16);
+  box-shadow: 0 10px 34px rgba(120, 60, 10, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: box-shadow 220ms ease, border-color 220ms ease, transform 220ms ease;
+}
+.light-card:hover {
+  box-shadow: 0 20px 54px rgba(234, 88, 12, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  border-color: rgba(234, 88, 12, 0.32);
 }
 
 /* ── Utility: Glass Card ─────────────────────────────────────────── */
@@ -37,7 +56,7 @@
 }
 .glass-card:hover {
   box-shadow: var(--glass-shadow-hover);
-  border-color: rgba(167,139,250,0.28);
+  border-color: rgba(234,88,12,0.30);
 }
 
 /* ── Global interaction polish (ui-ux-pro-max pass) ─────────────── */
@@ -53,7 +72,7 @@ button:disabled {
 }
 /* Keyboard-visible focus ring — does not show on mouse click */
 :focus-visible {
-  outline: 2px solid rgba(167,139,250,0.75);
+  outline: 2px solid rgba(234,88,12,0.75);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -83,7 +102,7 @@ button:disabled {
 .border-gold-glow {
   border: 1px solid transparent;
   background-clip: padding-box;
-  box-shadow: 0 0 0 1px rgba(216,179,90,0.3), 0 4px 24px rgba(216,179,90,0.1);
+  box-shadow: 0 0 0 1px rgba(234,88,12,0.30), 0 4px 24px rgba(234,88,12,0.12);
 }
 
 /* ── Animations ─────────────────────────────────────────────────── */
@@ -129,8 +148,8 @@ button:disabled {
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 20px rgba(167,139,250,0.2); }
-  50%       { box-shadow: 0 0 60px rgba(167,139,250,0.5), 0 0 100px rgba(232,121,249,0.2); }
+  0%, 100% { box-shadow: 0 0 20px rgba(249,115,22,0.2); }
+  50%       { box-shadow: 0 0 60px rgba(249,115,22,0.45), 0 0 100px rgba(251,146,60,0.2); }
 }
 
 /* Beating heart — pulse used by the Heart Health breathing trainer */

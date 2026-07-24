@@ -1,6 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { isPlayBillingAvailable, purchaseWithPlayBilling, acknowledgePlayPurchase } from "./PlayBilling";
+import { isRazorpayConfigured, openRazorpayCheckout } from "./razorpay";
+import { httpsCallable } from "firebase/functions";
+import { functions } from "../firebase";
 
 /* ---------------------------------------------------------------- */
 /* Checkout — the app's actual monetization mechanism. Any button    */
@@ -27,9 +30,9 @@ export interface PlanDef {
 }
 
 export const PLANS: Record<PlanId, PlanDef> = {
-  pro: { id: "pro", label: "Pro", planValue: "Pro", monthly: 199, annual: 1499, tagline: "Unlimited AI coaching & full library access" },
-  elite: { id: "elite", label: "Elite Family", planValue: "Elite", monthly: 399, annual: 2999, tagline: "Everything in Pro, for up to 8 family members" },
-  lifetime: { id: "lifetime", label: "Lifetime Elite", planValue: "Elite", monthly: 0, annual: 0, lifetime: 6999, tagline: "Pay once, own Elite forever" },
+  pro: { id: "pro", label: "Gold", planValue: "Pro", monthly: 199, annual: 1499, tagline: "Unlimited AI coaching & full library access" },
+  elite: { id: "elite", label: "Platinum Family", planValue: "Elite", monthly: 399, annual: 2999, tagline: "Everything in Gold, for up to 8 family members" },
+  lifetime: { id: "lifetime", label: "Platinum Lifetime", planValue: "Elite", monthly: 0, annual: 0, lifetime: 6999, tagline: "Pay once, own Platinum forever" },
 };
 
 // Maps an internal plan+cycle to the Play Console product id that must be
@@ -96,7 +99,7 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 }
 
 function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () => void }) {
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, refreshUser } = useAuth();
   const [step, setStep] = useState<Step>("pay");
   const [method, setMethod] = useState<Method>("upi");
   const [upiId, setUpiId] = useState("");
@@ -104,6 +107,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; pct: number } | null>(null);
   const [couponMsg, setCouponMsg] = useState<string | null>(null);
+  const [payError, setPayError] = useState<string | null>(null);
   // Play Store policy requires digital purchases inside an Android app
   // distributed via Play to go through Play Billing. undefined = still
   // checking; true/false decides which payment UI renders below.
@@ -142,7 +146,10 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
       const result = await purchaseWithPlayBilling(sku);
       if (!result) { setStep("pay"); return; } // user backed out of the Play sheet
       if (state.kind === "plan") {
-        await updateUser({ plan: plan!.planValue });
+        // Plan unlock happens server-side (clients can't self-upgrade).
+        const unlockPlay = httpsCallable<Record<string, unknown>, { ok: boolean }>(functions, "unlockPlanAfterPlay");
+        await unlockPlay({ plan: plan!.planValue, sku, purchaseToken: result.purchaseToken });
+        await refreshUser();
       } else {
         state.item.onSuccess();
         await acknowledgePlayPurchase(result.purchaseToken);
@@ -154,13 +161,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
     }
   }
 
-  async function pay() {
-    if (playAvailable) return payViaPlay();
-    setStep("processing");
-    // INTEGRATION POINT: replace with a real Razorpay/Stripe order-create +
-    // checkout.js call, then verify the payment signature server-side before
-    // unlocking the plan/item. Simulated here so the purchase flow is fully testable.
-    await new Promise((r) => setTimeout(r, 1600));
+  async function unlockAfterPayment() {
     if (state.kind === "plan") {
       await updateUser({ plan: plan!.planValue });
     } else {
@@ -170,107 +171,182 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
     setTimeout(onClose, 2400);
   }
 
+  async function pay() {
+    if (playAvailable) return payViaPlay();
+
+    // Razorpay Checkout — used automatically when VITE_RAZORPAY_KEY_ID is set.
+    if (isRazorpayConfigured()) {
+      const planValue = state.kind === "plan" ? plan!.planValue : undefined;
+
+      // SECURE PATH: create an order and verify the signature via Cloud
+      // Functions (which hold the Razorpay secret). Requires the functions to
+      // be deployed. Falls back to a provisional client-only flow otherwise.
+      try {
+        const createOrder = httpsCallable<{ amount: number; currency: string }, { orderId: string }>(functions, "createRazorpayOrder");
+        const orderRes = await createOrder({ amount: finalPrice * 100, currency: "INR" });
+        const orderId = orderRes.data.orderId;
+
+        const opened = await openRazorpayCheckout({
+          amount: finalPrice * 100,
+          currency: "INR",
+          name: "The Titan Fitness",
+          description: title,
+          prefillEmail: user?.email,
+          prefillName: user?.name,
+          orderId,
+          onSuccess: async (paymentId, raw) => {
+            setStep("processing");
+            try {
+              const verify = httpsCallable<Record<string, unknown>, { valid: boolean }>(functions, "verifyRazorpayPayment");
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const signature = (raw as any)?.razorpay_signature;
+              const v = await verify({ orderId, paymentId, signature, plan: planValue });
+              if (v.data.valid) {
+                if (state.kind === "item") state.item.onSuccess();
+                else await refreshUser(); // reflect the server-side plan unlock
+                setStep("success");
+                setTimeout(onClose, 2400);
+              } else {
+                setPayError("Payment could not be verified. If money was debited, it will be refunded.");
+                setStep("pay");
+              }
+            } catch {
+              setPayError("Verification failed. If money was debited, it will be refunded.");
+              setStep("pay");
+            }
+          },
+          onDismiss: () => setStep("pay"),
+        });
+        if (opened) return;
+      } catch {
+        // Cloud Functions not deployed / unreachable → provisional fallback below.
+      }
+
+      // PROVISIONAL FALLBACK: open Checkout without a server order. Unlock is
+      // client-side and NOT signature-verified — deploy the functions for
+      // production security.
+      const opened = await openRazorpayCheckout({
+        amount: finalPrice * 100,
+        currency: "INR",
+        name: "The Titan Fitness",
+        description: title,
+        prefillEmail: user?.email,
+        prefillName: user?.name,
+        onSuccess: async () => { setStep("processing"); await unlockAfterPayment(); },
+        onDismiss: () => setStep("pay"),
+      });
+      if (opened) return;
+    }
+
+    setStep("processing");
+    // Fallback simulated flow (no gateway configured) — keeps the purchase
+    // flow fully testable in development.
+    await new Promise((r) => setTimeout(r, 1600));
+    await unlockAfterPayment();
+  }
+
   const canPay = method === "upi" ? upiId.includes("@") : method === "card" ? cardNum.replace(/\s/g, "").length >= 12 : true;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onClick={step === "pay" ? onClose : undefined}>
-      <div className="glass-card w-full max-w-md overflow-hidden rounded-3xl bg-[#0b0714]/97" onClick={(e) => e.stopPropagation()}>
+      <div className="glass-card w-full max-w-md overflow-hidden rounded-3xl bg-[#fffdf9]/97" onClick={(e) => e.stopPropagation()}>
         {step === "processing" ? (
           <div className="flex flex-col items-center justify-center gap-4 p-12 text-center">
-            <div className="h-14 w-14 animate-spin rounded-full border-4 border-violet-300/25 border-t-violet-300" />
-            <p className="text-sm font-bold text-[#f7f0df]/80">Processing your payment securely…</p>
-            <p className="text-xs text-[#f7f0df]/55">Do not close this window</p>
+            <div className="h-14 w-14 animate-spin rounded-full border-4 border-orange-300/25 border-t-orange-300" />
+            <p className="text-sm font-bold text-[#2a1e16]/80">Processing your payment securely…</p>
+            <p className="text-xs text-[#2a1e16]/55">Do not close this window</p>
           </div>
         ) : step === "success" ? (
           <div className="flex flex-col items-center justify-center gap-3 p-12 text-center">
             <div className="grid h-16 w-16 place-items-center rounded-full bg-emerald-400/15 text-4xl">✅</div>
-            <h3 className="text-xl font-black text-emerald-300">Payment Successful!</h3>
-            <p className="text-sm text-[#f7f0df]/70">
+            <h3 className="text-xl font-black text-emerald-600">Payment Successful!</h3>
+            <p className="text-sm text-[#2a1e16]/70">
               {state.kind === "plan" ? (
-                <>Welcome to <span className="font-bold text-[#d8b35a]">{title}</span> — your account has been upgraded instantly.</>
+                <>Welcome to <span className="font-bold text-[#ea580c]">{title}</span> — your account has been upgraded instantly.</>
               ) : (
-                <><span className="font-bold text-[#d8b35a]">{title}</span> is ready — your download has started.</>
+                <><span className="font-bold text-[#ea580c]">{title}</span> is ready — your download has started.</>
               )}
             </p>
-            <p className="text-xs text-[#f7f0df]/50">Receipt sent to {user?.email}</p>
+            <p className="text-xs text-[#2a1e16]/50">Receipt sent to {user?.email}</p>
           </div>
         ) : (
           <>
-            <div className="border-b border-[#f7f0df]/10 p-6">
+            <div className="border-b border-[#2a1e16]/10 p-6">
               <div className="flex items-start justify-between">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-violet-300">{state.kind === "plan" ? "Upgrade to" : "Purchase"}</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-orange-600">{state.kind === "plan" ? "Upgrade to" : "Purchase"}</p>
                   <h3 className="text-2xl font-black">{title}</h3>
-                  <p className="mt-0.5 text-xs text-[#f7f0df]/62">{tagline}</p>
+                  <p className="mt-0.5 text-xs text-[#2a1e16]/62">{tagline}</p>
                 </div>
-                <button type="button" onClick={onClose} aria-label="Close" className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-xs text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">✕</button>
+                <button type="button" onClick={onClose} aria-label="Close" className="rounded-full border border-[#2a1e16]/15 px-3 py-1.5 text-xs text-[#2a1e16]/70 hover:bg-[#2a1e16]/8">✕</button>
               </div>
 
               <div className="mt-4 flex items-end gap-2">
-                {discount > 0 && <span className="text-lg text-[#f7f0df]/40 line-through">₹{basePrice}</span>}
-                <span className="text-4xl font-black tabular-nums text-[#d8b35a]">₹{finalPrice}</span>
-                {isRecurring && <span className="pb-1 text-xs text-[#f7f0df]/62">/{state.kind === "plan" && state.cycle === "annual" ? "year" : "month"}</span>}
+                {discount > 0 && <span className="text-lg text-[#2a1e16]/40 line-through">₹{basePrice}</span>}
+                <span className="text-4xl font-black tabular-nums text-[#ea580c]">₹{finalPrice}</span>
+                {isRecurring && <span className="pb-1 text-xs text-[#2a1e16]/62">/{state.kind === "plan" && state.cycle === "annual" ? "year" : "month"}</span>}
               </div>
-              {discount > 0 && <p className="mt-1 text-xs font-bold text-emerald-300">You saved ₹{discount} with {appliedCoupon?.code}</p>}
+              {discount > 0 && <p className="mt-1 text-xs font-bold text-emerald-600">You saved ₹{discount} with {appliedCoupon?.code}</p>}
             </div>
 
             <div className="p-6">
               {playAvailable === undefined ? (
                 <div className="flex items-center justify-center py-6">
-                  <div className="h-6 w-6 animate-spin rounded-full border-2 border-violet-300/25 border-t-violet-300" />
+                  <div className="h-6 w-6 animate-spin rounded-full border-2 border-orange-300/25 border-t-orange-300" />
                 </div>
               ) : playAvailable ? (
                 <>
                   <div className="mb-4 flex items-center gap-3 rounded-xl border border-emerald-300/25 bg-emerald-300/8 px-4 py-3">
                     <span className="text-xl">▶️</span>
                     <div>
-                      <p className="text-sm font-bold text-emerald-200">Google Play Billing</p>
-                      <p className="text-xs text-[#f7f0df]/62">Charged to your Play Store payment method — cancel anytime from Play Store {'>'} Subscriptions.</p>
+                      <p className="text-sm font-bold text-emerald-600">Google Play Billing</p>
+                      <p className="text-xs text-[#2a1e16]/62">Charged to your Play Store payment method — cancel anytime from Play Store {'>'} Subscriptions.</p>
                     </div>
                   </div>
-                  <button type="button" onClick={pay} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white">
+                  <button type="button" onClick={pay} className="btn-gloss w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white">
                     ▶️ Continue with Google Play
                   </button>
                 </>
               ) : (
                 <>
-                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Payment method</p>
+                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Payment method</p>
                   <div className="mb-4 grid grid-cols-3 gap-2">
                     {([["upi", "📱 UPI"], ["card", "💳 Card"], ["netbanking", "🏦 Net Banking"]] as [Method, string][]).map(([m, label]) => (
-                      <button key={m} type="button" onClick={() => setMethod(m)} className={`rounded-xl border py-2.5 text-xs font-bold transition ${method === m ? "border-violet-300/50 bg-violet-300/12 text-violet-100" : "border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/62"}`}>
+                      <button key={m} type="button" onClick={() => setMethod(m)} className={`rounded-xl border py-2.5 text-xs font-bold transition ${method === m ? "border-orange-300/50 bg-orange-300/12 text-orange-700" : "border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/62"}`}>
                         {label}
                       </button>
                     ))}
                   </div>
 
                   {method === "upi" && (
-                    <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@upi" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                    <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@upi" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
                   )}
                   {method === "card" && (
                     <div className="space-y-2">
-                      <input value={cardNum} onChange={(e) => setCardNum(e.target.value)} placeholder="1234 5678 9012 3456" inputMode="numeric" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                      <input value={cardNum} onChange={(e) => setCardNum(e.target.value)} placeholder="1234 5678 9012 3456" inputMode="numeric" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
                       <div className="flex gap-2">
-                        <input placeholder="MM/YY" className="w-1/2 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                        <input placeholder="CVV" inputMode="numeric" className="w-1/2 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                        <input placeholder="MM/YY" className="w-1/2 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
+                        <input placeholder="CVV" inputMode="numeric" className="w-1/2 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40" />
                       </div>
                     </div>
                   )}
                   {method === "netbanking" && (
-                    <select className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
+                    <select className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40">
                       {["State Bank of India", "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Mahindra Bank"].map((b) => <option key={b}>{b}</option>)}
                     </select>
                   )}
 
                   <div className="mt-4 flex gap-2">
-                    <input value={coupon} onChange={(e) => { setCoupon(e.target.value); setCouponMsg(null); }} placeholder="Coupon code (try LAUNCH20)" className="flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
-                    <button type="button" onClick={applyCoupon} className="rounded-xl border border-[#d8b35a]/30 bg-[#d8b35a]/10 px-4 text-xs font-bold text-[#d8b35a] hover:bg-[#d8b35a]/20">Apply</button>
+                    <input value={coupon} onChange={(e) => { setCoupon(e.target.value); setCouponMsg(null); }} placeholder="Coupon code (try LAUNCH20)" className="flex-1 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-200/40" />
+                    <button type="button" onClick={applyCoupon} className="rounded-xl border border-[#ea580c]/30 bg-[#ea580c]/10 px-4 text-xs font-bold text-[#ea580c] hover:bg-[#ea580c]/20">Apply</button>
                   </div>
-                  {couponMsg && <p className={`mt-1.5 text-xs font-semibold ${appliedCoupon ? "text-emerald-300" : "text-rose-300"}`}>{couponMsg}</p>}
+                  {couponMsg && <p className={`mt-1.5 text-xs font-semibold ${appliedCoupon ? "text-emerald-600" : "text-rose-600"}`}>{couponMsg}</p>}
 
-                  <button type="button" onClick={pay} disabled={!canPay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40">
+                  <button type="button" onClick={pay} disabled={!canPay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40">
                     🔒 Pay ₹{finalPrice} Securely
                   </button>
-                  <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#f7f0df]/50">
+                  {payError && <p className="mt-2 text-center text-xs font-semibold text-rose-600">{payError}</p>}
+                  <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#2a1e16]/50">
                     <span>🔒 256-bit encrypted</span>
                     <span>·</span>
                     <span>✅ Instant activation</span>

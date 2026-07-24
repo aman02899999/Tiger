@@ -55,35 +55,35 @@ function OneRepMax() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">💪 One-Rep-Max Calculator</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">💪 One-Rep-Max Calculator</p>
       <h2 className="mt-1 text-xl font-black">Estimate your max & training loads</h2>
 
       <div className="mt-5 grid gap-5 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">
-            <span>Weight lifted</span><span className="text-[#d8b35a]">{weight} kg</span>
+          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">
+            <span>Weight lifted</span><span className="text-[#ea580c]">{weight} kg</span>
           </span>
-          <input type="range" min={20} max={300} step={2.5} value={weight} onChange={(e) => setWeight(Number(e.target.value))} className="w-full accent-violet-400" />
+          <input type="range" min={20} max={300} step={2.5} value={weight} onChange={(e) => setWeight(Number(e.target.value))} className="w-full accent-orange-400" />
         </label>
         <label className="block">
-          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">
-            <span>Reps performed</span><span className="text-[#d8b35a]">{reps}</span>
+          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">
+            <span>Reps performed</span><span className="text-[#ea580c]">{reps}</span>
           </span>
-          <input type="range" min={1} max={15} step={1} value={reps} onChange={(e) => setReps(Number(e.target.value))} className="w-full accent-violet-400" />
+          <input type="range" min={1} max={15} step={1} value={reps} onChange={(e) => setReps(Number(e.target.value))} className="w-full accent-orange-400" />
         </label>
       </div>
 
-      <div className="mt-5 rounded-2xl border border-[#d8b35a]/25 bg-gradient-to-br from-[#d8b35a]/12 to-violet-300/8 p-5 text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">Estimated 1-Rep Max</p>
-        <p className="mt-1 text-5xl font-black tabular-nums text-[#d8b35a]">{oneRM}<span className="text-2xl"> kg</span></p>
+      <div className="mt-5 rounded-2xl border border-[#ea580c]/25 bg-gradient-to-br from-[#ea580c]/12 to-orange-300/8 p-5 text-center">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/65">Estimated 1-Rep Max</p>
+        <p className="mt-1 text-5xl font-black tabular-nums text-[#ea580c]">{oneRM}<span className="text-2xl"> kg</span></p>
       </div>
 
       {/* Live barbell plate visualizer */}
       <div className="mt-5">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Load the bar ({weight} kg · 20 kg bar)</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Load the bar ({weight} kg · 20 kg bar)</p>
         <div className="flex items-center justify-center gap-0.5 overflow-x-auto rounded-xl bg-black/30 p-4">
           {sidePlates.length === 0 ? (
-            <span className="text-xs text-[#f7f0df]/62">Just the empty bar</span>
+            <span className="text-xs text-[#2a1e16]/62">Just the empty bar</span>
           ) : (
             <>
               {[...sidePlates].reverse().map((p, i) => (
@@ -104,12 +104,12 @@ function OneRepMax() {
 
       {/* Training load table */}
       <div className="mt-5">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Your training loads</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Your training loads</p>
         <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
           {PERCENT_TABLE.map((row) => (
-            <div key={row.pct} className="rounded-lg border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-2.5 text-center">
-              <p className="text-sm font-black tabular-nums">{Math.round((oneRM * row.pct) / 100 / 2.5) * 2.5}<span className="text-[10px] font-normal text-[#f7f0df]/62"> kg</span></p>
-              <p className="text-[10px] text-[#f7f0df]/62">{row.pct}% · {row.reps} reps</p>
+            <div key={row.pct} className="rounded-lg border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-2.5 text-center">
+              <p className="text-sm font-black tabular-nums">{Math.round((oneRM * row.pct) / 100 / 2.5) * 2.5}<span className="text-[10px] font-normal text-[#2a1e16]/62"> kg</span></p>
+              <p className="text-[10px] text-[#2a1e16]/62">{row.pct}% · {row.reps} reps</p>
             </div>
           ))}
         </div>
@@ -161,29 +161,29 @@ function PersonalRecords() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">🏆 Personal Records</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">🏆 Personal Records</p>
       <h2 className="mt-1 text-xl font-black">Log a lift — beat your best for +15 XP</h2>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <select value={lift} onChange={(e) => setLift(e.target.value)} className="flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
+        <select value={lift} onChange={(e) => setLift(e.target.value)} className="flex-1 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40">
           {LIFTS.map((l) => <option key={l} value={l}>{l}</option>)}
         </select>
         <input
           type="number" inputMode="decimal" value={weight} placeholder="kg"
           onChange={(e) => setWeight(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && add()}
-          className="w-24 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40"
+          className="w-24 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40"
         />
-        <button type="button" onClick={add} className="btn-gloss rounded-xl bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Add</button>
+        <button type="button" onClick={add} className="btn-gloss rounded-xl bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Add</button>
       </div>
 
       {/* Best per lift */}
       {Object.keys(bests).length > 0 && (
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
           {Object.entries(bests).map(([l, w]) => (
-            <div key={l} className="rounded-xl border border-[#d8b35a]/25 bg-[#d8b35a]/10 p-3 text-center">
-              <p className="text-lg font-black tabular-nums text-[#d8b35a]">{w} kg</p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/68">{l}</p>
+            <div key={l} className="rounded-xl border border-[#ea580c]/25 bg-[#ea580c]/10 p-3 text-center">
+              <p className="text-lg font-black tabular-nums text-[#ea580c]">{w} kg</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/68">{l}</p>
             </div>
           ))}
         </div>
@@ -192,18 +192,18 @@ function PersonalRecords() {
       {/* Recent log */}
       <div className="mt-4 space-y-2">
         {prs.length === 0 ? (
-          <p className="rounded-xl bg-white/5 p-4 text-center text-xs text-[#f7f0df]/62">No lifts logged yet — add your first above to start tracking progress.</p>
+          <p className="rounded-xl bg-black/5 p-4 text-center text-xs text-[#2a1e16]/62">No lifts logged yet — add your first above to start tracking progress.</p>
         ) : (
           prs.slice(0, 6).map((p) => {
             const isBest = bests[p.lift] === p.weight;
             return (
-              <div key={p.id} className="flex items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
+              <div key={p.id} className="flex items-center gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-3">
                 <span className="text-lg">{isBest ? "🥇" : "•"}</span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold">{p.lift} — <span className="tabular-nums">{p.weight} kg</span> {isBest && <span className="text-[10px] font-black text-[#d8b35a]">PR</span>}</p>
-                  <p className="text-[11px] text-[#f7f0df]/62">{p.date}</p>
+                  <p className="text-sm font-semibold">{p.lift} — <span className="tabular-nums">{p.weight} kg</span> {isBest && <span className="text-[10px] font-black text-[#ea580c]">PR</span>}</p>
+                  <p className="text-[11px] text-[#2a1e16]/62">{p.date}</p>
                 </div>
-                <button type="button" onClick={() => remove(p.id)} aria-label="Delete entry" className="rounded-lg border border-[#f7f0df]/12 px-2.5 py-1 text-xs text-[#f7f0df]/60 hover:bg-rose-400/10 hover:text-rose-200">✕</button>
+                <button type="button" onClick={() => remove(p.id)} aria-label="Delete entry" className="rounded-lg border border-[#2a1e16]/12 px-2.5 py-1 text-xs text-[#2a1e16]/60 hover:bg-rose-400/10 hover:text-rose-600">✕</button>
               </div>
             );
           })
@@ -256,20 +256,20 @@ function RestTimer() {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-300">⏱️ Rest Timer</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-sky-600">⏱️ Rest Timer</p>
       <h2 className="mt-1 text-xl font-black">Time your rest between sets</h2>
 
       <div className="mt-5 flex items-center gap-6">
         <div className="relative h-32 w-32 shrink-0">
-          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${left === 0 ? "#34d399" : "#38bdf8"} ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.9s linear" }} />
-          <div className="absolute inset-[8px] grid place-items-center rounded-full bg-[#0b0714]">
+          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${left === 0 ? "#059669" : "#0284c7"} ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.9s linear" }} />
+          <div className="absolute inset-[8px] grid place-items-center rounded-full bg-[#fffdf9]">
             <span className="text-2xl font-black tabular-nums">{left === 0 ? "Done!" : `${mm}:${ss}`}</span>
           </div>
         </div>
         <div className="flex-1 space-y-3">
           <div className="flex flex-wrap gap-1.5">
             {REST_PRESETS.map((s) => (
-              <button key={s} type="button" onClick={() => pick(s)} className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${target === s ? "bg-sky-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>
+              <button key={s} type="button" onClick={() => pick(s)} className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${target === s ? "bg-sky-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:text-[#2a1e16]"}`}>
                 {s < 120 ? `${s}s` : `${s / 60}m`}
               </button>
             ))}
@@ -278,7 +278,7 @@ function RestTimer() {
             <button type="button" onClick={toggle} className="btn-gloss flex-1 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">
               {running ? "⏸ Pause" : left === 0 ? "↻ Restart" : "▶ Start"}
             </button>
-            <button type="button" onClick={reset} className="rounded-full border border-[#f7f0df]/15 px-5 py-3 text-xs font-bold text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">Reset</button>
+            <button type="button" onClick={reset} className="rounded-full border border-[#2a1e16]/15 px-5 py-3 text-xs font-bold text-[#2a1e16]/70 hover:bg-[#2a1e16]/8">Reset</button>
           </div>
         </div>
       </div>
@@ -293,22 +293,22 @@ export default function StrengthLabPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Strength Lab</h1>
-        <p className="text-sm text-[#f7f0df]/68">Interactive tools to calculate, track and time your training</p>
+        <p className="text-sm text-[#2a1e16]/68">Interactive tools to calculate, track and time your training</p>
       </div>
 
       {/* How this works */}
       <div className="glass-card rounded-2xl p-5">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Three tools, fully interactive</p>
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Three tools, fully interactive</p>
         <div className="grid gap-3 sm:grid-cols-3">
           {[
             { n: "1", t: "Find your max", d: "Slide in a weight and reps — get your estimated 1RM, the exact plates to load, and all your training percentages." },
             { n: "2", t: "Log your PRs", d: "Record every lift. Beat your previous best and earn +15 XP. Your records save automatically." },
             { n: "3", t: "Time your rest", d: "Pick a rest interval and hit start — a countdown ring with an audio cue keeps your sets on schedule." },
           ].map((s) => (
-            <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
-              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+            <div key={s.n} className="rounded-xl border border-black/8 bg-black/5 p-4">
+              <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-600 text-sm font-black text-white">{s.n}</div>
+              <p className="text-sm font-bold text-[#2a1e16]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#2a1e16]/68">{s.d}</p>
             </div>
           ))}
         </div>

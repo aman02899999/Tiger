@@ -776,8 +776,8 @@ const TAB_ICON: Record<TabKey, string> = {
 };
 
 const STATUS_CONFIG: Record<StatusType, { label: string; color: string; bg: string }> = {
-  normal: { label: "Optimal", color: "#34d399", bg: "rgba(52,211,153,0.14)" },
-  borderline: { label: "Borderline", color: "#d8b35a", bg: "rgba(216,179,90,0.14)" },
+  normal: { label: "Optimal", color: "#059669", bg: "rgba(52,211,153,0.14)" },
+  borderline: { label: "Borderline", color: "#ea580c", bg: "rgba(234,88,12,0.14)" },
   low: { label: "Low", color: "#fb7185", bg: "rgba(251,113,133,0.14)" },
   high: { label: "High", color: "#fb7185", bg: "rgba(251,113,133,0.14)" },
   unknown: { label: "—", color: "#8b8598", bg: "rgba(139,133,152,0.14)" },
@@ -826,7 +826,7 @@ function RangeBar({ range, value, color }: { range: MarkerRange; value: number; 
           position: "relative",
           height: 8,
           borderRadius: 999,
-          background: "linear-gradient(90deg, rgba(251,113,133,0.35), rgba(216,179,90,0.30), rgba(52,211,153,0.30), rgba(216,179,90,0.30), rgba(251,113,133,0.35))",
+          background: "linear-gradient(90deg, rgba(251,113,133,0.35), rgba(234,88,12,0.30), rgba(52,211,153,0.30), rgba(234,88,12,0.30), rgba(251,113,133,0.35))",
         }}
       >
         {/* optimal band */}
@@ -854,7 +854,7 @@ function RangeBar({ range, value, color }: { range: MarkerRange; value: number; 
             height: 16,
             borderRadius: "50%",
             background: color,
-            border: "2px solid #0b0714",
+            border: "2px solid #fffdf9",
             boxShadow: `0 0 12px ${color}`,
           }}
         />
@@ -875,7 +875,7 @@ function RangeBar({ range, value, color }: { range: MarkerRange; value: number; 
 /* ================================================================== */
 
 function ScoreRing({ score }: { score: number }) {
-  const color = score >= 80 ? "#34d399" : score >= 60 ? "#d8b35a" : "#fb7185";
+  const color = score >= 80 ? "#059669" : score >= 60 ? "#ea580c" : "#fb7185";
   const rating = score >= 80 ? "Strong" : score >= 60 ? "Fair" : "Needs Attention";
   return (
     <div style={{ position: "relative", width: 150, height: 150, flexShrink: 0 }}>
@@ -891,7 +891,7 @@ function ScoreRing({ score }: { score: number }) {
           filter: `drop-shadow(0 0 8px ${color}80)`,
         }}
       />
-      <div style={{ position: "absolute", inset: 11, borderRadius: "50%", background: "#0b0714" }} />
+      <div style={{ position: "absolute", inset: 11, borderRadius: "50%", background: "#fffdf9" }} />
       <div
         style={{
           position: "absolute",
@@ -944,6 +944,37 @@ const CYCLE_TIMING: Array<{ phase: string; when: string; detail: string }> = [
 ];
 
 /* ================================================================== */
+/* Educational context — how to prepare, panels, reading results      */
+/* ================================================================== */
+
+const PREP_STEPS: Array<{ icon: string; title: string; detail: string }> = [
+  { icon: "🍽️", title: "Fast 8–12 hours", detail: "For lipids, glucose, and insulin, fast overnight (water is fine). Non-fasting skews cholesterol and blood-sugar readings." },
+  { icon: "💧", title: "Stay hydrated", detail: "Drink water normally before the test. Dehydration falsely raises hemoglobin, hematocrit, creatinine, and albumin." },
+  { icon: "🏋️", title: "Rest before testing", detail: "Avoid intense exercise for 24–48h. Hard training transiently raises AST, CK, and creatinine, mimicking liver/kidney stress." },
+  { icon: "🌅", title: "Test in the morning", detail: "Hormones like testosterone and cortisol peak in the morning. Draw blood before ~10am for meaningful hormone results." },
+  { icon: "💊", title: "Note your supplements", detail: "Biotin can skew thyroid/hormone assays; creatine mildly raises creatinine; iron pills affect iron studies. Tell the lab." },
+  { icon: "😴", title: "Sleep & de-stress", detail: "Poor sleep and acute stress raise cortisol, glucose, and prolactin. Test after a normal night, calm and rested." },
+];
+
+const PANEL_GUIDE: Array<{ icon: string; name: string; what: string; flags: string }> = [
+  { icon: "🩸", name: "CBC — Complete Blood Count", what: "Measures red cells, white cells, and platelets — your oxygen-carrying capacity, immune status, and clotting.", flags: "Low hemoglobin = anaemia/fatigue; high WBC = infection; abnormal platelets = clotting/bleeding risk." },
+  { icon: "🫀", name: "Lipid Profile", what: "Cholesterol and triglycerides — the fats in your blood that drive cardiovascular risk.", flags: "High LDL & triglycerides, low HDL raise heart-disease risk. The TG:HDL ratio hints at insulin resistance." },
+  { icon: "🍬", name: "Metabolic (Glucose/HbA1c/Insulin)", what: "Blood-sugar control now (glucose), over 3 months (HbA1c), and insulin sensitivity.", flags: "Rising values signal pre-diabetes and metabolic syndrome — often years before symptoms appear." },
+  { icon: "🧬", name: "Liver Function (LFT)", what: "Enzymes and proteins showing liver-cell health and processing capacity.", flags: "High ALT/AST = liver stress (fatty liver, alcohol, medications). Interpret AST alongside recent training." },
+  { icon: "🫁", name: "Kidney Function (KFT)", what: "Creatinine, eGFR, urea, and uric acid — how well your kidneys filter waste.", flags: "Rising creatinine/low eGFR = reduced filtration; high uric acid = gout risk. Muscle mass affects creatinine." },
+  { icon: "🦋", name: "Thyroid (TSH/T3/T4)", what: "The hormones that set your metabolic rate, energy, and body temperature.", flags: "High TSH = underactive (fatigue, weight gain); low TSH = overactive (anxiety, weight loss)." },
+  { icon: "⚗️", name: "Hormones", what: "Testosterone, estradiol, prolactin, cortisol, SHBG — drivers of muscle, libido, mood, and recovery.", flags: "Read total & free testosterone with SHBG; balance E2 (too low or high both harm). Morning, rested testing only." },
+  { icon: "💊", name: "Vitamins & Minerals", what: "Vitamin D, B12, ferritin, calcium, magnesium — foundational for energy, bones, and performance.", flags: "Deficiencies (very common) cause fatigue, poor recovery, hair loss, and low mood — and are easily corrected." },
+];
+
+const READING_TIPS: Array<{ icon: string; title: string; detail: string }> = [
+  { icon: "🎯", title: "'Normal' vs 'Optimal'", detail: "Lab reference ranges are population averages, not your ideal. A value at the edge of 'normal' may still be worth improving." },
+  { icon: "📈", title: "Track trends over time", detail: "A single result is a snapshot. The direction across several tests matters more than any one number." },
+  { icon: "🔗", title: "Interpret markers together", detail: "Numbers interact — e.g. free testosterone depends on SHBG, and AST must be read with ALT and recent exercise." },
+  { icon: "⚠️", title: "Flags aren't diagnoses", detail: "An out-of-range value warrants attention and often a retest or doctor visit — not panic or self-medication." },
+];
+
+/* ================================================================== */
 /* Main component                                                     */
 /* ================================================================== */
 
@@ -965,6 +996,7 @@ export default function BloodReportPage() {
   const [dragOver, setDragOver] = useState(false);
   const [uploadError, setUploadError] = useState<string>("");
   const [saveError, setSaveError] = useState<string>("");
+  const [guideTab, setGuideTab] = useState<"prep" | "panels" | "reading" | null>("prep");
 
   useEffect(() => {
     setAnalyzed(false);
@@ -1156,8 +1188,8 @@ export default function BloodReportPage() {
     <div
       style={{
         minHeight: "100vh",
-        background: "radial-gradient(1200px 600px at 50% -10%, rgba(167,139,250,0.10), transparent 60%), linear-gradient(135deg, #07040d 0%, #0b0714 50%, #07040d 100%)",
-        color: "#f7f0df",
+        background: "radial-gradient(1200px 600px at 50% -10%, rgba(249,115,22,0.10), transparent 60%), linear-gradient(135deg, #faf4ec 0%, #fffdf9 50%, #faf4ec 100%)",
+        color: "#2a1e16",
         fontFamily: "'Inter', system-ui, sans-serif",
       }}
     >
@@ -1170,7 +1202,10 @@ export default function BloodReportPage() {
           transition={{ duration: 0.5 }}
           style={{ textAlign: "center", marginBottom: 36 }}
         >
-          <span style={{ ...CHIP, color: "#d8b35a" }}>The Titan Fitness · Diagnostics</span>
+          <span style={{ ...CHIP, color: "#ea580c" }}>The Titan Fitness · Diagnostics</span>
+          <div style={{ marginTop: 8 }}>
+            <span style={{ ...CHIP, fontSize: 9, color: "#fb923c", border: "1px solid rgba(251,146,60,0.4)", background: "rgba(251,146,60,0.12)", borderRadius: 999, padding: "4px 12px" }}>👑 Premium · Gold &amp; Platinum</span>
+          </div>
           <h1
             style={{
               margin: "12px 0 10px",
@@ -1178,7 +1213,7 @@ export default function BloodReportPage() {
               fontWeight: 900,
               letterSpacing: "-0.04em",
               lineHeight: 1.05,
-              background: "linear-gradient(100deg, #a78bfa, #e879f9 55%, #d8b35a)",
+              background: "linear-gradient(100deg, #f97316, #fb923c 55%, #ea580c)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -1191,6 +1226,51 @@ export default function BloodReportPage() {
             insights and personalised nutrition &amp; training actions.
           </p>
         </motion.div>
+
+        {/* ============ EDUCATIONAL CONTEXT GUIDE ============ */}
+        <div className="glass-card" style={{ borderRadius: 18, padding: "20px 22px", marginBottom: 20 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
+            <p style={{ ...CHIP, color: "#f97316", margin: 0 }}>📚 Understanding Your Blood Report</p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {([["prep", "How to Prepare"], ["panels", "What Panels Mean"], ["reading", "Reading Results"]] as [typeof guideTab, string][]).map(([k, label]) => (
+                <button key={k} onClick={() => setGuideTab(guideTab === k ? null : k)} style={{
+                  padding: "7px 14px", borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: "pointer",
+                  border: guideTab === k ? "1.5px solid #f97316" : "1.5px solid rgba(255,255,255,0.1)",
+                  background: guideTab === k ? "linear-gradient(135deg, rgba(249,115,22,0.28), rgba(251,146,60,0.16))" : "rgba(255,255,255,0.03)",
+                  color: guideTab === k ? "#2a1e16" : "rgba(247,240,223,0.62)",
+                }}>{label}</button>
+              ))}
+            </div>
+          </div>
+
+          <AnimatePresence mode="wait">
+            {guideTab && (
+              <motion.div key={guideTab} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.25 }} style={{ overflow: "hidden" }}>
+                <div style={{ display: "grid", gap: 10, marginTop: 16, gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))" }}>
+                  {guideTab === "prep" && PREP_STEPS.map((s) => (
+                    <div key={s.title} style={{ borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", padding: 14 }}>
+                      <p style={{ margin: 0, fontWeight: 800, fontSize: 14 }}>{s.icon} {s.title}</p>
+                      <p style={{ margin: "6px 0 0", fontSize: 12.5, lineHeight: 1.55, color: "rgba(247,240,223,0.68)" }}>{s.detail}</p>
+                    </div>
+                  ))}
+                  {guideTab === "panels" && PANEL_GUIDE.map((p) => (
+                    <div key={p.name} style={{ borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", padding: 14 }}>
+                      <p style={{ margin: 0, fontWeight: 800, fontSize: 13.5 }}>{p.icon} {p.name}</p>
+                      <p style={{ margin: "6px 0 0", fontSize: 12.5, lineHeight: 1.55, color: "rgba(247,240,223,0.72)" }}>{p.what}</p>
+                      <p style={{ margin: "8px 0 0", fontSize: 12, lineHeight: 1.5, color: "rgba(234,88,12,0.9)" }}>⚑ {p.flags}</p>
+                    </div>
+                  ))}
+                  {guideTab === "reading" && READING_TIPS.map((t) => (
+                    <div key={t.title} style={{ borderRadius: 12, border: "1px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.03)", padding: 14 }}>
+                      <p style={{ margin: 0, fontWeight: 800, fontSize: 14 }}>{t.icon} {t.title}</p>
+                      <p style={{ margin: "6px 0 0", fontSize: 12.5, lineHeight: 1.55, color: "rgba(247,240,223,0.68)" }}>{t.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* ============ CONTROLS: gender + enhanced ============ */}
         <div className="glass-card" style={{ borderRadius: 18, padding: "20px 22px", marginBottom: 20 }}>
@@ -1209,11 +1289,11 @@ export default function BloodReportPage() {
                       flex: 1,
                       padding: "11px 0",
                       borderRadius: 12,
-                      border: gender === g ? "1.5px solid #a78bfa" : "1.5px solid rgba(255,255,255,0.1)",
+                      border: gender === g ? "1.5px solid #f97316" : "1.5px solid rgba(255,255,255,0.1)",
                       background: gender === g
-                        ? "linear-gradient(135deg, rgba(167,139,250,0.28), rgba(232,121,249,0.16))"
+                        ? "linear-gradient(135deg, rgba(249,115,22,0.28), rgba(251,146,60,0.16))"
                         : "rgba(255,255,255,0.03)",
-                      color: gender === g ? "#f7f0df" : "rgba(247,240,223,0.62)",
+                      color: gender === g ? "#2a1e16" : "rgba(247,240,223,0.62)",
                       fontWeight: 700,
                       fontSize: 14,
                       cursor: "pointer",
@@ -1237,11 +1317,11 @@ export default function BloodReportPage() {
                   width: "100%",
                   padding: "11px 16px",
                   borderRadius: 12,
-                  border: showCyclePanel ? "1.5px solid #e879f9" : "1.5px solid rgba(255,255,255,0.1)",
+                  border: showCyclePanel ? "1.5px solid #fb923c" : "1.5px solid rgba(255,255,255,0.1)",
                   background: showCyclePanel
-                    ? "linear-gradient(135deg, rgba(232,121,249,0.24), rgba(167,139,250,0.16))"
+                    ? "linear-gradient(135deg, rgba(251,146,60,0.24), rgba(249,115,22,0.16))"
                     : "rgba(255,255,255,0.03)",
-                  color: showCyclePanel ? "#f7f0df" : "rgba(247,240,223,0.62)",
+                  color: showCyclePanel ? "#2a1e16" : "rgba(247,240,223,0.62)",
                   fontWeight: 700,
                   fontSize: 14,
                   cursor: "pointer",
@@ -1269,12 +1349,12 @@ export default function BloodReportPage() {
             onDragLeave={() => setDragOver(false)}
             onClick={() => document.getElementById("file-input")?.click()}
             style={{
-              border: dragOver ? "2px dashed #a78bfa" : "2px dashed rgba(167,139,250,0.3)",
+              border: dragOver ? "2px dashed #f97316" : "2px dashed rgba(249,115,22,0.3)",
               borderRadius: 14,
               padding: "26px 16px",
               textAlign: "center",
               cursor: "pointer",
-              background: dragOver ? "rgba(167,139,250,0.06)" : "rgba(255,255,255,0.02)",
+              background: dragOver ? "rgba(249,115,22,0.06)" : "rgba(255,255,255,0.02)",
               transition: "all 0.2s",
               marginBottom: 12,
             }}
@@ -1284,7 +1364,7 @@ export default function BloodReportPage() {
               {file ? file.name : "Drag & drop your report here, or click to browse"}
             </p>
             {file && (
-              <p style={{ margin: "4px 0 0", color: "rgba(167,139,250,0.85)", fontSize: 12 }}>
+              <p style={{ margin: "4px 0 0", color: "rgba(249,115,22,0.85)", fontSize: 12 }}>
                 {(file.size / 1024).toFixed(1)} KB
               </p>
             )}
@@ -1310,7 +1390,7 @@ export default function BloodReportPage() {
                 padding: "12px 0",
                 borderRadius: 12,
                 border: "none",
-                background: uploading ? "rgba(167,139,250,0.3)" : "linear-gradient(90deg, #7c3aed, #db2777)",
+                background: uploading ? "rgba(249,115,22,0.3)" : "linear-gradient(90deg, #c2410c, #db2777)",
                 color: "#fff",
                 fontWeight: 700,
                 fontSize: 14,
@@ -1323,14 +1403,14 @@ export default function BloodReportPage() {
           )}
           {uploading && (
             <div style={{ background: "rgba(255,255,255,0.08)", borderRadius: 8, overflow: "hidden", height: 8 }}>
-              <div style={{ height: "100%", width: `${uploadProgress}%`, background: "linear-gradient(90deg, #7c3aed, #e879f9)", borderRadius: 8, transition: "width 0.3s" }} />
+              <div style={{ height: "100%", width: `${uploadProgress}%`, background: "linear-gradient(90deg, #c2410c, #fb923c)", borderRadius: 8, transition: "width 0.3s" }} />
             </div>
           )}
           {reportUrl && (
             <div style={{ display: "flex", alignItems: "center", gap: 10, background: "rgba(52,211,153,0.1)", border: "1px solid rgba(52,211,153,0.3)", borderRadius: 12, padding: "10px 14px" }}>
-              <span style={{ color: "#34d399", fontSize: 18 }}>✓</span>
-              <span style={{ fontSize: 13, color: "#34d399", fontWeight: 600 }}>Report uploaded successfully</span>
-              <a href={reportUrl} target="_blank" rel="noopener noreferrer" style={{ marginLeft: "auto", color: "#a78bfa", fontSize: 12, textDecoration: "none", fontWeight: 700 }}>
+              <span style={{ color: "#059669", fontSize: 18 }}>✓</span>
+              <span style={{ fontSize: 13, color: "#059669", fontWeight: 600 }}>Report uploaded successfully</span>
+              <a href={reportUrl} target="_blank" rel="noopener noreferrer" style={{ marginLeft: "auto", color: "#f97316", fontSize: 12, textDecoration: "none", fontWeight: 700 }}>
                 View ↗
               </a>
             </div>
@@ -1355,9 +1435,9 @@ export default function BloodReportPage() {
                 style={{
                   padding: "9px 15px",
                   borderRadius: 999,
-                  border: active ? "1.5px solid rgba(167,139,250,0.85)" : "1.5px solid rgba(255,255,255,0.08)",
-                  background: active ? "linear-gradient(135deg, rgba(124,58,237,0.42), rgba(219,39,119,0.26))" : "rgba(255,255,255,0.03)",
-                  color: active ? "#f7f0df" : "rgba(247,240,223,0.62)",
+                  border: active ? "1.5px solid rgba(249,115,22,0.85)" : "1.5px solid rgba(255,255,255,0.08)",
+                  background: active ? "linear-gradient(135deg, rgba(234,88,12,0.42), rgba(219,39,119,0.26))" : "rgba(255,255,255,0.03)",
+                  color: active ? "#2a1e16" : "rgba(247,240,223,0.62)",
                   fontWeight: active ? 700 : 500,
                   fontSize: 13,
                   cursor: "pointer",
@@ -1371,7 +1451,7 @@ export default function BloodReportPage() {
                 <span>{TAB_ICON[tab]}</span>
                 {TAB_LABELS[tab]}
                 {count > 0 && (
-                  <span style={{ fontSize: 10, fontWeight: 800, background: "rgba(52,211,153,0.2)", color: "#34d399", borderRadius: 999, padding: "1px 6px" }}>
+                  <span style={{ fontSize: 10, fontWeight: 800, background: "rgba(52,211,153,0.2)", color: "#059669", borderRadius: 999, padding: "1px 6px" }}>
                     {count}
                   </span>
                 )}
@@ -1384,7 +1464,7 @@ export default function BloodReportPage() {
         <div className="glass-card" style={{ borderRadius: 18, padding: 24, marginBottom: 22 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
             <span style={{ fontSize: 22 }}>{TAB_ICON[activeTab]}</span>
-            <h2 style={{ margin: 0, fontSize: 19, fontWeight: 800, letterSpacing: "-0.03em", color: "#f7f0df" }}>
+            <h2 style={{ margin: 0, fontSize: 19, fontWeight: 800, letterSpacing: "-0.03em", color: "#2a1e16" }}>
               {TAB_LABELS[activeTab]}
             </h2>
             {filledInTab > 0 && (
@@ -1400,7 +1480,7 @@ export default function BloodReportPage() {
                 <div key={marker.key}>
                   <label style={{ display: "block", fontSize: 12, fontWeight: 700, color: "rgba(247,240,223,0.72)", marginBottom: 6 }}>
                     {marker.label}
-                    <span style={{ color: "rgba(167,139,250,0.75)", marginLeft: 4, fontWeight: 500 }}>({marker.unit})</span>
+                    <span style={{ color: "rgba(249,115,22,0.75)", marginLeft: 4, fontWeight: 500 }}>({marker.unit})</span>
                   </label>
                   <input
                     type="number"
@@ -1413,15 +1493,15 @@ export default function BloodReportPage() {
                       boxSizing: "border-box",
                       padding: "10px 12px",
                       borderRadius: 11,
-                      border: "1.5px solid rgba(167,139,250,0.2)",
+                      border: "1.5px solid rgba(249,115,22,0.2)",
                       background: "rgba(255,255,255,0.05)",
-                      color: "#f7f0df",
+                      color: "#2a1e16",
                       fontSize: 14,
                       outline: "none",
                       transition: "border-color 0.2s",
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = "rgba(167,139,250,0.7)")}
-                    onBlur={(e) => (e.target.style.borderColor = "rgba(167,139,250,0.2)")}
+                    onFocus={(e) => (e.target.style.borderColor = "rgba(249,115,22,0.7)")}
+                    onBlur={(e) => (e.target.style.borderColor = "rgba(249,115,22,0.2)")}
                   />
                   <span style={{ fontSize: 10, color: "rgba(247,240,223,0.45)", display: "block", marginTop: 4 }}>
                     Ref: {r.normalMin}–{r.normalMax}
@@ -1441,12 +1521,12 @@ export default function BloodReportPage() {
               padding: "15px 52px",
               borderRadius: 999,
               border: "none",
-              background: "linear-gradient(90deg, #7c3aed, #a78bfa, #e879f9)",
+              background: "linear-gradient(90deg, #c2410c, #f97316, #fb923c)",
               color: "#fff",
               fontWeight: 800,
               fontSize: 16,
               cursor: "pointer",
-              boxShadow: "0 6px 34px rgba(167,139,250,0.4)",
+              boxShadow: "0 6px 34px rgba(249,115,22,0.4)",
               letterSpacing: "0.02em",
             }}
           >
@@ -1468,13 +1548,13 @@ export default function BloodReportPage() {
             >
               {/* DASHBOARD */}
               <div className="glass-card border-gold-glow" style={{ borderRadius: 20, padding: 26, marginBottom: 26 }}>
-                <span style={{ ...CHIP, color: "#d8b35a" }}>Your Health Snapshot</span>
+                <span style={{ ...CHIP, color: "#ea580c" }}>Your Health Snapshot</span>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: 26, alignItems: "center", marginTop: 16 }}>
                   <ScoreRing score={healthScore} />
                   <div style={{ flex: "1 1 260px", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
                     {[
-                      { n: summaryCount.optimal, l: "Optimal", c: "#34d399" },
-                      { n: summaryCount.borderline, l: "Borderline", c: "#d8b35a" },
+                      { n: summaryCount.optimal, l: "Optimal", c: "#059669" },
+                      { n: summaryCount.borderline, l: "Borderline", c: "#ea580c" },
                       { n: summaryCount.flagged, l: "Flagged", c: "#fb7185" },
                     ].map((s) => (
                       <div key={s.l} style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${s.c}33`, borderRadius: 14, padding: "14px 10px", textAlign: "center" }}>
@@ -1484,7 +1564,7 @@ export default function BloodReportPage() {
                     ))}
                     <div style={{ gridColumn: "1 / -1", fontSize: 12, color: "rgba(247,240,223,0.62)", lineHeight: 1.6 }}>
                       Score weights each marker: optimal 100, borderline 62, out-of-range 28, then averages across the{" "}
-                      <strong style={{ color: "#f7f0df" }}>{analysis.length}</strong> markers you entered.
+                      <strong style={{ color: "#2a1e16" }}>{analysis.length}</strong> markers you entered.
                     </div>
                   </div>
                 </div>
@@ -1506,12 +1586,12 @@ export default function BloodReportPage() {
                           border: c.flagged === 0 ? "1px solid rgba(52,211,153,0.3)" : "1px solid rgba(251,113,133,0.3)",
                           fontSize: 12,
                           fontWeight: 600,
-                          color: "#f7f0df",
+                          color: "#2a1e16",
                         }}
                       >
                         <span>{TAB_ICON[c.tab]}</span>
                         {TAB_LABELS[c.tab]}
-                        <span style={{ color: c.flagged === 0 ? "#34d399" : "#fb7185", fontWeight: 800 }}>
+                        <span style={{ color: c.flagged === 0 ? "#059669" : "#fb7185", fontWeight: 800 }}>
                           {c.flagged === 0 ? "all clear" : `${c.flagged} to watch`}
                         </span>
                       </div>
@@ -1525,10 +1605,10 @@ export default function BloodReportPage() {
                     <span style={{ ...CHIP, color: "rgba(247,240,223,0.62)" }}>Cardiac & Metabolic Ratios</span>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 12 }}>
                       {cardiacRatios.map((r) => (
-                        <div key={r.label} style={{ flex: "1 1 200px", background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: "12px 16px", border: `1px solid ${r.good ? "#34d39933" : "#fb718533"}` }}>
+                        <div key={r.label} style={{ flex: "1 1 200px", background: "rgba(255,255,255,0.04)", borderRadius: 12, padding: "12px 16px", border: `1px solid ${r.good ? "#05966933" : "#fb718533"}` }}>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
                             <span style={{ fontSize: 13, fontWeight: 700 }}>{r.label}</span>
-                            <span style={{ fontSize: 22, fontWeight: 900, color: r.good ? "#34d399" : "#fb7185", letterSpacing: "-0.04em" }}>{r.value}</span>
+                            <span style={{ fontSize: 22, fontWeight: 900, color: r.good ? "#059669" : "#fb7185", letterSpacing: "-0.04em" }}>{r.value}</span>
                           </div>
                           <span style={{ fontSize: 11, color: "rgba(247,240,223,0.62)" }}>{r.note}</span>
                         </div>
@@ -1541,7 +1621,7 @@ export default function BloodReportPage() {
               {/* PRIORITY ACTION LIST */}
               {priorityList.length > 0 && (
                 <div className="glass-card" style={{ borderRadius: 18, padding: 22, marginBottom: 26 }}>
-                  <span style={{ ...CHIP, color: "#e879f9" }}>Prioritised Action List</span>
+                  <span style={{ ...CHIP, color: "#fb923c" }}>Prioritised Action List</span>
                   <p style={{ fontSize: 12, color: "rgba(247,240,223,0.62)", margin: "8px 0 16px" }}>
                     Tackle these in order — flagged markers first, then borderline.
                   </p>
@@ -1568,7 +1648,7 @@ export default function BloodReportPage() {
               {/* PER-MARKER DETAIL */}
               {TABS.filter((tab) => analysis.some((r) => r.tab === tab)).map((tab) => (
                 <div key={tab} style={{ marginBottom: 30 }}>
-                  <h3 style={{ margin: "0 0 14px", fontSize: 15, fontWeight: 800, color: "rgba(247,240,223,0.85)", letterSpacing: "-0.02em", borderLeft: "3px solid #a78bfa", paddingLeft: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                  <h3 style={{ margin: "0 0 14px", fontSize: 15, fontWeight: 800, color: "rgba(247,240,223,0.85)", letterSpacing: "-0.02em", borderLeft: "3px solid #f97316", paddingLeft: 12, display: "flex", alignItems: "center", gap: 8 }}>
                     <span>{TAB_ICON[tab]}</span> {TAB_LABELS[tab]}
                   </h3>
                   <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -1586,7 +1666,7 @@ export default function BloodReportPage() {
                         >
                           <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, background: cfg.color }} />
                           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4, flexWrap: "wrap" }}>
-                            <span style={{ fontWeight: 800, fontSize: 15, color: "#f7f0df" }}>{result.label}</span>
+                            <span style={{ fontWeight: 800, fontSize: 15, color: "#2a1e16" }}>{result.label}</span>
                             <span style={{ fontSize: 16, fontWeight: 900, color: cfg.color }}>{result.value} {result.unit}</span>
                             <span style={{ marginLeft: "auto", padding: "3px 12px", borderRadius: 999, background: cfg.bg, color: cfg.color, fontSize: 12, fontWeight: 800, border: `1px solid ${cfg.color}44` }}>
                               {cfg.label}
@@ -1598,8 +1678,8 @@ export default function BloodReportPage() {
                           <div style={{ fontSize: 13, color: "rgba(247,240,223,0.78)", lineHeight: 1.65, margin: "12px 0 10px" }}>
                             {result.explanation}
                           </div>
-                          <div style={{ background: "rgba(167,139,250,0.08)", border: "1px solid rgba(167,139,250,0.18)", borderRadius: 12, padding: "10px 14px" }}>
-                            <span style={{ ...CHIP, color: "#a78bfa", display: "block", marginBottom: 4, fontSize: 10 }}>💡 Action</span>
+                          <div style={{ background: "rgba(249,115,22,0.08)", border: "1px solid rgba(249,115,22,0.18)", borderRadius: 12, padding: "10px 14px" }}>
+                            <span style={{ ...CHIP, color: "#f97316", display: "block", marginBottom: 4, fontSize: 10 }}>💡 Action</span>
                             <span style={{ fontSize: 13, color: "rgba(247,240,223,0.82)", lineHeight: 1.6 }}>{result.recommendation}</span>
                           </div>
                         </motion.div>
@@ -1613,7 +1693,7 @@ export default function BloodReportPage() {
         </AnimatePresence>
 
         {analyzed && analysis.length === 0 && (
-          <div style={{ textAlign: "center", padding: "40px 20px", color: "rgba(247,240,223,0.62)", background: "rgba(255,255,255,0.03)", borderRadius: 16, border: "1px dashed rgba(167,139,250,0.2)", marginBottom: 26 }}>
+          <div style={{ textAlign: "center", padding: "40px 20px", color: "rgba(247,240,223,0.62)", background: "rgba(255,255,255,0.03)", borderRadius: 16, border: "1px dashed rgba(249,115,22,0.2)", marginBottom: 26 }}>
             <div style={{ fontSize: 32, marginBottom: 12 }}>📋</div>
             <p style={{ margin: 0, fontSize: 15 }}>No values entered yet. Fill in your blood test results above.</p>
           </div>
@@ -1628,8 +1708,8 @@ export default function BloodReportPage() {
               exit={{ opacity: 0, height: 0 }}
               style={{ overflow: "hidden", marginBottom: 26 }}
             >
-              <div style={{ borderRadius: 20, padding: 26, background: "linear-gradient(160deg, rgba(232,121,249,0.08), rgba(167,139,250,0.05))", border: "1px solid rgba(232,121,249,0.28)" }}>
-                <span style={{ ...CHIP, color: "#e879f9" }}>Enhanced Athlete · Harm-Reduction</span>
+              <div style={{ borderRadius: 20, padding: 26, background: "linear-gradient(160deg, rgba(251,146,60,0.08), rgba(249,115,22,0.05))", border: "1px solid rgba(251,146,60,0.28)" }}>
+                <span style={{ ...CHIP, color: "#fb923c" }}>Enhanced Athlete · Harm-Reduction</span>
                 <h2 style={{ margin: "10px 0 6px", fontSize: 22, fontWeight: 900, letterSpacing: "-0.03em" }}>Cycle Bloodwork Guide</h2>
                 <p style={{ fontSize: 13, color: "rgba(247,240,223,0.72)", lineHeight: 1.6, margin: "0 0 18px", maxWidth: 640 }}>
                   If you use anabolics/TRT, bloodwork is non-negotiable — it's how you catch problems before they
@@ -1640,7 +1720,7 @@ export default function BloodReportPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 22 }}>
                   {CYCLE_MARKERS.map((m) => (
                     <div key={m.marker} style={{ background: "rgba(255,255,255,0.04)", borderRadius: 14, padding: "14px 16px", border: "1px solid rgba(255,255,255,0.08)" }}>
-                      <div style={{ fontWeight: 800, fontSize: 13.5, color: "#e879f9", marginBottom: 6 }}>{m.marker}</div>
+                      <div style={{ fontWeight: 800, fontSize: 13.5, color: "#fb923c", marginBottom: 6 }}>{m.marker}</div>
                       <div style={{ fontSize: 12.5, color: "rgba(247,240,223,0.72)", lineHeight: 1.55 }}>{m.why}</div>
                     </div>
                   ))}
@@ -1651,7 +1731,7 @@ export default function BloodReportPage() {
                   {CYCLE_TIMING.map((t) => (
                     <div key={t.phase} style={{ display: "flex", gap: 14, alignItems: "flex-start", background: "rgba(255,255,255,0.03)", borderRadius: 12, padding: "12px 16px" }}>
                       <div style={{ minWidth: 96 }}>
-                        <div style={{ fontWeight: 800, fontSize: 13, color: "#a78bfa" }}>{t.phase}</div>
+                        <div style={{ fontWeight: 800, fontSize: 13, color: "#f97316" }}>{t.phase}</div>
                         <div style={{ fontSize: 11, color: "rgba(247,240,223,0.62)" }}>{t.when}</div>
                       </div>
                       <div style={{ fontSize: 12.5, color: "rgba(247,240,223,0.75)", lineHeight: 1.55 }}>{t.detail}</div>
@@ -1665,7 +1745,7 @@ export default function BloodReportPage() {
 
         {/* ============ COST GUIDE ============ */}
         <div className="glass-card" style={{ borderRadius: 20, padding: 26, marginBottom: 26 }}>
-          <span style={{ ...CHIP, color: "#d8b35a" }}>India Lab-Test Cost & Frequency Guide</span>
+          <span style={{ ...CHIP, color: "#ea580c" }}>India Lab-Test Cost & Frequency Guide</span>
           <p style={{ fontSize: 12, color: "rgba(247,240,223,0.62)", margin: "8px 0 18px", lineHeight: 1.6 }}>
             Indicative private-lab pricing (Dr Lal PathLabs, Thyrocare, Metropolis, Redcliffe tiers). Government
             hospitals and health-camp packages are often cheaper.
@@ -1682,8 +1762,8 @@ export default function BloodReportPage() {
               <tbody>
                 {COST_GUIDE.map((row) => (
                   <tr key={row.panel}>
-                    <td style={{ padding: "10px 12px", fontSize: 13, fontWeight: 600, color: "#f7f0df", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{row.panel}</td>
-                    <td style={{ padding: "10px 12px", fontSize: 13, fontWeight: 800, color: "#d8b35a", whiteSpace: "nowrap", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{row.price}</td>
+                    <td style={{ padding: "10px 12px", fontSize: 13, fontWeight: 600, color: "#2a1e16", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{row.panel}</td>
+                    <td style={{ padding: "10px 12px", fontSize: 13, fontWeight: 800, color: "#ea580c", whiteSpace: "nowrap", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{row.price}</td>
                     <td style={{ padding: "10px 12px", fontSize: 12.5, color: "rgba(247,240,223,0.72)", borderBottom: "1px solid rgba(255,255,255,0.05)" }}>{row.freq}</td>
                   </tr>
                 ))}
@@ -1699,11 +1779,11 @@ export default function BloodReportPage() {
             <span style={{ ...CHIP, color: "#fb7185" }}>Medical Disclaimer — Read This</span>
           </div>
           <p style={{ margin: 0, fontSize: 12.5, color: "rgba(247,240,223,0.72)", lineHeight: 1.7 }}>
-            This tool is for <strong style={{ color: "#f7f0df" }}>education only and is not a medical diagnosis</strong>.
+            This tool is for <strong style={{ color: "#2a1e16" }}>education only and is not a medical diagnosis</strong>.
             Reference ranges vary by laboratory, age, ethnicity, assay method and clinical context — a value flagged
             here may be perfectly normal for you, and a "normal" value doesn't rule out disease. Never start, stop, or
             change medication, supplements or hormonal therapy based on this page.{" "}
-            <strong style={{ color: "#f7f0df" }}>Always consult a qualified doctor</strong> to interpret your results
+            <strong style={{ color: "#2a1e16" }}>Always consult a qualified doctor</strong> to interpret your results
             and guide treatment. In an emergency, contact your nearest hospital immediately.
           </p>
         </div>

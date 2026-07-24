@@ -99,10 +99,10 @@ const optionAFeatures = [
 ];
 
 const premiumThemes: Record<ThemeKey, { name: string; glow: string; accent: string; label: string }> = {
-  ember: { name: "Titan Ember", glow: "from-orange-400 via-rose-500 to-violet-700", accent: "bg-orange-300", label: "Play Store launch" },
-  royal: { name: "Royal Violet", glow: "from-fuchsia-400 via-violet-500 to-sky-500", accent: "bg-fuchsia-300", label: "Premium SaaS mode" },
+  ember: { name: "Titan Ember", glow: "from-orange-400 via-rose-500 to-orange-700", accent: "bg-orange-300", label: "Play Store launch" },
+  royal: { name: "Royal Violet", glow: "from-amber-400 via-orange-500 to-sky-500", accent: "bg-amber-300", label: "Premium SaaS mode" },
   matrix: { name: "Neon Lift", glow: "from-lime-300 via-emerald-400 to-cyan-500", accent: "bg-emerald-300", label: "Growth analytics" },
-  tigerLife: { name: "Titan Life Coach", glow: "from-violet-300 via-fuchsia-500 to-[#d8b35a]", accent: "bg-violet-300", label: "Lifestyle OS" },
+  tigerLife: { name: "Titan Life Coach", glow: "from-orange-300 via-amber-500 to-[#ea580c]", accent: "bg-orange-300", label: "Lifestyle OS" },
 };
 
 /* Dashboard data available for expansion */
@@ -167,31 +167,31 @@ function Nav() {
   ];
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-[#07040d]/85 backdrop-blur-2xl">
+    <nav className="fixed left-0 right-0 top-0 z-50 border-b border-black/10 bg-[#faf4ec]/85 backdrop-blur-2xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
         <a href="#hero" className="flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511] shadow-[0_0_44px_rgba(167,139,250,0.48)]">TT</div>
-          <span className="hidden text-sm font-semibold uppercase tracking-[0.32em] text-[#f7f0df]/90 sm:block">The Titan Fitness</span>
+          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-amber-500 to-[#ea580c] font-black text-[#f4ead9] shadow-[0_0_44px_rgba(249,115,22,0.48)]">TT</div>
+          <span className="hidden text-sm font-semibold uppercase tracking-[0.32em] text-[#2a1e16]/90 sm:block">The Titan Fitness</span>
         </a>
 
         <div className="hidden items-center gap-1 lg:flex">
           {links.map((link) => (
-            <a key={link.href} href={link.href} className="rounded-full px-4 py-2 text-sm font-medium transition hover:bg-white/10 text-[#f7f0df]/60 hover:text-[#f7f0df]">{link.label}</a>
+            <a key={link.href} href={link.href} className="rounded-full px-4 py-2 text-sm font-medium transition hover:bg-black/10 text-[#2a1e16]/60 hover:text-[#2a1e16]">{link.label}</a>
           ))}
         </div>
 
         <div className="flex items-center gap-3">
-          <a href="#download" className="hidden rounded-full border border-violet-300/30 bg-violet-300/15 px-5 py-2.5 text-sm font-bold uppercase tracking-[0.16em] text-violet-50 backdrop-blur transition hover:bg-violet-300/25 sm:inline-block">Download Now</a>
-          <button type="button" onClick={() => setMenuOpen(!menuOpen)} className="grid h-10 w-10 place-items-center rounded-xl border border-white/14 text-white/70 lg:hidden">
+          <a href="#download" className="hidden rounded-full border border-orange-300/30 bg-orange-300/15 px-5 py-2.5 text-sm font-bold uppercase tracking-[0.16em] text-orange-50 backdrop-blur transition hover:bg-orange-300/25 sm:inline-block">Download Now</a>
+          <button type="button" onClick={() => setMenuOpen(!menuOpen)} className="grid h-10 w-10 place-items-center rounded-xl border border-black/14 text-black/70 lg:hidden">
             <svg width={20} height={20} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round"><path d="M3 5h14M3 10h14M3 15h14" /></svg>
           </button>
         </div>
       </div>
 
       {menuOpen && (
-        <div className="border-t border-white/10 bg-[#07040d]/95 px-6 pb-6 pt-4 backdrop-blur-2xl lg:hidden">
+        <div className="border-t border-black/10 bg-[#faf4ec]/95 px-6 pb-6 pt-4 backdrop-blur-2xl lg:hidden">
           {links.map((link) => (
-            <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="block rounded-xl px-4 py-3 text-base font-medium text-[#f7f0df]/78 hover:bg-white/10">{link.label}</a>
+            <a key={link.href} href={link.href} onClick={() => setMenuOpen(false)} className="block rounded-xl px-4 py-3 text-base font-medium text-[#2a1e16]/78 hover:bg-black/10">{link.label}</a>
           ))}
         </div>
       )}
@@ -203,10 +203,10 @@ function Hero() {
   return (
     <section id="hero" className="relative isolate min-h-screen overflow-hidden pt-20">
       <img src="/images/tiger-fitness-luxury-hero.jpg" alt="" className="absolute inset-0 h-full w-full scale-105 object-cover opacity-55 saturate-125 motion-safe:animate-[slowZoom_18s_ease-in-out_infinite_alternate]" aria-hidden />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_22%,rgba(167,139,250,0.45),transparent_30%),radial-gradient(circle_at_82%_15%,rgba(216,179,90,0.14),transparent_27%),linear-gradient(110deg,rgba(7,4,13,0.98)_0%,rgba(45,17,83,0.78)_48%,rgba(7,4,13,0.52)_100%)]" />
-      <div className="absolute inset-0 opacity-28 [background-image:linear-gradient(rgba(247,240,223,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(247,240,223,0.08)_1px,transparent_1px)] [background-size:72px_72px] motion-safe:animate-[gridDrift_26s_linear_infinite]" />
-      <div className="absolute left-[-15%] top-[12%] h-72 w-72 rounded-full bg-violet-400/30 blur-3xl motion-safe:animate-[floatGlow_9s_ease-in-out_infinite]" />
-      <div className="absolute bottom-[-12%] right-[-8%] h-96 w-96 rounded-full bg-violet-700/35 blur-3xl motion-safe:animate-[floatGlow_11s_ease-in-out_infinite_reverse]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_22%,rgba(249,115,22,0.45),transparent_30%),radial-gradient(circle_at_82%_15%,rgba(234,88,12,0.14),transparent_27%),linear-gradient(110deg,rgba(250,244,236,0.92)_0%,rgba(255,237,213,0.72)_48%,rgba(250,244,236,0.55)_100%)]" />
+      <div className="absolute inset-0 opacity-28 [background-image:linear-gradient(rgba(42,30,22,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(42,30,22,0.05)_1px,transparent_1px)] [background-size:72px_72px] motion-safe:animate-[gridDrift_26s_linear_infinite]" />
+      <div className="absolute left-[-15%] top-[12%] h-72 w-72 rounded-full bg-orange-400/30 blur-3xl motion-safe:animate-[floatGlow_9s_ease-in-out_infinite]" />
+      <div className="absolute bottom-[-12%] right-[-8%] h-96 w-96 rounded-full bg-orange-700/35 blur-3xl motion-safe:animate-[floatGlow_11s_ease-in-out_infinite_reverse]" />
 
       <div className="relative z-10 flex min-h-screen flex-col px-6 sm:px-10 lg:px-16">
         <div className="flex flex-1 items-center py-16 lg:py-20">
@@ -217,36 +217,36 @@ function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-200/22 bg-violet-200/10 px-4 py-2">
-                <span className="h-2 w-2 rounded-full bg-violet-300 shadow-[0_0_16px_rgba(167,139,250,0.8)] animate-pulse" />
-                <span className="text-xs font-semibold uppercase tracking-[0.32em] text-violet-100">Now on Play Store</span>
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200/22 bg-orange-200/10 px-4 py-2">
+                <span className="h-2 w-2 rounded-full bg-orange-300 shadow-[0_0_16px_rgba(249,115,22,0.8)] animate-pulse" />
+                <span className="text-xs font-semibold uppercase tracking-[0.32em] text-orange-700">Now on Play Store</span>
               </div>
 
-              <h1 className="bg-gradient-to-br from-[#f7f0df] via-violet-100 to-[#d8b35a] bg-clip-text text-3xl sm:text-5xl font-black leading-[0.92] tracking-[-0.07em] text-transparent md:text-6xl xl:text-7xl">
+              <h1 className="bg-gradient-to-br from-[#2a1e16] via-orange-500 to-[#ea580c] bg-clip-text text-3xl sm:text-5xl font-black leading-[0.92] tracking-[-0.07em] text-transparent md:text-6xl xl:text-7xl">
                 Train Smarter.<br />Transform Faster.
               </h1>
-              <p className="mt-8 max-w-2xl text-lg leading-8 text-[#f7f0df]/80 sm:text-xl sm:leading-9">
-                Most fitness apps only track workouts. <span className="font-semibold text-violet-100">The Titan Fitness</span> improves your entire lifestyle — sleep, nutrition, stress, family health, and more. One AI-powered dashboard.
+              <p className="mt-8 max-w-2xl text-lg leading-8 text-[#2a1e16]/80 sm:text-xl sm:leading-9">
+                Most fitness apps only track workouts. <span className="font-semibold text-orange-700">The Titan Fitness</span> improves your entire lifestyle — sleep, nutrition, stress, family health, and more. One AI-powered dashboard.
               </p>
 
               <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a href="#app" className="btn-gloss group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-8 py-5 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_22px_80px_rgba(167,139,250,0.36)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_110px_rgba(167,139,250,0.48)]">
+                <a href="#app" className="btn-gloss group relative inline-flex items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-8 py-5 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_22px_80px_rgba(249,115,22,0.36)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_30px_110px_rgba(249,115,22,0.48)]">
                   <span className="relative z-10 flex items-center gap-3">🚀 Launch Web App</span>
                 </a>
-                <a href="#features" className="inline-flex items-center justify-center rounded-full border border-[#f7f0df]/20 bg-[#f7f0df]/8 px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df] ring-1 ring-[#f7f0df]/12 backdrop-blur transition hover:bg-[#f7f0df]/14">Explore Features →</a>
+                <a href="#features" className="inline-flex items-center justify-center rounded-full border border-[#2a1e16]/20 bg-[#2a1e16]/8 px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] text-[#2a1e16] ring-1 ring-[#2a1e16]/12 backdrop-blur transition hover:bg-[#2a1e16]/14">Explore Features →</a>
               </div>
 
               <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-4">
                 {heroStats.map((stat, i) => (
                   <motion.div
                     key={stat.label}
-                    className="glass-card rounded-2xl p-5"
+                    className="light-card rounded-2xl p-5"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.4 + i * 0.1 }}
                   >
-                    <p className="text-2xl font-black tracking-[-0.06em] text-[#f7f0df]">{stat.number}</p>
-                    <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-[#f7f0df]/70">{stat.label}</p>
+                    <p className="text-2xl font-black tracking-[-0.06em] text-[#2a1e16]">{stat.number}</p>
+                    <p className="mt-1 text-xs font-medium uppercase tracking-[0.18em] text-[#2a1e16]/70">{stat.label}</p>
                   </motion.div>
                 ))}
               </div>
@@ -259,16 +259,16 @@ function Hero() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
             >
-              <div className="absolute inset-0 rounded-full bg-violet-500/10 blur-3xl" style={{ animation: "pulseGlow 4s ease-in-out infinite" }} />
-              <Suspense fallback={<div className="h-96 w-96 rounded-full bg-violet-500/5" />}>
+              <div className="absolute inset-0 rounded-full bg-orange-500/10 blur-3xl" style={{ animation: "pulseGlow 4s ease-in-out infinite" }} />
+              <Suspense fallback={<div className="h-96 w-96 rounded-full bg-orange-500/5" />}>
                 <HeroOrb className="h-96 w-96 lg:h-[480px] lg:w-[480px]" />
               </Suspense>
             </motion.div>
           </div>
         </div>
 
-        <div className="pb-8 h-px max-w-xl overflow-hidden bg-[#f7f0df]/10">
-          <div className="h-full w-1/2 bg-gradient-to-r from-transparent via-violet-200 to-transparent motion-safe:animate-[scanLine_3.8s_ease-in-out_infinite]" />
+        <div className="pb-8 h-px max-w-xl overflow-hidden bg-[#2a1e16]/10">
+          <div className="h-full w-1/2 bg-gradient-to-r from-transparent via-orange-200 to-transparent motion-safe:animate-[scanLine_3.8s_ease-in-out_infinite]" />
         </div>
       </div>
     </section>
@@ -287,16 +287,16 @@ function About() {
 
   return (
     <section id="about" className="relative px-6 py-28 sm:px-10 lg:px-16">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(167,139,250,0.16),transparent_38%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(249,115,22,0.16),transparent_38%)]" />
       <div className="relative mx-auto max-w-7xl">
         <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
           <div className="motion-safe:animate-[fadeUp_900ms_ease-out_both]">
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Why Titan?</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">Why Titan?</p>
             <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">
               Not just a fitness app.<br />
-              <span className="bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-transparent">Your life operating system.</span>
+              <span className="bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-transparent">Your life operating system.</span>
             </h2>
-            <p className="mt-6 max-w-lg text-lg leading-8 text-[#f7f0df]/68">
+            <p className="mt-6 max-w-lg text-lg leading-8 text-[#2a1e16]/68">
               The Titan Fitness combines AI-powered coaching with India-first intelligence. From wedding transformations to family health dashboards, from Indian food scanning to damage control after cheat meals — we cover the entire lifestyle.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -306,7 +306,7 @@ function About() {
                   type="button"
                   onClick={() => setTheme(key)}
                   className={"rounded-full px-5 py-3 text-xs font-bold uppercase tracking-[0.18em] transition " +
-                    (isActive(key) ? ("bg-gradient-to-r " + activeTheme.glow + " text-white shadow-[0_0_36px_rgba(255,255,255,0.25)]") : "border border-white/15 bg-white/[0.04] text-white/68 hover:border-violet-300/60")}
+                    (isActive(key) ? ("bg-gradient-to-r " + activeTheme.glow + " text-white shadow-[0_0_36px_rgba(255,255,255,0.25)]") : "border border-black/15 bg-black/[0.04] text-black/68 hover:border-orange-300/60")}
                 >
                   {premiumThemes[key].name}
                 </button>
@@ -315,27 +315,27 @@ function About() {
           </div>
 
           <div className="relative mx-auto w-full max-w-md motion-safe:animate-[fadeUp_900ms_ease-out_both]" style={{ animationDelay: "200ms" }}>
-            <div className="absolute -inset-10 rounded-[3rem] bg-violet-400/18 blur-3xl motion-safe:animate-[floatGlow_8s_ease-in-out_infinite]" />
-            <div className="relative overflow-hidden rounded-[2.5rem] border border-[#f7f0df]/12 bg-[#0b0714]/88 p-6 shadow-[0_35px_140px_rgba(75,28,143,0.42)] backdrop-blur-2xl">
-              <div className={"absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-300 via-fuchsia-500 to-[#d8b35a]"} />
+            <div className="absolute -inset-10 rounded-[3rem] bg-orange-400/18 blur-3xl motion-safe:animate-[floatGlow_8s_ease-in-out_infinite]" />
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-[#2a1e16]/12 bg-[#fffdf9]/88 p-6 shadow-[0_35px_140px_rgba(75,28,143,0.42)] backdrop-blur-2xl">
+              <div className={"absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-300 via-amber-500 to-[#ea580c]"} />
               <div className={"absolute -right-12 -top-12 h-44 w-44 rounded-full bg-gradient-to-br " + activeTheme.glow + " opacity-30 blur-3xl motion-safe:animate-[floatGlow_8s_ease-in-out_infinite]"} />
               <div className="relative">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#f7f0df]/65">Today's summary</p>
-                    <p className="mt-2 text-3xl font-black text-[#f7f0df]">{activeTheme.name}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#2a1e16]/65">Today's summary</p>
+                    <p className="mt-2 text-3xl font-black text-[#2a1e16]">{activeTheme.name}</p>
                   </div>
                   <div className={"grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br " + activeTheme.glow} />
                 </div>
                 <div className="mt-7 space-y-4">
                   {lifeCoachSignals.map((signal, i) => (
-                    <div key={signal} className="flex items-center justify-between rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/6 p-4">
-                      <span className="text-sm font-semibold text-[#f7f0df]/78">{signal}</span>
+                    <div key={signal} className="flex items-center justify-between rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/6 p-4">
+                      <span className="text-sm font-semibold text-[#2a1e16]/78">{signal}</span>
                       <div className="flex items-center gap-2">
-                        <div className="h-2 w-16 overflow-hidden rounded-full bg-[#f7f0df]/10">
+                        <div className="h-2 w-16 overflow-hidden rounded-full bg-[#2a1e16]/10">
                           <div className={"h-full rounded-full bg-gradient-to-r " + activeTheme.glow + " motion-safe:animate-[shineMove_2.8s_ease-in-out_infinite]"} style={{ width: SIGNAL_VALUES[i].width + "%" }} />
                         </div>
-                        <span className="w-7 text-right text-xs font-bold text-violet-100">{SIGNAL_VALUES[i].score}</span>
+                        <span className="w-7 text-right text-xs font-bold text-orange-700">{SIGNAL_VALUES[i].score}</span>
                       </div>
                     </div>
                   ))}
@@ -373,14 +373,14 @@ function Features() {
     <section id="features" className="relative px-6 py-28 sm:px-10 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">28+ Premium Features</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">28+ Premium Features</p>
           <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">Everything you need to transform.</h2>
-          <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">From Indian food scanning to wedding roadmaps. From family health to voice coaching.</p>
+          <p className="mt-6 text-lg leading-8 text-[#2a1e16]/62">From Indian food scanning to wedding roadmaps. From family health to voice coaching.</p>
         </div>
 
         <div className="mt-10 flex flex-wrap justify-center gap-2">
           {filters.map((f) => (
-            <button key={f.key} type="button" onClick={() => setFilter(f.key)} className={"rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition " + (filter === f.key ? "bg-violet-200/20 text-violet-50 ring-1 ring-violet-200/30" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:bg-[#f7f0df]/10")}>{f.label}</button>
+            <button key={f.key} type="button" onClick={() => setFilter(f.key)} className={"rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition " + (filter === f.key ? "bg-orange-200/20 text-orange-50 ring-1 ring-orange-200/30" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:bg-[#2a1e16]/10")}>{f.label}</button>
           ))}
         </div>
 
@@ -388,21 +388,21 @@ function Features() {
           {filteredFeatures.map((feature, index) => (
             <div
               key={feature.title}
-              className="group glass-card rounded-[1.6rem] p-6 transition-all duration-300 hover:-translate-y-1"
+              className="group light-card rounded-[1.6rem] p-6 transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex items-start justify-between gap-3">
-                <span className="shrink-0 rounded-xl bg-violet-200/12 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-violet-100">{feature.tag}</span>
-                <span className="text-sm font-black text-[#f7f0df]/30">{String(index + 1).padStart(2, "0")}</span>
+                <span className="shrink-0 rounded-xl bg-orange-200/12 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-orange-700">{feature.tag}</span>
+                <span className="text-sm font-black text-[#2a1e16]/30">{String(index + 1).padStart(2, "0")}</span>
               </div>
-              <h4 className="mt-5 text-xl font-black tracking-[-0.03em] text-[#f7f0df] group-hover:text-violet-100 transition-colors">{feature.title}</h4>
-              <p className="mt-3 text-sm leading-6 text-[#f7f0df]/72">{feature.desc}</p>
+              <h4 className="mt-5 text-xl font-black tracking-[-0.03em] text-[#2a1e16] group-hover:text-orange-700 transition-colors">{feature.title}</h4>
+              <p className="mt-3 text-sm leading-6 text-[#2a1e16]/72">{feature.desc}</p>
             </div>
           ))}
         </div>
 
-        <div className="mt-10 rounded-[2rem] border border-[#d8b35a]/18 bg-[#d8b35a]/8 p-6 backdrop-blur-xl">
-          <p className="text-sm font-bold text-[#d8b35a]">Medical disclaimer</p>
-          <p className="mt-2 text-sm leading-7 text-[#f7f0df]/62">Health risk predictions, medical report analysis, posture analysis, injury risk warnings, and metabolic age are wellness guidance tools only. They do not replace professional medical advice. Always consult a doctor.</p>
+        <div className="mt-10 rounded-[2rem] border border-[#ea580c]/18 bg-[#ea580c]/8 p-6 backdrop-blur-xl">
+          <p className="text-sm font-bold text-[#ea580c]">Medical disclaimer</p>
+          <p className="mt-2 text-sm leading-7 text-[#2a1e16]/62">Health risk predictions, medical report analysis, posture analysis, injury risk warnings, and metabolic age are wellness guidance tools only. They do not replace professional medical advice. Always consult a doctor.</p>
         </div>
       </div>
     </section>
@@ -412,25 +412,25 @@ function Features() {
 function HowItWorks() {
   return (
     <section id="how-it-works" className="relative px-6 py-28 sm:px-10 lg:px-16">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,rgba(167,139,250,0.14),transparent_32%),radial-gradient(circle_at_82%_58%,rgba(216,179,90,0.08),transparent_28%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,rgba(249,115,22,0.14),transparent_32%),radial-gradient(circle_at_82%_58%,rgba(234,88,12,0.08),transparent_28%)]" />
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">How It Works</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">How It Works</p>
           <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">4 steps to your best self.</h2>
         </div>
 
         <div className="mt-16 grid gap-4 sm:gap-8 md:grid-cols-2 lg:gap-10">
           {howItWorks.map((item, index) => (
             <FadeUp key={item.step} delay={index * 0.1}>
-              <div className="group glass-card relative rounded-[2rem] p-8 transition-all duration-300 hover:-translate-y-1">
+              <div className="group light-card relative rounded-[2rem] p-8 transition-all duration-300 hover:-translate-y-1">
                 <div className="flex items-start gap-6">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-violet-300/20 via-fuchsia-400/15 to-[#d8b35a]/15 border border-violet-200/20 text-3xl shadow-[0_0_36px_rgba(167,139,250,0.15)] transition-transform duration-300 group-hover:scale-110">
+                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[1.4rem] bg-gradient-to-br from-orange-300/20 via-amber-400/15 to-[#ea580c]/15 border border-orange-200/20 text-3xl shadow-[0_0_36px_rgba(249,115,22,0.15)] transition-transform duration-300 group-hover:scale-110">
                     {item.icon}
                   </div>
                   <div>
-                    <p className="text-xs font-black uppercase tracking-[0.34em] text-violet-200/80">{item.step}</p>
-                    <h3 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df] group-hover:text-violet-100 transition-colors">{item.title}</h3>
-                    <p className="mt-3 text-base leading-7 text-[#f7f0df]/72">{item.desc}</p>
+                    <p className="text-xs font-black uppercase tracking-[0.34em] text-orange-700/80">{item.step}</p>
+                    <h3 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#2a1e16] group-hover:text-orange-700 transition-colors">{item.title}</h3>
+                    <p className="mt-3 text-base leading-7 text-[#2a1e16]/72">{item.desc}</p>
                   </div>
                 </div>
               </div>
@@ -451,16 +451,16 @@ function Pricing() {
     <section id="pricing" className="relative px-6 py-28 sm:px-10 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Pricing</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">Pricing</p>
           <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">One plan for your goal.</h2>
-          <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">Cancel anytime. Start free, upgrade when ready.</p>
+          <p className="mt-6 text-lg leading-8 text-[#2a1e16]/62">Cancel anytime. Start free, upgrade when ready.</p>
 
-          <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-violet-200/24 bg-violet-200/8 px-5 py-2.5">
-            <span className={"text-sm font-semibold transition " + (!annual ? "text-violet-100" : "text-[#f7f0df]/65")}>Monthly</span>
-            <button type="button" onClick={() => setAnnual(!annual)} className={"relative h-7 w-[52px] rounded-full transition-colors duration-200 " + (annual ? "bg-violet-300" : "bg-[#f7f0df]/18")}>
+          <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-orange-200/24 bg-orange-200/8 px-5 py-2.5">
+            <span className={"text-sm font-semibold transition " + (!annual ? "text-orange-700" : "text-[#2a1e16]/65")}>Monthly</span>
+            <button type="button" onClick={() => setAnnual(!annual)} className={"relative h-7 w-[52px] rounded-full transition-colors duration-200 " + (annual ? "bg-orange-300" : "bg-[#2a1e16]/18")}>
               <span className={"absolute top-1 h-5 w-5 rounded-full bg-white shadow-md transition-transform duration-200 " + (annual ? "translate-x-[28px]" : "translate-x-1")} />
             </button>
-            <span className={"text-sm font-semibold transition " + (annual ? "text-violet-100" : "text-[#f7f0df]/65")}>Annual (Save 40%)</span>
+            <span className={"text-sm font-semibold transition " + (annual ? "text-orange-700" : "text-[#2a1e16]/65")}>Annual (Save 40%)</span>
           </div>
         </div>
 
@@ -470,23 +470,23 @@ function Pricing() {
             const displayPrice = (annual && !isFree) ? annualPrices[plan.name] : plan.price;
             const displayPeriod = isFree ? "forever" : annual ? "/mo, billed yearly" : "/month";
             return (
-            <div key={plan.name} className={"relative rounded-[2rem] p-5 sm:p-8 transition-all duration-300 hover:-translate-y-1 " + (plan.popular ? "border border-violet-300/40 bg-violet-200/10 shadow-[0_0_80px_rgba(167,139,250,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl" : "glass-card")}>
-              {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-5 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg">Most Popular</div>}
+            <div key={plan.name} className={"relative rounded-[2rem] p-5 sm:p-8 transition-all duration-300 hover:-translate-y-1 " + (plan.popular ? "border border-orange-300/40 bg-orange-200/10 shadow-[0_0_80px_rgba(249,115,22,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl" : "light-card")}>
+              {plan.popular && <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-orange-300 to-amber-400 px-5 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-lg">Most Popular</div>}
 
-              <h3 className="text-2xl font-black text-[#f7f0df]">{plan.name}</h3>
-              <p className="mt-2 text-sm text-[#f7f0df]/68">{plan.description}</p>
+              <h3 className="text-2xl font-black text-[#2a1e16]">{plan.name}</h3>
+              <p className="mt-2 text-sm text-[#2a1e16]/68">{plan.description}</p>
 
               <div className="mt-6 flex items-end gap-1">
-                <span className="text-5xl font-black tracking-[-0.06em] text-[#f7f0df]">{displayPrice}</span>
-                <span className="pb-2 text-base font-medium text-[#f7f0df]/65">{displayPeriod}</span>
+                <span className="text-5xl font-black tracking-[-0.06em] text-[#2a1e16]">{displayPrice}</span>
+                <span className="pb-2 text-base font-medium text-[#2a1e16]/65">{displayPeriod}</span>
               </div>
 
-              <a href="#download" className={"btn-gloss mt-8 block rounded-full py-4 text-center text-sm font-black uppercase tracking-[0.18em] transition " + (plan.popular ? "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-600 text-white shadow-[0_16px_60px_rgba(167,139,250,0.3)] hover:shadow-[0_22px_80px_rgba(167,139,250,0.4)]" : "border border-[#f7f0df]/18 bg-[#f7f0df]/8 text-[#f7f0df] hover:bg-[#f7f0df]/14")}>{plan.cta}</a>
+              <a href="#download" className={"btn-gloss mt-8 block rounded-full py-4 text-center text-sm font-black uppercase tracking-[0.18em] transition " + (plan.popular ? "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-600 text-white shadow-[0_16px_60px_rgba(249,115,22,0.3)] hover:shadow-[0_22px_80px_rgba(249,115,22,0.4)]" : "border border-[#2a1e16]/18 bg-[#2a1e16]/8 text-[#2a1e16] hover:bg-[#2a1e16]/14")}>{plan.cta}</a>
 
               <ul className="mt-8 space-y-3">
                 {plan.features.map((feat) => (
-                  <li key={feat} className="flex items-start gap-3 text-sm text-[#f7f0df]/68">
-                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-300" />
+                  <li key={feat} className="flex items-start gap-3 text-sm text-[#2a1e16]/68">
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-300" />
                     {feat}
                   </li>
                 ))}
@@ -505,23 +505,23 @@ function Testimonials() {
     <section id="testimonials" className="relative px-6 py-28 sm:px-10 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Testimonials</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">Testimonials</p>
           <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">Real stories. Real results.</h2>
         </div>
 
         <div className="mt-14 grid gap-4 sm:gap-6 md:grid-cols-2">
           {testimonials.map((t, i) => (
             <FadeUp key={t.name} delay={i * 0.06}>
-              <div className="glass-card group rounded-[2rem] p-5 sm:p-8 transition-all duration-300 hover:-translate-y-1">
+              <div className="light-card group rounded-[2rem] p-5 sm:p-8 transition-all duration-300 hover:-translate-y-1">
                 <div className="flex items-center gap-1 mb-4">
-                  {[...Array(5)].map((_, j) => (<span key={j} className="text-[#d8b35a] text-lg">&#9733;</span>))}
+                  {[...Array(5)].map((_, j) => (<span key={j} className="text-[#ea580c] text-lg">&#9733;</span>))}
                 </div>
-                <p className="text-base leading-7 italic text-[#f7f0df]/82">&ldquo;{t.text}&rdquo;</p>
-                <div className="mt-6 flex items-center gap-4 border-t border-[#f7f0df]/10 pt-5">
-                  <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511] shadow-[0_0_20px_rgba(167,139,250,0.3)]">{t.avatar}</div>
+                <p className="text-base leading-7 italic text-[#2a1e16]/82">&ldquo;{t.text}&rdquo;</p>
+                <div className="mt-6 flex items-center gap-4 border-t border-[#2a1e16]/10 pt-5">
+                  <div className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-amber-500 to-[#ea580c] text-sm font-black text-[#f4ead9] shadow-[0_0_20px_rgba(249,115,22,0.3)]">{t.avatar}</div>
                   <div>
-                    <p className="font-bold text-[#f7f0df]">{t.name}</p>
-                    <p className="text-xs font-medium text-[#f7f0df]/70">{t.role}</p>
+                    <p className="font-bold text-[#2a1e16]">{t.name}</p>
+                    <p className="text-xs font-medium text-[#2a1e16]/70">{t.role}</p>
                   </div>
                 </div>
               </div>
@@ -540,26 +540,26 @@ function FAQ() {
     <section id="faq" className="relative px-6 py-28 sm:px-10 lg:px-16">
       <div className="mx-auto max-w-3xl">
         <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">FAQ</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">FAQ</p>
           <h2 className="mt-5 text-4xl font-black tracking-[-0.05em] sm:text-5xl">Questions? Answered.</h2>
         </div>
 
         <div className="mt-12 space-y-3">
           {faqs.map((faq, index) => (
-            <div key={faq.q} className="glass-card overflow-hidden rounded-[1.4rem] transition-all duration-300">
+            <div key={faq.q} className="light-card overflow-hidden rounded-[1.4rem] transition-all duration-300">
               <button
                 type="button"
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
                 className="flex w-full items-center justify-between gap-4 p-6 text-left"
               >
-                <span className="text-base font-bold text-[#f7f0df]">{faq.q}</span>
-                <span className={"shrink-0 h-8 w-8 grid place-items-center rounded-full border transition-all duration-300 " + (openIndex === index ? "rotate-180 border-violet-300 bg-violet-300/20" : "border-[#f7f0df]/16 bg-[#f7f0df]/5")}>
+                <span className="text-base font-bold text-[#2a1e16]">{faq.q}</span>
+                <span className={"shrink-0 h-8 w-8 grid place-items-center rounded-full border transition-all duration-300 " + (openIndex === index ? "rotate-180 border-orange-300 bg-orange-300/20" : "border-[#2a1e16]/16 bg-[#2a1e16]/5")}>
                   <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}><path d="M6 9l6 6 6-6" /></svg>
                 </span>
               </button>
               <div className={"grid transition-all duration-300 ease-out " + (openIndex === index ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0")}>
                 <div className="overflow-hidden">
-                  <p className="px-6 pb-6 text-sm leading-7 text-[#f7f0df]/78">{faq.a}</p>
+                  <p className="px-6 pb-6 text-sm leading-7 text-[#2a1e16]/78">{faq.a}</p>
                 </div>
               </div>
             </div>
@@ -580,40 +580,40 @@ function DownloadCTA() {
 
   return (
     <section id="download" className="relative px-6 py-28 sm:px-10 lg:px-16">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(167,139,250,0.18),transparent_48%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(249,115,22,0.18),transparent_48%)]" />
       <div className="relative mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-200/22 bg-violet-200/10 px-4 py-2">
+          <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-orange-200/22 bg-orange-200/10 px-4 py-2">
             <span className="h-2 w-2 rounded-full bg-emerald-300 shadow-[0_0_16px_rgba(110,231,183,0.8)] animate-pulse" />
-            <span className="text-xs font-semibold uppercase tracking-[0.32em] text-violet-100">Available on Play Store</span>
+            <span className="text-xs font-semibold uppercase tracking-[0.32em] text-orange-700">Available on Play Store</span>
           </div>
           <h2 className="text-5xl font-black tracking-[-0.06em] sm:text-6xl lg:text-7xl">
             Ready to transform<br />
-            <span className="bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-transparent">your lifestyle?</span>
+            <span className="bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-transparent">your lifestyle?</span>
           </h2>
-          <p className="mt-6 text-lg leading-8 text-[#f7f0df]/66">Download The Titan Fitness. Join 50K+ Indians already transforming with our AI Life Coach.</p>
+          <p className="mt-6 text-lg leading-8 text-[#2a1e16]/66">Download The Titan Fitness. Join 50K+ Indians already transforming with our AI Life Coach.</p>
           
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <a href="#app" className="group flex items-center gap-3 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-9 py-5 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_22px_80px_rgba(167,139,250,0.36)] transition-all hover:-translate-y-0.5 hover:shadow-[0_30px_110px_rgba(167,139,250,0.48)]">
+            <a href="#app" className="group flex items-center gap-3 rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-9 py-5 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_22px_80px_rgba(249,115,22,0.36)] transition-all hover:-translate-y-0.5 hover:shadow-[0_30px_110px_rgba(249,115,22,0.48)]">
               🚀 Launch Web App (Free)
             </a>
-            <a href="#app" className="flex items-center gap-3 rounded-full border border-[#f7f0df]/20 bg-[#f7f0df]/8 px-9 py-5 text-sm font-bold uppercase tracking-[0.2em] text-[#f7f0df] ring-1 ring-[#f7f0df]/12 backdrop-blur transition hover:bg-[#f7f0df]/14">
+            <a href="#app" className="flex items-center gap-3 rounded-full border border-[#2a1e16]/20 bg-[#2a1e16]/8 px-9 py-5 text-sm font-bold uppercase tracking-[0.2em] text-[#2a1e16] ring-1 ring-[#2a1e16]/12 backdrop-blur transition hover:bg-[#2a1e16]/14">
               <svg width={20} height={20} viewBox="0 0 24 24" fill="currentColor"><path d="M17.581 23.187c-.396.225-.753.27-1.144.158l-6.387-2.91c-.42-.192-.666-.567-.71-1.02v-14.785c.05-.456.295-.83.72-1.026l6.377-2.91c.39-.108.75-.064 1.146.157a1.74 1.74 0 01.79 1.467l.005 19.403a1.74 1.74 0 01-.797 1.466zM4.097 23.188A1.77 1.77 0 013.3 21.73V2.323A1.77 1.77 0 014.097.86C4.493.64 4.85.597 5.24.705l6.387 2.91c.42.196.666.57.714 1.026V19.43c-.048.452-.294.826-.714 1.018l-6.387 2.91c-.39.112-.747.067-1.143-.168z"/></svg>
               Get Android App
             </a>
           </div>
         </div>
 
-        <div className="mt-20 rounded-[2rem] border border-[#f7f0df]/12 bg-[#0b0714]/60 p-8 backdrop-blur-xl">
+        <div className="mt-20 rounded-[2rem] border border-[#2a1e16]/12 bg-[#fffdf9]/60 p-8 backdrop-blur-xl">
           <div className="flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Release Readiness</p>
-              <h3 className="mt-3 text-3xl font-black text-[#f7f0df]">Play Store Checklist</h3>
+              <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">Release Readiness</p>
+              <h3 className="mt-3 text-3xl font-black text-[#2a1e16]">Play Store Checklist</h3>
             </div>
             <div className="min-w-44">
-              <div className="mb-3 flex justify-between text-sm font-semibold text-[#f7f0df]/74"><span>Ready</span><span>{progress}%</span></div>
-              <div className="h-3 overflow-hidden rounded-full bg-[#f7f0df]/10">
-                <div className="h-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-[#d8b35a] transition-all duration-500" style={{ width: progress + "%" }} />
+              <div className="mb-3 flex justify-between text-sm font-semibold text-[#2a1e16]/74"><span>Ready</span><span>{progress}%</span></div>
+              <div className="h-3 overflow-hidden rounded-full bg-[#2a1e16]/10">
+                <div className="h-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-[#ea580c] transition-all duration-500" style={{ width: progress + "%" }} />
               </div>
             </div>
           </div>
@@ -621,11 +621,11 @@ function DownloadCTA() {
             {launchChecklist.map((item, index) => {
               const isChecked = checked.includes(index);
               return (
-                <button key={item.label} type="button" onClick={() => toggleItem(index)} className="group flex items-start gap-4 rounded-2xl border-t border-[#f7f0df]/10 py-4 text-left transition hover:border-violet-200/40">
-                  <span className={"mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full border text-sm transition " + (isChecked ? "border-violet-200 bg-violet-200 text-[#14050a]" : "border-[#f7f0df]/24 text-[#f7f0df]/60 group-hover:border-violet-200")}>{isChecked ? "\u2713" : index + 1}</span>
+                <button key={item.label} type="button" onClick={() => toggleItem(index)} className="group flex items-start gap-4 rounded-2xl border-t border-[#2a1e16]/10 py-4 text-left transition hover:border-orange-200/40">
+                  <span className={"mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full border text-sm transition " + (isChecked ? "border-orange-200 bg-orange-200 text-[#2a1e16]" : "border-[#2a1e16]/24 text-[#2a1e16]/60 group-hover:border-orange-200")}>{isChecked ? "\u2713" : index + 1}</span>
                   <div>
-                    <span className="block text-lg font-bold text-[#f7f0df]">{item.label}</span>
-                    <span className="mt-1 block text-sm leading-6 text-[#f7f0df]/68">{item.detail}</span>
+                    <span className="block text-lg font-bold text-[#2a1e16]">{item.label}</span>
+                    <span className="mt-1 block text-sm leading-6 text-[#2a1e16]/68">{item.detail}</span>
                   </div>
                 </button>
               );
@@ -640,17 +640,17 @@ function DownloadCTA() {
 function BlockRenderer({ block }: { block: BlogBlock }) {
   switch (block.type) {
     case "p":
-      return <p className="text-base leading-7 text-[#f7f0df]/74">{block.text}</p>;
+      return <p className="text-base leading-7 text-[#2a1e16]/74">{block.text}</p>;
     case "h2":
-      return <h2 className="mt-8 text-2xl font-black tracking-[-0.04em] text-[#f7f0df] first:mt-0">{block.text}</h2>;
+      return <h2 className="mt-8 text-2xl font-black tracking-[-0.04em] text-[#2a1e16] first:mt-0">{block.text}</h2>;
     case "h3":
-      return <h3 className="mt-6 text-xl font-bold text-[#f7f0df]">{block.text}</h3>;
+      return <h3 className="mt-6 text-xl font-bold text-[#2a1e16]">{block.text}</h3>;
     case "ul":
       return (
         <ul className="mt-3 space-y-2.5">
           {block.items.map((item) => (
-            <li key={item} className="flex items-start gap-3 text-[#f7f0df]/72">
-              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-violet-300" />
+            <li key={item} className="flex items-start gap-3 text-[#2a1e16]/72">
+              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-orange-300" />
               <span>{item}</span>
             </li>
           ))}
@@ -660,8 +660,8 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
       return (
         <ol className="mt-3 space-y-2.5">
           {block.items.map((item, i) => (
-            <li key={item} className="flex items-start gap-3 text-[#f7f0df]/72">
-              <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-violet-200/15 text-[10px] font-black text-violet-100">{i + 1}</span>
+            <li key={item} className="flex items-start gap-3 text-[#2a1e16]/72">
+              <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-orange-200/15 text-[10px] font-black text-orange-700">{i + 1}</span>
               <span>{item}</span>
             </li>
           ))}
@@ -669,36 +669,36 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
       );
     case "stat":
       return (
-        <div className="my-6 inline-flex items-baseline gap-3 rounded-2xl border border-violet-200/18 bg-violet-200/8 px-5 py-3">
-          <span className="text-3xl font-black tracking-[-0.06em] bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-transparent">{block.value}</span>
-          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f0df]/68">{block.label}</span>
+        <div className="my-6 inline-flex items-baseline gap-3 rounded-2xl border border-orange-200/18 bg-orange-200/8 px-5 py-3">
+          <span className="text-3xl font-black tracking-[-0.06em] bg-gradient-to-r from-orange-500 to-[#ea580c] bg-clip-text text-transparent">{block.value}</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#2a1e16]/68">{block.label}</span>
         </div>
       );
     case "tip":
       return (
-        <div className="my-6 rounded-2xl border border-[#d8b35a]/18 bg-[#d8b35a]/8 p-5">
-          <p className="text-sm font-bold text-[#d8b35a] mb-1">Titan Tip</p>
-          <p className="text-sm leading-7 text-[#f7f0df]/70">{block.text}</p>
+        <div className="my-6 rounded-2xl border border-[#ea580c]/18 bg-[#ea580c]/8 p-5">
+          <p className="text-sm font-bold text-[#ea580c] mb-1">Titan Tip</p>
+          <p className="text-sm leading-7 text-[#2a1e16]/70">{block.text}</p>
         </div>
       );
     case "cta":
       return (
-        <div className="my-8 rounded-[2rem] border border-violet-300/30 bg-gradient-to-br from-violet-200/12 to-fuchsia-400/8 p-8 backdrop-blur-xl">
-          <p className="text-2xl font-black text-[#f7f0df]">{block.title}</p>
-          <p className="mt-3 max-w-lg text-sm leading-7 text-[#f7f0df]/66">{block.subtitle}</p>
-          <a href="#download" className="mt-5 inline-flex rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-7 py-3.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_60px_rgba(167,139,250,0.3)] transition-all hover:-translate-y-0.5">
+        <div className="my-8 rounded-[2rem] border border-orange-300/30 bg-gradient-to-br from-orange-200/12 to-amber-400/8 p-8 backdrop-blur-xl">
+          <p className="text-2xl font-black text-[#2a1e16]">{block.title}</p>
+          <p className="mt-3 max-w-lg text-sm leading-7 text-[#2a1e16]/66">{block.subtitle}</p>
+          <a href="#download" className="mt-5 inline-flex rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-7 py-3.5 text-xs font-black uppercase tracking-[0.2em] text-white shadow-[0_18px_60px_rgba(249,115,22,0.3)] transition-all hover:-translate-y-0.5">
             Download The Titan Fitness
           </a>
         </div>
       );
     case "faq":
       return (
-        <details className="group mt-3 rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5 open:bg-violet-200/6 transition-colors">
-          <summary className="cursor-pointer list-none text-base font-bold text-[#f7f0df] flex justify-between items-center gap-3">
+        <details className="group mt-3 rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5 open:bg-orange-200/6 transition-colors">
+          <summary className="cursor-pointer list-none text-base font-bold text-[#2a1e16] flex justify-between items-center gap-3">
             {block.q}
-            <span className="h-6 w-6 grid place-items-center rounded-full bg-violet-200/12 text-violet-100 group-open:rotate-45 transition-transform">+</span>
+            <span className="h-6 w-6 grid place-items-center rounded-full bg-orange-200/12 text-orange-700 group-open:rotate-45 transition-transform">+</span>
           </summary>
-          <p className="mt-4 text-sm leading-7 text-[#f7f0df]/66">{block.a}</p>
+          <p className="mt-4 text-sm leading-7 text-[#2a1e16]/66">{block.a}</p>
         </details>
       );
     default:
@@ -713,20 +713,20 @@ function BlogViewer({ post, onClose }: { post: BlogPost; onClose: () => void }) 
   }, []);
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#07040d]/96 backdrop-blur-2xl">
-      <button type="button" onClick={onClose} className="fixed right-6 top-6 z-10 grid h-12 w-12 place-items-center rounded-full border border-violet-200/20 bg-[#0b0714] text-[#f7f0df] transition hover:bg-violet-200/15">
+    <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#faf4ec]/96 backdrop-blur-2xl">
+      <button type="button" onClick={onClose} className="fixed right-6 top-6 z-10 grid h-12 w-12 place-items-center rounded-full border border-orange-200/20 bg-[#fffdf9] text-[#2a1e16] transition hover:bg-orange-200/15">
         <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
       
       <article className="mx-auto max-w-3xl px-6 pb-24 pt-28 sm:px-10">
         <div className="mb-8 flex flex-wrap items-center gap-3">
-          <a href="#blog" onClick={onClose} className="text-sm font-semibold text-violet-100 hover:underline">← Back to Blog</a>
-          <span className="rounded-full bg-violet-200/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-violet-100">{post.category}</span>
-          <span className="text-xs text-[#f7f0df]/65">{post.readTime}</span>
-          <span className="text-xs text-[#f7f0df]/65">{post.date}</span>
+          <a href="#blog" onClick={onClose} className="text-sm font-semibold text-orange-700 hover:underline">← Back to Blog</a>
+          <span className="rounded-full bg-orange-200/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-orange-700">{post.category}</span>
+          <span className="text-xs text-[#2a1e16]/65">{post.readTime}</span>
+          <span className="text-xs text-[#2a1e16]/65">{post.date}</span>
         </div>
         
-        <div className="mb-6 overflow-hidden rounded-[2rem] border border-violet-200/15">
+        <div className="mb-6 overflow-hidden rounded-[2rem] border border-orange-200/15">
           {post.heroImage ? (
             <img
               src={post.heroImage}
@@ -737,20 +737,20 @@ function BlogViewer({ post, onClose }: { post: BlogPost; onClose: () => void }) 
               className="h-56 w-full object-cover sm:h-72 md:h-96"
             />
           ) : (
-            <div className="grid h-56 place-items-center bg-gradient-to-br from-violet-200/20 via-fuchsia-400/10 to-[#d8b35a]/10 text-[10rem] sm:h-72 md:h-96">
+            <div className="grid h-56 place-items-center bg-gradient-to-br from-orange-200/20 via-amber-400/10 to-[#ea580c]/10 text-[10rem] sm:h-72 md:h-96">
               {post.heroEmoji}
             </div>
           )}
         </div>
         
-        <h1 className="text-4xl font-black leading-[1.05] tracking-[-0.06em] text-[#f7f0df] sm:text-5xl">{post.title}</h1>
-        <p className="mt-4 text-lg leading-8 text-[#f7f0df]/62">{post.seoDescription}</p>
+        <h1 className="text-4xl font-black leading-[1.05] tracking-[-0.06em] text-[#2a1e16] sm:text-5xl">{post.title}</h1>
+        <p className="mt-4 text-lg leading-8 text-[#2a1e16]/62">{post.seoDescription}</p>
         
-        <div className="mt-6 flex items-center gap-3 border-y border-[#f7f0df]/10 py-5">
-          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">{post.author.split(" ").map(n => n[0]).slice(-2).join("")}</div>
+        <div className="mt-6 flex items-center gap-3 border-y border-[#2a1e16]/10 py-5">
+          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-amber-500 to-[#ea580c] text-sm font-black text-[#f4ead9]">{post.author.split(" ").map(n => n[0]).slice(-2).join("")}</div>
           <div>
-            <p className="text-sm font-bold text-[#f7f0df]">{post.author}</p>
-            <p className="text-xs text-[#f7f0df]/65">{post.date} · {post.readTime}</p>
+            <p className="text-sm font-bold text-[#2a1e16]">{post.author}</p>
+            <p className="text-xs text-[#2a1e16]/65">{post.date} · {post.readTime}</p>
           </div>
         </div>
         
@@ -758,16 +758,16 @@ function BlogViewer({ post, onClose }: { post: BlogPost; onClose: () => void }) 
           {post.blocks.map((block, i) => <BlockRenderer key={i} block={block} />)}
         </div>
         
-        <div className="mt-12 rounded-[2rem] border border-violet-200/18 bg-violet-200/6 p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100/70 mb-4">Frequently Asked Questions</p>
+        <div className="mt-12 rounded-[2rem] border border-orange-200/18 bg-orange-200/6 p-6">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-orange-700/70 mb-4">Frequently Asked Questions</p>
           <div className="space-y-3">
             {post.faqs.map((faq, i) => (
-              <details key={i} className="group rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5 open:bg-violet-200/6 transition-colors">
-                <summary className="cursor-pointer list-none text-sm font-bold text-[#f7f0df] flex justify-between items-center gap-3">
+              <details key={i} className="group rounded-2xl border border-[#2a1e16]/10 bg-[#2a1e16]/5 p-5 open:bg-orange-200/6 transition-colors">
+                <summary className="cursor-pointer list-none text-sm font-bold text-[#2a1e16] flex justify-between items-center gap-3">
                   {faq.q}
-                  <span className="h-6 w-6 grid place-items-center rounded-full bg-violet-200/12 text-violet-100 group-open:rotate-45 transition-transform">+</span>
+                  <span className="h-6 w-6 grid place-items-center rounded-full bg-orange-200/12 text-orange-700 group-open:rotate-45 transition-transform">+</span>
                 </summary>
-                <p className="mt-4 text-sm leading-7 text-[#f7f0df]/66">{faq.a}</p>
+                <p className="mt-4 text-sm leading-7 text-[#2a1e16]/66">{faq.a}</p>
               </details>
             ))}
           </div>
@@ -775,7 +775,7 @@ function BlogViewer({ post, onClose }: { post: BlogPost; onClose: () => void }) 
         
         <div className="mt-12 flex flex-wrap gap-2">
           {post.tags.map((tag) => (
-            <span key={tag} className="rounded-full border border-[#f7f0df]/14 bg-[#f7f0df]/5 px-3 py-1.5 text-xs font-semibold text-[#f7f0df]/68">#{tag.toLowerCase().replace(/\s+/g, "")}</span>
+            <span key={tag} className="rounded-full border border-[#2a1e16]/14 bg-[#2a1e16]/5 px-3 py-1.5 text-xs font-semibold text-[#2a1e16]/68">#{tag.toLowerCase().replace(/\s+/g, "")}</span>
           ))}
         </div>
       </article>
@@ -804,41 +804,41 @@ function BlogSection() {
 
   return (
     <section id="blog" className="relative px-6 py-28 sm:px-10 lg:px-16">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(167,139,250,0.14),transparent_40%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(249,115,22,0.14),transparent_40%)]" />
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">The Titan Blog</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">The Titan Blog</p>
           <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">Fitness knowledge for modern Indians.</h2>
-          <p className="mt-6 text-lg leading-8 text-[#f7f0df]/62">20+ expert articles on nutrition, workouts, lifestyle, and performance marketing insights.</p>
+          <p className="mt-6 text-lg leading-8 text-[#2a1e16]/62">20+ expert articles on nutrition, workouts, lifestyle, and performance marketing insights.</p>
         </div>
 
-        <div className="mt-12 rounded-[2rem] border border-violet-200/18 bg-[#0b0714]/70 p-6 backdrop-blur-xl">
-          <div className="flex items-center gap-3 rounded-2xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 px-5 py-3">
-            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="text-[#f7f0df]/40"><circle cx={11} cy={11} r={7}/><path d="m21 21-4.35-4.35"/></svg>
+        <div className="mt-12 rounded-[2rem] border border-orange-200/18 bg-[#fffdf9]/70 p-6 backdrop-blur-xl">
+          <div className="flex items-center gap-3 rounded-2xl border border-[#2a1e16]/12 bg-[#2a1e16]/5 px-5 py-3">
+            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="text-[#2a1e16]/40"><circle cx={11} cy={11} r={7}/><path d="m21 21-4.35-4.35"/></svg>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search articles..."
-              className="flex-1 bg-transparent text-sm text-[#f7f0df] outline-none placeholder:text-[#f7f0df]/34"
+              className="flex-1 bg-transparent text-sm text-[#2a1e16] outline-none placeholder:text-[#2a1e16]/34"
             />
           </div>
         </div>
 
-        <button type="button" onClick={() => setActivePost(featured)} className="group relative mt-8 block w-full overflow-hidden rounded-[2.2rem] border border-violet-200/20 bg-gradient-to-br from-violet-200/12 via-fuchsia-400/8 to-[#d8b35a]/8 backdrop-blur-xl text-left transition-all hover:-translate-y-1 hover:border-violet-200/40">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(167,139,250,0.18),transparent_50%)]" />
+        <button type="button" onClick={() => setActivePost(featured)} className="group relative mt-8 block w-full overflow-hidden rounded-[2.2rem] border border-orange-200/20 bg-gradient-to-br from-orange-200/12 via-amber-400/8 to-[#ea580c]/8 backdrop-blur-xl text-left transition-all hover:-translate-y-1 hover:border-orange-200/40">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(249,115,22,0.18),transparent_50%)]" />
           <div className="relative grid lg:grid-cols-[1.1fr_0.9fr]">
             <div className="p-8 sm:p-10 lg:pr-4">
               <div className="mb-5 flex flex-wrap items-center gap-3">
-                <span className="rounded-full bg-gradient-to-r from-violet-300 to-fuchsia-400 px-4 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white">Featured Article</span>
-                <span className="rounded-full bg-[#f7f0df]/10 px-3 py-1.5 text-xs font-semibold text-[#f7f0df]/68">{featured.category}</span>
-                <span className="text-xs text-[#f7f0df]/68">{featured.readTime}</span>
+                <span className="rounded-full bg-gradient-to-r from-orange-300 to-amber-400 px-4 py-1.5 text-xs font-black uppercase tracking-[0.2em] text-white">Featured Article</span>
+                <span className="rounded-full bg-[#2a1e16]/10 px-3 py-1.5 text-xs font-semibold text-[#2a1e16]/68">{featured.category}</span>
+                <span className="text-xs text-[#2a1e16]/68">{featured.readTime}</span>
               </div>
-              <h3 className="text-3xl font-black leading-[1.08] tracking-[-0.04em] text-[#f7f0df] sm:text-4xl lg:text-5xl">{featured.title}</h3>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-[#f7f0df]/62">{featured.seoDescription}</p>
+              <h3 className="text-3xl font-black leading-[1.08] tracking-[-0.04em] text-[#2a1e16] sm:text-4xl lg:text-5xl">{featured.title}</h3>
+              <p className="mt-4 max-w-2xl text-base leading-7 text-[#2a1e16]/62">{featured.seoDescription}</p>
               <div className="mt-6 flex items-center gap-3">
-                <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-xs font-black text-[#090511]">{featured.author.split(" ").map(n => n[0]).slice(-2).join("")}</div>
-                <span className="text-sm text-[#f7f0df]/68">{featured.author} · {featured.date}</span>
+                <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-amber-500 to-[#ea580c] text-xs font-black text-[#f4ead9]">{featured.author.split(" ").map(n => n[0]).slice(-2).join("")}</div>
+                <span className="text-sm text-[#2a1e16]/68">{featured.author} · {featured.date}</span>
               </div>
             </div>
             <div className="relative min-h-[240px] overflow-hidden lg:min-h-full">
@@ -852,24 +852,24 @@ function BlogSection() {
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               ) : (
-                <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[#0b0714]/60 text-8xl border-t border-violet-200/15">
+                <div className="flex h-full min-h-[240px] w-full items-center justify-center bg-[#fffdf9]/60 text-8xl border-t border-orange-200/15">
                   {featured.heroEmoji}
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#07040d]/90 via-[#07040d]/30 to-transparent lg:bg-gradient-to-l" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#faf4ec]/90 via-[#faf4ec]/30 to-transparent lg:bg-gradient-to-l" />
             </div>
           </div>
         </button>
 
         <div className="mt-10 flex flex-wrap gap-2">
           {categories.map((cat) => (
-            <button key={cat} type="button" onClick={() => setFilter(cat)} className={"rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition " + (filter === cat ? "bg-violet-200/20 text-violet-50 ring-1 ring-violet-200/30" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:bg-[#f7f0df]/10")}>{cat}</button>
+            <button key={cat} type="button" onClick={() => setFilter(cat)} className={"rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition " + (filter === cat ? "bg-orange-200/20 text-orange-50 ring-1 ring-orange-200/30" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/68 hover:bg-[#2a1e16]/10")}>{cat}</button>
           ))}
         </div>
 
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {filteredBlogs.map((post) => (
-            <article key={post.slug} className="group relative overflow-hidden rounded-[1.8rem] border border-[#f7f0df]/10 bg-[#0b0714]/60 text-left backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-violet-200/30 hover:bg-[#0b0714]/90">
+            <article key={post.slug} className="group relative overflow-hidden rounded-[1.8rem] border border-[#2a1e16]/10 bg-[#fffdf9]/60 text-left backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-orange-200/30 hover:bg-[#fffdf9]/90">
               <button type="button" onClick={() => setActivePost(post)} className="block h-full w-full p-6">
                 <div className="relative mb-5 h-40 -mx-6 -mt-6 overflow-hidden">
                   {post.heroImage ? (
@@ -882,19 +882,19 @@ function BlogSection() {
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
                   ) : (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-violet-200/15 via-fuchsia-400/10 to-[#d8b35a]/10 text-7xl">
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-orange-200/15 via-amber-400/10 to-[#ea580c]/10 text-7xl">
                       {post.heroEmoji}
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b0714] via-[#0b0714]/40 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#fffdf9] via-[#fffdf9]/40 to-transparent" />
                 </div>
                 <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <span className="rounded-full bg-violet-200/12 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-violet-100/78">{post.category}</span>
-                  <span className="text-[10px] font-semibold text-[#f7f0df]/40">{post.readTime}</span>
+                  <span className="rounded-full bg-orange-200/12 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-orange-700/78">{post.category}</span>
+                  <span className="text-[10px] font-semibold text-[#2a1e16]/40">{post.readTime}</span>
                 </div>
-                <h3 className="text-xl font-black leading-[1.15] tracking-[-0.02em] text-[#f7f0df] group-hover:text-violet-100 transition-colors">{post.title}</h3>
-                <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#f7f0df]/68">{post.seoDescription}</p>
-                <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-violet-100/60 group-hover:text-violet-100 transition-colors">
+                <h3 className="text-xl font-black leading-[1.15] tracking-[-0.02em] text-[#2a1e16] group-hover:text-orange-700 transition-colors">{post.title}</h3>
+                <p className="mt-3 line-clamp-3 text-sm leading-6 text-[#2a1e16]/68">{post.seoDescription}</p>
+                <div className="mt-5 flex items-center gap-2 text-xs font-semibold text-orange-700/60 group-hover:text-orange-700 transition-colors">
                   Read article <span className="transition-transform group-hover:translate-x-1">→</span>
                 </div>
               </button>
@@ -913,14 +913,14 @@ function BlogImageGallery() {
       <div className="relative mx-auto max-w-7xl">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">AI Visual Gallery</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">AI Visual Gallery</p>
             <h2 className="mt-2 text-3xl font-black tracking-[-0.04em] sm:text-4xl">Premium visuals for every guide.</h2>
           </div>
-          <p className="max-w-md text-sm leading-6 text-[#f7f0df]/68">Every featured article includes an AI-generated image optimized for fast loading, mobile responsiveness, and accessibility.</p>
+          <p className="max-w-md text-sm leading-6 text-[#2a1e16]/68">Every featured article includes an AI-generated image optimized for fast loading, mobile responsiveness, and accessibility.</p>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {imageBlogs.map((post) => (
-            <figure key={post.slug} className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-[#f7f0df]/10 bg-[#0b0714]/60">
+            <figure key={post.slug} className="group relative aspect-[4/5] overflow-hidden rounded-3xl border border-[#2a1e16]/10 bg-[#fffdf9]/60">
               <img
                 src={post.heroImage}
                 alt={post.heroImageAlt || post.title}
@@ -929,15 +929,15 @@ function BlogImageGallery() {
                 height={500}
                 className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#07040d]/95 via-[#07040d]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#faf4ec]/95 via-[#faf4ec]/20 to-transparent" />
               <figcaption className="absolute inset-x-0 bottom-0 p-5">
-                <span className="mb-2 inline-block rounded-full bg-violet-200/15 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-violet-100">{post.category}</span>
-                <p className="line-clamp-2 text-sm font-bold leading-snug text-[#f7f0df]">{post.title}</p>
+                <span className="mb-2 inline-block rounded-full bg-orange-200/15 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.18em] text-orange-700">{post.category}</span>
+                <p className="line-clamp-2 text-sm font-bold leading-snug text-[#2a1e16]">{post.title}</p>
               </figcaption>
             </figure>
           ))}
         </div>
-        <p className="mt-6 text-center text-xs text-[#f7f0df]/34">All images AI-generated · Lazy loaded · SEO-optimized alt text · Web-ready JPEG</p>
+        <p className="mt-6 text-center text-xs text-[#2a1e16]/34">All images AI-generated · Lazy loaded · SEO-optimized alt text · Web-ready JPEG</p>
       </div>
     </section>
   );
@@ -967,27 +967,27 @@ function Newsletter() {
 
   return (
     <section className="relative px-6 py-28 sm:px-10 lg:px-16">
-      <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[2.5rem] border border-violet-200/25 bg-gradient-to-br from-violet-200/14 via-fuchsia-400/10 to-[#d8b35a]/8 p-10 backdrop-blur-xl sm:p-14">
-        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-violet-300/25 blur-3xl motion-safe:animate-[floatGlow_8s_ease-in-out_infinite]" />
-        <div className="absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-[#d8b35a]/15 blur-3xl motion-safe:animate-[floatGlow_9s_ease-in-out_infinite_reverse]" />
+      <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[2.5rem] border border-orange-200/25 bg-gradient-to-br from-orange-200/14 via-amber-400/10 to-[#ea580c]/8 p-10 backdrop-blur-xl sm:p-14">
+        <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-orange-300/25 blur-3xl motion-safe:animate-[floatGlow_8s_ease-in-out_infinite]" />
+        <div className="absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-[#ea580c]/15 blur-3xl motion-safe:animate-[floatGlow_9s_ease-in-out_infinite_reverse]" />
         <div className="relative text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Weekly Newsletter</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-orange-700">Weekly Newsletter</p>
           <h2 className="mt-5 text-3xl font-black tracking-[-0.05em] sm:text-4xl lg:text-5xl">Get free fitness tips in your inbox.</h2>
-          <p className="mt-5 text-base leading-7 text-[#f7f0df]/66">One email per week. Workouts, Indian diet charts, science, and exclusive discounts. No spam, ever.</p>
+          <p className="mt-5 text-base leading-7 text-[#2a1e16]/66">One email per week. Workouts, Indian diet charts, science, and exclusive discounts. No spam, ever.</p>
           {submitted ? (
-            <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-emerald-300/30 bg-emerald-300/12 px-6 py-4 text-emerald-200">
+            <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-emerald-300/30 bg-emerald-300/12 px-6 py-4 text-emerald-600">
               <span className="text-xl">⚡</span>
               <span className="font-bold">You're in! Check your inbox for a welcome gift.</span>
             </div>
           ) : (
             <form onSubmit={handleSubscribe} className="mx-auto mt-10 flex max-w-md flex-col gap-3 sm:flex-row">
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="your@email.com" className="flex-1 rounded-full border border-[#f7f0df]/14 bg-[#f7f0df]/8 px-6 py-4 text-sm text-[#f7f0df] placeholder:text-[#f7f0df]/34 outline-none focus:border-violet-200/40"/>
-              <button type="submit" disabled={loading} className="rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-8 py-4 text-sm font-black uppercase tracking-[0.18em] text-white shadow-[0_18px_60px_rgba(167,139,250,0.35)] transition-all hover:-translate-y-0.5 disabled:opacity-60">
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="your@email.com" className="flex-1 rounded-full border border-[#2a1e16]/14 bg-[#2a1e16]/8 px-6 py-4 text-sm text-[#2a1e16] placeholder:text-[#2a1e16]/34 outline-none focus:border-orange-200/40"/>
+              <button type="submit" disabled={loading} className="rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 px-8 py-4 text-sm font-black uppercase tracking-[0.18em] text-white shadow-[0_18px_60px_rgba(249,115,22,0.35)] transition-all hover:-translate-y-0.5 disabled:opacity-60">
                 {loading ? "Subscribing…" : "Subscribe"}
               </button>
             </form>
           )}
-          <p className="mt-5 text-xs text-[#f7f0df]/34">Join 12,000+ Indians. Unsubscribe anytime.</p>
+          <p className="mt-5 text-xs text-[#2a1e16]/34">Join 12,000+ Indians. Unsubscribe anytime.</p>
         </div>
       </div>
     </section>
@@ -1003,18 +1003,18 @@ function Footer({ onAdminClick }: { onAdminClick: () => void }) {
   ];
 
   return (
-    <footer className="border-t border-[#f7f0df]/10 bg-[#06040d] px-6 py-16 sm:px-10 lg:px-16">
+    <footer className="border-t border-[#2a1e16]/10 bg-[#06040d] px-6 py-16 sm:px-10 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3">
-              <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] font-black text-[#090511]">TT</div>
-              <span className="text-sm font-semibold uppercase tracking-[0.28em] text-[#f7f0df]/84">The Titan Fitness</span>
+              <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-orange-300 via-amber-500 to-[#ea580c] font-black text-[#f4ead9]">TT</div>
+              <span className="text-sm font-semibold uppercase tracking-[0.28em] text-[#2a1e16]/84">The Titan Fitness</span>
             </div>
-            <p className="mt-5 text-sm leading-6 text-[#f7f0df]/65">India's most intelligent fitness and lifestyle coaching platform. Built for weddings, families, and everyday warriors.</p>
+            <p className="mt-5 text-sm leading-6 text-[#2a1e16]/65">India's most intelligent fitness and lifestyle coaching platform. Built for weddings, families, and everyday warriors.</p>
             <div className="mt-6 flex gap-3">
               {["T", "I", "Y", "D"].map((char, i) => (
-                <a key={i} href="#" className="grid h-10 w-10 place-items-center rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/65 transition hover:border-violet-300/40 hover:bg-violet-200/10 hover:text-violet-100">
+                <a key={i} href="#" className="grid h-10 w-10 place-items-center rounded-xl border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/65 transition hover:border-orange-300/40 hover:bg-orange-200/10 hover:text-orange-700">
                   <span className="text-xs font-bold">{char}</span>
                 </a>
               ))}
@@ -1023,20 +1023,20 @@ function Footer({ onAdminClick }: { onAdminClick: () => void }) {
 
           {footerLinks.map((section) => (
             <div key={section.heading}>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f7f0df]/65">{section.heading}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2a1e16]/65">{section.heading}</p>
               <ul className="mt-4 space-y-2.5">
                 {section.links.map((link: any) => (
-                  <li key={link.label}><a href={link.href} className="text-sm text-[#f7f0df]/68 transition hover:text-violet-100">{link.label}</a></li>
+                  <li key={link.label}><a href={link.href} className="text-sm text-[#2a1e16]/68 transition hover:text-orange-700">{link.label}</a></li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
 
-        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-[#f7f0df]/10 pt-8 sm:flex-row">
-          <p className="text-xs text-[#f7f0df]/32">© 2025 The Titan Fitness. All rights reserved.</p>
-          <p className="text-xs text-[#f7f0df]/32">Made with ⚡ in India</p>
-          <button type="button" onClick={onAdminClick} className="rounded-full border border-[#f7f0df]/8 bg-[#f7f0df]/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#f7f0df]/30 transition hover:border-violet-200/30 hover:text-violet-100">
+        <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-[#2a1e16]/10 pt-8 sm:flex-row">
+          <p className="text-xs text-[#2a1e16]/32">© 2025 The Titan Fitness. All rights reserved.</p>
+          <p className="text-xs text-[#2a1e16]/32">Made with ⚡ in India</p>
+          <button type="button" onClick={onAdminClick} className="rounded-full border border-[#2a1e16]/8 bg-[#2a1e16]/5 px-4 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#2a1e16]/30 transition hover:border-orange-200/30 hover:text-orange-700">
             🔐 Admin Panel
           </button>
         </div>
@@ -1083,7 +1083,7 @@ export default function App() {
   // Marketing site
   return (
     <>
-      <main className="min-h-screen overflow-hidden bg-[#07040d] text-[#f7f0df] selection:bg-violet-200 selection:text-[#090511]">
+      <main className="min-h-screen overflow-hidden bg-[#faf4ec] text-[#2a1e16] selection:bg-orange-200 selection:text-[#2a1e16]">
         <Nav />
         <Hero />
         <About />

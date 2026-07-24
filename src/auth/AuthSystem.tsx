@@ -24,6 +24,10 @@ export type UserProfile = {
   weight: number;
   goal: "fat-loss" | "muscle-gain" | "maintenance" | "wedding" | "general";
   plan: "Free" | "Pro" | "Elite";
+  /** Which side of the app the user lands in. Unset → role picker shown. */
+  role?: "general" | "trainer";
+  /** Trainer subscription tier (separate from the member `plan`). */
+  trainerPlan?: "Free" | "Coach" | "Studio";
   joinDate: string;
   streak: number;
   onboardingComplete: boolean;
@@ -52,6 +56,7 @@ export type AuthContextType = {
   logout: () => void;
   updateUser: (updates: Partial<UserProfile>) => Promise<void>;
   completeOnboarding: (data: Partial<UserProfile>) => Promise<void>;
+  refreshUser: () => Promise<void>;
 };
 
 /* ---------------------------------------------------------------- */
@@ -220,8 +225,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await updateUser({ ...data, onboardingComplete: true });
   }
 
+  // Re-read the profile from Firestore — used after a backend action (e.g. a
+  // verified payment unlocking a paid plan) that the client can't write itself.
+  async function refreshUser() {
+    if (!auth.currentUser) return;
+    const profile = await loadProfile(auth.currentUser.uid);
+    if (profile) setUser(profile);
+  }
+
   return (
-    <AuthContext.Provider value={{ user, authLoading, login, signup, logout, updateUser, completeOnboarding }}>
+    <AuthContext.Provider value={{ user, authLoading, login, signup, logout, updateUser, completeOnboarding, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

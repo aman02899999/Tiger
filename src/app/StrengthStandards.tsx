@@ -36,10 +36,10 @@ const LIFTS = [
 
 const TIERS = [
   { name: "Untrained", color: "#94a3b8" },
-  { name: "Novice", color: "#38bdf8" },
-  { name: "Intermediate", color: "#34d399" },
-  { name: "Advanced", color: "#d8b35a" },
-  { name: "Elite", color: "#e879f9" },
+  { name: "Novice", color: "#0284c7" },
+  { name: "Intermediate", color: "#059669" },
+  { name: "Advanced", color: "#ea580c" },
+  { name: "Elite", color: "#fb923c" },
 ];
 
 function tierFor(ratio: number, thresholds: number[]) {
@@ -79,31 +79,31 @@ export default function StrengthStandardsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Strength Standards</h1>
-        <p className="text-sm text-[#f7f0df]/68">See how your lifts rank — from Untrained to Elite</p>
+        <p className="text-sm text-[#2a1e16]/68">See how your lifts rank — from Untrained to Elite</p>
       </div>
 
       {/* Inputs */}
       <div className="glass-card rounded-2xl p-6">
         <div className="flex flex-wrap items-end gap-4">
           <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65">Sex</p>
-            <div className="inline-flex rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/5 p-1">
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#2a1e16]/65">Sex</p>
+            <div className="inline-flex rounded-full border border-[#2a1e16]/12 bg-[#2a1e16]/5 p-1">
               {(["male", "female"] as Sex[]).map((s) => (
-                <button key={s} type="button" onClick={() => setSex(s)} className={`rounded-full px-5 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${sex === s ? "bg-violet-500 text-white" : "text-[#f7f0df]/62"}`}>{s}</button>
+                <button key={s} type="button" onClick={() => setSex(s)} className={`rounded-full px-5 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${sex === s ? "bg-orange-500 text-white" : "text-[#2a1e16]/62"}`}>{s}</button>
               ))}
             </div>
           </div>
           <label className="block">
-            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65">Bodyweight (kg)</span>
-            <input type="number" value={bw} onChange={(e) => setBw(Math.max(1, Number(e.target.value)))} className="w-32 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.14em] text-[#2a1e16]/65">Bodyweight (kg)</span>
+            <input type="number" value={bw} onChange={(e) => setBw(Math.max(1, Number(e.target.value)))} className="w-32 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-200/40" />
           </label>
         </div>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           {LIFTS.map((l) => (
             <label key={l.key} className="block">
-              <span className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65"><span>{l.icon}</span>{l.label} 1RM (kg)</span>
-              <input type="number" value={lifts[l.key] ?? ""} onChange={(e) => setLifts({ ...lifts, [l.key]: e.target.value })} placeholder="—" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+              <span className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65"><span>{l.icon}</span>{l.label} 1RM (kg)</span>
+              <input type="number" value={lifts[l.key] ?? ""} onChange={(e) => setLifts({ ...lifts, [l.key]: e.target.value })} placeholder="—" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-200/40" />
             </label>
           ))}
         </div>
@@ -112,7 +112,7 @@ export default function StrengthStandardsPage() {
       {/* Overall */}
       {overall && (
         <div className="glass-card rounded-2xl p-6 text-center" style={{ background: `radial-gradient(ellipse at 50% 0%, ${overall.color}18 0%, transparent 60%)` }}>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62">Overall Rank</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/62">Overall Rank</p>
           <p className="mt-1 text-4xl font-black" style={{ color: overall.color }}>{overall.name}</p>
         </div>
       )}
@@ -129,7 +129,7 @@ export default function StrengthStandardsPage() {
                 <p className="text-sm font-black">{r.icon} {r.label}</p>
                 <div className="text-right">
                   <span className="text-sm font-black" style={{ color: tier.color }}>{tier.name}</span>
-                  <span className="ml-2 text-xs text-[#f7f0df]/62">{r.ratio.toFixed(2)}× bw</span>
+                  <span className="ml-2 text-xs text-[#2a1e16]/62">{r.ratio.toFixed(2)}× bw</span>
                 </div>
               </div>
               {/* tier bar */}
@@ -138,7 +138,7 @@ export default function StrengthStandardsPage() {
                   <div key={t.name} className="h-2 flex-1 rounded-full" style={{ background: i < r.tier ? t.color : "rgba(247,240,223,0.08)" }} />
                 ))}
               </div>
-              <div className="mt-1.5 flex justify-between text-[9px] font-bold uppercase tracking-[0.08em] text-[#f7f0df]/45">
+              <div className="mt-1.5 flex justify-between text-[9px] font-bold uppercase tracking-[0.08em] text-[#2a1e16]/45">
                 {TIERS.map((t) => <span key={t.name}>{t.name.slice(0, 4)}</span>)}
               </div>
               <p className="sr-only">{pct}%</p>
@@ -150,11 +150,11 @@ export default function StrengthStandardsPage() {
       {results.every((r) => r.tier < 0) && (
         <div className="glass-card rounded-2xl p-8 text-center">
           <div className="text-4xl">🏋️</div>
-          <p className="mt-3 text-sm text-[#f7f0df]/68">Enter at least one lift above to see your strength rank.</p>
+          <p className="mt-3 text-sm text-[#2a1e16]/68">Enter at least one lift above to see your strength rank.</p>
         </div>
       )}
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">Standards are approximate bodyweight-ratio guidelines — great for direction, not gospel.</p>
+      <p className="text-center text-[11px] text-[#2a1e16]/55">Standards are approximate bodyweight-ratio guidelines — great for direction, not gospel.</p>
     </div>
   );
 }

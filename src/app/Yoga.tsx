@@ -259,7 +259,7 @@ interface Flow {
 const FLOWS: Flow[] = [
   {
     id: 'morning', name: 'Morning Awakening', tagline: 'Wake the spine, fire up circulation and set the tone for the day.',
-    level: 'Beginner', accent: '#d8b35a',
+    level: 'Beginner', accent: '#ea580c',
     steps: [
       { poseId: 1, seconds: 45 }, { poseId: 10, seconds: 45 }, { poseId: 41, seconds: 60 },
       { poseId: 3, seconds: 45 }, { poseId: 4, seconds: 45 }, { poseId: 21, seconds: 30 },
@@ -268,7 +268,7 @@ const FLOWS: Flow[] = [
   },
   {
     id: 'stress', name: 'Stress Relief Evening', tagline: 'Down-shift the nervous system and melt the day away.',
-    level: 'Beginner', accent: '#a78bfa',
+    level: 'Beginner', accent: '#f97316',
     steps: [
       { poseId: 45, seconds: 90 }, { poseId: 14, seconds: 120 }, { poseId: 33, seconds: 90 },
       { poseId: 34, seconds: 90 }, { poseId: 35, seconds: 240 }, { poseId: 29, seconds: 300 },
@@ -276,7 +276,7 @@ const FLOWS: Flow[] = [
   },
   {
     id: 'flex', name: 'Deep Flexibility', tagline: 'Long holds that open hamstrings, hips and the whole back line.',
-    level: 'Intermediate', accent: '#e879f9',
+    level: 'Intermediate', accent: '#fb923c',
     steps: [
       { poseId: 10, seconds: 60 }, { poseId: 13, seconds: 90 }, { poseId: 16, seconds: 60 },
       { poseId: 19, seconds: 120 }, { poseId: 6, seconds: 60 }, { poseId: 17, seconds: 60 },
@@ -294,7 +294,7 @@ const FLOWS: Flow[] = [
   },
   {
     id: 'breath', name: 'Breath & Stillness', tagline: 'Pranayama-led reset — the fastest route to a quiet mind.',
-    level: 'Beginner', accent: '#34d399',
+    level: 'Beginner', accent: '#059669',
     steps: [
       { poseId: 11, seconds: 120 }, { poseId: 50, seconds: 300 }, { poseId: 51, seconds: 180 },
       { poseId: 48, seconds: 600 },
@@ -318,7 +318,7 @@ function PoseImage({ figure, alt, className = '' }: { figure: string; alt: strin
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {/* Gradient placeholder — always behind the photo, shown alone if the photo fails */}
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-950 via-[#1e1b4b] to-fuchsia-950" />
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-950 via-[#1e1b4b] to-amber-950" />
       {src && !failed && (
         <img
           src={src}
@@ -366,23 +366,23 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
 
   return (
     <div className="glass-card rounded-2xl p-5">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a] mb-4">Hold Timer</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c] mb-4">Hold Timer</p>
       <div className="flex items-center gap-6">
         {/* Progress ring */}
         <div className="relative h-32 w-32 flex-shrink-0">
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: `conic-gradient(${done ? '#34d399' : '#a78bfa'} 0deg, ${done ? '#34d399' : '#e879f9'} ${progress * 360}deg, rgba(247,240,223,0.1) ${progress * 360}deg)`,
+              background: `conic-gradient(${done ? '#059669' : '#f97316'} 0deg, ${done ? '#059669' : '#fb923c'} ${progress * 360}deg, rgba(247,240,223,0.1) ${progress * 360}deg)`,
               transition: 'background 1s linear',
             }}
           />
-          <div className="absolute inset-2 rounded-full bg-[#0b0714]" />
+          <div className="absolute inset-2 rounded-full bg-[#fffdf9]" />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className={`text-2xl font-black tracking-[-0.04em] tabular-nums ${done ? 'text-emerald-300' : 'text-[#f7f0df]'}`}>
+            <span className={`text-2xl font-black tracking-[-0.04em] tabular-nums ${done ? 'text-emerald-600' : 'text-[#2a1e16]'}`}>
               {done ? 'Om' : `${mm}:${ss}`}
             </span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#f7f0df]/62">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#2a1e16]/62">
               {done ? 'complete' : running ? 'holding' : 'ready'}
             </span>
           </div>
@@ -396,8 +396,8 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
                 onClick={() => pick(s)}
                 className={`rounded-full px-3 py-1 text-xs font-bold transition-all ${
                   target === s
-                    ? 'bg-violet-600 text-white shadow-md shadow-violet-900/40'
-                    : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:text-[#f7f0df]'
+                    ? 'bg-orange-600 text-white shadow-md shadow-orange-900/40'
+                    : 'bg-black/5 text-[#2a1e16]/62 border border-black/10 hover:text-[#2a1e16]'
                 }`}
               >
                 {s < 60 ? `${s}s` : `${s / 60}m`}
@@ -407,13 +407,13 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
           <div className="flex gap-2">
             <button
               onClick={() => (done ? reset() : setRunning((r) => !r))}
-              className="btn-gloss flex-1 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 py-2.5 text-sm font-bold text-white shadow-lg shadow-violet-900/40 hover:from-violet-500 hover:to-fuchsia-500 transition-all"
+              className="btn-gloss flex-1 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 py-2.5 text-sm font-bold text-white shadow-lg shadow-orange-900/40 hover:from-orange-500 hover:to-amber-500 transition-all"
             >
               {done ? 'Again' : running ? 'Pause' : 'Start Hold'}
             </button>
             <button
               onClick={reset}
-              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[#f7f0df]/70 hover:bg-white/10 hover:text-[#f7f0df] transition-all"
+              className="rounded-xl border border-black/10 bg-black/5 px-4 py-2.5 text-sm font-semibold text-[#2a1e16]/70 hover:bg-black/10 hover:text-[#2a1e16] transition-all"
             >
               Reset
             </button>
@@ -430,8 +430,8 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
 
 function LevelBadge({ level }: { level: string }) {
   const styles: Record<string, string> = {
-    Beginner: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30',
-    Intermediate: 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+    Beginner: 'bg-emerald-500/20 text-emerald-600 border border-emerald-500/30',
+    Intermediate: 'bg-amber-500/20 text-amber-600 border border-amber-500/30',
     Advanced: 'bg-red-500/20 text-red-300 border border-red-500/30',
   }
   return (
@@ -443,15 +443,15 @@ function LevelBadge({ level }: { level: string }) {
 
 function LockOverlay({ onUpgrade }: { onUpgrade: () => void }) {
   return (
-    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl bg-[#07040d]/70 backdrop-blur-sm">
+    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl bg-[#faf4ec]/70 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-3 px-4 text-center">
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-600/30 ring-2 ring-violet-500/40">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-orange-600/30 ring-2 ring-orange-500/40">
           <span aria-hidden="true">🔒</span>
         </div>
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/70">Pro Plan Required</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/70">Pro Plan Required</p>
         <button
           onClick={(e) => { e.stopPropagation(); onUpgrade() }}
-          className="btn-gloss mt-1 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-violet-900/40 transition-all duration-200 hover:from-violet-500 hover:to-fuchsia-500"
+          className="btn-gloss mt-1 rounded-full bg-gradient-to-r from-orange-600 to-amber-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-orange-900/40 transition-all duration-200 hover:from-orange-500 hover:to-amber-500"
         >
           Upgrade to Pro
         </button>
@@ -476,7 +476,7 @@ function PoseCard({ pose, isPracticed, locked, onClick, onUpgrade }: PoseCardPro
   return (
     <div
       className={`group glass-card relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 ${
-        locked ? 'cursor-default' : 'cursor-pointer hover:shadow-xl hover:shadow-violet-900/30 hover:-translate-y-1'
+        locked ? 'cursor-default' : 'cursor-pointer hover:shadow-xl hover:shadow-orange-900/30 hover:-translate-y-1'
       }`}
       onClick={!locked ? onClick : undefined}
     >
@@ -494,23 +494,23 @@ function PoseCard({ pose, isPracticed, locked, onClick, onUpgrade }: PoseCardPro
       <div className={`flex flex-1 flex-col gap-2 px-4 pb-4 pt-3 ${locked ? 'blur-sm select-none pointer-events-none' : ''}`}>
         <div className="flex items-start justify-between gap-1">
           <div>
-            <p className="text-sm font-black tracking-[-0.04em] text-[#d8b35a]">{pose.name}</p>
-            <p className="text-[11px] text-[#f7f0df]/62 leading-tight">{pose.english}</p>
+            <p className="text-sm font-black tracking-[-0.04em] text-[#ea580c]">{pose.name}</p>
+            <p className="text-[11px] text-[#2a1e16]/62 leading-tight">{pose.english}</p>
           </div>
           <LevelBadge level={pose.level} />
         </div>
 
         <div className="flex items-center gap-1.5">
-          <span className="rounded-full bg-violet-500/10 px-2 py-0.5 text-[10px] font-bold text-violet-300 border border-violet-500/25">
+          <span className="rounded-full bg-orange-500/10 px-2 py-0.5 text-[10px] font-bold text-orange-600 border border-orange-500/25">
             {pose.category}
           </span>
-          <span className="text-[10px] text-[#f7f0df]/62">{pose.duration}</span>
+          <span className="text-[10px] text-[#2a1e16]/62">{pose.duration}</span>
         </div>
 
         <ul className="mt-0.5 space-y-0.5">
           {pose.benefits.slice(0, 2).map((b, i) => (
-            <li key={i} className="flex items-center gap-1.5 text-[10px] text-[#f7f0df]/62">
-              <span className="h-1 w-1 rounded-full bg-fuchsia-400 flex-shrink-0" />
+            <li key={i} className="flex items-center gap-1.5 text-[10px] text-[#2a1e16]/62">
+              <span className="h-1 w-1 rounded-full bg-amber-400 flex-shrink-0" />
               {b}
             </li>
           ))}
@@ -542,16 +542,16 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose} role="dialog" aria-modal="true" aria-label={`${pose.english} details`}>
-      <div className="absolute inset-0 bg-[#07040d]/80 backdrop-blur-md" />
+      <div className="absolute inset-0 bg-[#faf4ec]/80 backdrop-blur-md" />
 
       <div
-        className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border-gold-glow bg-[#0f0a1e] shadow-2xl shadow-violet-900/40"
+        className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border-gold-glow bg-[#0f0a1e] shadow-2xl shadow-orange-900/40"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-[#f7f0df]/70 transition-colors hover:bg-black/60 hover:text-[#f7f0df]"
+          className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-[#2a1e16]/70 transition-colors hover:bg-black/60 hover:text-[#2a1e16]"
         >
           <span aria-hidden="true">✕</span>
         </button>
@@ -561,12 +561,12 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
         {/* Title block overlapping the photo scrim */}
         <div className="relative -mt-20 px-8">
-          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a]">{pose.name}</h2>
-          <p className="text-sm text-[#f7f0df]/70">{pose.english}</p>
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ea580c]">{pose.name}</h2>
+          <p className="text-sm text-[#2a1e16]/70">{pose.english}</p>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <LevelBadge level={pose.level} />
-            <span className="rounded-full bg-violet-500/15 border border-violet-500/30 px-3 py-0.5 text-xs font-bold text-violet-300">{pose.category}</span>
-            <span className="text-xs text-[#f7f0df]/62">Hold: {pose.duration}</span>
+            <span className="rounded-full bg-orange-500/15 border border-orange-500/30 px-3 py-0.5 text-xs font-bold text-orange-600">{pose.category}</span>
+            <span className="text-xs text-[#2a1e16]/62">Hold: {pose.duration}</span>
           </div>
         </div>
 
@@ -575,24 +575,24 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
           <HoldTimer initialSeconds={60} />
 
           {/* Breathing cue */}
-          <section className="rounded-2xl border border-fuchsia-500/25 bg-fuchsia-500/5 px-5 py-4">
-            <h3 className="mb-1.5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">
+          <section className="rounded-2xl border border-amber-500/25 bg-amber-500/5 px-5 py-4">
+            <h3 className="mb-1.5 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-600">
               <span aria-hidden="true">〰️</span>
               Breathing Cue
             </h3>
-            <p className="text-sm text-[#f7f0df]/80 leading-relaxed">{breathCue(pose)}</p>
+            <p className="text-sm text-[#2a1e16]/80 leading-relaxed">{breathCue(pose)}</p>
           </section>
 
           {/* Steps */}
           <section>
-            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Step-by-Step Instructions</h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Step-by-Step Instructions</h3>
             <ol className="space-y-2">
               {pose.steps.map((step, i) => (
                 <li key={i} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-violet-500/20 text-[10px] font-bold text-violet-300 border border-violet-500/30">
+                  <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-orange-500/20 text-[10px] font-bold text-orange-600 border border-orange-500/30">
                     {i + 1}
                   </span>
-                  <span className="text-sm text-[#f7f0df]/80">{step}</span>
+                  <span className="text-sm text-[#2a1e16]/80">{step}</span>
                 </li>
               ))}
             </ol>
@@ -600,10 +600,10 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
           {/* Benefits */}
           <section>
-            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Benefits</h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Benefits</h3>
             <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
               {pose.benefits.map((b, i) => (
-                <li key={i} className="flex items-center gap-2 text-sm text-[#f7f0df]/75">
+                <li key={i} className="flex items-center gap-2 text-sm text-[#2a1e16]/75">
                   <span aria-hidden="true">✓</span>
                   {b}
                 </li>
@@ -613,10 +613,10 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
           {/* Muscles */}
           <section>
-            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Muscles Engaged</h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Muscles Engaged</h3>
             <div className="flex flex-wrap gap-2">
               {pose.muscles.map((m, i) => (
-                <span key={i} className="rounded-full bg-violet-500/15 border border-violet-500/30 px-3 py-1 text-xs font-bold text-violet-300">
+                <span key={i} className="rounded-full bg-orange-500/15 border border-orange-500/30 px-3 py-1 text-xs font-bold text-orange-600">
                   {m}
                 </span>
               ))}
@@ -626,13 +626,13 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
           {/* Contraindications */}
           {pose.contraindications.length > 0 && pose.contraindications[0] !== '' && (
             <section className="rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3">
-              <h3 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-300">
+              <h3 className="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-600">
                 <span aria-hidden="true">⚠️</span>
                 Contraindications
               </h3>
               <ul className="space-y-1">
                 {pose.contraindications.map((c, i) => (
-                  <li key={i} className="text-sm text-amber-200/75">{c}</li>
+                  <li key={i} className="text-sm text-amber-600/75">{c}</li>
                 ))}
               </ul>
             </section>
@@ -643,8 +643,8 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
             onClick={onTogglePracticed}
             className={`btn-gloss w-full rounded-2xl py-3 text-sm font-bold transition-all duration-200 ${
               isPracticed
-                ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/30'
-                : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-lg shadow-violet-900/40 hover:from-violet-500 hover:to-fuchsia-500'
+                ? 'bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 hover:bg-emerald-500/30'
+                : 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-900/40 hover:from-orange-500 hover:to-amber-500'
             }`}
           >
             {isPracticed ? 'Practiced — Mark as Incomplete' : 'Mark as Practiced'}
@@ -673,13 +673,13 @@ function FlowCard({ flow, onSelectPose }: { flow: Flow; onSelectPose: (p: Pose) 
           <div className="flex items-center gap-3 min-w-0">
             <span className="h-10 w-1.5 rounded-full flex-shrink-0" style={{ background: `linear-gradient(180deg, ${flow.accent}, transparent)` }} />
             <div className="min-w-0">
-              <h3 className="text-base font-black tracking-[-0.04em] text-[#f7f0df] truncate">{flow.name}</h3>
-              <p className="text-xs text-[#f7f0df]/62 truncate">{flow.tagline}</p>
+              <h3 className="text-base font-black tracking-[-0.04em] text-[#2a1e16] truncate">{flow.name}</h3>
+              <p className="text-xs text-[#2a1e16]/62 truncate">{flow.tagline}</p>
             </div>
           </div>
           <div className="flex flex-shrink-0 items-center gap-2">
             <span className="hidden sm:inline"><LevelBadge level={flow.level} /></span>
-            <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-bold tabular-nums" style={{ color: flow.accent }}>
+            <span className="rounded-full border border-black/10 bg-black/5 px-2.5 py-1 text-xs font-bold tabular-nums" style={{ color: flow.accent }}>
               {poses.length} poses · {fmtTotal(total)}
             </span>
             <span aria-hidden="true">▾</span>
@@ -688,23 +688,23 @@ function FlowCard({ flow, onSelectPose }: { flow: Flow; onSelectPose: (p: Pose) 
       </button>
 
       {open && (
-        <div className="border-t border-white/10 px-5 py-4">
+        <div className="border-t border-black/10 px-5 py-4">
           <ol className="space-y-2">
             {poses.map(({ step, pose }, i) => (
               <li key={i}>
                 <button
                   onClick={() => onSelectPose(pose)}
-                  className="flex w-full items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2 text-left transition-all hover:border-violet-500/40 hover:bg-white/[0.06]"
+                  className="flex w-full items-center gap-3 rounded-xl border border-black/5 bg-black/[0.03] px-3 py-2 text-left transition-all hover:border-orange-500/40 hover:bg-black/[0.06]"
                 >
-                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-[#07040d]" style={{ background: flow.accent }}>
+                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-[#faf4ec]" style={{ background: flow.accent }}>
                     {i + 1}
                   </span>
                   <PoseImage figure={pose.figure} alt={`${pose.english} thumbnail`} className="h-10 w-14 flex-shrink-0 rounded-lg" />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-bold text-[#f7f0df]">{pose.english}</span>
-                    <span className="block truncate text-[11px] text-[#f7f0df]/62">{pose.name}</span>
+                    <span className="block truncate text-sm font-bold text-[#2a1e16]">{pose.english}</span>
+                    <span className="block truncate text-[11px] text-[#2a1e16]/62">{pose.name}</span>
                   </span>
-                  <span className="flex-shrink-0 text-xs font-bold tabular-nums text-[#d8b35a]">{fmtTotal(step.seconds)}</span>
+                  <span className="flex-shrink-0 text-xs font-bold tabular-nums text-[#ea580c]">{fmtTotal(step.seconds)}</span>
                 </button>
               </li>
             ))}
@@ -723,33 +723,33 @@ function UpgradeModal({ onClose }: { onClose: () => void }) {
   const { openCheckout } = useCheckout()
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-[#07040d]/80 backdrop-blur-md" />
+      <div className="absolute inset-0 bg-[#faf4ec]/80 backdrop-blur-md" />
       <div
-        className="relative z-10 w-full max-w-md rounded-3xl border-gold-glow bg-[#0f0a1e] p-8 shadow-2xl shadow-violet-900/50 text-center"
+        className="relative z-10 w-full max-w-md rounded-3xl border-gold-glow bg-[#0f0a1e] p-8 shadow-2xl shadow-orange-900/50 text-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-700 shadow-lg shadow-violet-900/50">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-700 shadow-lg shadow-orange-900/50">
           <span aria-hidden="true">👑</span>
         </div>
-        <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Unlock All 52 Poses</h2>
-        <p className="mb-6 text-sm text-[#f7f0df]/62">
+        <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#2a1e16]">Unlock All 52 Poses</h2>
+        <p className="mb-6 text-sm text-[#2a1e16]/62">
           Upgrade to The Titan Fitness to access the complete Sacred Asana Library, curated flows, hold timers and guided breathing.
         </p>
         <div className="mb-6 space-y-2">
           {['All 52 Yoga Poses & Pranayama', 'Real photo demonstrations', 'Hold timers & breathing cues', 'Curated flows & sequences', 'Practice tracking & streaks'].map((f, i) => (
-            <div key={i} className="flex items-center gap-3 rounded-xl bg-violet-500/5 border border-violet-500/15 px-4 py-2">
+            <div key={i} className="flex items-center gap-3 rounded-xl bg-orange-500/5 border border-orange-500/15 px-4 py-2">
               <span aria-hidden="true">✓</span>
-              <span className="text-sm text-[#f7f0df]/75">{f}</span>
+              <span className="text-sm text-[#2a1e16]/75">{f}</span>
             </div>
           ))}
         </div>
         <button
           onClick={() => { onClose(); openCheckout('pro') }}
-          className="btn-gloss w-full rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-violet-900/40 transition-all hover:from-violet-500 hover:to-fuchsia-500"
+          className="btn-gloss w-full rounded-2xl bg-gradient-to-r from-orange-600 to-amber-600 py-3.5 text-sm font-bold text-white shadow-lg shadow-orange-900/40 transition-all hover:from-orange-500 hover:to-amber-500"
         >
           Upgrade to Pro — ₹199/month
         </button>
-        <button onClick={onClose} className="mt-3 text-xs text-[#f7f0df]/62 hover:text-[#f7f0df] transition-colors">
+        <button onClick={onClose} className="mt-3 text-xs text-[#2a1e16]/62 hover:text-[#2a1e16] transition-colors">
           Maybe later
         </button>
       </div>
@@ -803,11 +803,11 @@ export default function YogaPage() {
   const practicedCount = practiced.size
 
   return (
-    <div className="min-h-screen bg-[#07040d] text-[#f7f0df] font-sans">
+    <div className="min-h-screen bg-[#faf4ec] text-[#2a1e16] font-sans">
       {/* ---- Hero Header ---- */}
       <div
         className="relative px-4 pt-12 pb-8 text-center overflow-hidden"
-        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(234,88,12,0.18) 0%, transparent 60%)' }}
       >
         {/* Real demonstration hero photo */}
         <img
@@ -817,46 +817,46 @@ export default function YogaPage() {
           onError={(e) => { e.currentTarget.style.display = 'none' }}
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#07040d]/55 via-[#07040d]/70 to-[#07040d]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#faf4ec]/55 via-[#faf4ec]/70 to-[#faf4ec]" />
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-violet-700/10 blur-3xl" />
-          <div className="absolute top-10 left-1/4 h-40 w-40 rounded-full bg-fuchsia-600/10 blur-2xl" />
-          <div className="absolute top-10 right-1/4 h-40 w-40 rounded-full bg-violet-500/10 blur-2xl" />
+          <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-orange-700/10 blur-3xl" />
+          <div className="absolute top-10 left-1/4 h-40 w-40 rounded-full bg-amber-600/10 blur-2xl" />
+          <div className="absolute top-10 right-1/4 h-40 w-40 rounded-full bg-orange-500/10 blur-2xl" />
         </div>
 
         <div className="relative">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-600/30 to-fuchsia-700/30 border border-violet-500/30 shadow-lg shadow-violet-900/30">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-600/30 to-amber-700/30 border border-orange-500/30 shadow-lg shadow-orange-900/30">
             <span aria-hidden="true">🪷</span>
           </div>
 
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">The Titan Fitness — Yoga Studio</p>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">The Titan Fitness — Yoga Studio</p>
           <h1 className="text-4xl font-black tracking-[-0.04em] sm:text-5xl">
-            <span className="bg-gradient-to-r from-[#d8b35a] via-[#f7f0df] to-[#e879f9] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#ea580c] via-[#2a1e16] to-[#fb923c] bg-clip-text text-transparent">
               Sacred Asana Library
             </span>
           </h1>
-          <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62">
+          <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-[#2a1e16]/62">
             52 Poses &nbsp;•&nbsp; 5 Curated Flows &nbsp;•&nbsp; Ancient Wisdom, Modern Practice
           </p>
 
           {/* Progress bar */}
           <div className="mx-auto mt-6 max-w-xs">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-xs text-[#f7f0df]/62">Practice Progress</span>
-              <span className="text-xs font-bold text-[#d8b35a]">{practicedCount} / 52 Mastered</span>
+              <span className="text-xs text-[#2a1e16]/62">Practice Progress</span>
+              <span className="text-xs font-bold text-[#ea580c]">{practicedCount} / 52 Mastered</span>
             </div>
-            <div className="h-2 w-full rounded-full bg-white/5 overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-black/5 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-violet-600 via-[#e879f9] to-[#d8b35a] transition-all duration-700"
+                className="h-full rounded-full bg-gradient-to-r from-orange-600 via-[#fb923c] to-[#ea580c] transition-all duration-700"
                 style={{ width: `${(practicedCount / 52) * 100}%` }}
               />
             </div>
           </div>
 
           {isPro && (
-            <div className="mx-auto mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#d8b35a]/10 border border-[#d8b35a]/30 px-3 py-1">
+            <div className="mx-auto mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#ea580c]/10 border border-[#ea580c]/30 px-3 py-1">
               <span aria-hidden="true">★</span>
-              <span className="text-[11px] font-bold text-[#d8b35a]">Pro — Full Library Unlocked</span>
+              <span className="text-[11px] font-bold text-[#ea580c]">Pro — Full Library Unlocked</span>
             </div>
           )}
         </div>
@@ -865,17 +865,17 @@ export default function YogaPage() {
       {/* ---- How to use this section ---- */}
       <div className="mx-auto max-w-4xl px-4 pb-6 -mt-2">
         <div className="glass-card rounded-2xl p-5">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How this works — 3 simple steps</p>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">How this works — 3 simple steps</p>
           <div className="grid gap-3 sm:grid-cols-3">
             {[
               { n: '1', t: 'Choose a pose', d: 'Browse the library or a guided flow. Tap any pose to open its full guide with a real demonstration photo.' },
               { n: '2', t: 'Follow the steps', d: 'Each pose has numbered, one-at-a-time instructions plus breathing cues — just do them in order.' },
               { n: '3', t: 'Hold with the timer', d: 'Start the built-in hold timer, breathe steadily, and mark the pose done to track your progress.' },
             ].map((s) => (
-              <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
-                <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-                <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-                <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+              <div key={s.n} className="rounded-xl border border-black/8 bg-black/5 p-4">
+                <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-600 text-sm font-black text-white">{s.n}</div>
+                <p className="text-sm font-bold text-[#2a1e16]">{s.t}</p>
+                <p className="mt-1 text-xs leading-relaxed text-[#2a1e16]/68">{s.d}</p>
               </div>
             ))}
           </div>
@@ -886,10 +886,10 @@ export default function YogaPage() {
       <div className="mx-auto max-w-4xl px-4 pb-2">
         <div className="mb-4 flex items-end justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Curated Sequences</p>
-            <h2 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Guided Flows</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Curated Sequences</p>
+            <h2 className="text-2xl font-black tracking-[-0.04em] text-[#2a1e16]">Guided Flows</h2>
           </div>
-          <p className="text-xs text-[#f7f0df]/62">Tap a flow to see its pose chain</p>
+          <p className="text-xs text-[#2a1e16]/62">Tap a flow to see its pose chain</p>
         </div>
         <div className="space-y-3">
           {FLOWS.map((flow) => (
@@ -903,7 +903,7 @@ export default function YogaPage() {
       </div>
 
       {/* ---- Filters ---- */}
-      <div className="sticky top-0 z-30 mt-8 bg-[#07040d]/90 backdrop-blur-md border-b border-white/5 px-4 py-3 space-y-3">
+      <div className="sticky top-0 z-30 mt-8 bg-[#faf4ec]/90 backdrop-blur-md border-b border-black/5 px-4 py-3 space-y-3">
         <div className="relative mx-auto max-w-2xl">
           <span aria-hidden="true">🔍</span>
           <input
@@ -911,10 +911,10 @@ export default function YogaPage() {
             placeholder="Search poses by name or category..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl bg-white/5 border border-white/10 pl-9 pr-4 py-2.5 text-sm text-[#f7f0df] placeholder-[#f7f0df]/62 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
+            className="w-full rounded-xl bg-black/5 border border-black/10 pl-9 pr-4 py-2.5 text-sm text-[#2a1e16] placeholder-[#2a1e16]/62 outline-none focus:border-orange-500/50 focus:ring-2 focus:ring-orange-500/20 transition-all"
           />
           {search && (
-            <button onClick={() => setSearch('')} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f7f0df]/62 hover:text-[#f7f0df]">
+            <button onClick={() => setSearch('')} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#2a1e16]/62 hover:text-[#2a1e16]">
               <span aria-hidden="true">✕</span>
             </button>
           )}
@@ -927,8 +927,8 @@ export default function YogaPage() {
               onClick={() => setCategoryFilter(cat)}
               className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 ${
                 categoryFilter === cat
-                  ? 'bg-violet-600 text-white shadow-md shadow-violet-900/40'
-                  : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:bg-white/10 hover:text-[#f7f0df]'
+                  ? 'bg-orange-600 text-white shadow-md shadow-orange-900/40'
+                  : 'bg-black/5 text-[#2a1e16]/62 border border-black/10 hover:bg-black/10 hover:text-[#2a1e16]'
               }`}
             >
               {cat}
@@ -943,8 +943,8 @@ export default function YogaPage() {
               onClick={() => setLevelFilter(lvl)}
               className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 ${
                 levelFilter === lvl
-                  ? 'bg-[#d8b35a]/20 text-[#d8b35a] border border-[#d8b35a]/40'
-                  : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:bg-white/10 hover:text-[#f7f0df]'
+                  ? 'bg-[#ea580c]/20 text-[#ea580c] border border-[#ea580c]/40'
+                  : 'bg-black/5 text-[#2a1e16]/62 border border-black/10 hover:bg-black/10 hover:text-[#2a1e16]'
               }`}
             >
               {lvl}
@@ -958,17 +958,17 @@ export default function YogaPage() {
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <span aria-hidden="true">🔍</span>
-            <p className="text-[#f7f0df]/62 text-sm">No poses match your search.</p>
+            <p className="text-[#2a1e16]/62 text-sm">No poses match your search.</p>
             <button
               onClick={() => { setSearch(''); setCategoryFilter('All'); setLevelFilter('All') }}
-              className="mt-3 text-xs text-violet-400 hover:text-violet-300 underline underline-offset-2"
+              className="mt-3 text-xs text-orange-400 hover:text-orange-600 underline underline-offset-2"
             >
               Clear filters
             </button>
           </div>
         ) : (
           <>
-            <p className="mb-4 text-xs text-[#f7f0df]/62">Showing {filtered.length} of 52 poses</p>
+            <p className="mb-4 text-xs text-[#2a1e16]/62">Showing {filtered.length} of 52 poses</p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {filtered.map((pose) => {
                 const locked = !isPro && pose.id > 6
@@ -1011,17 +1011,17 @@ export function YogaSection() {
   const [selectedPose, setSelectedPose] = useState<Pose | null>(null)
 
   return (
-    <section className="bg-[#07040d] py-16 px-4">
+    <section className="bg-[#faf4ec] py-16 px-4">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10 text-center">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Yoga Library</p>
-          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#f7f0df] sm:text-4xl">
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">Yoga Library</p>
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#2a1e16] sm:text-4xl">
             Sacred{' '}
-            <span className="bg-gradient-to-r from-[#d8b35a] to-[#e879f9] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#ea580c] to-[#fb923c] bg-clip-text text-transparent">
               Asana Library
             </span>
           </h2>
-          <p className="mt-3 text-sm text-[#f7f0df]/62 max-w-lg mx-auto">
+          <p className="mt-3 text-sm text-[#2a1e16]/62 max-w-lg mx-auto">
             52 curated yoga poses with real demonstrations, step-by-step guidance, breathing cues and hold timers.
           </p>
         </div>
@@ -1031,12 +1031,12 @@ export function YogaSection() {
             <div
               key={pose.id}
               onClick={() => setSelectedPose(pose)}
-              className="group glass-card flex flex-col items-center gap-2 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-violet-900/30"
+              className="group glass-card flex flex-col items-center gap-2 rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-orange-900/30"
             >
               <PoseImage figure={pose.figure} alt={`${pose.english} demonstration`} className="aspect-square w-full" />
               <div className="px-2 pb-3 text-center">
-                <p className="text-xs font-black tracking-[-0.04em] text-[#d8b35a] leading-tight">{pose.name}</p>
-                <p className="text-[10px] text-[#f7f0df]/62 leading-tight">{pose.english}</p>
+                <p className="text-xs font-black tracking-[-0.04em] text-[#ea580c] leading-tight">{pose.name}</p>
+                <p className="text-[10px] text-[#2a1e16]/62 leading-tight">{pose.english}</p>
                 <div className="mt-1.5 flex justify-center"><LevelBadge level={pose.level} /></div>
               </div>
             </div>
@@ -1044,9 +1044,9 @@ export function YogaSection() {
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-sm text-[#f7f0df]/62">
+          <p className="text-sm text-[#2a1e16]/62">
             Showing 6 of 52 poses &nbsp;•&nbsp;{' '}
-            <span className="text-violet-300 font-bold">Upgrade to Pro to unlock all</span>
+            <span className="text-orange-600 font-bold">Upgrade to Pro to unlock all</span>
           </p>
         </div>
       </div>

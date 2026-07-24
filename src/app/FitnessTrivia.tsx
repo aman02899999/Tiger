@@ -90,22 +90,22 @@ export default function FitnessTriviaPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-black tracking-[-0.04em]">Fitness Trivia</h1>
-          <p className="text-sm text-[#f7f0df]/68">Today's quiz</p>
+          <p className="text-sm text-[#2a1e16]/68">Today's quiz</p>
         </div>
         <div className="glass-card rounded-3xl p-8 text-center">
           <div className="text-5xl">🧠</div>
-          <p className="mt-4 text-lg font-bold text-[#f7f0df]/80">{grade}</p>
-          <p className="mt-2 text-5xl font-black tabular-nums text-[#d8b35a]">{finished.score}/{questions.length}</p>
-          <p className="mt-2 text-sm text-[#f7f0df]/62">You earned +{finished.score * 6} XP</p>
-          <p className="mt-4 text-xs text-[#f7f0df]/55">Come back tomorrow for 5 fresh questions.</p>
+          <p className="mt-4 text-lg font-bold text-[#2a1e16]/80">{grade}</p>
+          <p className="mt-2 text-5xl font-black tabular-nums text-[#ea580c]">{finished.score}/{questions.length}</p>
+          <p className="mt-2 text-sm text-[#2a1e16]/62">You earned +{finished.score * 6} XP</p>
+          <p className="mt-4 text-xs text-[#2a1e16]/55">Come back tomorrow for 5 fresh questions.</p>
         </div>
         {/* Review answers */}
         <div className="space-y-2">
           {questions.map((q) => (
             <div key={q.q} className="glass-card rounded-2xl p-4">
               <p className="text-sm font-semibold">{q.q}</p>
-              <p className="mt-1 text-xs text-emerald-300">✓ {q.options[q.answer]}</p>
-              <p className="mt-1 text-[11px] leading-relaxed text-[#f7f0df]/62">{q.why}</p>
+              <p className="mt-1 text-xs text-emerald-600">✓ {q.options[q.answer]}</p>
+              <p className="mt-1 text-[11px] leading-relaxed text-[#2a1e16]/62">{q.why}</p>
             </div>
           ))}
         </div>
@@ -118,44 +118,44 @@ export default function FitnessTriviaPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Fitness Trivia</h1>
-        <p className="text-sm text-[#f7f0df]/68">5 questions a day · +6 XP per correct answer</p>
+        <p className="text-sm text-[#2a1e16]/68">5 questions a day · +6 XP per correct answer</p>
       </div>
 
       {/* progress */}
       <div className="flex gap-1.5">
         {questions.map((_, i) => (
-          <div key={i} className="h-1.5 flex-1 rounded-full" style={{ background: i < current ? "#a78bfa" : i === current ? "#d8b35a" : "rgba(247,240,223,0.1)" }} />
+          <div key={i} className="h-1.5 flex-1 rounded-full" style={{ background: i < current ? "#f97316" : i === current ? "#ea580c" : "rgba(247,240,223,0.1)" }} />
         ))}
       </div>
 
       <div className="glass-card rounded-3xl p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#d8b35a]">Question {current + 1} of {questions.length}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#ea580c]">Question {current + 1} of {questions.length}</p>
         <h2 className="mt-2 text-xl font-black leading-snug">{q.q}</h2>
 
         <div className="mt-5 space-y-2.5">
           {q.options.map((opt, i) => {
             const isAnswer = i === q.answer;
             const isPicked = picked === i;
-            let cls = "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10";
+            let cls = "border-[#2a1e16]/10 bg-[#2a1e16]/5 hover:bg-[#2a1e16]/10";
             if (picked !== null) {
               if (isAnswer) cls = "border-emerald-300/50 bg-emerald-300/12";
               else if (isPicked) cls = "border-rose-400/50 bg-rose-400/12";
-              else cls = "border-[#f7f0df]/8 bg-[#f7f0df]/[0.03] opacity-70";
+              else cls = "border-[#2a1e16]/8 bg-[#2a1e16]/[0.03] opacity-70";
             }
             return (
               <button key={opt} type="button" onClick={() => choose(i)} disabled={picked !== null} className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left text-sm font-semibold transition ${cls}`}>
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-[#f7f0df]/20 text-xs">{String.fromCharCode(65 + i)}</span>
+                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-[#2a1e16]/20 text-xs">{String.fromCharCode(65 + i)}</span>
                 <span className="flex-1">{opt}</span>
-                {picked !== null && isAnswer && <span className="text-emerald-300">✓</span>}
-                {picked !== null && isPicked && !isAnswer && <span className="text-rose-300">✕</span>}
+                {picked !== null && isAnswer && <span className="text-emerald-600">✓</span>}
+                {picked !== null && isPicked && !isAnswer && <span className="text-rose-600">✕</span>}
               </button>
             );
           })}
         </div>
 
         {picked !== null && (
-          <div className="mt-4 rounded-xl border border-violet-300/20 bg-violet-300/8 p-4">
-            <p className="text-xs leading-relaxed text-[#f7f0df]/78">💡 {q.why}</p>
+          <div className="mt-4 rounded-xl border border-orange-300/20 bg-orange-300/8 p-4">
+            <p className="text-xs leading-relaxed text-[#2a1e16]/78">💡 {q.why}</p>
           </div>
         )}
 
@@ -163,7 +163,7 @@ export default function FitnessTriviaPage() {
           type="button"
           onClick={next}
           disabled={picked === null}
-          className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40"
+          className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40"
         >
           {current < questions.length - 1 ? "Next Question →" : "See My Score"}
         </button>

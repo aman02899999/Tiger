@@ -963,8 +963,8 @@ const RECOVERY_TIPS = [
   {
     icon: "🧊",
     title: "Ice vs Heat",
-    accent: "text-violet-300",
-    border: "border-violet-500/25",
+    accent: "text-orange-600",
+    border: "border-orange-500/25",
     points: [
       "Ice in the first 48–72 h after acute injury: 15–20 min, cloth barrier, every 2–3 h.",
       "Heat for stiff, chronic aches and before exercise: 15–20 min to relax tissue.",
@@ -974,8 +974,8 @@ const RECOVERY_TIPS = [
   {
     icon: "😴",
     title: "Sleep & Recovery",
-    accent: "text-fuchsia-300",
-    border: "border-fuchsia-500/25",
+    accent: "text-amber-600",
+    border: "border-amber-500/25",
     points: [
       "Aim for 7–9 hours — most tissue repair and growth hormone release happens in deep sleep.",
       "Under 6 hours of sleep is linked to significantly higher injury rates in athletes.",
@@ -985,8 +985,8 @@ const RECOVERY_TIPS = [
   {
     icon: "⏳",
     title: "Tissue Healing Timelines",
-    accent: "text-[#d8b35a]",
-    border: "border-[#d8b35a]/25",
+    accent: "text-[#ea580c]",
+    border: "border-[#ea580c]/25",
     points: [
       "Muscle strains: ~2–6 weeks. Ligament sprains: ~6–12 weeks depending on grade.",
       "Tendinopathy: 12+ weeks of progressive loading — there is no shortcut.",
@@ -1007,7 +1007,7 @@ const SEE_A_PRO = [
 /* --------------------------- Shared UI pieces --------------------------- */
 
 const FALLBACK_GRADIENT =
-  "linear-gradient(135deg, rgba(139,92,246,0.35) 0%, rgba(232,121,249,0.25) 50%, rgba(216,179,90,0.3) 100%)";
+  "linear-gradient(135deg, rgba(249,115,22,0.35) 0%, rgba(251,146,60,0.25) 50%, rgba(234,88,12,0.3) 100%)";
 
 function RehabImg({ src, alt, className }: { src: string; alt: string; className?: string }) {
   const [failed, setFailed] = useState(false);
@@ -1038,7 +1038,7 @@ function RehabImg({ src, alt, className }: { src: string; alt: string; className
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-block rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">
+    <span className="inline-block rounded-full border border-orange-500/30 bg-orange-500/10 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">
       {children}
     </span>
   );
@@ -1078,20 +1078,20 @@ function HoldTimer({ seconds }: { seconds: number }) {
   const presets = [15, 30, 45, 60];
 
   return (
-    <div className="rounded-xl border border-[#f7f0df]/10 bg-[#07040d]/70 p-4">
+    <div className="rounded-xl border border-[#2a1e16]/10 bg-[#faf4ec]/70 p-4">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Hold / Rest Timer</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Hold / Rest Timer</p>
         <span
           className={`font-mono text-2xl font-black tabular-nums ${
-            remaining === 0 ? "text-emerald-400" : "text-[#f7f0df]"
+            remaining === 0 ? "text-emerald-400" : "text-[#2a1e16]"
           }`}
         >
           {String(Math.floor(remaining / 60)).padStart(2, "0")}:{String(remaining % 60).padStart(2, "0")}
         </span>
       </div>
-      <div className="mb-3 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
+      <div className="mb-3 h-2 overflow-hidden rounded-full bg-[#2a1e16]/10">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-[#d8b35a] transition-all duration-1000 ease-linear"
+          className="h-full rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-[#ea580c] transition-all duration-1000 ease-linear"
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -1101,7 +1101,7 @@ function HoldTimer({ seconds }: { seconds: number }) {
             if (remaining === 0) setRemaining(duration);
             setRunning((r) => !r);
           }}
-          className="btn-gloss rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-1.5 text-sm font-bold text-white"
+          className="btn-gloss rounded-full bg-gradient-to-r from-orange-600 to-amber-600 px-4 py-1.5 text-sm font-bold text-white"
         >
           {running ? "Pause" : remaining === 0 ? "Restart" : "Start"}
         </button>
@@ -1110,7 +1110,7 @@ function HoldTimer({ seconds }: { seconds: number }) {
             setRunning(false);
             setRemaining(duration);
           }}
-          className="rounded-full border border-[#f7f0df]/15 px-4 py-1.5 text-sm font-semibold text-[#f7f0df]/70 transition-colors hover:border-[#f7f0df]/35 hover:text-[#f7f0df]"
+          className="rounded-full border border-[#2a1e16]/15 px-4 py-1.5 text-sm font-semibold text-[#2a1e16]/70 transition-colors hover:border-[#2a1e16]/35 hover:text-[#2a1e16]"
         >
           Reset
         </button>
@@ -1125,8 +1125,8 @@ function HoldTimer({ seconds }: { seconds: number }) {
               }}
               className={`rounded-full border px-2.5 py-1 text-xs font-bold transition-colors ${
                 duration === p
-                  ? "border-[#d8b35a]/60 bg-[#d8b35a]/15 text-[#d8b35a]"
-                  : "border-[#f7f0df]/12 text-[#f7f0df]/62 hover:border-[#f7f0df]/30"
+                  ? "border-[#ea580c]/60 bg-[#ea580c]/15 text-[#ea580c]"
+                  : "border-[#2a1e16]/12 text-[#2a1e16]/62 hover:border-[#2a1e16]/30"
               }`}
             >
               {p}s
@@ -1182,22 +1182,22 @@ function ExerciseModal({
       aria-label={`${exercise.name} details`}
     >
       <div
-        className="glass-card max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-3xl border border-[#f7f0df]/12 bg-[#0b0714]/95 sm:rounded-3xl"
+        className="glass-card max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-3xl border border-[#2a1e16]/12 bg-[#fffdf9]/95 sm:rounded-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative">
           <RehabImg src={exercise.image} alt={exercise.alt} className="h-56 w-full sm:h-72" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0714] via-[#0b0714]/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#fffdf9] via-[#fffdf9]/30 to-transparent" />
           <button
             onClick={onClose}
             aria-label="Close exercise details"
-            className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-[#f7f0df]/20 bg-black/50 text-[#f7f0df] transition-colors hover:bg-black/80"
+            className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-[#2a1e16]/20 bg-black/50 text-[#2a1e16] transition-colors hover:bg-black/80"
           >
             ✕
           </button>
           <div className="absolute bottom-4 left-5 right-5">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">{exercise.dose}</p>
-            <h3 className="mt-1 text-2xl font-black tracking-[-0.04em] text-[#f7f0df] sm:text-3xl">{exercise.name}</h3>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">{exercise.dose}</p>
+            <h3 className="mt-1 text-2xl font-black tracking-[-0.04em] text-[#2a1e16] sm:text-3xl">{exercise.name}</h3>
           </div>
         </div>
 
@@ -1205,11 +1205,11 @@ function ExerciseModal({
           <HoldTimer seconds={exercise.hold} />
 
           <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How to perform</p>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">How to perform</p>
             <ol className="space-y-2">
               {exercise.steps.map((s, i) => (
-                <li key={i} className="flex gap-3 text-sm leading-relaxed text-[#f7f0df]/80">
-                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 text-[10px] font-black text-white">
+                <li key={i} className="flex gap-3 text-sm leading-relaxed text-[#2a1e16]/80">
+                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-gradient-to-br from-orange-500 to-amber-500 text-[10px] font-black text-white">
                     {i + 1}
                   </span>
                   {s}
@@ -1223,7 +1223,7 @@ function ExerciseModal({
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-400">Common Mistakes</p>
               <ul className="space-y-1.5">
                 {exercise.mistakes.map((m, i) => (
-                  <li key={i} className="flex gap-2 text-xs leading-relaxed text-[#f7f0df]/70">
+                  <li key={i} className="flex gap-2 text-xs leading-relaxed text-[#2a1e16]/70">
                     <span aria-hidden>⚠</span> {m}
                   </li>
                 ))}
@@ -1233,7 +1233,7 @@ function ExerciseModal({
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-red-400">Stop If…</p>
               <ul className="space-y-1.5">
                 {exercise.stopIf.map((r, i) => (
-                  <li key={i} className="flex gap-2 text-xs leading-relaxed text-[#f7f0df]/70">
+                  <li key={i} className="flex gap-2 text-xs leading-relaxed text-[#2a1e16]/70">
                     <span aria-hidden>🛑</span> {r}
                   </li>
                 ))}
@@ -1242,7 +1242,7 @@ function ExerciseModal({
           </div>
 
           <div>
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">Progression Levels</p>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-600">Progression Levels</p>
             <div className="mb-3 flex gap-1.5">
               {STAGES.map((s) => (
                 <button
@@ -1250,15 +1250,15 @@ function ExerciseModal({
                   onClick={() => setStage(s.key)}
                   className={`rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
                     stage === s.key
-                      ? "border-fuchsia-500/60 bg-fuchsia-500/15 text-fuchsia-300"
-                      : "border-[#f7f0df]/12 text-[#f7f0df]/62 hover:border-[#f7f0df]/30"
+                      ? "border-amber-500/60 bg-amber-500/15 text-amber-600"
+                      : "border-[#2a1e16]/12 text-[#2a1e16]/62 hover:border-[#2a1e16]/30"
                   }`}
                 >
                   {s.label}
                 </button>
               ))}
             </div>
-            <p className="rounded-xl border border-[#f7f0df]/10 bg-[#07040d]/60 p-4 text-sm leading-relaxed text-[#f7f0df]/80">
+            <p className="rounded-xl border border-[#2a1e16]/10 bg-[#faf4ec]/60 p-4 text-sm leading-relaxed text-[#2a1e16]/80">
               {exercise.progression[stage]}
             </p>
           </div>
@@ -1267,8 +1267,8 @@ function ExerciseModal({
             onClick={onToggleDone}
             className={`btn-gloss w-full rounded-2xl px-5 py-3 text-sm font-black tracking-wide transition-all ${
               done
-                ? "border border-emerald-500/40 bg-emerald-500/15 text-emerald-300"
-                : "bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white"
+                ? "border border-emerald-500/40 bg-emerald-500/15 text-emerald-600"
+                : "bg-gradient-to-r from-orange-600 to-amber-600 text-white"
             }`}
           >
             {done ? "✓ Completed — tap to undo" : "Mark as Done"}
@@ -1320,32 +1320,32 @@ export default function PhysioRehabPage() {
     });
 
   return (
-    <div className="min-h-screen bg-[#07040d] px-4 py-10 text-[#f7f0df] sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#faf4ec] px-4 py-10 text-[#2a1e16] sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl space-y-12">
         {/* Hero */}
-        <header className="relative overflow-hidden rounded-3xl border border-[#f7f0df]/10">
+        <header className="relative overflow-hidden rounded-3xl border border-[#2a1e16]/10">
           <RehabImg
             src={IMG("photo-1576091160399-112ba8d25d1d")}
             alt="Healthcare professional reviewing a patient's rehabilitation plan"
             className="absolute inset-0 h-full w-full"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#07040d] via-[#07040d]/92 to-[#07040d]/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#faf4ec] via-[#faf4ec]/92 to-[#faf4ec]/55" />
           <div className="relative px-6 py-12 sm:px-10 sm:py-16">
             <SectionLabel>Physiotherapy & Injury Rehab</SectionLabel>
             <h1 className="mt-4 max-w-2xl text-3xl font-black tracking-[-0.04em] sm:text-5xl">
               Recover Smarter.{" "}
-              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-[#d8b35a] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-orange-600 via-amber-500 to-[#ea580c] bg-clip-text text-transparent">
                 Come Back Stronger.
               </span>
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#f7f0df]/70 sm:text-base">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#2a1e16]/70 sm:text-base">
               Evidence-based rehab programs for seven body regions — step-by-step exercises, hold timers,
               red-flag safety checks and staged progressions, all in one hub.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 text-xs font-bold uppercase tracking-[0.2em]">
-              <span className="rounded-full border border-[#d8b35a]/40 bg-[#d8b35a]/10 px-3 py-1 text-[#d8b35a]">7 body regions</span>
-              <span className="rounded-full border border-fuchsia-500/40 bg-fuchsia-500/10 px-3 py-1 text-fuchsia-300">30 exercises</span>
-              <span className="rounded-full border border-violet-500/40 bg-violet-500/10 px-3 py-1 text-violet-300">3 stages each</span>
+              <span className="rounded-full border border-[#ea580c]/40 bg-[#ea580c]/10 px-3 py-1 text-[#ea580c]">7 body regions</span>
+              <span className="rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1 text-amber-600">30 exercises</span>
+              <span className="rounded-full border border-orange-500/40 bg-orange-500/10 px-3 py-1 text-orange-600">3 stages each</span>
             </div>
           </div>
         </header>
@@ -1353,17 +1353,17 @@ export default function PhysioRehabPage() {
         {/* How this works — 3 steps */}
         <section>
           <div className="glass-card rounded-2xl p-5">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How this works — 3 simple steps</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-orange-600">How this works — 3 simple steps</p>
             <div className="grid gap-3 sm:grid-cols-3">
               {[
                 { n: "1", t: "Select the body part that hurts", d: "Tap the region below — neck, shoulder, back, knee and more. Each card lists the symptoms it helps." },
                 { n: "2", t: "Do the exercises in order", d: "Follow the numbered steps with the real demonstration photo. Use the hold timer and only go as far as a gentle stretch — never sharp pain." },
                 { n: "3", t: "Progress through the stages", d: "Start at Early recovery. As pain settles and movement improves, move up to Mid then Late stage exercises." },
               ].map((s) => (
-                <div key={s.n} className="rounded-xl border border-[#f7f0df]/8 bg-[#f7f0df]/5 p-4">
-                  <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-                  <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+                <div key={s.n} className="rounded-xl border border-[#2a1e16]/8 bg-[#2a1e16]/5 p-4">
+                  <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-orange-600 to-amber-600 text-sm font-black text-white">{s.n}</div>
+                  <p className="text-sm font-bold text-[#2a1e16]">{s.t}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-[#2a1e16]/68">{s.d}</p>
                 </div>
               ))}
             </div>
@@ -1387,17 +1387,17 @@ export default function PhysioRehabPage() {
                   aria-pressed={active}
                   className={`glass-card group rounded-2xl border p-4 text-center transition-all ${
                     active
-                      ? "border-gold-glow border-[#d8b35a]/60 bg-gradient-to-b from-violet-600/25 to-fuchsia-600/10"
-                      : "border-[#f7f0df]/10 bg-[#0b0714]/60 hover:border-[#f7f0df]/25"
+                      ? "border-gold-glow border-[#ea580c]/60 bg-gradient-to-b from-orange-600/25 to-amber-600/10"
+                      : "border-[#2a1e16]/10 bg-[#fffdf9]/60 hover:border-[#2a1e16]/25"
                   }`}
                 >
                   <span className="text-2xl" aria-hidden>
                     {b.icon}
                   </span>
-                  <p className={`mt-2 text-sm font-black tracking-[-0.02em] ${active ? "text-[#f7f0df]" : "text-[#f7f0df]/75"}`}>
+                  <p className={`mt-2 text-sm font-black tracking-[-0.02em] ${active ? "text-[#2a1e16]" : "text-[#2a1e16]/75"}`}>
                     {b.label}
                   </p>
-                  <p className="mt-1 text-[11px] font-semibold text-[#f7f0df]/62">
+                  <p className="mt-1 text-[11px] font-semibold text-[#2a1e16]/62">
                     {done}/{b.exercises.length} done
                   </p>
                 </button>
@@ -1407,25 +1407,25 @@ export default function PhysioRehabPage() {
         </section>
 
         {/* Active body part detail */}
-        <section className="glass-card overflow-hidden rounded-3xl border border-[#f7f0df]/10 bg-[#0b0714]/60">
+        <section className="glass-card overflow-hidden rounded-3xl border border-[#2a1e16]/10 bg-[#fffdf9]/60">
           <div className="relative">
             <RehabImg src={part.image} alt={part.alt} className="h-44 w-full sm:h-56" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b0714] via-[#0b0714]/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#fffdf9] via-[#fffdf9]/40 to-transparent" />
             <div className="absolute bottom-4 left-5 right-5 flex flex-wrap items-end justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">
                   {part.exercises.length}-exercise session
                 </p>
                 <h3 className="text-2xl font-black tracking-[-0.04em] sm:text-3xl">{part.label} Rehab Program</h3>
               </div>
               <div className="min-w-[180px]">
-                <div className="mb-1 flex justify-between text-xs font-bold text-[#f7f0df]/70">
+                <div className="mb-1 flex justify-between text-xs font-bold text-[#2a1e16]/70">
                   <span>Session progress</span>
-                  <span className="text-[#d8b35a]">{progressPct}%</span>
+                  <span className="text-[#ea580c]">{progressPct}%</span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-[#f7f0df]/12">
+                <div className="h-2 overflow-hidden rounded-full bg-[#2a1e16]/12">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-[#d8b35a] transition-all duration-500"
+                    className="h-full rounded-full bg-gradient-to-r from-orange-500 via-amber-500 to-[#ea580c] transition-all duration-500"
                     style={{ width: `${progressPct}%` }}
                   />
                 </div>
@@ -1434,7 +1434,7 @@ export default function PhysioRehabPage() {
           </div>
 
           <div className="p-5 sm:p-7">
-            <p className="mb-5 text-sm leading-relaxed text-[#f7f0df]/62">{part.blurb}</p>
+            <p className="mb-5 text-sm leading-relaxed text-[#2a1e16]/62">{part.blurb}</p>
             <div className="grid gap-4 sm:grid-cols-2">
               {part.exercises.map((ex, i) => {
                 const done = doneIds.has(ex.id);
@@ -1442,7 +1442,7 @@ export default function PhysioRehabPage() {
                   <div
                     key={ex.id}
                     className={`group overflow-hidden rounded-2xl border transition-all ${
-                      done ? "border-emerald-500/35 bg-emerald-500/5" : "border-[#f7f0df]/10 bg-[#07040d]/60 hover:border-violet-500/40"
+                      done ? "border-emerald-500/35 bg-emerald-500/5" : "border-[#2a1e16]/10 bg-[#faf4ec]/60 hover:border-orange-500/40"
                     }`}
                   >
                     <button
@@ -1452,8 +1452,8 @@ export default function PhysioRehabPage() {
                     >
                       <div className="relative">
                         <RehabImg src={ex.image} alt={ex.alt} className="h-36 w-full transition-transform duration-500 group-hover:scale-[1.03]" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#07040d]/95 via-transparent to-transparent" />
-                        <span className="absolute left-3 top-3 rounded-full border border-[#f7f0df]/20 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#f7f0df]/80">
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#faf4ec]/95 via-transparent to-transparent" />
+                        <span className="absolute left-3 top-3 rounded-full border border-[#2a1e16]/20 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#2a1e16]/80">
                           Exercise {i + 1}
                         </span>
                         {done && (
@@ -1463,19 +1463,19 @@ export default function PhysioRehabPage() {
                         )}
                       </div>
                       <div className="p-4">
-                        <h4 className="font-black tracking-[-0.02em] text-[#f7f0df]">{ex.name}</h4>
-                        <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">{ex.dose}</p>
-                        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#f7f0df]/62">{ex.steps[0]}</p>
+                        <h4 className="font-black tracking-[-0.02em] text-[#2a1e16]">{ex.name}</h4>
+                        <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">{ex.dose}</p>
+                        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#2a1e16]/62">{ex.steps[0]}</p>
                       </div>
                     </button>
-                    <div className="flex items-center justify-between border-t border-[#f7f0df]/8 px-4 py-2.5">
+                    <div className="flex items-center justify-between border-t border-[#2a1e16]/8 px-4 py-2.5">
                       <button
                         onClick={() => setOpenExercise(ex)}
-                        className="text-xs font-bold text-violet-300 transition-colors hover:text-fuchsia-300"
+                        className="text-xs font-bold text-orange-600 transition-colors hover:text-amber-600"
                       >
                         View steps, timer & progressions →
                       </button>
-                      <label className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-[#f7f0df]/62">
+                      <label className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-[#2a1e16]/62">
                         <input
                           type="checkbox"
                           checked={done}
@@ -1491,7 +1491,7 @@ export default function PhysioRehabPage() {
               })}
             </div>
             {doneInPart === part.exercises.length && (
-              <p className="mt-5 rounded-xl border border-emerald-500/30 bg-emerald-500/8 p-4 text-center text-sm font-bold text-emerald-300">
+              <p className="mt-5 rounded-xl border border-emerald-500/30 bg-emerald-500/8 p-4 text-center text-sm font-bold text-emerald-600">
                 Session complete — great work. Recheck symptoms tomorrow before progressing.
               </p>
             )}
@@ -1499,25 +1499,25 @@ export default function PhysioRehabPage() {
         </section>
 
         {/* POLICE protocol */}
-        <section className="glass-card rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-900/20 via-[#0b0714]/60 to-fuchsia-900/10 p-6 sm:p-8">
+        <section className="glass-card rounded-3xl border border-orange-500/20 bg-gradient-to-br from-orange-900/20 via-[#fffdf9]/60 to-amber-900/10 p-6 sm:p-8">
           <div className="mb-6 flex items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 text-sm font-black text-white">
+            <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-orange-500 to-amber-500 text-sm font-black text-white">
               Rx
             </div>
             <div>
               <h2 className="text-xl font-black tracking-[-0.04em]">POLICE Protocol</h2>
-              <p className="text-xs text-[#f7f0df]/62">Immediate management for a fresh injury (first 72 hours)</p>
+              <p className="text-xs text-[#2a1e16]/62">Immediate management for a fresh injury (first 72 hours)</p>
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {POLICE.map((item) => (
-              <div key={item.letter} className="flex gap-3 rounded-xl border border-[#f7f0df]/8 bg-[#07040d]/60 p-4">
-                <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-sm font-black text-white">
+              <div key={item.letter} className="flex gap-3 rounded-xl border border-[#2a1e16]/8 bg-[#faf4ec]/60 p-4">
+                <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 text-sm font-black text-white">
                   {item.letter}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#f7f0df]">{item.name}</p>
-                  <p className="mt-0.5 text-xs leading-relaxed text-[#f7f0df]/62">{item.desc}</p>
+                  <p className="text-sm font-bold text-[#2a1e16]">{item.name}</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-[#2a1e16]/62">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -1532,7 +1532,7 @@ export default function PhysioRehabPage() {
           </div>
           <div className="grid gap-5 lg:grid-cols-3">
             {RECOVERY_TIPS.map((tip) => (
-              <div key={tip.title} className={`glass-card rounded-2xl border ${tip.border} bg-[#0b0714]/60 p-5`}>
+              <div key={tip.title} className={`glass-card rounded-2xl border ${tip.border} bg-[#fffdf9]/60 p-5`}>
                 <div className="mb-3 flex items-center gap-3">
                   <span className="text-2xl" aria-hidden>
                     {tip.icon}
@@ -1541,7 +1541,7 @@ export default function PhysioRehabPage() {
                 </div>
                 <ul className="space-y-2.5">
                   {tip.points.map((p, i) => (
-                    <li key={i} className="flex gap-2 text-sm leading-relaxed text-[#f7f0df]/70">
+                    <li key={i} className="flex gap-2 text-sm leading-relaxed text-[#2a1e16]/70">
                       <span className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-current ${tip.accent}`} aria-hidden />
                       {p}
                     </li>
@@ -1553,17 +1553,17 @@ export default function PhysioRehabPage() {
         </section>
 
         {/* When to see a professional */}
-        <section className="border-gold-glow rounded-3xl border border-[#d8b35a]/30 bg-gradient-to-br from-[#d8b35a]/10 to-amber-900/5 p-6 sm:p-8">
+        <section className="border-gold-glow rounded-3xl border border-[#ea580c]/30 bg-gradient-to-br from-[#ea580c]/10 to-amber-900/5 p-6 sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row">
-            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-[#d8b35a]/40 bg-[#d8b35a]/15 text-2xl" aria-hidden>
+            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-[#ea580c]/40 bg-[#ea580c]/15 text-2xl" aria-hidden>
               ⚕️
             </div>
             <div className="flex-1">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">When to see a professional</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">When to see a professional</p>
               <h2 className="mt-1 text-xl font-black tracking-[-0.04em]">Self-rehab has limits. Know yours.</h2>
               <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
                 {SEE_A_PRO.map((s, i) => (
-                  <li key={i} className="flex gap-2 text-sm leading-relaxed text-[#f7f0df]/75">
+                  <li key={i} className="flex gap-2 text-sm leading-relaxed text-[#2a1e16]/75">
                     <span className="text-red-400" aria-hidden>
                       ▸
                     </span>
@@ -1571,7 +1571,7 @@ export default function PhysioRehabPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 text-xs leading-relaxed text-[#f7f0df]/62">
+              <p className="mt-5 text-xs leading-relaxed text-[#2a1e16]/62">
                 Medical disclaimer: this content is educational and does not replace professional medical advice.
                 Always consult a qualified physiotherapist or physician before starting a rehabilitation program,
                 especially after acute injury or surgery.

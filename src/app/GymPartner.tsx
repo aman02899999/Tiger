@@ -81,41 +81,41 @@ export default function GymPartnerPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-3xl font-black tracking-[-0.04em]">Let's Gym 🤝</h1>
-          <p className="text-sm text-[#f7f0df]/68">Find a nearby workout partner who matches your goals — never train alone again</p>
+          <p className="text-sm text-[#2a1e16]/68">Find a nearby workout partner who matches your goals — never train alone again</p>
         </div>
-        <div className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-4 py-2 text-xs font-bold text-emerald-200">
+        <div className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-4 py-2 text-xs font-bold text-emerald-600">
           {results.length} partners near you
         </div>
       </div>
 
       {/* Filters */}
       <div className="glass-card rounded-3xl p-5 sm:p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100/70">Filter your ideal partner</p>
+        <p className="text-xs font-bold uppercase tracking-[0.24em] text-orange-700/70">Filter your ideal partner</p>
         <div className="mt-4 grid gap-5 lg:grid-cols-4">
           <label className="block">
-            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Workout Goal</span>
-            <select value={goal} onChange={(e) => setGoal(e.target.value as Goal | "Any")} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
+            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Workout Goal</span>
+            <select value={goal} onChange={(e) => setGoal(e.target.value as Goal | "Any")} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40">
               <option value="Any">Any goal</option>
               {GOALS.map((g) => <option key={g} value={g}>{g}</option>)}
             </select>
           </label>
           <label className="block">
-            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Experience Level</span>
-            <select value={level} onChange={(e) => setLevel(e.target.value as Level | "Any")} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
+            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Experience Level</span>
+            <select value={level} onChange={(e) => setLevel(e.target.value as Level | "Any")} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-3 text-sm outline-none focus:border-orange-200/40">
               <option value="Any">Any level</option>
               {LEVELS.map((l) => <option key={l} value={l}>{l}</option>)}
             </select>
           </label>
           <label className="block">
-            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Max Distance: <span className="text-[#d8b35a]">{maxDist} km</span></span>
-            <input type="range" min={1} max={10} step={0.5} value={maxDist} onChange={(e) => setMaxDist(Number(e.target.value))} className="w-full accent-violet-400" />
+            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Max Distance: <span className="text-[#ea580c]">{maxDist} km</span></span>
+            <input type="range" min={1} max={10} step={0.5} value={maxDist} onChange={(e) => setMaxDist(Number(e.target.value))} className="w-full accent-orange-400" />
           </label>
           <label className="block">
-            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Age: <span className="text-[#d8b35a]">{ageRange[0]}–{ageRange[1]}</span></span>
+            <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#2a1e16]/65">Age: <span className="text-[#ea580c]">{ageRange[0]}–{ageRange[1]}</span></span>
             <div className="flex items-center gap-3">
-              <input type="number" min={18} max={ageRange[1]} value={ageRange[0]} onChange={(e) => setAgeRange([Number(e.target.value), ageRange[1]])} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-3 text-sm outline-none focus:border-violet-200/40" />
-              <span className="text-[#f7f0df]/65">—</span>
-              <input type="number" min={ageRange[0]} max={65} value={ageRange[1]} onChange={(e) => setAgeRange([ageRange[0], Number(e.target.value)])} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-3 text-sm outline-none focus:border-violet-200/40" />
+              <input type="number" min={18} max={ageRange[1]} value={ageRange[0]} onChange={(e) => setAgeRange([Number(e.target.value), ageRange[1]])} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-3 text-sm outline-none focus:border-orange-200/40" />
+              <span className="text-[#2a1e16]/65">—</span>
+              <input type="number" min={ageRange[0]} max={65} value={ageRange[1]} onChange={(e) => setAgeRange([ageRange[0], Number(e.target.value)])} className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-3 text-sm outline-none focus:border-orange-200/40" />
             </div>
           </label>
         </div>
@@ -126,7 +126,7 @@ export default function GymPartnerPage() {
         <div className="glass-card rounded-3xl p-12 text-center">
           <div className="text-5xl">🔍</div>
           <h3 className="mt-4 text-xl font-black">No partners match those filters</h3>
-          <p className="mt-2 text-sm text-[#f7f0df]/68">Try widening the distance or age range — your gym buddy is out there.</p>
+          <p className="mt-2 text-sm text-[#2a1e16]/68">Try widening the distance or age range — your gym buddy is out there.</p>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -137,25 +137,25 @@ export default function GymPartnerPage() {
               <div key={p.id} className="glass-card group rounded-2xl p-5 transition-all hover:-translate-y-1">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-violet-300/25 to-fuchsia-400/15 text-3xl">{p.emoji}</div>
+                    <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-orange-300/25 to-amber-400/15 text-3xl">{p.emoji}</div>
                     <div>
                       <h3 className="font-black">{p.name}</h3>
-                      <p className="text-xs text-[#f7f0df]/68">{p.age} · {p.level}</p>
+                      <p className="text-xs text-[#2a1e16]/68">{p.age} · {p.level}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`text-lg font-black ${score >= 85 ? "text-emerald-300" : score >= 70 ? "text-[#d8b35a]" : "text-[#f7f0df]/70"}`}>{score}%</p>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/62">match</p>
+                    <p className={`text-lg font-black ${score >= 85 ? "text-emerald-600" : score >= 70 ? "text-[#ea580c]" : "text-[#2a1e16]/70"}`}>{score}%</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#2a1e16]/62">match</p>
                   </div>
                 </div>
 
                 <div className="mt-4 flex flex-wrap items-center gap-2 text-[11px] font-bold">
-                  <span className="rounded-full bg-violet-200/12 px-2.5 py-1 text-violet-100">{p.goal}</span>
-                  <span className="rounded-full bg-[#f7f0df]/8 px-2.5 py-1 text-[#f7f0df]/75">📍 {p.distanceKm} km</span>
-                  <span className="rounded-full bg-[#f7f0df]/8 px-2.5 py-1 text-[#f7f0df]/75">🕐 {p.schedule}</span>
+                  <span className="rounded-full bg-orange-200/12 px-2.5 py-1 text-orange-700">{p.goal}</span>
+                  <span className="rounded-full bg-[#2a1e16]/8 px-2.5 py-1 text-[#2a1e16]/75">📍 {p.distanceKm} km</span>
+                  <span className="rounded-full bg-[#2a1e16]/8 px-2.5 py-1 text-[#2a1e16]/75">🕐 {p.schedule}</span>
                 </div>
 
-                <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-[#f7f0df]/70">{p.bio}</p>
+                <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-[#2a1e16]/70">{p.bio}</p>
 
                 <div className="mt-4 flex gap-2">
                   <button
@@ -164,13 +164,13 @@ export default function GymPartnerPage() {
                     disabled={requested}
                     className={`btn-gloss flex-1 rounded-full py-3 text-xs font-black uppercase tracking-[0.16em] transition ${
                       requested
-                        ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-200"
-                        : "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 text-white"
+                        ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-600"
+                        : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 text-white"
                     }`}
                   >
                     {requested ? "✓ Request Sent" : "🤝 Team Up"}
                   </button>
-                  <button type="button" onClick={() => setSelected(p)} className="rounded-full border border-[#f7f0df]/15 px-5 py-3 text-xs font-bold text-[#f7f0df]/75 hover:bg-[#f7f0df]/8">
+                  <button type="button" onClick={() => setSelected(p)} className="rounded-full border border-[#2a1e16]/15 px-5 py-3 text-xs font-bold text-[#2a1e16]/75 hover:bg-[#2a1e16]/8">
                     View
                   </button>
                 </div>
@@ -183,26 +183,26 @@ export default function GymPartnerPage() {
       {/* Profile modal */}
       {selected && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={() => setSelected(null)}>
-          <div className="glass-card w-full max-w-lg rounded-3xl bg-[#0b0714]/95 p-7" onClick={(e) => e.stopPropagation()}>
+          <div className="glass-card w-full max-w-lg rounded-3xl bg-[#fffdf9]/95 p-7" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-4">
-                <div className="grid h-20 w-20 place-items-center rounded-3xl bg-gradient-to-br from-violet-300/25 to-fuchsia-400/15 text-5xl">{selected.emoji}</div>
+                <div className="grid h-20 w-20 place-items-center rounded-3xl bg-gradient-to-br from-orange-300/25 to-amber-400/15 text-5xl">{selected.emoji}</div>
                 <div>
                   <h2 className="text-2xl font-black">{selected.name}</h2>
-                  <p className="text-sm text-[#f7f0df]/68">{selected.age} · {selected.level} · {selected.goal}</p>
+                  <p className="text-sm text-[#2a1e16]/68">{selected.age} · {selected.level} · {selected.goal}</p>
                 </div>
               </div>
-              <button type="button" onClick={() => setSelected(null)} className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-xs font-bold text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">✕</button>
+              <button type="button" onClick={() => setSelected(null)} className="rounded-full border border-[#2a1e16]/15 px-3 py-1.5 text-xs font-bold text-[#2a1e16]/70 hover:bg-[#2a1e16]/8">✕</button>
             </div>
-            <p className="mt-5 text-sm leading-relaxed text-[#f7f0df]/80">"{selected.bio}"</p>
-            <div className="mt-5 space-y-2 text-sm text-[#f7f0df]/75">
-              <p>🏟️ <span className="font-bold text-[#f7f0df]">{selected.gym}</span></p>
+            <p className="mt-5 text-sm leading-relaxed text-[#2a1e16]/80">"{selected.bio}"</p>
+            <div className="mt-5 space-y-2 text-sm text-[#2a1e16]/75">
+              <p>🏟️ <span className="font-bold text-[#2a1e16]">{selected.gym}</span></p>
               <p>🕐 {selected.schedule}</p>
               <p>📍 {selected.distanceKm} km away</p>
             </div>
             <div className="mt-4 flex flex-wrap gap-2">
               {selected.matchTags.map((t) => (
-                <span key={t} className="rounded-full border border-[#d8b35a]/30 bg-[#d8b35a]/10 px-3 py-1 text-[11px] font-bold text-[#d8b35a]">{t}</span>
+                <span key={t} className="rounded-full border border-[#ea580c]/30 bg-[#ea580c]/10 px-3 py-1 text-[11px] font-bold text-[#ea580c]">{t}</span>
               ))}
             </div>
             <button
@@ -211,8 +211,8 @@ export default function GymPartnerPage() {
               disabled={sent.has(selected.id)}
               className={`btn-gloss mt-6 w-full rounded-full py-4 text-xs font-black uppercase tracking-[0.18em] ${
                 sent.has(selected.id)
-                  ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-200"
-                  : "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 text-white"
+                  ? "cursor-default border border-emerald-300/30 bg-emerald-300/10 text-emerald-600"
+                  : "bg-gradient-to-r from-orange-300 via-amber-500 to-orange-700 text-white"
               }`}
             >
               {sent.has(selected.id) ? "✓ Request Sent" : `🤝 Send Buddy Request to ${selected.name.split(" ")[0]}`}
@@ -231,7 +231,7 @@ export default function GymPartnerPage() {
           <div key={s.title} className="glass-card rounded-2xl p-5">
             <div className="text-3xl">{s.icon}</div>
             <h3 className="mt-3 font-black">{s.title}</h3>
-            <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/70">{s.desc}</p>
+            <p className="mt-1 text-xs leading-relaxed text-[#2a1e16]/70">{s.desc}</p>
           </div>
         ))}
       </div>
