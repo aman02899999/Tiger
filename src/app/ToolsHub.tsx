@@ -28,6 +28,7 @@ const GROUPS: Group[] = [
   },
   {
     title: "📐 Body & Progress", accent: "#059669", items: [
+      { id: "wellness", icon: "🌈", label: "Wellness Score", desc: "Your daily 0–100 check-in" },
       { id: "bodyfat", icon: "📏", label: "Body Fat Estimator", desc: "U.S. Navy method" },
       { id: "whr", icon: "📐", label: "Waist-to-Hip Ratio", desc: "Health-risk indicator" },
       { id: "weightgoal", icon: "🎯", label: "Weight Goal Projector", desc: "Project your finish date" },

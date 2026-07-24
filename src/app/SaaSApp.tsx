@@ -47,6 +47,7 @@ import FitnessTriviaPage from "./FitnessTrivia";
 import MuscleAnatomyPage from "./MuscleAnatomy";
 import WarmupGeneratorPage from "./WarmupGenerator";
 import CardioTrackerPage from "./CardioTracker";
+import WellnessScorePage from "./WellnessScore";
 import BodyFatEstimatorPage from "./BodyFatEstimator";
 import WeightGoalProjectorPage from "./WeightGoalProjector";
 import HydrationTrackerPage from "./HydrationTracker";
@@ -134,6 +135,7 @@ function AppShell({ children, onLogout, currentSection, setCurrentSection }: any
     ]},
     { group: "📈 Progress", items: [
       { id: "progress", icon: "📈", label: "Progress" },
+      { id: "wellness", icon: "🌈", label: "Wellness Score" },
       { id: "bodymetrics", icon: "📐", label: "Body Metrics" },
       { id: "bodyfat", icon: "📏", label: "Body Fat Estimator" },
       { id: "weightgoal", icon: "🎯", label: "Weight Goal Projector" },
@@ -1213,6 +1215,7 @@ function SaaSAppInner() {
       {section === "hearthealth" && <HeartHealthPage />}
       {section === "moodjournal" && <MoodJournalPage />}
       {section === "progress" && <ProgressPage />}
+      {section === "wellness" && <WellnessScorePage />}
       {section === "habits" && <HabitsPage />}
       {section === "blood" && <BloodReportPage />}
       {section === "challenges" && <ChallengesPage />}
