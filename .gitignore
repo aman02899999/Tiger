@@ -14,3 +14,6 @@ android/android.keystore
 android/*.keystore
 android/gradle/wrapper/gradle-wrapper.jar
 android/key.properties
+
+# Local visual preview artifact (generated, not source)
+.preview/
