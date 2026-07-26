@@ -110,15 +110,15 @@ export default function AICoachPage() {
     <div className="flex h-[calc(100vh-140px)] min-h-[480px] flex-col space-y-4">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">AI Coach</h1>
-        <p className="text-sm text-[#f7f0df]/68">24/7 answers on training, nutrition & recovery</p>
+        <p className="text-sm text-[#e9f3f5]/68">24/7 answers on training, nutrition & recovery</p>
       </div>
 
       {/* chat window */}
       <div className="glass-card flex min-h-0 flex-1 flex-col rounded-3xl">
-        <div className="flex items-center gap-3 border-b border-[#f7f0df]/8 px-6 py-4">
-          <div className="relative grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-lg">
+        <div className="flex items-center gap-3 border-b border-[#e9f3f5]/8 px-6 py-4">
+          <div className="relative grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#ffb627] text-lg">
             ⚡
-            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0b0714] bg-emerald-400" />
+            <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#0a141f] bg-emerald-400" />
           </div>
           <div>
             <p className="text-sm font-black">Coach Titan</p>
@@ -132,8 +132,8 @@ export default function AICoachPage() {
               <div
                 className={`max-w-[85%] rounded-2xl px-5 py-3.5 text-sm leading-relaxed ${
                   m.role === "user"
-                    ? "rounded-br-md bg-gradient-to-r from-violet-400 to-fuchsia-500 text-white shadow-[0_8px_24px_rgba(167,139,250,0.25)]"
-                    : "rounded-bl-md border border-[#f7f0df]/10 bg-[#f7f0df]/6 text-[#f7f0df]/92"
+                    ? "rounded-br-md bg-gradient-to-r from-violet-400 to-fuchsia-500 text-white shadow-[0_8px_24px_rgba(45,212,191,0.25)]"
+                    : "rounded-bl-md border border-[#e9f3f5]/10 bg-[#e9f3f5]/6 text-[#e9f3f5]/92"
                 }`}
               >
                 {m.text}
@@ -142,7 +142,7 @@ export default function AICoachPage() {
           ))}
           {typing && (
             <div className="flex justify-start">
-              <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-[#f7f0df]/10 bg-[#f7f0df]/6 px-5 py-4">
+              <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-[#e9f3f5]/10 bg-[#e9f3f5]/6 px-5 py-4">
                 {[0, 1, 2].map((d) => (
                   <span key={d} className="h-2 w-2 animate-bounce rounded-full bg-violet-300" style={{ animationDelay: `${d * 0.15}s` }} />
                 ))}
@@ -167,13 +167,13 @@ export default function AICoachPage() {
         </div>
 
         {/* input */}
-        <div className="flex gap-3 border-t border-[#f7f0df]/8 px-6 py-4">
+        <div className="flex gap-3 border-t border-[#e9f3f5]/8 px-6 py-4">
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send(input)}
             placeholder="Ask your coach anything…"
-            className="min-w-0 flex-1 rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-5 py-3 text-sm outline-none placeholder:text-[#f7f0df]/45 focus:border-violet-200/40"
+            className="min-w-0 flex-1 rounded-full border border-[#e9f3f5]/12 bg-[#e9f3f5]/6 px-5 py-3 text-sm outline-none placeholder:text-[#e9f3f5]/45 focus:border-violet-200/40"
           />
           <button
             type="button"

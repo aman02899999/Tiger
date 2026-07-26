@@ -87,7 +87,7 @@ function ConfettiBurst() {
         left: (i * 137.5) % 100,
         delay: (i % 12) * 0.12,
         duration: 2.2 + ((i * 7) % 10) / 8,
-        color: ["#d8b35a", "#a78bfa", "#e879f9", "#f7f0df", "#34d399"][i % 5],
+        color: ["#ffb627", "#2dd4bf", "#3b9dff", "#e9f3f5", "#34e08a"][i % 5],
         size: 6 + ((i * 3) % 8),
         rotate: (i * 47) % 360,
       })),
@@ -119,14 +119,14 @@ function ProgressRing({ progress, label, sub }: { progress: number; label: strin
       <div
         className="absolute inset-0 rounded-full"
         style={{
-          background: `conic-gradient(#c4b5fd 0deg, #e879f9 ${progress * 180}deg, #d8b35a ${progress * 360}deg, rgba(247,240,223,0.08) ${progress * 360}deg)`,
+          background: `conic-gradient(#9df8e7 0deg, #3b9dff ${progress * 180}deg, #ffb627 ${progress * 360}deg, rgba(233,243,245,0.08) ${progress * 360}deg)`,
           transition: "background 0.95s linear",
         }}
       />
-      <div className="absolute inset-[10px] rounded-full bg-[#0b0714]" />
+      <div className="absolute inset-[10px] rounded-full bg-[#0a141f]" />
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span className="text-5xl font-black tabular-nums">{label}</span>
-        <span className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">{sub}</span>
+        <span className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/65">{sub}</span>
       </div>
     </div>
   );
@@ -152,7 +152,7 @@ function ExercisePhoto({ name }: { name: string }) {
   const [failed, setFailed] = useState(false);
   if (failed) return null;
   return (
-    <div className="relative mx-auto mt-6 h-44 w-full max-w-xl overflow-hidden rounded-2xl border border-[#f7f0df]/10">
+    <div className="relative mx-auto mt-6 h-44 w-full max-w-xl overflow-hidden rounded-2xl border border-[#e9f3f5]/10">
       <img
         src={exercisePhoto(name)}
         alt={`Demonstration: ${name}`}
@@ -160,7 +160,7 @@ function ExercisePhoto({ name }: { name: string }) {
         onError={() => setFailed(true)}
         className="h-full w-full object-cover"
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0714]/70 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a141f]/70 via-transparent to-transparent" />
     </div>
   );
 }
@@ -232,14 +232,14 @@ export default function WorkoutPlayer({
 
   if (phase === "done") {
     return (
-      <div className="relative overflow-hidden rounded-3xl border border-[#d8b35a]/30 bg-gradient-to-br from-violet-950/60 via-[#0b0714] to-[#07040d] p-8 sm:p-14 text-center">
+      <div className="relative overflow-hidden rounded-3xl border border-[#ffb627]/30 bg-gradient-to-br from-violet-950/60 via-[#0a141f] to-[#04070e] p-8 sm:p-14 text-center">
         <ConfettiBurst />
         <div className="text-7xl">🏆</div>
         <h2 className="mt-6 text-4xl font-black tracking-[-0.03em]">Workout Complete!</h2>
-        <p className="mt-3 text-sm text-[#f7f0df]/70">{planTitle} · {routine.length} exercises · ~{Math.round(totalSeconds / 60)} min</p>
-        <div className="mx-auto mt-8 inline-flex items-center gap-3 rounded-full border border-[#d8b35a]/40 bg-[#d8b35a]/10 px-8 py-4">
+        <p className="mt-3 text-sm text-[#e9f3f5]/70">{planTitle} · {routine.length} exercises · ~{Math.round(totalSeconds / 60)} min</p>
+        <div className="mx-auto mt-8 inline-flex items-center gap-3 rounded-full border border-[#ffb627]/40 bg-[#ffb627]/10 px-8 py-4">
           <span className="text-2xl">⚡</span>
-          <span className="text-xl font-black text-[#d8b35a]">+{xpEarned} XP earned</span>
+          <span className="text-xl font-black text-[#ffb627]">+{xpEarned} XP earned</span>
         </div>
         <div className="mt-10">
           <button type="button" onClick={onExit} className="btn-gloss rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-10 py-4 text-xs font-black uppercase tracking-[0.2em] text-white">
@@ -251,21 +251,21 @@ export default function WorkoutPlayer({
   }
 
   return (
-    <div className="rounded-3xl border border-violet-200/20 bg-gradient-to-br from-violet-950/40 via-[#0b0714] to-[#07040d] p-6 sm:p-10">
+    <div className="rounded-3xl border border-violet-200/20 bg-gradient-to-br from-violet-950/40 via-[#0a141f] to-[#04070e] p-6 sm:p-10">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100/70">{planTitle}</p>
-          <p className="mt-1 text-sm text-[#f7f0df]/65">Exercise {idx + 1} of {routine.length}</p>
+          <p className="mt-1 text-sm text-[#e9f3f5]/65">Exercise {idx + 1} of {routine.length}</p>
         </div>
-        <button type="button" onClick={onExit} className="rounded-full border border-[#f7f0df]/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">
+        <button type="button" onClick={onExit} className="rounded-full border border-[#e9f3f5]/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/8">
           ✕ End
         </button>
       </div>
 
       {/* overall progress bar */}
-      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-[#f7f0df]/10">
+      <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-[#e9f3f5]/10">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-400 to-[#d8b35a] transition-all duration-700"
+          className="h-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-400 to-[#ffb627] transition-all duration-700"
           style={{ width: `${((idx + (phase === "rest" ? 0.7 : progress > 0 ? 1 - progress : 0)) / routine.length) * 100}%` }}
         />
       </div>
@@ -275,7 +275,7 @@ export default function WorkoutPlayer({
         <h2 className="mt-4 text-3xl font-black tracking-[-0.02em]">
           {phase === "work" ? exercise.name : "Rest & Breathe"}
         </h2>
-        <p className="mt-2 text-sm text-[#f7f0df]/68">
+        <p className="mt-2 text-sm text-[#e9f3f5]/68">
           {phase === "work" ? `💡 ${exercise.tip}` : `Up next: ${routine[Math.min(idx + (exercise.rest > 0 && phase === "rest" ? 1 : 0), routine.length - 1)].name}`}
         </p>
         {phase === "work" && <ExercisePhoto name={exercise.name} />}
@@ -300,7 +300,7 @@ export default function WorkoutPlayer({
         <button
           type="button"
           onClick={skip}
-          className="rounded-full border border-[#f7f0df]/20 bg-[#f7f0df]/6 px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#f7f0df]/80 hover:bg-[#f7f0df]/12"
+          className="rounded-full border border-[#e9f3f5]/20 bg-[#e9f3f5]/6 px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-[#e9f3f5]/80 hover:bg-[#e9f3f5]/12"
         >
           Skip →
         </button>

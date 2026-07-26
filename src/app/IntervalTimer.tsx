@@ -54,12 +54,12 @@ function beep(freq: number, durationMs: number, volume = 0.2) {
 }
 
 const PHASE_META: Record<Phase, { label: string; color: string }> = {
-  idle: { label: "Ready", color: "#a78bfa" },
-  prep: { label: "Get Ready", color: "#d8b35a" },
-  work: { label: "WORK", color: "#34d399" },
-  rest: { label: "Rest", color: "#38bdf8" },
-  setrest: { label: "Set Break", color: "#e879f9" },
-  done: { label: "Done!", color: "#34d399" },
+  idle: { label: "Ready", color: "#2dd4bf" },
+  prep: { label: "Get Ready", color: "#ffb627" },
+  work: { label: "WORK", color: "#34e08a" },
+  rest: { label: "Rest", color: "#60b6fa" },
+  setrest: { label: "Set Break", color: "#3b9dff" },
+  done: { label: "Done!", color: "#34e08a" },
 };
 
 export default function IntervalTimerPage() {
@@ -175,7 +175,7 @@ export default function IntervalTimerPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Interval Timer</h1>
-        <p className="text-sm text-[#f7f0df]/68">Tabata, EMOM, HIIT & custom rounds with audio cues</p>
+        <p className="text-sm text-[#e9f3f5]/68">Tabata, EMOM, HIIT & custom rounds with audio cues</p>
       </div>
 
       {/* Preset picker */}
@@ -185,7 +185,7 @@ export default function IntervalTimerPage() {
             key={p.id}
             type="button"
             onClick={() => { setUseCustom(false); setPreset(p); }}
-            className={`rounded-full px-4 py-2 text-xs font-bold transition ${!useCustom && preset.id === p.id ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}
+            className={`rounded-full px-4 py-2 text-xs font-bold transition ${!useCustom && preset.id === p.id ? "bg-violet-500 text-white" : "border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/68 hover:text-[#e9f3f5]"}`}
           >
             {p.name}
           </button>
@@ -193,7 +193,7 @@ export default function IntervalTimerPage() {
         <button
           type="button"
           onClick={() => setUseCustom(true)}
-          className={`rounded-full px-4 py-2 text-xs font-bold transition ${useCustom ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}
+          className={`rounded-full px-4 py-2 text-xs font-bold transition ${useCustom ? "bg-violet-500 text-white" : "border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/68 hover:text-[#e9f3f5]"}`}
         >
           ⚙️ Custom
         </button>
@@ -203,11 +203,11 @@ export default function IntervalTimerPage() {
         <div className="glass-card grid grid-cols-3 gap-3 rounded-2xl p-5">
           {([["work", "Work (s)"], ["rest", "Rest (s)"], ["rounds", "Rounds"]] as const).map(([k, label]) => (
             <label key={k} className="block">
-              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/65">{label}</span>
+              <span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#e9f3f5]/65">{label}</span>
               <input
                 type="number" min={1} value={custom[k]}
                 onChange={(e) => setCustom({ ...custom, [k]: Math.max(1, Number(e.target.value)) })}
-                className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-2.5 text-sm outline-none focus:border-violet-200/40"
+                className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-3 py-2.5 text-sm outline-none focus:border-violet-200/40"
               />
             </label>
           ))}
@@ -216,16 +216,16 @@ export default function IntervalTimerPage() {
 
       {/* Timer stage */}
       <div className="glass-card rounded-3xl p-6 sm:p-10 text-center" style={{ background: `radial-gradient(ellipse at 50% 0%, ${meta.color}14 0%, transparent 60%)` }}>
-        <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f7f0df]/62">{active.name} · {active.tagline}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#e9f3f5]/62">{active.name} · {active.tagline}</p>
 
         <div className="relative mx-auto mt-6 h-64 w-64">
-          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${meta.color} ${progress * 360}deg, rgba(247,240,223,0.08) ${progress * 360}deg)`, transition: "background 0.9s linear" }} />
-          <div className="absolute inset-[12px] grid place-items-center rounded-full bg-[#0b0714]">
+          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${meta.color} ${progress * 360}deg, rgba(233,243,245,0.08) ${progress * 360}deg)`, transition: "background 0.9s linear" }} />
+          <div className="absolute inset-[12px] grid place-items-center rounded-full bg-[#0a141f]">
             <div>
               <p className="text-lg font-black uppercase tracking-[0.16em]" style={{ color: meta.color }}>{meta.label}</p>
               <p className="text-6xl font-black tabular-nums leading-none">{phase === "idle" ? `${Math.floor(active.prep / 60)}:${String(active.prep % 60).padStart(2, "0")}` : phase === "done" ? "🏆" : `${mm}:${ss}`}</p>
               {phase !== "idle" && phase !== "done" && (
-                <p className="mt-1 text-xs font-bold text-[#f7f0df]/62">Round {round}/{active.rounds}{active.sets > 1 ? ` · Set ${setNum}/${active.sets}` : ""}</p>
+                <p className="mt-1 text-xs font-bold text-[#e9f3f5]/62">Round {round}/{active.rounds}{active.sets > 1 ? ` · Set ${setNum}/${active.sets}` : ""}</p>
               )}
             </div>
           </div>
@@ -236,11 +236,11 @@ export default function IntervalTimerPage() {
             type="button"
             onClick={() => (running ? setRunning(false) : start())}
             className="btn-gloss rounded-full px-10 py-4 text-xs font-black uppercase tracking-[0.2em] text-white"
-            style={{ background: `linear-gradient(90deg, ${meta.color}, #7c3aed)` }}
+            style={{ background: `linear-gradient(90deg, ${meta.color}, #0e7490)` }}
           >
             {running ? "⏸ Pause" : phase === "done" ? "↻ Again" : phase === "idle" ? "▶ Start" : "▶ Resume"}
           </button>
-          <button type="button" onClick={reset} className="rounded-full border border-[#f7f0df]/15 px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">Reset</button>
+          <button type="button" onClick={reset} className="rounded-full border border-[#e9f3f5]/15 px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/8">Reset</button>
         </div>
 
         {phase === "done" && <p className="mt-4 text-sm font-bold text-emerald-300">Session complete! +25 XP earned 🎉</p>}
@@ -254,13 +254,13 @@ export default function IntervalTimerPage() {
           { label: "Est. duration", value: `~${estMin} min` },
         ].map((s) => (
           <div key={s.label} className="glass-card rounded-2xl p-4 text-center">
-            <p className="text-xl font-black tabular-nums text-[#d8b35a]">{s.value}</p>
-            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/62">{s.label}</p>
+            <p className="text-xl font-black tabular-nums text-[#ffb627]">{s.value}</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#e9f3f5]/62">{s.label}</p>
           </div>
         ))}
       </div>
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">🔊 Turn your volume up — the timer beeps a 3-second countdown and a distinct tone on every work/rest change.</p>
+      <p className="text-center text-[11px] text-[#e9f3f5]/55">🔊 Turn your volume up — the timer beeps a 3-second countdown and a distinct tone on every work/rest change.</p>
     </div>
   );
 }

@@ -92,21 +92,21 @@ export default function WarmupGeneratorPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Warm-Up Generator</h1>
-        <p className="text-sm text-[#f7f0df]/68">Get a tailored dynamic warm-up before you train — injury-proof your session</p>
+        <p className="text-sm text-[#e9f3f5]/68">Get a tailored dynamic warm-up before you train — injury-proof your session</p>
       </div>
 
       <div className="glass-card rounded-2xl p-6">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Today you're training…</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">Today you're training…</p>
         <div className="flex flex-wrap gap-2">
           {FOCUS.map((f) => (
-            <button key={f.id} type="button" onClick={() => setFocus(f.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${focus === f.id ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>
+            <button key={f.id} type="button" onClick={() => setFocus(f.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${focus === f.id ? "bg-violet-500 text-white" : "border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/68 hover:text-[#e9f3f5]"}`}>
               {f.icon} {f.label}
             </button>
           ))}
         </div>
 
         <label className="mt-5 block">
-          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65"><span>Time available</span><span className="text-[#d8b35a]">{minutes} min</span></span>
+          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/65"><span>Time available</span><span className="text-[#ffb627]">{minutes} min</span></span>
           <input type="range" min={3} max={12} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))} className="w-full accent-violet-400" />
         </label>
 
@@ -116,16 +116,16 @@ export default function WarmupGeneratorPage() {
       {routine && (
         <div className="glass-card rounded-2xl p-6">
           <div className="flex items-center justify-between">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Your warm-up · ~{Math.round(totalSec / 60)} min</p>
-            <span className="text-xs text-[#f7f0df]/62">{routine.length} moves</span>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">Your warm-up · ~{Math.round(totalSec / 60)} min</p>
+            <span className="text-xs text-[#e9f3f5]/62">{routine.length} moves</span>
           </div>
           <ol className="mt-4 space-y-2">
             {routine.map((m, i) => (
-              <li key={i} className="flex items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
+              <li key={i} className="flex items-center gap-3 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-3">
                 <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-violet-500/70 text-sm">{m.icon}</span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold">{m.name} <span className="text-[#d8b35a]">· {m.seconds}s</span></p>
-                  <p className="text-[11px] text-[#f7f0df]/62">{m.cue}</p>
+                  <p className="text-sm font-semibold">{m.name} <span className="text-[#ffb627]">· {m.seconds}s</span></p>
+                  <p className="text-[11px] text-[#e9f3f5]/62">{m.cue}</p>
                 </div>
               </li>
             ))}
@@ -133,14 +133,14 @@ export default function WarmupGeneratorPage() {
           <button
             type="button"
             onClick={() => { addXP(user?.email, 8); }}
-            className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#052e1f]"
+            className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#05231f]"
           >
             ✓ Warm-up Done (+8 XP)
           </button>
         </div>
       )}
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">A proper warm-up raises your performance and cuts injury risk — never skip it.</p>
+      <p className="text-center text-[11px] text-[#e9f3f5]/55">A proper warm-up raises your performance and cuts injury risk — never skip it.</p>
     </div>
   );
 }

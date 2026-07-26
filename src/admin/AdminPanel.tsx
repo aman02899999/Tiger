@@ -19,10 +19,10 @@ const ADMIN_PASSWORD = "tiger123";
 
 function Button({ children, variant = "primary", onClick, className = "", disabled = false }: { children: React.ReactNode; variant?: "primary" | "secondary" | "danger" | "ghost"; onClick?: () => void; className?: string; disabled?: boolean }) {
   const variants = {
-    primary: "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 text-white shadow-[0_12px_40px_rgba(167,139,250,0.3)] hover:shadow-[0_18px_60px_rgba(167,139,250,0.4)]",
-    secondary: "border border-[#f7f0df]/18 bg-[#f7f0df]/8 text-[#f7f0df] hover:bg-[#f7f0df]/14",
+    primary: "bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 text-white shadow-[0_12px_40px_rgba(45,212,191,0.3)] hover:shadow-[0_18px_60px_rgba(45,212,191,0.4)]",
+    secondary: "border border-[#e9f3f5]/18 bg-[#e9f3f5]/8 text-[#e9f3f5] hover:bg-[#e9f3f5]/14",
     danger: "bg-rose-500/20 border border-rose-400/30 text-rose-200 hover:bg-rose-500/30",
-    ghost: "text-[#f7f0df]/60 hover:text-[#f7f0df] hover:bg-white/10",
+    ghost: "text-[#e9f3f5]/60 hover:text-[#e9f3f5] hover:bg-white/10",
   };
   return (
     <button type="button" onClick={onClick} disabled={disabled} className={`rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] transition-all disabled:opacity-50 disabled:cursor-not-allowed ${variants[variant]} ${className}`}>
@@ -40,7 +40,7 @@ function Input({ label, value, onChange, placeholder = "", type = "text" }: { la
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm text-[#f7f0df] outline-none transition placeholder:text-[#f7f0df]/30 focus:border-violet-200/40 focus:bg-[#f7f0df]/10"
+        className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#e9f3f5]/6 px-4 py-3 text-sm text-[#e9f3f5] outline-none transition placeholder:text-[#e9f3f5]/30 focus:border-violet-200/40 focus:bg-[#e9f3f5]/10"
       />
     </label>
   );
@@ -55,7 +55,7 @@ function Textarea({ label, value, onChange, placeholder = "" }: { label: string;
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         rows={4}
-        className="w-full resize-y rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-3 text-sm text-[#f7f0df] outline-none transition placeholder:text-[#f7f0df]/30 focus:border-violet-200/40 focus:bg-[#f7f0df]/10"
+        className="w-full resize-y rounded-xl border border-[#e9f3f5]/12 bg-[#e9f3f5]/6 px-4 py-3 text-sm text-[#e9f3f5] outline-none transition placeholder:text-[#e9f3f5]/30 focus:border-violet-200/40 focus:bg-[#e9f3f5]/10"
       />
     </label>
   );
@@ -64,10 +64,10 @@ function Textarea({ label, value, onChange, placeholder = "" }: { label: string;
 function Modal({ open, onClose, title, children }: { open: boolean; onClose: () => void; title: string; children: React.ReactNode }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#07040d]/95 p-4 backdrop-blur-2xl">
-      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[2rem] border border-violet-200/20 bg-[#0b0714]/95 p-6 shadow-[0_40px_140px_rgba(0,0,0,0.6)] sm:p-8">
+    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-[#04070e]/95 p-4 backdrop-blur-2xl">
+      <div className="relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-[2rem] border border-violet-200/20 bg-[#0a141f]/95 p-6 shadow-[0_40px_140px_rgba(0,0,0,0.6)] sm:p-8">
         <button type="button" onClick={onClose} className="absolute right-5 top-5 grid h-10 w-10 place-items-center rounded-full border border-white/10 text-white/60 transition hover:bg-white/10">✕</button>
-        <h2 className="mb-6 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">{title}</h2>
+        <h2 className="mb-6 text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">{title}</h2>
         {children}
       </div>
     </div>
@@ -83,7 +83,7 @@ function ToastContainer({ toasts, removeToast }: { toasts: Toast[]; removeToast:
           t.type === "error" ? "border-rose-300/30 bg-rose-300/15" :
           "border-violet-200/30 bg-violet-200/15"
         }`}>
-          <span className="text-sm font-semibold text-[#f7f0df]">{t.message}</span>
+          <span className="text-sm font-semibold text-[#e9f3f5]">{t.message}</span>
           <button type="button" onClick={() => removeToast(t.id)} className="text-white/60 hover:text-white">✕</button>
         </div>
       ))}
@@ -108,23 +108,23 @@ function BlogsManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => void
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Blog Posts</h2>
-          <p className="text-sm text-[#f7f0df]/50">{blogs.length} total articles</p>
+          <h2 className="text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">Blog Posts</h2>
+          <p className="text-sm text-[#e9f3f5]/50">{blogs.length} total articles</p>
         </div>
         <div className="flex gap-2">
-          <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." className="rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-2.5 text-sm text-[#f7f0df] outline-none placeholder:text-[#f7f0df]/30 focus:border-violet-200/40" />
+          <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." className="rounded-xl border border-[#e9f3f5]/12 bg-[#e9f3f5]/6 px-4 py-2.5 text-sm text-[#e9f3f5] outline-none placeholder:text-[#e9f3f5]/30 focus:border-violet-200/40" />
           <Button onClick={() => setEditing({ slug: generateId(), title: "New Article", seoDescription: "", category: "Fitness", author: "Titan Team", date: new Date().toISOString().split("T")[0], readTime: "5 min read", heroEmoji: "📝", tags: [], blocks: [], faqs: [] } as BlogPost)}>+ Create New</Button>
         </div>
       </div>
 
       <div className="space-y-3">
         {filtered.map((post) => (
-          <div key={post.slug} className="flex items-center justify-between gap-4 rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4 transition hover:bg-[#f7f0df]/10">
+          <div key={post.slug} className="flex items-center justify-between gap-4 rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4 transition hover:bg-[#e9f3f5]/10">
             <div className="flex items-center gap-4 min-w-0 flex-1">
               <span className="text-3xl">{post.heroEmoji}</span>
               <div className="min-w-0 flex-1">
-                <p className="truncate font-bold text-[#f7f0df]">{post.title}</p>
-                <p className="text-xs text-[#f7f0df]/40">{post.category} · {post.readTime} · {post.date}</p>
+                <p className="truncate font-bold text-[#e9f3f5]">{post.title}</p>
+                <p className="text-xs text-[#e9f3f5]/40">{post.category} · {post.readTime} · {post.date}</p>
               </div>
             </div>
             <div className="flex gap-2">
@@ -174,18 +174,18 @@ function FeaturesManager() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">App Features</h2>
-          <p className="text-sm text-[#f7f0df]/50">{features.length} total features</p>
+          <h2 className="text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">App Features</h2>
+          <p className="text-sm text-[#e9f3f5]/50">{features.length} total features</p>
         </div>
         <Button onClick={() => setEditing({ id: generateId(), title: "", tag: "", desc: "", category: "other" })}>+ Create Feature</Button>
       </div>
       <div className="space-y-3">
         {features.map((item) => (
-          <div key={item.id} className="flex items-center justify-between gap-4 rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+          <div key={item.id} className="flex items-center justify-between gap-4 rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
             <div className="min-w-0 flex-1">
-              <p className="font-bold text-[#f7f0df]">{item.title}</p>
-              <p className="mt-1 text-xs text-[#f7f0df]/40"><span className="rounded-full bg-violet-200/12 px-2 py-0.5 text-[10px] uppercase">{item.tag}</span> · {item.category}</p>
-              <p className="mt-2 text-sm text-[#f7f0df]/54 line-clamp-2">{item.desc}</p>
+              <p className="font-bold text-[#e9f3f5]">{item.title}</p>
+              <p className="mt-1 text-xs text-[#e9f3f5]/40"><span className="rounded-full bg-violet-200/12 px-2 py-0.5 text-[10px] uppercase">{item.tag}</span> · {item.category}</p>
+              <p className="mt-2 text-sm text-[#e9f3f5]/54 line-clamp-2">{item.desc}</p>
             </div>
             <div className="flex gap-2">
               <Button variant="ghost" onClick={() => setEditing(item)}>Edit</Button>
@@ -229,19 +229,19 @@ function TestimonialsManager() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Testimonials</h2>
-          <p className="text-sm text-[#f7f0df]/50">{items.length} total reviews</p>
+          <h2 className="text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">Testimonials</h2>
+          <p className="text-sm text-[#e9f3f5]/50">{items.length} total reviews</p>
         </div>
-        <span className="text-xs text-[#f7f0df]/40">Manage via data source</span>
+        <span className="text-xs text-[#e9f3f5]/40">Manage via data source</span>
       </div>
       <div className="space-y-3">
         {items.map((item) => (
-          <div key={item.id} className="flex items-center gap-4 rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
-            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">{item.avatar}</div>
+          <div key={item.id} className="flex items-center gap-4 rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#ffb627] text-sm font-black text-[#04121a]">{item.avatar}</div>
             <div className="min-w-0 flex-1">
-              <p className="font-bold text-[#f7f0df]">{item.name}</p>
-              <p className="text-xs text-[#f7f0df]/40">{item.role}</p>
-              <p className="mt-1 text-sm text-[#f7f0df]/54 line-clamp-1">{item.text}</p>
+              <p className="font-bold text-[#e9f3f5]">{item.name}</p>
+              <p className="text-xs text-[#e9f3f5]/40">{item.role}</p>
+              <p className="mt-1 text-sm text-[#e9f3f5]/54 line-clamp-1">{item.text}</p>
             </div>
             <Button variant="danger" onClick={() => { if (confirm("Delete?")) setItems(items.filter((i) => i.id !== item.id)); }}>Delete</Button>
           </div>
@@ -270,15 +270,15 @@ function UsersManager() {
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">User Management</h2>
-          <p className="text-sm text-[#f7f0df]/50">{users.length} total users · {users.filter((u) => u.status === "Active").length} active</p>
+          <h2 className="text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">User Management</h2>
+          <p className="text-sm text-[#e9f3f5]/50">{users.length} total users · {users.filter((u) => u.status === "Active").length} active</p>
         </div>
-        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search users..." className="rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-4 py-2.5 text-sm text-[#f7f0df] outline-none placeholder:text-[#f7f0df]/30 focus:border-violet-200/40" />
+        <input type="text" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search users..." className="rounded-xl border border-[#e9f3f5]/12 bg-[#e9f3f5]/6 px-4 py-2.5 text-sm text-[#e9f3f5] outline-none placeholder:text-[#e9f3f5]/30 focus:border-violet-200/40" />
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-[#f7f0df]/10">
+      <div className="overflow-hidden rounded-2xl border border-[#e9f3f5]/10">
         <table className="w-full">
-          <thead className="bg-[#f7f0df]/5 text-xs uppercase tracking-[0.2em] text-[#f7f0df]/50">
+          <thead className="bg-[#e9f3f5]/5 text-xs uppercase tracking-[0.2em] text-[#e9f3f5]/50">
             <tr>
               <th className="p-4 text-left">User</th>
               <th className="p-4 text-left">Plan</th>
@@ -289,17 +289,17 @@ function UsersManager() {
           </thead>
           <tbody>
             {filtered.map((u) => (
-              <tr key={u.id} className="border-t border-[#f7f0df]/5 transition hover:bg-[#f7f0df]/5">
+              <tr key={u.id} className="border-t border-[#e9f3f5]/5 transition hover:bg-[#e9f3f5]/5">
                 <td className="p-4">
-                  <p className="font-semibold text-[#f7f0df]">{u.name}</p>
-                  <p className="text-xs text-[#f7f0df]/40">{u.email}</p>
+                  <p className="font-semibold text-[#e9f3f5]">{u.name}</p>
+                  <p className="text-xs text-[#e9f3f5]/40">{u.email}</p>
                 </td>
                 <td className="p-4">
-                  <span className={`rounded-full px-3 py-1 text-xs font-bold ${u.plan === "Elite" ? "bg-[#d8b35a]/20 text-[#d8b35a]" : u.plan === "Pro" ? "bg-violet-200/20 text-violet-100" : "bg-[#f7f0df]/10 text-[#f7f0df]/60"}`}>{u.plan}</span>
+                  <span className={`rounded-full px-3 py-1 text-xs font-bold ${u.plan === "Elite" ? "bg-[#ffb627]/20 text-[#ffb627]" : u.plan === "Pro" ? "bg-violet-200/20 text-violet-100" : "bg-[#e9f3f5]/10 text-[#e9f3f5]/60"}`}>{u.plan}</span>
                 </td>
-                <td className="p-4 text-sm text-[#f7f0df]/70">{u.workoutStreak} days</td>
+                <td className="p-4 text-sm text-[#e9f3f5]/70">{u.workoutStreak} days</td>
                 <td className="p-4">
-                  <select value={u.status} onChange={(e) => updateStatus(u.id, e.target.value as User["status"])} className="rounded-lg border border-[#f7f0df]/12 bg-[#f7f0df]/6 px-2 py-1 text-xs text-[#f7f0df] outline-none">
+                  <select value={u.status} onChange={(e) => updateStatus(u.id, e.target.value as User["status"])} className="rounded-lg border border-[#e9f3f5]/12 bg-[#e9f3f5]/6 px-2 py-1 text-xs text-[#e9f3f5] outline-none">
                     <option value="Active">Active</option>
                     <option value="Suspended">Suspended</option>
                   </select>
@@ -326,11 +326,11 @@ function SubscribersManager() {
 
   return (
     <div>
-      <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Newsletter Subscribers</h2>
-      <p className="mb-6 text-sm text-[#f7f0df]/50">{subs.length} total subscribers</p>
-      <div className="overflow-hidden rounded-2xl border border-[#f7f0df]/10">
+      <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">Newsletter Subscribers</h2>
+      <p className="mb-6 text-sm text-[#e9f3f5]/50">{subs.length} total subscribers</p>
+      <div className="overflow-hidden rounded-2xl border border-[#e9f3f5]/10">
         <table className="w-full">
-          <thead className="bg-[#f7f0df]/5 text-xs uppercase tracking-[0.2em] text-[#f7f0df]/50">
+          <thead className="bg-[#e9f3f5]/5 text-xs uppercase tracking-[0.2em] text-[#e9f3f5]/50">
             <tr>
               <th className="p-4 text-left">Email</th>
               <th className="p-4 text-left">Source</th>
@@ -340,10 +340,10 @@ function SubscribersManager() {
           </thead>
           <tbody>
             {subs.map((s) => (
-              <tr key={s.id} className="border-t border-[#f7f0df]/5">
-                <td className="p-4 text-sm text-[#f7f0df]">{s.email}</td>
-                <td className="p-4 text-sm text-[#f7f0df]/60">{s.source}</td>
-                <td className="p-4 text-sm text-[#f7f0df]/60">{s.joinedDate}</td>
+              <tr key={s.id} className="border-t border-[#e9f3f5]/5">
+                <td className="p-4 text-sm text-[#e9f3f5]">{s.email}</td>
+                <td className="p-4 text-sm text-[#e9f3f5]/60">{s.source}</td>
+                <td className="p-4 text-sm text-[#e9f3f5]/60">{s.joinedDate}</td>
                 <td className="p-4 text-right">
                   <Button variant="danger" onClick={() => { if (confirm("Remove?")) setSubs(subs.filter((x) => x.id !== s.id)); }}>Remove</Button>
                 </td>
@@ -443,19 +443,19 @@ function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => vo
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-black text-[#f7f0df]">📚 Courses Manager</h2>
+        <h2 className="text-2xl font-black text-[#e9f3f5]">📚 Courses Manager</h2>
         <Button onClick={() => setEditing({ ...EMPTY_COURSE })}>+ New Course</Button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {courses.map((c) => (
-          <div key={c.id} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
+          <div key={c.id} className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-5">
             <div className="flex items-start justify-between gap-2">
               <span className="text-3xl">{c.emoji}</span>
               <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${c.published ? "bg-green-400/20 text-green-300" : "bg-yellow-400/20 text-yellow-300"}`}>{c.published ? "Live" : "Draft"}</span>
             </div>
-            <h3 className="mt-2 font-bold text-[#f7f0df]">{c.title}</h3>
-            <p className="mt-1 text-xs text-[#f7f0df]/50">{c.instructor} · {c.level} · {c.duration}</p>
+            <h3 className="mt-2 font-bold text-[#e9f3f5]">{c.title}</h3>
+            <p className="mt-1 text-xs text-[#e9f3f5]/50">{c.instructor} · {c.level} · {c.duration}</p>
             <p className="mt-1 text-sm font-bold text-violet-300">₹{c.price}</p>
             {c.pdfUrl && <a href={c.pdfUrl} target="_blank" rel="noreferrer" className="mt-2 block text-xs text-blue-400 underline">View PDF →</a>}
             <div className="mt-4 flex gap-2">
@@ -464,7 +464,7 @@ function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => vo
             </div>
           </div>
         ))}
-        {courses.length === 0 && <p className="text-[#f7f0df]/40 col-span-3">No courses yet. Create one!</p>}
+        {courses.length === 0 && <p className="text-[#e9f3f5]/40 col-span-3">No courses yet. Create one!</p>}
       </div>
 
       {editing && (
@@ -482,11 +482,11 @@ function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => vo
               <Input label="Duration" value={editing.duration} onChange={(v) => setEditing({ ...editing, duration: v })} placeholder="4 weeks" />
             </div>
             <div>
-              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-[#f7f0df]/60">Course PDF</label>
-              <input type="file" accept=".pdf" onChange={(e) => setPdfFile(e.target.files?.[0] ?? null)} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#f7f0df]/5 px-3 py-2 text-sm text-[#f7f0df]/70" />
-              {progress > 0 && <div className="mt-2 h-2 rounded-full bg-[#f7f0df]/10"><div className="h-full rounded-full bg-violet-400 transition-all" style={{ width: `${progress}%` }} /></div>}
+              <label className="mb-1.5 block text-xs font-bold uppercase tracking-[0.18em] text-[#e9f3f5]/60">Course PDF</label>
+              <input type="file" accept=".pdf" onChange={(e) => setPdfFile(e.target.files?.[0] ?? null)} className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 px-3 py-2 text-sm text-[#e9f3f5]/70" />
+              {progress > 0 && <div className="mt-2 h-2 rounded-full bg-[#e9f3f5]/10"><div className="h-full rounded-full bg-violet-400 transition-all" style={{ width: `${progress}%` }} /></div>}
             </div>
-            <label className="flex items-center gap-2 text-sm text-[#f7f0df]/70 cursor-pointer">
+            <label className="flex items-center gap-2 text-sm text-[#e9f3f5]/70 cursor-pointer">
               <input type="checkbox" checked={editing.published} onChange={(e) => setEditing({ ...editing, published: e.target.checked })} className="rounded" />
               Published (visible to users)
             </label>
@@ -530,24 +530,24 @@ function ChallengesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) =>
 
   return (
     <div>
-      <h2 className="mb-6 text-2xl font-black text-[#f7f0df]">🏆 Challenges Manager</h2>
+      <h2 className="mb-6 text-2xl font-black text-[#e9f3f5]">🏆 Challenges Manager</h2>
       <div className="mb-4 flex flex-wrap gap-2">
         {CHALLENGE_IDS.map((c) => (
-          <button key={c.id} onClick={() => setSelected(c.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${selected === c.id ? "bg-orange-500 text-white" : "border border-[#f7f0df]/10 text-[#f7f0df]/50 hover:bg-[#f7f0df]/5"}`}>{c.label}</button>
+          <button key={c.id} onClick={() => setSelected(c.id)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${selected === c.id ? "bg-orange-500 text-white" : "border border-[#e9f3f5]/10 text-[#e9f3f5]/50 hover:bg-[#e9f3f5]/5"}`}>{c.label}</button>
         ))}
       </div>
 
-      <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 overflow-hidden">
-        <div className="px-5 py-3 border-b border-[#f7f0df]/10 flex justify-between items-center">
-          <span className="text-sm font-bold text-[#f7f0df]/70">Participants ({entries.length})</span>
-          <span className="text-xs text-[#f7f0df]/30">Live via Firestore</span>
+      <div className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 overflow-hidden">
+        <div className="px-5 py-3 border-b border-[#e9f3f5]/10 flex justify-between items-center">
+          <span className="text-sm font-bold text-[#e9f3f5]/70">Participants ({entries.length})</span>
+          <span className="text-xs text-[#e9f3f5]/30">Live via Firestore</span>
         </div>
         {entries.length === 0 ? (
-          <p className="px-5 py-8 text-center text-[#f7f0df]/30 text-sm">No participants yet</p>
+          <p className="px-5 py-8 text-center text-[#e9f3f5]/30 text-sm">No participants yet</p>
         ) : (
           <table className="w-full">
-            <thead className="border-b border-[#f7f0df]/10">
-              <tr className="text-left text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/30">
+            <thead className="border-b border-[#e9f3f5]/10">
+              <tr className="text-left text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/30">
                 <th className="px-5 py-3">Name</th>
                 <th className="px-5 py-3">Points</th>
                 <th className="px-5 py-3">Joined</th>
@@ -556,10 +556,10 @@ function ChallengesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) =>
             </thead>
             <tbody>
               {entries.sort((a, b) => b.points - a.points).map((e, i) => (
-                <tr key={i} className="border-b border-[#f7f0df]/5 text-sm">
-                  <td className="px-5 py-3 text-[#f7f0df]">#{i+1} {e.name}</td>
+                <tr key={i} className="border-b border-[#e9f3f5]/5 text-sm">
+                  <td className="px-5 py-3 text-[#e9f3f5]">#{i+1} {e.name}</td>
                   <td className="px-5 py-3 font-bold text-orange-300">{e.points} pts</td>
-                  <td className="px-5 py-3 text-[#f7f0df]/40 text-xs">{e.joinedAt?.slice(0, 10)}</td>
+                  <td className="px-5 py-3 text-[#e9f3f5]/40 text-xs">{e.joinedAt?.slice(0, 10)}</td>
                   <td className="px-5 py-3"><button onClick={() => removeParticipant(e.name)} className="text-xs text-rose-400 hover:underline">Remove</button></td>
                 </tr>
               ))}
@@ -619,17 +619,17 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
 
   if (!authenticated) {
     return (
-      <div className="fixed inset-0 z-[150] flex items-center justify-center bg-[#07040d]/98 p-4 backdrop-blur-2xl">
-        <div className="w-full max-w-md overflow-hidden rounded-[2rem] border border-violet-200/20 bg-[#0b0714]/95 p-8 shadow-[0_40px_140px_rgba(0,0,0,0.6)]">
+      <div className="fixed inset-0 z-[150] flex items-center justify-center bg-[#04070e]/98 p-4 backdrop-blur-2xl">
+        <div className="w-full max-w-md overflow-hidden rounded-[2rem] border border-violet-200/20 bg-[#0a141f]/95 p-8 shadow-[0_40px_140px_rgba(0,0,0,0.6)]">
           <div className="mb-6 flex items-center gap-3">
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-2xl font-black text-[#090511]">TT</div>
+            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#ffb627] text-2xl font-black text-[#04121a]">TT</div>
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100">Restricted Access</p>
-              <h1 className="text-2xl font-black text-[#f7f0df]">Admin Panel</h1>
+              <h1 className="text-2xl font-black text-[#e9f3f5]">Admin Panel</h1>
             </div>
           </div>
           <Input label="Admin Password" type="password" value={password} onChange={setPassword} placeholder="Enter password..." />
-          <p className="mt-3 text-xs text-[#f7f0df]/30">Default: <code className="rounded bg-[#f7f0df]/10 px-2 py-0.5 text-violet-100">tiger123</code></p>
+          <p className="mt-3 text-xs text-[#e9f3f5]/30">Default: <code className="rounded bg-[#e9f3f5]/10 px-2 py-0.5 text-violet-100">tiger123</code></p>
           <div className="mt-6 flex gap-3">
             <Button variant="secondary" onClick={onClose} className="flex-1">Cancel</Button>
             <Button onClick={handleLogin} className="flex-1">Unlock Access</Button>
@@ -641,43 +641,43 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div className="fixed inset-0 z-[150] flex bg-[#07040d]">
-      <aside className="hidden w-64 flex-shrink-0 border-r border-[#f7f0df]/10 bg-[#0b0714]/90 p-6 md:block">
+    <div className="fixed inset-0 z-[150] flex bg-[#04070e]">
+      <aside className="hidden w-64 flex-shrink-0 border-r border-[#e9f3f5]/10 bg-[#0a141f]/90 p-6 md:block">
         <div className="mb-8 flex items-center gap-3">
-          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#d8b35a] text-sm font-black text-[#090511]">TT</div>
+          <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#ffb627] text-sm font-black text-[#04121a]">TT</div>
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-violet-100">Admin</p>
-            <p className="text-xs text-[#f7f0df]/40">The Titan Fitness</p>
+            <p className="text-xs text-[#e9f3f5]/40">The Titan Fitness</p>
           </div>
         </div>
         <nav className="space-y-1.5">
           {sections.map((s) => (
-            <button key={s.id} type="button" onClick={() => setActiveSection(s.id)} className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${activeSection === s.id ? "bg-violet-200/15 text-violet-100" : "text-[#f7f0df]/54 hover:bg-[#f7f0df]/5 hover:text-[#f7f0df]"}`}>
+            <button key={s.id} type="button" onClick={() => setActiveSection(s.id)} className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition ${activeSection === s.id ? "bg-violet-200/15 text-violet-100" : "text-[#e9f3f5]/54 hover:bg-[#e9f3f5]/5 hover:text-[#e9f3f5]"}`}>
               <span>{s.icon}</span>{s.label}
             </button>
           ))}
         </nav>
         <div className="mt-10 space-y-2">
           <button type="button" onClick={resetAll} className="w-full rounded-xl border border-rose-400/20 bg-rose-400/10 px-4 py-2.5 text-xs font-bold text-rose-200 hover:bg-rose-400/20">Reset All Data</button>
-          <button type="button" onClick={onClose} className="w-full rounded-xl border border-[#f7f0df]/10 px-4 py-2.5 text-xs font-bold text-[#f7f0df]/50 hover:bg-[#f7f0df]/5">Exit Admin</button>
+          <button type="button" onClick={onClose} className="w-full rounded-xl border border-[#e9f3f5]/10 px-4 py-2.5 text-xs font-bold text-[#e9f3f5]/50 hover:bg-[#e9f3f5]/5">Exit Admin</button>
         </div>
       </aside>
 
       <div className="flex flex-1 flex-col overflow-hidden">
-        <div className="flex gap-2 overflow-x-auto border-b border-[#f7f0df]/10 bg-[#0b0714]/40 px-4 py-3 md:hidden">
+        <div className="flex gap-2 overflow-x-auto border-b border-[#e9f3f5]/10 bg-[#0a141f]/40 px-4 py-3 md:hidden">
           {sections.map((s) => (
-            <button key={s.id} type="button" onClick={() => setActiveSection(s.id)} className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold ${activeSection === s.id ? "bg-violet-200/15 text-violet-100" : "text-[#f7f0df]/50"}`}>
+            <button key={s.id} type="button" onClick={() => setActiveSection(s.id)} className={`whitespace-nowrap rounded-full px-4 py-2 text-xs font-bold ${activeSection === s.id ? "bg-violet-200/15 text-violet-100" : "text-[#e9f3f5]/50"}`}>
               {s.icon} {s.label}
             </button>
           ))}
-          <button type="button" onClick={onClose} className="whitespace-nowrap rounded-full border border-[#f7f0df]/10 px-4 py-2 text-xs text-[#f7f0df]/50">Exit</button>
+          <button type="button" onClick={onClose} className="whitespace-nowrap rounded-full border border-[#e9f3f5]/10 px-4 py-2 text-xs text-[#e9f3f5]/50">Exit</button>
         </div>
 
         <main className="flex-1 overflow-y-auto p-6 md:p-10">
           {activeSection === "dashboard" && (
             <div>
-              <h1 className="mb-2 text-3xl font-black tracking-[-0.04em] text-[#f7f0df]">Admin Dashboard</h1>
-              <p className="mb-8 text-sm text-[#f7f0df]/50">Full control of The Titan Fitness application</p>
+              <h1 className="mb-2 text-3xl font-black tracking-[-0.04em] text-[#e9f3f5]">Admin Dashboard</h1>
+              <p className="mb-8 text-sm text-[#e9f3f5]/50">Full control of The Titan Fitness application</p>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {[
                   { label: "Total Users", value: loadData("users", defaultUsers).length, icon: "👥" },
@@ -689,11 +689,11 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
                   { label: "FAQs", value: loadData("faqs", defaultFAQs).length, icon: "❓" },
                   { label: "Pricing Plans", value: loadData("pricingPlans", defaultPricingPlans).length, icon: "💰" },
                 ].map((s) => (
-                  <div key={s.label} className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5">
+                  <div key={s.label} className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-5">
                     <div className="flex items-start justify-between">
                       <div>
-                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/40">{s.label}</p>
-                        <p className="mt-3 bg-gradient-to-r from-violet-200 to-[#d8b35a] bg-clip-text text-3xl font-black text-transparent">{s.value}</p>
+                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/40">{s.label}</p>
+                        <p className="mt-3 bg-gradient-to-r from-violet-200 to-[#ffb627] bg-clip-text text-3xl font-black text-transparent">{s.value}</p>
                       </div>
                       <span className="text-3xl">{s.icon}</span>
                     </div>
@@ -701,7 +701,7 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
                 ))}
               </div>
               <div className="mt-10 rounded-2xl border border-violet-200/20 bg-violet-200/5 p-6">
-                <h3 className="mb-3 text-lg font-bold text-[#f7f0df]">Quick Actions</h3>
+                <h3 className="mb-3 text-lg font-bold text-[#e9f3f5]">Quick Actions</h3>
                 <div className="flex flex-wrap gap-3">
                   <Button onClick={() => setActiveSection("blogs")}>Manage Blogs</Button>
                   <Button onClick={() => setActiveSection("users")}>View Users</Button>

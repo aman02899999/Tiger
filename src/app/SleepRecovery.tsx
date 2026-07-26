@@ -57,26 +57,26 @@ function CycleCalculator() {
     <div className="glass-card rounded-2xl p-6">
       <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">🌙 Sleep Cycle Calculator</p>
       <h2 className="mt-1 text-xl font-black">Wake up refreshed, not groggy</h2>
-      <p className="mt-1 text-xs text-[#f7f0df]/65">Sleep runs in ~90-min cycles — waking at the end of one feels far better than mid-cycle.</p>
+      <p className="mt-1 text-xs text-[#e9f3f5]/65">Sleep runs in ~90-min cycles — waking at the end of one feels far better than mid-cycle.</p>
 
       <div className="mt-4 flex gap-2">
-        <button type="button" onClick={() => setMode("wake")} className={`flex-1 rounded-xl py-2.5 text-xs font-black uppercase tracking-[0.14em] transition ${mode === "wake" ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68"}`}>I want to wake at…</button>
-        <button type="button" onClick={() => { setMode("sleep"); setSleepNow(true); }} className={`flex-1 rounded-xl py-2.5 text-xs font-black uppercase tracking-[0.14em] transition ${mode === "sleep" ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68"}`}>If I sleep now…</button>
+        <button type="button" onClick={() => setMode("wake")} className={`flex-1 rounded-xl py-2.5 text-xs font-black uppercase tracking-[0.14em] transition ${mode === "wake" ? "bg-violet-500 text-white" : "border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/68"}`}>I want to wake at…</button>
+        <button type="button" onClick={() => { setMode("sleep"); setSleepNow(true); }} className={`flex-1 rounded-xl py-2.5 text-xs font-black uppercase tracking-[0.14em] transition ${mode === "sleep" ? "bg-violet-500 text-white" : "border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/68"}`}>If I sleep now…</button>
       </div>
 
       {mode === "wake" && (
         <label className="mt-4 block">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Wake-up time</span>
-          <input type="time" value={wake} onChange={(e) => setWake(e.target.value)} className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">Wake-up time</span>
+          <input type="time" value={wake} onChange={(e) => setWake(e.target.value)} className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
         </label>
       )}
 
       <div className="mt-4 space-y-2">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">{mode === "wake" ? "Fall asleep at one of these" : "Set an alarm for one of these"}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">{mode === "wake" ? "Fall asleep at one of these" : "Set an alarm for one of these"}</p>
         {results.map((r, i) => (
-          <div key={r.cycles} className={`flex items-center justify-between rounded-xl border p-3 ${i === 0 ? "border-[#d8b35a]/40 bg-[#d8b35a]/10" : "border-[#f7f0df]/10 bg-[#f7f0df]/5"}`}>
-            <span className={`text-lg font-black tabular-nums ${i === 0 ? "text-[#d8b35a]" : ""}`}>{r.time}</span>
-            <span className="text-xs text-[#f7f0df]/68">{r.cycles} cycles · {r.hours} hrs {i === 0 && "· recommended"}</span>
+          <div key={r.cycles} className={`flex items-center justify-between rounded-xl border p-3 ${i === 0 ? "border-[#ffb627]/40 bg-[#ffb627]/10" : "border-[#e9f3f5]/10 bg-[#e9f3f5]/5"}`}>
+            <span className={`text-lg font-black tabular-nums ${i === 0 ? "text-[#ffb627]" : ""}`}>{r.time}</span>
+            <span className="text-xs text-[#e9f3f5]/68">{r.cycles} cycles · {r.hours} hrs {i === 0 && "· recommended"}</span>
           </div>
         ))}
       </div>
@@ -133,7 +133,7 @@ function SleepLogger() {
   const recovery = logged.length
     ? Math.round(Math.min(100, (Math.min(avgHours, 8) / 8) * 60 + (avgQual / 5) * 40))
     : 0;
-  const recColor = recovery >= 80 ? "#34d399" : recovery >= 60 ? "#d8b35a" : recovery > 0 ? "#fb7185" : "#64748b";
+  const recColor = recovery >= 80 ? "#34e08a" : recovery >= 60 ? "#ffb627" : recovery > 0 ? "#ff8a75" : "#64748b";
   const maxH = Math.max(8, ...last7.map((d) => d.hours));
 
   return (
@@ -142,11 +142,11 @@ function SleepLogger() {
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65"><span>Hours slept</span><span className="text-[#d8b35a]">{hours.toFixed(1)} h</span></span>
+          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65"><span>Hours slept</span><span className="text-[#ffb627]">{hours.toFixed(1)} h</span></span>
           <input type="range" min={3} max={12} step={0.5} value={hours} onChange={(e) => setHours(Number(e.target.value))} className="w-full accent-sky-400" />
         </label>
         <div>
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Quality</span>
+          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">Quality</span>
           <div className="flex gap-1.5">
             {[1, 2, 3, 4, 5].map((q) => (
               <button key={q} type="button" onClick={() => setQuality(q)} aria-label={`Quality ${q}`} className={`text-2xl transition ${q <= quality ? "" : "opacity-30 grayscale"}`}>⭐</button>
@@ -160,8 +160,8 @@ function SleepLogger() {
       {/* Weekly chart */}
       <div className="mt-6">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Last 7 nights</p>
-          <p className="text-xs text-[#f7f0df]/62">{avgHours ? `${avgHours.toFixed(1)}h avg` : "no data"}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">Last 7 nights</p>
+          <p className="text-xs text-[#e9f3f5]/62">{avgHours ? `${avgHours.toFixed(1)}h avg` : "no data"}</p>
         </div>
         <div className="mt-3 flex h-28 items-end justify-between gap-2">
           {last7.map((d) => (
@@ -173,23 +173,23 @@ function SleepLogger() {
                   title={d.hours ? `${d.hours}h · ${d.quality}★` : "no data"}
                 />
               </div>
-              <span className="text-[10px] font-bold text-[#f7f0df]/62">{new Date(d.date).toLocaleDateString("en", { weekday: "narrow" })}</span>
+              <span className="text-[10px] font-bold text-[#e9f3f5]/62">{new Date(d.date).toLocaleDateString("en", { weekday: "narrow" })}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Recovery score */}
-      <div className="mt-6 flex items-center gap-4 rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+      <div className="mt-6 flex items-center gap-4 rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
         <div className="relative h-20 w-20 shrink-0">
-          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${recColor} ${recovery * 3.6}deg, rgba(247,240,223,0.1) ${recovery * 3.6}deg)` }} />
-          <div className="absolute inset-[6px] grid place-items-center rounded-full bg-[#0b0714]">
+          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${recColor} ${recovery * 3.6}deg, rgba(233,243,245,0.1) ${recovery * 3.6}deg)` }} />
+          <div className="absolute inset-[6px] grid place-items-center rounded-full bg-[#0a141f]">
             <span className="text-lg font-black tabular-nums" style={{ color: recColor }}>{recovery}</span>
           </div>
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-sm font-black">Recovery Score</p>
-          <p className="mt-0.5 text-xs text-[#f7f0df]/68">
+          <p className="mt-0.5 text-xs text-[#e9f3f5]/68">
             {recovery === 0 && "Log a few nights to see your recovery score."}
             {recovery >= 80 && "Excellent — you're well recovered. Train hard today! 🔥"}
             {recovery >= 60 && recovery < 80 && "Decent recovery. A solid session is fine, listen to your body."}
@@ -206,7 +206,7 @@ export default function SleepRecoveryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Sleep &amp; Recovery</h1>
-        <p className="text-sm text-[#f7f0df]/68">Time your sleep by cycles, log your nights, and track how recovered you are</p>
+        <p className="text-sm text-[#e9f3f5]/68">Time your sleep by cycles, log your nights, and track how recovered you are</p>
       </div>
 
       {/* How this works */}
@@ -220,8 +220,8 @@ export default function SleepRecoveryPage() {
           ].map((s) => (
             <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
               <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+              <p className="text-sm font-bold text-[#e9f3f5]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#e9f3f5]/68">{s.d}</p>
             </div>
           ))}
         </div>

@@ -16,13 +16,13 @@ interface PlanType {
 }
 
 const PLAN_TYPES: PlanType[] = [
-  { id: "push", label: "Push Strength", icon: "💪", color: "#a78bfa" },
-  { id: "pull", label: "Pull Power", icon: "🏋️", color: "#e879f9" },
-  { id: "legs", label: "Leg Day", icon: "🦵", color: "#d8b35a" },
-  { id: "core", label: "Core Crusher", icon: "🔥", color: "#fb7185" },
-  { id: "hiit", label: "HIIT Cardio", icon: "⚡", color: "#38bdf8" },
-  { id: "yoga", label: "Recovery Yoga", icon: "🧘", color: "#34d399" },
-  { id: "rest", label: "Rest Day", icon: "😴", color: "#94a3b8" },
+  { id: "push", label: "Push Strength", icon: "💪", color: "#2dd4bf" },
+  { id: "pull", label: "Pull Power", icon: "🏋️", color: "#3b9dff" },
+  { id: "legs", label: "Leg Day", icon: "🦵", color: "#ffb627" },
+  { id: "core", label: "Core Crusher", icon: "🔥", color: "#ff8a75" },
+  { id: "hiit", label: "HIIT Cardio", icon: "⚡", color: "#60b6fa" },
+  { id: "yoga", label: "Recovery Yoga", icon: "🧘", color: "#34e08a" },
+  { id: "rest", label: "Rest Day", icon: "😴", color: "#8fa8b8" },
 ];
 
 interface DayEntry {
@@ -113,7 +113,7 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Workout Calendar</h1>
-        <p className="text-sm text-[#f7f0df]/68">Plan your training week and check off each session as you go</p>
+        <p className="text-sm text-[#e9f3f5]/68">Plan your training week and check off each session as you go</p>
       </div>
 
       {/* How this works */}
@@ -127,8 +127,8 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
           ].map((s) => (
             <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
               <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+              <p className="text-sm font-bold text-[#e9f3f5]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#e9f3f5]/68">{s.d}</p>
             </div>
           ))}
         </div>
@@ -136,13 +136,13 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
 
       {/* Today's plan */}
       <div className="glass-card rounded-2xl p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">📅 Today's Plan</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">📅 Today's Plan</p>
         {todayEntry ? (
           <div className="mt-3 flex flex-wrap items-center gap-4">
             <span className="text-4xl">{planFor(todayEntry.planId).icon}</span>
             <div className="flex-1">
               <p className="text-xl font-black">{planFor(todayEntry.planId).label}</p>
-              <p className="text-xs text-[#f7f0df]/62">{todayEntry.done ? "Completed today ✓" : "Scheduled for today"}</p>
+              <p className="text-xs text-[#e9f3f5]/62">{todayEntry.done ? "Completed today ✓" : "Scheduled for today"}</p>
             </div>
             <div className="flex gap-2">
               {todayEntry.planId !== "rest" && !todayEntry.done && onNavigate && (
@@ -151,7 +151,7 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
               <button
                 type="button"
                 onClick={() => toggleDone(today)}
-                className={`rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition ${todayEntry.done ? "border border-emerald-300/30 bg-emerald-300/10 text-emerald-200" : "border border-[#f7f0df]/15 bg-[#f7f0df]/5 text-[#f7f0df]/80 hover:bg-[#f7f0df]/10"}`}
+                className={`rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition ${todayEntry.done ? "border border-emerald-300/30 bg-emerald-300/10 text-emerald-200" : "border border-[#e9f3f5]/15 bg-[#e9f3f5]/5 text-[#e9f3f5]/80 hover:bg-[#e9f3f5]/10"}`}
               >
                 {todayEntry.done ? "✓ Done" : "Mark Done (+20 XP)"}
               </button>
@@ -159,7 +159,7 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
           </div>
         ) : (
           <div className="mt-3 flex items-center justify-between gap-4">
-            <p className="text-sm text-[#f7f0df]/68">Nothing scheduled for today — pick a workout below.</p>
+            <p className="text-sm text-[#e9f3f5]/68">Nothing scheduled for today — pick a workout below.</p>
             <button type="button" onClick={() => setPickerDay(today)} className="btn-gloss rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">+ Add Today</button>
           </div>
         )}
@@ -169,7 +169,7 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center justify-between">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">This Week</p>
-          <p className="text-xs text-[#f7f0df]/62">{weekDone}/{weekPlanned || 7} done</p>
+          <p className="text-xs text-[#e9f3f5]/62">{weekDone}/{weekPlanned || 7} done</p>
         </div>
         <div className="mt-4 grid grid-cols-7 gap-2">
           {weekStrip.map((d) => {
@@ -180,10 +180,10 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
                 key={d.key}
                 type="button"
                 onClick={() => setPickerDay(d.key)}
-                className={`flex flex-col items-center gap-1.5 rounded-xl border p-3 transition ${d.isToday ? "border-[#d8b35a]/40 bg-[#d8b35a]/8" : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"}`}
+                className={`flex flex-col items-center gap-1.5 rounded-xl border p-3 transition ${d.isToday ? "border-[#ffb627]/40 bg-[#ffb627]/8" : "border-[#e9f3f5]/10 bg-[#e9f3f5]/5 hover:bg-[#e9f3f5]/10"}`}
               >
-                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#f7f0df]/55">{d.label}</span>
-                <span className={`text-sm font-black ${d.isToday ? "text-[#d8b35a]" : ""}`}>{d.num}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#e9f3f5]/55">{d.label}</span>
+                <span className={`text-sm font-black ${d.isToday ? "text-[#ffb627]" : ""}`}>{d.num}</span>
                 <span className={`text-xl ${entry?.done ? "" : "opacity-60"}`}>{plan ? plan.icon : "·"}</span>
               </button>
             );
@@ -194,12 +194,12 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
       {/* Month calendar */}
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center justify-between">
-          <button type="button" onClick={() => setViewDate(new Date(year, month - 1, 1))} aria-label="Previous month" className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-sm hover:bg-[#f7f0df]/8">←</button>
+          <button type="button" onClick={() => setViewDate(new Date(year, month - 1, 1))} aria-label="Previous month" className="rounded-full border border-[#e9f3f5]/15 px-3 py-1.5 text-sm hover:bg-[#e9f3f5]/8">←</button>
           <p className="text-sm font-black uppercase tracking-[0.12em]">{monthLabel}</p>
-          <button type="button" onClick={() => setViewDate(new Date(year, month + 1, 1))} aria-label="Next month" className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-sm hover:bg-[#f7f0df]/8">→</button>
+          <button type="button" onClick={() => setViewDate(new Date(year, month + 1, 1))} aria-label="Next month" className="rounded-full border border-[#e9f3f5]/15 px-3 py-1.5 text-sm hover:bg-[#e9f3f5]/8">→</button>
         </div>
 
-        <div className="mt-4 grid grid-cols-7 gap-1.5 text-center text-[10px] font-bold uppercase tracking-[0.1em] text-[#f7f0df]/55">
+        <div className="mt-4 grid grid-cols-7 gap-1.5 text-center text-[10px] font-bold uppercase tracking-[0.1em] text-[#e9f3f5]/55">
           {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => <div key={i}>{d}</div>)}
         </div>
         <div className="mt-1.5 grid grid-cols-7 gap-1.5">
@@ -213,10 +213,10 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
                 key={i}
                 type="button"
                 onClick={() => c.key && setPickerDay(c.key)}
-                className={`flex aspect-square flex-col items-center justify-center rounded-lg border text-xs transition ${isToday ? "border-[#d8b35a]/50 bg-[#d8b35a]/10" : "border-[#f7f0df]/8 bg-[#f7f0df]/[0.03] hover:bg-[#f7f0df]/8"}`}
+                className={`flex aspect-square flex-col items-center justify-center rounded-lg border text-xs transition ${isToday ? "border-[#ffb627]/50 bg-[#ffb627]/10" : "border-[#e9f3f5]/8 bg-[#e9f3f5]/[0.03] hover:bg-[#e9f3f5]/8"}`}
                 style={entry?.done ? { borderColor: `${plan?.color}80`, background: `${plan?.color}18` } : undefined}
               >
-                <span className={isToday ? "font-black text-[#d8b35a]" : "text-[#f7f0df]/75"}>{c.day}</span>
+                <span className={isToday ? "font-black text-[#ffb627]" : "text-[#e9f3f5]/75"}>{c.day}</span>
                 {plan && <span className="text-sm leading-none">{plan.icon}</span>}
               </button>
             );
@@ -227,19 +227,19 @@ export default function WorkoutCalendarPage({ onNavigate }: { onNavigate?: (sect
       {/* Day picker modal */}
       {pickerDay && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={() => setPickerDay(null)}>
-          <div className="glass-card w-full max-w-sm rounded-3xl bg-[#0b0714]/95 p-6" onClick={(e) => e.stopPropagation()}>
+          <div className="glass-card w-full max-w-sm rounded-3xl bg-[#0a141f]/95 p-6" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-black">{new Date(pickerDay + "T00:00:00").toLocaleDateString("en-IN", { weekday: "long", month: "long", day: "numeric" })}</h3>
-              <button type="button" onClick={() => setPickerDay(null)} className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-xs text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">✕</button>
+              <button type="button" onClick={() => setPickerDay(null)} className="rounded-full border border-[#e9f3f5]/15 px-3 py-1.5 text-xs text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/8">✕</button>
             </div>
-            <p className="mt-1 text-xs text-[#f7f0df]/62">Choose what to train this day</p>
+            <p className="mt-1 text-xs text-[#e9f3f5]/62">Choose what to train this day</p>
             <div className="mt-4 grid grid-cols-2 gap-2">
               {PLAN_TYPES.map((p) => (
                 <button
                   key={p.id}
                   type="button"
                   onClick={() => assign(pickerDay, p.id)}
-                  className={`flex items-center gap-2 rounded-xl border p-3 text-left text-sm font-semibold transition ${calendar[pickerDay]?.planId === p.id ? "border-white/30 bg-white/10" : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"}`}
+                  className={`flex items-center gap-2 rounded-xl border p-3 text-left text-sm font-semibold transition ${calendar[pickerDay]?.planId === p.id ? "border-white/30 bg-white/10" : "border-[#e9f3f5]/10 bg-[#e9f3f5]/5 hover:bg-[#e9f3f5]/10"}`}
                 >
                   <span className="text-xl">{p.icon}</span>{p.label}
                 </button>

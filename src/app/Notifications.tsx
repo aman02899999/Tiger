@@ -123,7 +123,7 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
   }
 
   const unreadCount = notifications.filter((n) => !readIds.includes(n.id)).length;
-  const toneColor: Record<NotificationItem["tone"], string> = { info: "#a78bfa", success: "#34d399", warning: "#d8b35a" };
+  const toneColor: Record<NotificationItem["tone"], string> = { info: "#2dd4bf", success: "#34e08a", warning: "#ffb627" };
 
   return (
     <div className="relative" ref={ref}>
@@ -131,7 +131,7 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label="Notifications"
-        className="relative grid h-10 w-10 place-items-center rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-lg transition hover:bg-[#f7f0df]/10"
+        className="relative grid h-10 w-10 place-items-center rounded-full border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-lg transition hover:bg-[#e9f3f5]/10"
       >
         🔔
         {unreadCount > 0 && (
@@ -142,8 +142,8 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
       </button>
 
       {open && (
-        <div className="absolute right-0 top-12 z-50 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-[#f7f0df]/12 bg-[#0b0714]/97 shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center justify-between border-b border-[#f7f0df]/10 px-4 py-3">
+        <div className="absolute right-0 top-12 z-50 w-80 max-w-[90vw] overflow-hidden rounded-2xl border border-[#e9f3f5]/12 bg-[#0a141f]/97 shadow-2xl backdrop-blur-xl">
+          <div className="flex items-center justify-between border-b border-[#e9f3f5]/10 px-4 py-3">
             <p className="text-sm font-black">Notifications</p>
             {notifications.length > 0 && (
               <button type="button" onClick={markAllRead} className="text-[11px] font-bold text-violet-300 hover:text-violet-200">Mark all read</button>
@@ -153,7 +153,7 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
             {notifications.length === 0 ? (
               <div className="px-4 py-8 text-center">
                 <div className="text-3xl">✨</div>
-                <p className="mt-2 text-xs text-[#f7f0df]/60">You're all caught up.</p>
+                <p className="mt-2 text-xs text-[#e9f3f5]/60">You're all caught up.</p>
               </div>
             ) : (
               notifications.map((n) => {
@@ -163,12 +163,12 @@ export function NotificationBell({ onNavigate }: { onNavigate: (section: string)
                     key={n.id}
                     type="button"
                     onClick={() => handleClick(n)}
-                    className={`flex w-full items-start gap-3 border-b border-[#f7f0df]/6 px-4 py-3 text-left transition hover:bg-[#f7f0df]/5 ${isRead ? "opacity-55" : ""}`}
+                    className={`flex w-full items-start gap-3 border-b border-[#e9f3f5]/6 px-4 py-3 text-left transition hover:bg-[#e9f3f5]/5 ${isRead ? "opacity-55" : ""}`}
                   >
                     <span className="text-xl">{n.icon}</span>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-bold text-[#f7f0df]">{n.title}</p>
-                      <p className="mt-0.5 text-[11px] leading-relaxed text-[#f7f0df]/62">{n.detail}</p>
+                      <p className="text-xs font-bold text-[#e9f3f5]">{n.title}</p>
+                      <p className="mt-0.5 text-[11px] leading-relaxed text-[#e9f3f5]/62">{n.detail}</p>
                     </div>
                     {!isRead && <span className="mt-1 h-2 w-2 shrink-0 rounded-full" style={{ background: toneColor[n.tone] }} />}
                   </button>

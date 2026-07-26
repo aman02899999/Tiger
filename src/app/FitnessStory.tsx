@@ -52,14 +52,14 @@ export default function FitnessStoryPage() {
 
   const slides = useMemo<Slide[]>(() => {
     const s: Slide[] = [
-      { bg: "linear-gradient(160deg,#3b0764,#1e1b4b,#07040d)", emoji: "⚡", big: user?.name?.split(" ")[0] ?? "Titan", label: "Here's your fitness story", sub: "Tap to continue →" },
-      { bg: "linear-gradient(160deg,#4c1d95,#7c3aed,#2a0e52)", emoji: "💪", big: `${stats.workouts}`, label: stats.workouts === 1 ? "workout completed" : "workouts completed", sub: "Every rep counted." },
-      { bg: "linear-gradient(160deg,#7c2d12,#d8b35a,#2a0e52)", emoji: "🔥", big: `${stats.streak}`, label: "day best streak", sub: stats.streak >= 7 ? "Unstoppable consistency!" : "The chain is growing." },
-      { bg: "linear-gradient(160deg,#0e7490,#38bdf8,#07040d)", emoji: "⚡", big: stats.xp.toLocaleString(), label: "total XP earned", sub: `You're a ${stats.level.name} ${stats.level.icon}` },
-      { bg: "linear-gradient(160deg,#065f46,#34d399,#07040d)", emoji: "🗓️", big: `${stats.activeDays}`, label: "active days logged", sub: "Showing up is the win." },
+      { bg: "linear-gradient(160deg,#062a3a,#0b2f4a,#04070e)", emoji: "⚡", big: user?.name?.split(" ")[0] ?? "Titan", label: "Here's your fitness story", sub: "Tap to continue →" },
+      { bg: "linear-gradient(160deg,#0e4a5a,#0e7490,#0b2f4a)", emoji: "💪", big: `${stats.workouts}`, label: stats.workouts === 1 ? "workout completed" : "workouts completed", sub: "Every rep counted." },
+      { bg: "linear-gradient(160deg,#7c2d12,#ffb627,#0b2f4a)", emoji: "🔥", big: `${stats.streak}`, label: "day best streak", sub: stats.streak >= 7 ? "Unstoppable consistency!" : "The chain is growing." },
+      { bg: "linear-gradient(160deg,#0e7490,#60b6fa,#04070e)", emoji: "⚡", big: stats.xp.toLocaleString(), label: "total XP earned", sub: `You're a ${stats.level.name} ${stats.level.icon}` },
+      { bg: "linear-gradient(160deg,#065f46,#34e08a,#04070e)", emoji: "🗓️", big: `${stats.activeDays}`, label: "active days logged", sub: "Showing up is the win." },
     ];
-    if (stats.favPlan) s.push({ bg: "linear-gradient(160deg,#831843,#e879f9,#2a0e52)", emoji: "🏆", big: stats.favPlan, label: "your go-to workout", sub: "You've got a favorite." });
-    s.push({ bg: "linear-gradient(160deg,#3b0764,#d8b35a,#07040d)", emoji: "🐯", big: "Keep going", label: "Your best is still ahead", sub: "Share your story below" });
+    if (stats.favPlan) s.push({ bg: "linear-gradient(160deg,#831843,#3b9dff,#0b2f4a)", emoji: "🏆", big: stats.favPlan, label: "your go-to workout", sub: "You've got a favorite." });
+    s.push({ bg: "linear-gradient(160deg,#062a3a,#ffb627,#04070e)", emoji: "🐯", big: "Keep going", label: "Your best is still ahead", sub: "Share your story below" });
     return s;
   }, [stats, user]);
 
@@ -67,7 +67,7 @@ export default function FitnessStoryPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Your Fitness Story</h1>
-        <p className="text-sm text-[#f7f0df]/68">A cinematic recap of everything you've achieved</p>
+        <p className="text-sm text-[#e9f3f5]/68">A cinematic recap of everything you've achieved</p>
       </div>
 
       {/* Cover card */}
@@ -75,7 +75,7 @@ export default function FitnessStoryPage() {
         type="button"
         onClick={() => setOpen(true)}
         className="glass-card group relative w-full overflow-hidden rounded-3xl p-8 text-left transition hover:-translate-y-1"
-        style={{ background: "linear-gradient(135deg,#3b0764,#7c3aed,#d8b35a)" }}
+        style={{ background: "linear-gradient(135deg,#062a3a,#0e7490,#ffb627)" }}
       >
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10 blur-2xl" />
         <div className="relative">
@@ -96,7 +96,7 @@ export default function FitnessStoryPage() {
         </div>
       </button>
 
-      <p className="text-center text-xs text-[#f7f0df]/55">Your story updates automatically as you train, log, and level up.</p>
+      <p className="text-center text-xs text-[#e9f3f5]/55">Your story updates automatically as you train, log, and level up.</p>
 
       {open && <StoryPlayer slides={slides} stats={stats} userName={user?.name?.split(" ")[0] ?? "Titan"} onClose={() => setOpen(false)} />}
     </div>
@@ -172,7 +172,7 @@ function StoryPlayer({ slides, stats, userName, onClose }: { slides: Slide[]; st
             <button
               type="button"
               onClick={() => shareStory(stats, userName)}
-              className="btn-gloss mt-8 rounded-full bg-white px-8 py-3.5 text-xs font-black uppercase tracking-[0.18em] text-[#3b0764]"
+              className="btn-gloss mt-8 rounded-full bg-white px-8 py-3.5 text-xs font-black uppercase tracking-[0.18em] text-[#062a3a]"
             >
               ⬇ Download My Story Card
             </button>
@@ -191,7 +191,7 @@ function shareStory(stats: { workouts: number; xp: number; streak: number; level
   if (!ctx) return;
 
   const g = ctx.createLinearGradient(0, 0, W, H);
-  g.addColorStop(0, "#3b0764"); g.addColorStop(0.5, "#7c3aed"); g.addColorStop(1, "#07040d");
+  g.addColorStop(0, "#062a3a"); g.addColorStop(0.5, "#0e7490"); g.addColorStop(1, "#04070e");
   ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
 
   const blob = (x: number, y: number, r: number, c: string) => {
@@ -199,13 +199,13 @@ function shareStory(stats: { workouts: number; xp: number; streak: number; level
     rg.addColorStop(0, c); rg.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
   };
-  blob(240, 360, 420, "rgba(232,121,249,0.4)");
-  blob(880, 1500, 520, "rgba(216,179,90,0.35)");
+  blob(240, 360, 420, "rgba(59,157,255,0.4)");
+  blob(880, 1500, 520, "rgba(255,182,39,0.35)");
 
   ctx.textAlign = "center";
-  ctx.fillStyle = "#d8b35a"; ctx.font = "bold 46px sans-serif";
+  ctx.fillStyle = "#ffb627"; ctx.font = "bold 46px sans-serif";
   ctx.fillText("THE TITAN FITNESS", W / 2, 220);
-  ctx.fillStyle = "#f7f0df"; ctx.font = "900 96px sans-serif";
+  ctx.fillStyle = "#e9f3f5"; ctx.font = "900 96px sans-serif";
   ctx.fillText(`${userName}'s Story`, W / 2, 360);
 
   const rows: [string, string, string][] = [
@@ -217,12 +217,12 @@ function shareStory(stats: { workouts: number; xp: number; streak: number; level
   let y = 620;
   rows.forEach(([icon, val, label]) => {
     ctx.font = "80px sans-serif"; ctx.fillText(icon, W / 2, y);
-    ctx.fillStyle = "#f7f0df"; ctx.font = "900 120px sans-serif"; ctx.fillText(val, W / 2, y + 130);
-    ctx.fillStyle = "rgba(247,240,223,0.65)"; ctx.font = "bold 38px sans-serif"; ctx.fillText(label, W / 2, y + 185);
+    ctx.fillStyle = "#e9f3f5"; ctx.font = "900 120px sans-serif"; ctx.fillText(val, W / 2, y + 130);
+    ctx.fillStyle = "rgba(233,243,245,0.65)"; ctx.font = "bold 38px sans-serif"; ctx.fillText(label, W / 2, y + 185);
     y += 300;
   });
 
-  ctx.fillStyle = "#f7f0df"; ctx.font = "900 56px sans-serif";
+  ctx.fillStyle = "#e9f3f5"; ctx.font = "900 56px sans-serif";
   ctx.fillText("🐯 Keep going.", W / 2, H - 120);
 
   const a = document.createElement("a");

@@ -158,7 +158,7 @@ function Toast({ message, onClose }: { message: string; onClose: () => void }) {
   return (
     <div
       className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-3 px-6 py-4 rounded-xl shadow-2xl border"
-      style={{ background: "#1a0f2e", borderColor: "#7c3aed", color: "#f7f0df", maxWidth: "90vw" }}
+      style={{ background: "#0e1d2b", borderColor: "#0e7490", color: "#e9f3f5", maxWidth: "90vw" }}
     >
       <span className="text-2xl">📱</span>
       <span className="text-sm font-medium">{message}</span>
@@ -182,37 +182,37 @@ function BuyModal({
   const price = guide?.price ?? bundle?.price ?? 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(7,4,13,0.85)", backdropFilter: "blur(8px)" }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: "rgba(4,7,14,0.85)", backdropFilter: "blur(8px)" }}>
       <div
         className="relative w-full max-w-md rounded-2xl p-8 shadow-2xl border"
-        style={{ background: "#0f0a1e", borderColor: "#7c3aed" }}
+        style={{ background: "#0a141f", borderColor: "#0e7490" }}
       >
         <button
           onClick={onClose}
           className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full text-lg transition-colors"
-          style={{ color: "#f7f0df", background: "rgba(124,58,237,0.2)" }}
+          style={{ color: "#e9f3f5", background: "rgba(14,116,144,0.2)" }}
         >
           ×
         </button>
         <div className="text-center mb-6">
           <div className="text-4xl mb-3">{guide?.icon ?? bundle?.icon ?? "📄"}</div>
-          <h2 className="text-xl font-bold mb-2 leading-tight" style={{ color: "#f7f0df" }}>{title}</h2>
-          <div className="text-3xl font-extrabold mt-4" style={{ color: "#d8b35a" }}>₹{price}</div>
+          <h2 className="text-xl font-bold mb-2 leading-tight" style={{ color: "#e9f3f5" }}>{title}</h2>
+          <div className="text-3xl font-extrabold mt-4" style={{ color: "#ffb627" }}>₹{price}</div>
         </div>
         <div
           className="rounded-xl p-4 mb-6 text-center text-sm"
-          style={{ background: "rgba(124,58,237,0.1)", color: "#c4b5fd", border: "1px solid rgba(124,58,237,0.3)" }}
+          style={{ background: "rgba(14,116,144,0.1)", color: "#9df8e7", border: "1px solid rgba(14,116,144,0.3)" }}
         >
           Secure digital delivery after payment. Instant PDF download link sent to your email.
         </div>
         <button
           onClick={onProceed}
           className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 hover:opacity-90 active:scale-95"
-          style={{ background: "linear-gradient(135deg, #7c3aed, #a21caf)", color: "#f7f0df" }}
+          style={{ background: "linear-gradient(135deg, #0e7490, #1a66d4)", color: "#e9f3f5" }}
         >
           Proceed to Payment
         </button>
-        <p className="text-center text-xs mt-4 opacity-50" style={{ color: "#f7f0df" }}>
+        <p className="text-center text-xs mt-4 opacity-50" style={{ color: "#e9f3f5" }}>
           🔒 Secure checkout · UPI, Card & Net Banking accepted
         </p>
       </div>
@@ -224,37 +224,37 @@ function GuideCard({ guide, owned, onBuy, onDownload }: { guide: Guide; owned: b
   return (
     <div
       className="relative flex flex-col rounded-2xl p-5 border transition-all duration-200 hover:scale-[1.02] hover:shadow-xl"
-      style={{ background: "#0f0a1e", borderColor: "rgba(124,58,237,0.3)", color: "#f7f0df" }}
+      style={{ background: "#0a141f", borderColor: "rgba(14,116,144,0.3)", color: "#e9f3f5" }}
     >
       {guide.badge && (
         <span
           className="absolute top-3 right-3 text-xs font-bold px-2 py-1 rounded-full"
-          style={{ background: "rgba(216,179,90,0.15)", color: "#d8b35a", border: "1px solid rgba(216,179,90,0.4)" }}
+          style={{ background: "rgba(255,182,39,0.15)", color: "#ffb627", border: "1px solid rgba(255,182,39,0.4)" }}
         >
           {guide.badge}
         </span>
       )}
       <div className="text-3xl mb-3">{guide.icon}</div>
-      <h3 className="font-bold text-sm leading-tight mb-2" style={{ color: "#f7f0df" }}>{guide.title}</h3>
-      <p className="text-xs mb-3 opacity-70 flex-1 leading-relaxed" style={{ color: "#f7f0df" }}>{guide.description}</p>
+      <h3 className="font-bold text-sm leading-tight mb-2" style={{ color: "#e9f3f5" }}>{guide.title}</h3>
+      <p className="text-xs mb-3 opacity-70 flex-1 leading-relaxed" style={{ color: "#e9f3f5" }}>{guide.description}</p>
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(124,58,237,0.2)", color: "#a78bfa" }}>
+        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(14,116,144,0.2)", color: "#2dd4bf" }}>
           {guide.pages}
         </span>
-        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(216,179,90,0.1)", color: "#d8b35a" }}>
+        <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(255,182,39,0.1)", color: "#ffb627" }}>
           {guide.category}
         </span>
       </div>
       <div className="flex items-center justify-between">
         {owned ? (
-          <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(52,211,153,0.15)", color: "#34d399", border: "1px solid rgba(52,211,153,0.35)" }}>✓ Owned</span>
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(52,224,138,0.15)", color: "#34e08a", border: "1px solid rgba(52,224,138,0.35)" }}>✓ Owned</span>
         ) : (
-          <span className="text-2xl font-extrabold" style={{ color: "#d8b35a" }}>₹{guide.price}</span>
+          <span className="text-2xl font-extrabold" style={{ color: "#ffb627" }}>₹{guide.price}</span>
         )}
         <button
           onClick={() => (owned ? onDownload(guide) : onBuy(guide))}
           className="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:opacity-90 active:scale-95"
-          style={{ background: owned ? "linear-gradient(135deg, #34d399, #10b981)" : "linear-gradient(135deg, #7c3aed, #a21caf)", color: owned ? "#052e1f" : "#f7f0df" }}
+          style={{ background: owned ? "linear-gradient(135deg, #34e08a, #16c172)" : "linear-gradient(135deg, #0e7490, #1a66d4)", color: owned ? "#05231f" : "#e9f3f5" }}
         >
           {owned ? "⬇ Download" : "Buy Now"}
         </button>
@@ -267,27 +267,27 @@ function BundleCard({ bundle, owned, onBuy }: { bundle: Bundle; owned: boolean; 
   return (
     <div
       className="relative flex flex-col rounded-2xl p-6 border transition-all duration-200 hover:scale-[1.02] hover:shadow-2xl"
-      style={{ background: "linear-gradient(135deg, #1a0f2e, #0f0a1e)", borderColor: "rgba(216,179,90,0.4)", color: "#f7f0df" }}
+      style={{ background: "linear-gradient(135deg, #0e1d2b, #0a141f)", borderColor: "rgba(255,182,39,0.4)", color: "#e9f3f5" }}
     >
       <div
         className="absolute top-3 right-3 text-xs font-extrabold px-3 py-1 rounded-full"
-        style={{ background: "linear-gradient(135deg, #d8b35a, #f59e0b)", color: "#07040d" }}
+        style={{ background: "linear-gradient(135deg, #ffb627, #ffb627)", color: "#04070e" }}
       >
         SAVE {bundle.savings}
       </div>
       <div className="text-4xl mb-3">{bundle.icon}</div>
-      <h3 className="font-extrabold text-lg mb-1" style={{ color: "#d8b35a" }}>{bundle.title}</h3>
+      <h3 className="font-extrabold text-lg mb-1" style={{ color: "#ffb627" }}>{bundle.title}</h3>
       <p className="text-xs mb-3 opacity-70 leading-relaxed">{bundle.description}</p>
       <div className="text-xs mb-4 opacity-60">{bundle.guides}</div>
       <div className="flex items-end gap-3 mb-4">
-        <span className="text-3xl font-extrabold" style={{ color: "#d8b35a" }}>₹{bundle.price}</span>
+        <span className="text-3xl font-extrabold" style={{ color: "#ffb627" }}>₹{bundle.price}</span>
         <span className="text-sm line-through opacity-50 mb-1">₹{bundle.originalPrice}</span>
       </div>
       <button
         onClick={() => !owned && onBuy(bundle)}
         disabled={owned}
         className="w-full py-3 rounded-xl font-bold transition-all duration-200 hover:opacity-90 active:scale-95 disabled:cursor-default disabled:opacity-80"
-        style={{ background: owned ? "linear-gradient(135deg, #34d399, #10b981)" : "linear-gradient(135deg, #d8b35a, #f59e0b)", color: owned ? "#052e1f" : "#07040d" }}
+        style={{ background: owned ? "linear-gradient(135deg, #34e08a, #16c172)" : "linear-gradient(135deg, #ffb627, #ffb627)", color: owned ? "#05231f" : "#04070e" }}
       >
         {owned ? "✓ Owned — All Guides Unlocked" : "Buy Bundle"}
       </button>
@@ -365,10 +365,10 @@ export default function PDFStorePage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "#07040d", color: "#f7f0df" }}>
+    <div className="min-h-screen" style={{ background: "#04070e", color: "#e9f3f5" }}>
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4" style={{ background: "linear-gradient(135deg, #d8b35a, #a78bfa, #e879f9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4" style={{ background: "linear-gradient(135deg, #ffb627, #2dd4bf, #3b9dff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             PDF Guide Store
           </h1>
           <p className="text-lg opacity-70 max-w-2xl mx-auto">
@@ -378,7 +378,7 @@ export default function PDFStorePage() {
 
         {availableBundles.length > 0 && (
           <div className="mb-12">
-            <h2 className="text-2xl font-extrabold mb-6 text-center" style={{ color: "#d8b35a" }}>Bundle Deals</h2>
+            <h2 className="text-2xl font-extrabold mb-6 text-center" style={{ color: "#ffb627" }}>Bundle Deals</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {availableBundles.map((b) => (
                 <BundleCard key={b.id} bundle={b} owned={purchased.includes(`bundle-${b.id}`)} onBuy={setSelectedBundle} />
@@ -388,9 +388,9 @@ export default function PDFStorePage() {
         )}
 
         {hiddenCount > 0 && (
-          <div className="mb-8 rounded-2xl border p-4 text-center text-sm" style={{ borderColor: "rgba(216,179,90,0.3)", background: "rgba(216,179,90,0.08)", color: "#f7f0df" }}>
+          <div className="mb-8 rounded-2xl border p-4 text-center text-sm" style={{ borderColor: "rgba(255,182,39,0.3)", background: "rgba(255,182,39,0.08)", color: "#e9f3f5" }}>
             {hiddenCount} specialist guide{hiddenCount === 1 ? "" : "s"} (cycles, SARMs, TRT & PCT protocols) aren't shown in this app —
-            {" "}<a href="https://tiger-fitness-pro-2f047-c4f21.web.app/#pdfstore" className="font-bold underline" style={{ color: "#d8b35a" }}>view the full catalog on our website</a>.
+            {" "}<a href="https://tiger-fitness-pro-2f047-c4f21.web.app/#pdfstore" className="font-bold underline" style={{ color: "#ffb627" }}>view the full catalog on our website</a>.
           </div>
         )}
 
@@ -403,8 +403,8 @@ export default function PDFStorePage() {
                 className="px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200"
                 style={
                   activeCategory === cat
-                    ? { background: "linear-gradient(135deg, #7c3aed, #a21caf)", color: "#f7f0df" }
-                    : { background: "rgba(124,58,237,0.1)", color: "#a78bfa", border: "1px solid rgba(124,58,237,0.3)" }
+                    ? { background: "linear-gradient(135deg, #0e7490, #1a66d4)", color: "#e9f3f5" }
+                    : { background: "rgba(14,116,144,0.1)", color: "#2dd4bf", border: "1px solid rgba(14,116,144,0.3)" }
                 }
               >
                 {cat}
@@ -417,7 +417,7 @@ export default function PDFStorePage() {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="px-4 py-2 rounded-xl text-sm outline-none w-full sm:w-64 transition-colors"
-            style={{ background: "rgba(124,58,237,0.1)", color: "#f7f0df", border: "1px solid rgba(124,58,237,0.3)" }}
+            style={{ background: "rgba(14,116,144,0.1)", color: "#e9f3f5", border: "1px solid rgba(14,116,144,0.3)" }}
           />
         </div>
 
@@ -481,10 +481,10 @@ export function PDFStoreSection() {
   };
 
   return (
-    <section style={{ background: "#07040d", color: "#f7f0df" }} className="py-16 px-4">
+    <section style={{ background: "#04070e", color: "#e9f3f5" }} className="py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-extrabold mb-3" style={{ background: "linear-gradient(135deg, #d8b35a, #a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+          <h2 className="text-3xl font-extrabold mb-3" style={{ background: "linear-gradient(135deg, #ffb627, #2dd4bf)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
             PDF Guides
           </h2>
           <p className="opacity-60 text-sm">India's most detailed fitness & anabolic guides</p>
@@ -498,7 +498,7 @@ export function PDFStoreSection() {
           <a
             href="/store"
             className="inline-block px-8 py-3 rounded-xl font-bold transition-all duration-200 hover:opacity-90"
-            style={{ background: "linear-gradient(135deg, #7c3aed, #a21caf)", color: "#f7f0df" }}
+            style={{ background: "linear-gradient(135deg, #0e7490, #1a66d4)", color: "#e9f3f5" }}
           >
             View All 24 Guides →
           </a>

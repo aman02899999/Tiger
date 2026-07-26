@@ -10,11 +10,11 @@ import { addXP } from "./Achievements";
 /* ---------------------------------------------------------------- */
 
 const MOODS = [
-  { id: "great", emoji: "🤩", label: "Great", score: 5, color: "#34d399" },
-  { id: "good", emoji: "🙂", label: "Good", score: 4, color: "#a78bfa" },
-  { id: "okay", emoji: "😐", label: "Okay", score: 3, color: "#d8b35a" },
-  { id: "tired", emoji: "😮‍💨", label: "Tired", score: 2, color: "#fb923c" },
-  { id: "low", emoji: "😔", label: "Low", score: 1, color: "#fb7185" },
+  { id: "great", emoji: "🤩", label: "Great", score: 5, color: "#34e08a" },
+  { id: "good", emoji: "🙂", label: "Good", score: 4, color: "#2dd4bf" },
+  { id: "okay", emoji: "😐", label: "Okay", score: 3, color: "#ffb627" },
+  { id: "tired", emoji: "😮‍💨", label: "Tired", score: 2, color: "#ffa94d" },
+  { id: "low", emoji: "😔", label: "Low", score: 1, color: "#ff8a75" },
 ];
 
 const STRESS_LEVELS = [
@@ -88,7 +88,7 @@ export default function MoodJournalPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Mood &amp; Stress Journal</h1>
-        <p className="text-sm text-[#f7f0df]/68">Track how you feel day to day and spot patterns over time</p>
+        <p className="text-sm text-[#e9f3f5]/68">Track how you feel day to day and spot patterns over time</p>
       </div>
 
       {/* How this works */}
@@ -102,8 +102,8 @@ export default function MoodJournalPage() {
           ].map((s) => (
             <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
               <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+              <p className="text-sm font-bold text-[#e9f3f5]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#e9f3f5]/68">{s.d}</p>
             </div>
           ))}
         </div>
@@ -111,10 +111,10 @@ export default function MoodJournalPage() {
 
       {/* Today's entry */}
       <div className="glass-card rounded-2xl p-6">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Today's Entry</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">Today's Entry</p>
 
         <div className="mt-4">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#f7f0df]/62">Mood</p>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/62">Mood</p>
           <div className="flex justify-between gap-1.5">
             {MOODS.map((m) => (
               <button
@@ -125,37 +125,37 @@ export default function MoodJournalPage() {
                 style={moodId === m.id ? { boxShadow: `0 0 20px ${m.color}40` } : undefined}
               >
                 <span className="text-2xl">{m.emoji}</span>
-                <span className="text-[10px] font-bold" style={{ color: moodId === m.id ? m.color : "rgba(247,240,223,0.62)" }}>{m.label}</span>
+                <span className="text-[10px] font-bold" style={{ color: moodId === m.id ? m.color : "rgba(233,243,245,0.62)" }}>{m.label}</span>
               </button>
             ))}
           </div>
         </div>
 
         <div className="mt-5">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#f7f0df]/62">Stress level</p>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/62">Stress level</p>
           <div className="flex justify-between gap-1.5">
             {STRESS_LEVELS.map((s) => (
               <button
                 key={s.id}
                 type="button"
                 onClick={() => setStress(s.id)}
-                className={`flex flex-1 flex-col items-center gap-1 rounded-xl border py-2.5 transition ${stress === s.id ? "border-[#d8b35a]/50 bg-[#d8b35a]/10" : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"}`}
+                className={`flex flex-1 flex-col items-center gap-1 rounded-xl border py-2.5 transition ${stress === s.id ? "border-[#ffb627]/50 bg-[#ffb627]/10" : "border-[#e9f3f5]/10 bg-[#e9f3f5]/5 hover:bg-[#e9f3f5]/10"}`}
               >
                 <span className="text-lg">{s.emoji}</span>
-                <span className="text-[9px] font-bold text-[#f7f0df]/68">{s.label}</span>
+                <span className="text-[9px] font-bold text-[#e9f3f5]/68">{s.label}</span>
               </button>
             ))}
           </div>
         </div>
 
         <div className="mt-5">
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#f7f0df]/62">Note (optional)</p>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/62">Note (optional)</p>
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="What's on your mind today?"
             rows={3}
-            className="w-full resize-none rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40"
+            className="w-full resize-none rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40"
           />
         </div>
 
@@ -173,7 +173,7 @@ export default function MoodJournalPage() {
       <div className="glass-card rounded-2xl p-6">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">14-Day Trend</p>
-          <p className="text-xs text-[#f7f0df]/62">
+          <p className="text-xs text-[#e9f3f5]/62">
             {loggedDays.length ? `Avg mood ${avgMood.toFixed(1)}/5 · avg stress ${avgStress.toFixed(1)}/5` : "No entries yet"}
           </p>
         </div>
@@ -186,7 +186,7 @@ export default function MoodJournalPage() {
                 <div className="flex w-full flex-1 items-end">
                   <div
                     className="w-full rounded-t-md transition-all duration-500"
-                    style={{ height: `${h}%`, background: e ? mood!.color : "rgba(247,240,223,0.08)", opacity: e ? 0.85 : 1 }}
+                    style={{ height: `${h}%`, background: e ? mood!.color : "rgba(233,243,245,0.08)", opacity: e ? 0.85 : 1 }}
                     title={e ? `${e.date}: ${mood!.label}, stress ${e.stress}/5` : "no entry"}
                   />
                 </div>
@@ -201,18 +201,18 @@ export default function MoodJournalPage() {
       <div className="glass-card rounded-2xl p-6">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Past Entries</p>
         {entries.length === 0 ? (
-          <p className="mt-4 rounded-xl bg-white/5 p-4 text-center text-xs text-[#f7f0df]/62">No entries yet — log your first mood above.</p>
+          <p className="mt-4 rounded-xl bg-white/5 p-4 text-center text-xs text-[#e9f3f5]/62">No entries yet — log your first mood above.</p>
         ) : (
           <div className="mt-4 space-y-2">
             {entries.slice(0, 10).map((e) => {
               const m = moodFor(e.moodId);
               const s = STRESS_LEVELS.find((x) => x.id === e.stress) ?? STRESS_LEVELS[2];
               return (
-                <div key={e.date} className="flex items-start gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
+                <div key={e.date} className="flex items-start gap-3 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-3">
                   <span className="text-xl">{m.emoji}</span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-bold text-[#f7f0df]">{new Date(e.date + "T00:00:00").toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" })} — {m.label} · {s.emoji} {s.label} stress</p>
-                    {e.note && <p className="mt-1 text-xs text-[#f7f0df]/68">{e.note}</p>}
+                    <p className="text-xs font-bold text-[#e9f3f5]">{new Date(e.date + "T00:00:00").toLocaleDateString("en-IN", { weekday: "short", month: "short", day: "numeric" })} — {m.label} · {s.emoji} {s.label} stress</p>
+                    {e.note && <p className="mt-1 text-xs text-[#e9f3f5]/68">{e.note}</p>}
                   </div>
                 </div>
               );
