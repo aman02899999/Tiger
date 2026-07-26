@@ -259,7 +259,7 @@ interface Flow {
 const FLOWS: Flow[] = [
   {
     id: 'morning', name: 'Morning Awakening', tagline: 'Wake the spine, fire up circulation and set the tone for the day.',
-    level: 'Beginner', accent: '#d8b35a',
+    level: 'Beginner', accent: '#ffb627',
     steps: [
       { poseId: 1, seconds: 45 }, { poseId: 10, seconds: 45 }, { poseId: 41, seconds: 60 },
       { poseId: 3, seconds: 45 }, { poseId: 4, seconds: 45 }, { poseId: 21, seconds: 30 },
@@ -268,7 +268,7 @@ const FLOWS: Flow[] = [
   },
   {
     id: 'stress', name: 'Stress Relief Evening', tagline: 'Down-shift the nervous system and melt the day away.',
-    level: 'Beginner', accent: '#a78bfa',
+    level: 'Beginner', accent: '#2dd4bf',
     steps: [
       { poseId: 45, seconds: 90 }, { poseId: 14, seconds: 120 }, { poseId: 33, seconds: 90 },
       { poseId: 34, seconds: 90 }, { poseId: 35, seconds: 240 }, { poseId: 29, seconds: 300 },
@@ -276,7 +276,7 @@ const FLOWS: Flow[] = [
   },
   {
     id: 'flex', name: 'Deep Flexibility', tagline: 'Long holds that open hamstrings, hips and the whole back line.',
-    level: 'Intermediate', accent: '#e879f9',
+    level: 'Intermediate', accent: '#3b9dff',
     steps: [
       { poseId: 10, seconds: 60 }, { poseId: 13, seconds: 90 }, { poseId: 16, seconds: 60 },
       { poseId: 19, seconds: 120 }, { poseId: 6, seconds: 60 }, { poseId: 17, seconds: 60 },
@@ -285,7 +285,7 @@ const FLOWS: Flow[] = [
   },
   {
     id: 'strength', name: 'Strength & Balance', tagline: 'Warrior lines, arm balances and single-leg control.',
-    level: 'Advanced', accent: '#f59e0b',
+    level: 'Advanced', accent: '#ffb627',
     steps: [
       { poseId: 7, seconds: 45 }, { poseId: 5, seconds: 30 }, { poseId: 38, seconds: 30 },
       { poseId: 37, seconds: 30 }, { poseId: 36, seconds: 20 }, { poseId: 28, seconds: 30 },
@@ -294,7 +294,7 @@ const FLOWS: Flow[] = [
   },
   {
     id: 'breath', name: 'Breath & Stillness', tagline: 'Pranayama-led reset — the fastest route to a quiet mind.',
-    level: 'Beginner', accent: '#34d399',
+    level: 'Beginner', accent: '#34e08a',
     steps: [
       { poseId: 11, seconds: 120 }, { poseId: 50, seconds: 300 }, { poseId: 51, seconds: 180 },
       { poseId: 48, seconds: 600 },
@@ -318,7 +318,7 @@ function PoseImage({ figure, alt, className = '' }: { figure: string; alt: strin
   return (
     <div className={`relative overflow-hidden ${className}`}>
       {/* Gradient placeholder — always behind the photo, shown alone if the photo fails */}
-      <div className="absolute inset-0 bg-gradient-to-br from-violet-950 via-[#1e1b4b] to-fuchsia-950" />
+      <div className="absolute inset-0 bg-gradient-to-br from-violet-950 via-[#0b2f4a] to-fuchsia-950" />
       {src && !failed && (
         <img
           src={src}
@@ -329,7 +329,7 @@ function PoseImage({ figure, alt, className = '' }: { figure: string; alt: strin
         />
       )}
       {/* Dark scrim so overlaid text keeps contrast */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0f0a1e]/85 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a141f]/85 via-transparent to-transparent" />
     </div>
   )
 }
@@ -366,23 +366,23 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
 
   return (
     <div className="glass-card rounded-2xl p-5">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a] mb-4">Hold Timer</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627] mb-4">Hold Timer</p>
       <div className="flex items-center gap-6">
         {/* Progress ring */}
         <div className="relative h-32 w-32 flex-shrink-0">
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: `conic-gradient(${done ? '#34d399' : '#a78bfa'} 0deg, ${done ? '#34d399' : '#e879f9'} ${progress * 360}deg, rgba(247,240,223,0.1) ${progress * 360}deg)`,
+              background: `conic-gradient(${done ? '#34e08a' : '#2dd4bf'} 0deg, ${done ? '#34e08a' : '#3b9dff'} ${progress * 360}deg, rgba(233,243,245,0.1) ${progress * 360}deg)`,
               transition: 'background 1s linear',
             }}
           />
-          <div className="absolute inset-2 rounded-full bg-[#0b0714]" />
+          <div className="absolute inset-2 rounded-full bg-[#0a141f]" />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className={`text-2xl font-black tracking-[-0.04em] tabular-nums ${done ? 'text-emerald-300' : 'text-[#f7f0df]'}`}>
+            <span className={`text-2xl font-black tracking-[-0.04em] tabular-nums ${done ? 'text-emerald-300' : 'text-[#e9f3f5]'}`}>
               {done ? 'Om' : `${mm}:${ss}`}
             </span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-[#f7f0df]/62">
+            <span className="text-[10px] uppercase tracking-[0.2em] text-[#e9f3f5]/62">
               {done ? 'complete' : running ? 'holding' : 'ready'}
             </span>
           </div>
@@ -397,7 +397,7 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
                 className={`rounded-full px-3 py-1 text-xs font-bold transition-all ${
                   target === s
                     ? 'bg-violet-600 text-white shadow-md shadow-violet-900/40'
-                    : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:text-[#f7f0df]'
+                    : 'bg-white/5 text-[#e9f3f5]/62 border border-white/10 hover:text-[#e9f3f5]'
                 }`}
               >
                 {s < 60 ? `${s}s` : `${s / 60}m`}
@@ -413,7 +413,7 @@ function HoldTimer({ initialSeconds }: { initialSeconds: number }) {
             </button>
             <button
               onClick={reset}
-              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[#f7f0df]/70 hover:bg-white/10 hover:text-[#f7f0df] transition-all"
+              className="rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-semibold text-[#e9f3f5]/70 hover:bg-white/10 hover:text-[#e9f3f5] transition-all"
             >
               Reset
             </button>
@@ -443,12 +443,12 @@ function LevelBadge({ level }: { level: string }) {
 
 function LockOverlay({ onUpgrade }: { onUpgrade: () => void }) {
   return (
-    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl bg-[#07040d]/70 backdrop-blur-sm">
+    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl bg-[#04070e]/70 backdrop-blur-sm">
       <div className="flex flex-col items-center gap-3 px-4 text-center">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-600/30 ring-2 ring-violet-500/40">
           <span aria-hidden="true">🔒</span>
         </div>
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/70">Pro Plan Required</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/70">Pro Plan Required</p>
         <button
           onClick={(e) => { e.stopPropagation(); onUpgrade() }}
           className="btn-gloss mt-1 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 py-1.5 text-xs font-bold text-white shadow-lg shadow-violet-900/40 transition-all duration-200 hover:from-violet-500 hover:to-fuchsia-500"
@@ -494,8 +494,8 @@ function PoseCard({ pose, isPracticed, locked, onClick, onUpgrade }: PoseCardPro
       <div className={`flex flex-1 flex-col gap-2 px-4 pb-4 pt-3 ${locked ? 'blur-sm select-none pointer-events-none' : ''}`}>
         <div className="flex items-start justify-between gap-1">
           <div>
-            <p className="text-sm font-black tracking-[-0.04em] text-[#d8b35a]">{pose.name}</p>
-            <p className="text-[11px] text-[#f7f0df]/62 leading-tight">{pose.english}</p>
+            <p className="text-sm font-black tracking-[-0.04em] text-[#ffb627]">{pose.name}</p>
+            <p className="text-[11px] text-[#e9f3f5]/62 leading-tight">{pose.english}</p>
           </div>
           <LevelBadge level={pose.level} />
         </div>
@@ -504,12 +504,12 @@ function PoseCard({ pose, isPracticed, locked, onClick, onUpgrade }: PoseCardPro
           <span className="rounded-full bg-violet-500/10 px-2 py-0.5 text-[10px] font-bold text-violet-300 border border-violet-500/25">
             {pose.category}
           </span>
-          <span className="text-[10px] text-[#f7f0df]/62">{pose.duration}</span>
+          <span className="text-[10px] text-[#e9f3f5]/62">{pose.duration}</span>
         </div>
 
         <ul className="mt-0.5 space-y-0.5">
           {pose.benefits.slice(0, 2).map((b, i) => (
-            <li key={i} className="flex items-center gap-1.5 text-[10px] text-[#f7f0df]/62">
+            <li key={i} className="flex items-center gap-1.5 text-[10px] text-[#e9f3f5]/62">
               <span className="h-1 w-1 rounded-full bg-fuchsia-400 flex-shrink-0" />
               {b}
             </li>
@@ -542,16 +542,16 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose} role="dialog" aria-modal="true" aria-label={`${pose.english} details`}>
-      <div className="absolute inset-0 bg-[#07040d]/80 backdrop-blur-md" />
+      <div className="absolute inset-0 bg-[#04070e]/80 backdrop-blur-md" />
 
       <div
-        className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border-gold-glow bg-[#0f0a1e] shadow-2xl shadow-violet-900/40"
+        className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border-gold-glow bg-[#0a141f] shadow-2xl shadow-violet-900/40"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-[#f7f0df]/70 transition-colors hover:bg-black/60 hover:text-[#f7f0df]"
+          className="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-black/40 text-[#e9f3f5]/70 transition-colors hover:bg-black/60 hover:text-[#e9f3f5]"
         >
           <span aria-hidden="true">✕</span>
         </button>
@@ -561,12 +561,12 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
         {/* Title block overlapping the photo scrim */}
         <div className="relative -mt-20 px-8">
-          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a]">{pose.name}</h2>
-          <p className="text-sm text-[#f7f0df]/70">{pose.english}</p>
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627]">{pose.name}</h2>
+          <p className="text-sm text-[#e9f3f5]/70">{pose.english}</p>
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <LevelBadge level={pose.level} />
             <span className="rounded-full bg-violet-500/15 border border-violet-500/30 px-3 py-0.5 text-xs font-bold text-violet-300">{pose.category}</span>
-            <span className="text-xs text-[#f7f0df]/62">Hold: {pose.duration}</span>
+            <span className="text-xs text-[#e9f3f5]/62">Hold: {pose.duration}</span>
           </div>
         </div>
 
@@ -580,19 +580,19 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
               <span aria-hidden="true">〰️</span>
               Breathing Cue
             </h3>
-            <p className="text-sm text-[#f7f0df]/80 leading-relaxed">{breathCue(pose)}</p>
+            <p className="text-sm text-[#e9f3f5]/80 leading-relaxed">{breathCue(pose)}</p>
           </section>
 
           {/* Steps */}
           <section>
-            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Step-by-Step Instructions</h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">Step-by-Step Instructions</h3>
             <ol className="space-y-2">
               {pose.steps.map((step, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-violet-500/20 text-[10px] font-bold text-violet-300 border border-violet-500/30">
                     {i + 1}
                   </span>
-                  <span className="text-sm text-[#f7f0df]/80">{step}</span>
+                  <span className="text-sm text-[#e9f3f5]/80">{step}</span>
                 </li>
               ))}
             </ol>
@@ -600,10 +600,10 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
           {/* Benefits */}
           <section>
-            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Benefits</h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">Benefits</h3>
             <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
               {pose.benefits.map((b, i) => (
-                <li key={i} className="flex items-center gap-2 text-sm text-[#f7f0df]/75">
+                <li key={i} className="flex items-center gap-2 text-sm text-[#e9f3f5]/75">
                   <span aria-hidden="true">✓</span>
                   {b}
                 </li>
@@ -613,7 +613,7 @@ function DetailModal({ pose, isPracticed, onTogglePracticed, onClose }: DetailMo
 
           {/* Muscles */}
           <section>
-            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Muscles Engaged</h3>
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">Muscles Engaged</h3>
             <div className="flex flex-wrap gap-2">
               {pose.muscles.map((m, i) => (
                 <span key={i} className="rounded-full bg-violet-500/15 border border-violet-500/30 px-3 py-1 text-xs font-bold text-violet-300">
@@ -673,8 +673,8 @@ function FlowCard({ flow, onSelectPose }: { flow: Flow; onSelectPose: (p: Pose) 
           <div className="flex items-center gap-3 min-w-0">
             <span className="h-10 w-1.5 rounded-full flex-shrink-0" style={{ background: `linear-gradient(180deg, ${flow.accent}, transparent)` }} />
             <div className="min-w-0">
-              <h3 className="text-base font-black tracking-[-0.04em] text-[#f7f0df] truncate">{flow.name}</h3>
-              <p className="text-xs text-[#f7f0df]/62 truncate">{flow.tagline}</p>
+              <h3 className="text-base font-black tracking-[-0.04em] text-[#e9f3f5] truncate">{flow.name}</h3>
+              <p className="text-xs text-[#e9f3f5]/62 truncate">{flow.tagline}</p>
             </div>
           </div>
           <div className="flex flex-shrink-0 items-center gap-2">
@@ -696,15 +696,15 @@ function FlowCard({ flow, onSelectPose }: { flow: Flow; onSelectPose: (p: Pose) 
                   onClick={() => onSelectPose(pose)}
                   className="flex w-full items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] px-3 py-2 text-left transition-all hover:border-violet-500/40 hover:bg-white/[0.06]"
                 >
-                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-[#07040d]" style={{ background: flow.accent }}>
+                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-[#04070e]" style={{ background: flow.accent }}>
                     {i + 1}
                   </span>
                   <PoseImage figure={pose.figure} alt={`${pose.english} thumbnail`} className="h-10 w-14 flex-shrink-0 rounded-lg" />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-sm font-bold text-[#f7f0df]">{pose.english}</span>
-                    <span className="block truncate text-[11px] text-[#f7f0df]/62">{pose.name}</span>
+                    <span className="block truncate text-sm font-bold text-[#e9f3f5]">{pose.english}</span>
+                    <span className="block truncate text-[11px] text-[#e9f3f5]/62">{pose.name}</span>
                   </span>
-                  <span className="flex-shrink-0 text-xs font-bold tabular-nums text-[#d8b35a]">{fmtTotal(step.seconds)}</span>
+                  <span className="flex-shrink-0 text-xs font-bold tabular-nums text-[#ffb627]">{fmtTotal(step.seconds)}</span>
                 </button>
               </li>
             ))}
@@ -723,23 +723,23 @@ function UpgradeModal({ onClose }: { onClose: () => void }) {
   const { openCheckout } = useCheckout()
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="absolute inset-0 bg-[#07040d]/80 backdrop-blur-md" />
+      <div className="absolute inset-0 bg-[#04070e]/80 backdrop-blur-md" />
       <div
-        className="relative z-10 w-full max-w-md rounded-3xl border-gold-glow bg-[#0f0a1e] p-8 shadow-2xl shadow-violet-900/50 text-center"
+        className="relative z-10 w-full max-w-md rounded-3xl border-gold-glow bg-[#0a141f] p-8 shadow-2xl shadow-violet-900/50 text-center"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-700 shadow-lg shadow-violet-900/50">
           <span aria-hidden="true">👑</span>
         </div>
-        <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Unlock All 52 Poses</h2>
-        <p className="mb-6 text-sm text-[#f7f0df]/62">
+        <h2 className="mb-2 text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">Unlock All 52 Poses</h2>
+        <p className="mb-6 text-sm text-[#e9f3f5]/62">
           Upgrade to The Titan Fitness to access the complete Sacred Asana Library, curated flows, hold timers and guided breathing.
         </p>
         <div className="mb-6 space-y-2">
           {['All 52 Yoga Poses & Pranayama', 'Real photo demonstrations', 'Hold timers & breathing cues', 'Curated flows & sequences', 'Practice tracking & streaks'].map((f, i) => (
             <div key={i} className="flex items-center gap-3 rounded-xl bg-violet-500/5 border border-violet-500/15 px-4 py-2">
               <span aria-hidden="true">✓</span>
-              <span className="text-sm text-[#f7f0df]/75">{f}</span>
+              <span className="text-sm text-[#e9f3f5]/75">{f}</span>
             </div>
           ))}
         </div>
@@ -749,7 +749,7 @@ function UpgradeModal({ onClose }: { onClose: () => void }) {
         >
           Upgrade to Pro — ₹199/month
         </button>
-        <button onClick={onClose} className="mt-3 text-xs text-[#f7f0df]/62 hover:text-[#f7f0df] transition-colors">
+        <button onClick={onClose} className="mt-3 text-xs text-[#e9f3f5]/62 hover:text-[#e9f3f5] transition-colors">
           Maybe later
         </button>
       </div>
@@ -803,11 +803,11 @@ export default function YogaPage() {
   const practicedCount = practiced.size
 
   return (
-    <div className="min-h-screen bg-[#07040d] text-[#f7f0df] font-sans">
+    <div className="min-h-screen bg-[#04070e] text-[#e9f3f5] font-sans">
       {/* ---- Hero Header ---- */}
       <div
         className="relative px-4 pt-12 pb-8 text-center overflow-hidden"
-        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.18) 0%, transparent 60%)' }}
+        style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(14,116,144,0.18) 0%, transparent 60%)' }}
       >
         {/* Real demonstration hero photo */}
         <img
@@ -817,7 +817,7 @@ export default function YogaPage() {
           onError={(e) => { e.currentTarget.style.display = 'none' }}
           className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-25"
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#07040d]/55 via-[#07040d]/70 to-[#07040d]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#04070e]/55 via-[#04070e]/70 to-[#04070e]" />
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-80 w-80 rounded-full bg-violet-700/10 blur-3xl" />
           <div className="absolute top-10 left-1/4 h-40 w-40 rounded-full bg-fuchsia-600/10 blur-2xl" />
@@ -831,32 +831,32 @@ export default function YogaPage() {
 
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">The Titan Fitness — Yoga Studio</p>
           <h1 className="text-4xl font-black tracking-[-0.04em] sm:text-5xl">
-            <span className="bg-gradient-to-r from-[#d8b35a] via-[#f7f0df] to-[#e879f9] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#ffb627] via-[#e9f3f5] to-[#3b9dff] bg-clip-text text-transparent">
               Sacred Asana Library
             </span>
           </h1>
-          <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62">
+          <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/62">
             52 Poses &nbsp;•&nbsp; 5 Curated Flows &nbsp;•&nbsp; Ancient Wisdom, Modern Practice
           </p>
 
           {/* Progress bar */}
           <div className="mx-auto mt-6 max-w-xs">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-xs text-[#f7f0df]/62">Practice Progress</span>
-              <span className="text-xs font-bold text-[#d8b35a]">{practicedCount} / 52 Mastered</span>
+              <span className="text-xs text-[#e9f3f5]/62">Practice Progress</span>
+              <span className="text-xs font-bold text-[#ffb627]">{practicedCount} / 52 Mastered</span>
             </div>
             <div className="h-2 w-full rounded-full bg-white/5 overflow-hidden">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-violet-600 via-[#e879f9] to-[#d8b35a] transition-all duration-700"
+                className="h-full rounded-full bg-gradient-to-r from-violet-600 via-[#3b9dff] to-[#ffb627] transition-all duration-700"
                 style={{ width: `${(practicedCount / 52) * 100}%` }}
               />
             </div>
           </div>
 
           {isPro && (
-            <div className="mx-auto mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#d8b35a]/10 border border-[#d8b35a]/30 px-3 py-1">
+            <div className="mx-auto mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#ffb627]/10 border border-[#ffb627]/30 px-3 py-1">
               <span aria-hidden="true">★</span>
-              <span className="text-[11px] font-bold text-[#d8b35a]">Pro — Full Library Unlocked</span>
+              <span className="text-[11px] font-bold text-[#ffb627]">Pro — Full Library Unlocked</span>
             </div>
           )}
         </div>
@@ -874,8 +874,8 @@ export default function YogaPage() {
             ].map((s) => (
               <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
                 <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-                <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-                <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+                <p className="text-sm font-bold text-[#e9f3f5]">{s.t}</p>
+                <p className="mt-1 text-xs leading-relaxed text-[#e9f3f5]/68">{s.d}</p>
               </div>
             ))}
           </div>
@@ -886,10 +886,10 @@ export default function YogaPage() {
       <div className="mx-auto max-w-4xl px-4 pb-2">
         <div className="mb-4 flex items-end justify-between">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Curated Sequences</p>
-            <h2 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">Guided Flows</h2>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">Curated Sequences</p>
+            <h2 className="text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">Guided Flows</h2>
           </div>
-          <p className="text-xs text-[#f7f0df]/62">Tap a flow to see its pose chain</p>
+          <p className="text-xs text-[#e9f3f5]/62">Tap a flow to see its pose chain</p>
         </div>
         <div className="space-y-3">
           {FLOWS.map((flow) => (
@@ -903,7 +903,7 @@ export default function YogaPage() {
       </div>
 
       {/* ---- Filters ---- */}
-      <div className="sticky top-0 z-30 mt-8 bg-[#07040d]/90 backdrop-blur-md border-b border-white/5 px-4 py-3 space-y-3">
+      <div className="sticky top-0 z-30 mt-8 bg-[#04070e]/90 backdrop-blur-md border-b border-white/5 px-4 py-3 space-y-3">
         <div className="relative mx-auto max-w-2xl">
           <span aria-hidden="true">🔍</span>
           <input
@@ -911,10 +911,10 @@ export default function YogaPage() {
             placeholder="Search poses by name or category..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-xl bg-white/5 border border-white/10 pl-9 pr-4 py-2.5 text-sm text-[#f7f0df] placeholder-[#f7f0df]/62 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
+            className="w-full rounded-xl bg-white/5 border border-white/10 pl-9 pr-4 py-2.5 text-sm text-[#e9f3f5] placeholder-[#e9f3f5]/62 outline-none focus:border-violet-500/50 focus:ring-2 focus:ring-violet-500/20 transition-all"
           />
           {search && (
-            <button onClick={() => setSearch('')} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#f7f0df]/62 hover:text-[#f7f0df]">
+            <button onClick={() => setSearch('')} aria-label="Clear search" className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e9f3f5]/62 hover:text-[#e9f3f5]">
               <span aria-hidden="true">✕</span>
             </button>
           )}
@@ -928,7 +928,7 @@ export default function YogaPage() {
               className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 ${
                 categoryFilter === cat
                   ? 'bg-violet-600 text-white shadow-md shadow-violet-900/40'
-                  : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:bg-white/10 hover:text-[#f7f0df]'
+                  : 'bg-white/5 text-[#e9f3f5]/62 border border-white/10 hover:bg-white/10 hover:text-[#e9f3f5]'
               }`}
             >
               {cat}
@@ -943,8 +943,8 @@ export default function YogaPage() {
               onClick={() => setLevelFilter(lvl)}
               className={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-bold transition-all duration-200 ${
                 levelFilter === lvl
-                  ? 'bg-[#d8b35a]/20 text-[#d8b35a] border border-[#d8b35a]/40'
-                  : 'bg-white/5 text-[#f7f0df]/62 border border-white/10 hover:bg-white/10 hover:text-[#f7f0df]'
+                  ? 'bg-[#ffb627]/20 text-[#ffb627] border border-[#ffb627]/40'
+                  : 'bg-white/5 text-[#e9f3f5]/62 border border-white/10 hover:bg-white/10 hover:text-[#e9f3f5]'
               }`}
             >
               {lvl}
@@ -958,7 +958,7 @@ export default function YogaPage() {
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <span aria-hidden="true">🔍</span>
-            <p className="text-[#f7f0df]/62 text-sm">No poses match your search.</p>
+            <p className="text-[#e9f3f5]/62 text-sm">No poses match your search.</p>
             <button
               onClick={() => { setSearch(''); setCategoryFilter('All'); setLevelFilter('All') }}
               className="mt-3 text-xs text-violet-400 hover:text-violet-300 underline underline-offset-2"
@@ -968,7 +968,7 @@ export default function YogaPage() {
           </div>
         ) : (
           <>
-            <p className="mb-4 text-xs text-[#f7f0df]/62">Showing {filtered.length} of 52 poses</p>
+            <p className="mb-4 text-xs text-[#e9f3f5]/62">Showing {filtered.length} of 52 poses</p>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {filtered.map((pose) => {
                 const locked = !isPro && pose.id > 6
@@ -1011,17 +1011,17 @@ export function YogaSection() {
   const [selectedPose, setSelectedPose] = useState<Pose | null>(null)
 
   return (
-    <section className="bg-[#07040d] py-16 px-4">
+    <section className="bg-[#04070e] py-16 px-4">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10 text-center">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Yoga Library</p>
-          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#f7f0df] sm:text-4xl">
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#e9f3f5] sm:text-4xl">
             Sacred{' '}
-            <span className="bg-gradient-to-r from-[#d8b35a] to-[#e879f9] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#ffb627] to-[#3b9dff] bg-clip-text text-transparent">
               Asana Library
             </span>
           </h2>
-          <p className="mt-3 text-sm text-[#f7f0df]/62 max-w-lg mx-auto">
+          <p className="mt-3 text-sm text-[#e9f3f5]/62 max-w-lg mx-auto">
             52 curated yoga poses with real demonstrations, step-by-step guidance, breathing cues and hold timers.
           </p>
         </div>
@@ -1035,8 +1035,8 @@ export function YogaSection() {
             >
               <PoseImage figure={pose.figure} alt={`${pose.english} demonstration`} className="aspect-square w-full" />
               <div className="px-2 pb-3 text-center">
-                <p className="text-xs font-black tracking-[-0.04em] text-[#d8b35a] leading-tight">{pose.name}</p>
-                <p className="text-[10px] text-[#f7f0df]/62 leading-tight">{pose.english}</p>
+                <p className="text-xs font-black tracking-[-0.04em] text-[#ffb627] leading-tight">{pose.name}</p>
+                <p className="text-[10px] text-[#e9f3f5]/62 leading-tight">{pose.english}</p>
                 <div className="mt-1.5 flex justify-center"><LevelBadge level={pose.level} /></div>
               </div>
             </div>
@@ -1044,7 +1044,7 @@ export function YogaSection() {
         </div>
 
         <div className="mt-8 text-center">
-          <p className="text-sm text-[#f7f0df]/62">
+          <p className="text-sm text-[#e9f3f5]/62">
             Showing 6 of 52 poses &nbsp;•&nbsp;{' '}
             <span className="text-violet-300 font-bold">Upgrade to Pro to unlock all</span>
           </p>

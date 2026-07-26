@@ -22,10 +22,10 @@ interface Technique {
 }
 
 const TECHNIQUES: Technique[] = [
-  { id: "resonance", name: "Heart Coherence", tagline: "5.5 breaths / min", benefit: "The clinically-studied pace for heart-rate variability and calm focus.", inhale: 5.5, hold: 0, exhale: 5.5, holdOut: 0, accent: "#e879f9" },
-  { id: "box", name: "Box Breathing", tagline: "4 · 4 · 4 · 4", benefit: "Navy-SEAL technique to steady nerves and lower stress fast.", inhale: 4, hold: 4, exhale: 4, holdOut: 4, accent: "#a78bfa" },
-  { id: "478", name: "4-7-8 Relax", tagline: "Sleep & anxiety", benefit: "A longer exhale flips on the parasympathetic 'rest & digest' system.", inhale: 4, hold: 7, exhale: 8, holdOut: 0, accent: "#38bdf8" },
-  { id: "calm", name: "Calm Down", tagline: "4 · 6 extended exhale", benefit: "Quick reset — longer out-breath drops your heart rate within a minute.", inhale: 4, hold: 0, exhale: 6, holdOut: 0, accent: "#34d399" },
+  { id: "resonance", name: "Heart Coherence", tagline: "5.5 breaths / min", benefit: "The clinically-studied pace for heart-rate variability and calm focus.", inhale: 5.5, hold: 0, exhale: 5.5, holdOut: 0, accent: "#3b9dff" },
+  { id: "box", name: "Box Breathing", tagline: "4 · 4 · 4 · 4", benefit: "Navy-SEAL technique to steady nerves and lower stress fast.", inhale: 4, hold: 4, exhale: 4, holdOut: 4, accent: "#2dd4bf" },
+  { id: "478", name: "4-7-8 Relax", tagline: "Sleep & anxiety", benefit: "A longer exhale flips on the parasympathetic 'rest & digest' system.", inhale: 4, hold: 7, exhale: 8, holdOut: 0, accent: "#60b6fa" },
+  { id: "calm", name: "Calm Down", tagline: "4 · 6 extended exhale", benefit: "Quick reset — longer out-breath drops your heart rate within a minute.", inhale: 4, hold: 0, exhale: 6, holdOut: 0, accent: "#34e08a" },
 ];
 
 const PHASE_ORDER: Phase[] = ["inhale", "hold", "exhale", "holdOut"];
@@ -106,7 +106,7 @@ export default function HeartHealthPage() {
   // simulated BPM drops as coherence rises (72 → ~58)
   const bpm = Math.round(72 - (coherence / 100) * 14);
   const beatDur = 60 / bpm;
-  const cohColor = coherence >= 75 ? "#34d399" : coherence >= 45 ? "#d8b35a" : "#e879f9";
+  const cohColor = coherence >= 75 ? "#34e08a" : coherence >= 45 ? "#ffb627" : "#3b9dff";
   const mm = Math.floor(elapsed / 60);
   const ss = String(Math.floor(elapsed % 60)).padStart(2, "0");
 
@@ -114,7 +114,7 @@ export default function HeartHealthPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Heart Health &amp; Breathing</h1>
-        <p className="text-sm text-[#f7f0df]/68">Guided coherence breathing to calm your nervous system and strengthen your heart</p>
+        <p className="text-sm text-[#e9f3f5]/68">Guided coherence breathing to calm your nervous system and strengthen your heart</p>
       </div>
 
       {/* Technique picker */}
@@ -124,12 +124,12 @@ export default function HeartHealthPage() {
             key={t.id}
             type="button"
             onClick={() => setTech(t)}
-            className={`rounded-2xl border p-4 text-left transition ${tech.id === t.id ? "border-white/25 bg-white/10" : "border-[#f7f0df]/10 bg-[#f7f0df]/5 hover:bg-[#f7f0df]/10"}`}
+            className={`rounded-2xl border p-4 text-left transition ${tech.id === t.id ? "border-white/25 bg-white/10" : "border-[#e9f3f5]/10 bg-[#e9f3f5]/5 hover:bg-[#e9f3f5]/10"}`}
             style={tech.id === t.id ? { boxShadow: `0 0 24px ${t.accent}30` } : undefined}
           >
             <p className="text-sm font-black" style={{ color: tech.id === t.id ? t.accent : undefined }}>{t.name}</p>
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/62">{t.tagline}</p>
-            <p className="mt-2 text-xs leading-relaxed text-[#f7f0df]/68">{t.benefit}</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/62">{t.tagline}</p>
+            <p className="mt-2 text-xs leading-relaxed text-[#e9f3f5]/68">{t.benefit}</p>
           </button>
         ))}
       </div>
@@ -151,7 +151,7 @@ export default function HeartHealthPage() {
             <div
               className="grid h-40 w-40 place-items-center rounded-full"
               style={{
-                background: `radial-gradient(circle at 35% 30%, ${tech.accent}, #4c1d95 70%)`,
+                background: `radial-gradient(circle at 35% 30%, ${tech.accent}, #0e4a5a 70%)`,
                 transform: `scale(${orbScale})`,
                 transition: "transform 0.1s linear",
                 boxShadow: `0 0 60px ${tech.accent}66, inset 0 0 40px rgba(255,255,255,0.15)`,
@@ -170,19 +170,19 @@ export default function HeartHealthPage() {
               type="button"
               onClick={() => setRunning((r) => !r)}
               className="btn-gloss rounded-full px-10 py-4 text-xs font-black uppercase tracking-[0.2em] text-white"
-              style={{ background: `linear-gradient(90deg, ${tech.accent}, #7c3aed)` }}
+              style={{ background: `linear-gradient(90deg, ${tech.accent}, #0e7490)` }}
             >
               {running ? "⏸ Pause" : "▶ Begin Breathing"}
             </button>
             <button
               type="button"
               onClick={() => { setRunning(false); setPhase("inhale"); setPhaseLeft(tech.inhale); setCycles(0); setCoherence(20); setElapsed(0); rewarded.current = false; }}
-              className="rounded-full border border-[#f7f0df]/15 px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-[#f7f0df]/70 hover:bg-[#f7f0df]/8"
+              className="rounded-full border border-[#e9f3f5]/15 px-6 py-4 text-xs font-black uppercase tracking-[0.16em] text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/8"
             >
               Reset
             </button>
           </div>
-          <p className="mt-3 text-xs text-[#f7f0df]/62">Follow the orb — breathe in as it grows, out as it shrinks. {tech.name} · {tech.tagline}</p>
+          <p className="mt-3 text-xs text-[#e9f3f5]/62">Follow the orb — breathe in as it grows, out as it shrinks. {tech.name} · {tech.tagline}</p>
         </div>
       </div>
 
@@ -192,31 +192,31 @@ export default function HeartHealthPage() {
         <div className="glass-card rounded-2xl p-6 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-rose-300">Heart Rate</p>
           <div className="mt-3 text-5xl" style={{ animation: running ? `heartBeat ${beatDur}s ease-in-out infinite` : "none" }}>❤️</div>
-          <p className="mt-3 text-3xl font-black tabular-nums">{bpm}<span className="text-sm font-normal text-[#f7f0df]/62"> bpm</span></p>
-          <p className="text-[11px] text-[#f7f0df]/62">{running ? "settling as you breathe…" : "start to see it drop"}</p>
+          <p className="mt-3 text-3xl font-black tabular-nums">{bpm}<span className="text-sm font-normal text-[#e9f3f5]/62"> bpm</span></p>
+          <p className="text-[11px] text-[#e9f3f5]/62">{running ? "settling as you breathe…" : "start to see it drop"}</p>
         </div>
 
         {/* Coherence score */}
         <div className="glass-card rounded-2xl p-6 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: cohColor }}>Coherence</p>
           <div className="relative mx-auto mt-3 h-24 w-24">
-            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${cohColor} ${coherence * 3.6}deg, rgba(247,240,223,0.1) ${coherence * 3.6}deg)`, transition: "background 0.3s linear" }} />
-            <div className="absolute inset-[7px] grid place-items-center rounded-full bg-[#0b0714]">
+            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${cohColor} ${coherence * 3.6}deg, rgba(233,243,245,0.1) ${coherence * 3.6}deg)`, transition: "background 0.3s linear" }} />
+            <div className="absolute inset-[7px] grid place-items-center rounded-full bg-[#0a141f]">
               <span className="text-2xl font-black tabular-nums" style={{ color: cohColor }}>{Math.round(coherence)}</span>
             </div>
           </div>
-          <p className="mt-3 text-[11px] text-[#f7f0df]/62">{coherence >= 75 ? "In the coherence zone! 🌊" : "keep the rhythm steady"}</p>
+          <p className="mt-3 text-[11px] text-[#e9f3f5]/62">{coherence >= 75 ? "In the coherence zone! 🌊" : "keep the rhythm steady"}</p>
         </div>
 
         {/* Session */}
         <div className="glass-card rounded-2xl p-6 text-center">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Session</p>
           <p className="mt-3 text-4xl font-black tabular-nums">{mm}:{ss}</p>
-          <p className="text-[11px] text-[#f7f0df]/62">{cycles} full breaths</p>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
+          <p className="text-[11px] text-[#e9f3f5]/62">{cycles} full breaths</p>
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#e9f3f5]/10">
             <div className="h-full rounded-full bg-gradient-to-r from-violet-400 to-fuchsia-400 transition-all duration-500" style={{ width: `${Math.min(100, (elapsed / 120) * 100)}%` }} />
           </div>
-          <p className="mt-1.5 text-[10px] text-[#f7f0df]/55">{elapsed >= 120 ? "Goal reached · +20 XP 🎉" : "Breathe 2 min for +20 XP"}</p>
+          <p className="mt-1.5 text-[10px] text-[#e9f3f5]/55">{elapsed >= 120 ? "Goal reached · +20 XP 🎉" : "Breathe 2 min for +20 XP"}</p>
         </div>
       </div>
 
@@ -231,12 +231,12 @@ export default function HeartHealthPage() {
           ].map((s) => (
             <div key={s.t} className="rounded-xl border border-white/8 bg-white/5 p-4">
               <div className="text-2xl">{s.icon}</div>
-              <p className="mt-2 text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+              <p className="mt-2 text-sm font-bold text-[#e9f3f5]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#e9f3f5]/68">{s.d}</p>
             </div>
           ))}
         </div>
-        <p className="mt-4 text-[11px] text-[#f7f0df]/55">Heart rate and coherence shown here are illustrative guides to keep you in rhythm, not medical measurements.</p>
+        <p className="mt-4 text-[11px] text-[#e9f3f5]/55">Heart rate and coherence shown here are illustrative guides to keep you in rhythm, not medical measurements.</p>
       </div>
     </div>
   );

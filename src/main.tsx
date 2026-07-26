@@ -10,11 +10,11 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
     if (this.state.error) {
       const err = this.state.error as Error;
       return (
-        <div style={{ fontFamily: "monospace", padding: 24, background: "#07040d", color: "#f7f0df", minHeight: "100vh" }}>
-          <h2 style={{ color: "#f87171" }}>⚠ App Error</h2>
-          <pre style={{ whiteSpace: "pre-wrap", fontSize: 13, color: "#fca5a5" }}>{err.message}</pre>
+        <div style={{ fontFamily: "monospace", padding: 24, background: "#04070e", color: "#e9f3f5", minHeight: "100vh" }}>
+          <h2 style={{ color: "#ff8a75" }}>⚠ App Error</h2>
+          <pre style={{ whiteSpace: "pre-wrap", fontSize: 13, color: "#ffb3a5" }}>{err.message}</pre>
           <pre style={{ whiteSpace: "pre-wrap", fontSize: 11, color: "#6b7280" }}>{err.stack}</pre>
-          <button onClick={() => window.location.reload()} style={{ marginTop: 16, padding: "8px 20px", background: "#7c3aed", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer" }}>Reload</button>
+          <button onClick={() => window.location.reload()} style={{ marginTop: 16, padding: "8px 20px", background: "#0e7490", color: "#fff", border: "none", borderRadius: 8, cursor: "pointer" }}>Reload</button>
         </div>
       );
     }

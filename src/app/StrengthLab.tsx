@@ -30,8 +30,8 @@ const PERCENT_TABLE = [
 // Standard kg plates for the visualizer.
 const PLATES = [25, 20, 15, 10, 5, 2.5, 1.25];
 const PLATE_COLOR: Record<number, string> = {
-  25: "#ef4444", 20: "#3b82f6", 15: "#eab308", 10: "#22c55e",
-  5: "#f8fafc", 2.5: "#f97316", 1.25: "#a3a3a3",
+  25: "#ed3f45", 20: "#2280f0", 15: "#ffc23d", 10: "#22c55e",
+  5: "#f2fbfc", 2.5: "#f0a01a", 1.25: "#a3a3a3",
 };
 
 function platesForSide(target: number, bar = 20) {
@@ -60,30 +60,30 @@ function OneRepMax() {
 
       <div className="mt-5 grid gap-5 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">
-            <span>Weight lifted</span><span className="text-[#d8b35a]">{weight} kg</span>
+          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">
+            <span>Weight lifted</span><span className="text-[#ffb627]">{weight} kg</span>
           </span>
           <input type="range" min={20} max={300} step={2.5} value={weight} onChange={(e) => setWeight(Number(e.target.value))} className="w-full accent-violet-400" />
         </label>
         <label className="block">
-          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">
-            <span>Reps performed</span><span className="text-[#d8b35a]">{reps}</span>
+          <span className="mb-2 flex justify-between text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">
+            <span>Reps performed</span><span className="text-[#ffb627]">{reps}</span>
           </span>
           <input type="range" min={1} max={15} step={1} value={reps} onChange={(e) => setReps(Number(e.target.value))} className="w-full accent-violet-400" />
         </label>
       </div>
 
-      <div className="mt-5 rounded-2xl border border-[#d8b35a]/25 bg-gradient-to-br from-[#d8b35a]/12 to-violet-300/8 p-5 text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/65">Estimated 1-Rep Max</p>
-        <p className="mt-1 text-5xl font-black tabular-nums text-[#d8b35a]">{oneRM}<span className="text-2xl"> kg</span></p>
+      <div className="mt-5 rounded-2xl border border-[#ffb627]/25 bg-gradient-to-br from-[#ffb627]/12 to-violet-300/8 p-5 text-center">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/65">Estimated 1-Rep Max</p>
+        <p className="mt-1 text-5xl font-black tabular-nums text-[#ffb627]">{oneRM}<span className="text-2xl"> kg</span></p>
       </div>
 
       {/* Live barbell plate visualizer */}
       <div className="mt-5">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Load the bar ({weight} kg · 20 kg bar)</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">Load the bar ({weight} kg · 20 kg bar)</p>
         <div className="flex items-center justify-center gap-0.5 overflow-x-auto rounded-xl bg-black/30 p-4">
           {sidePlates.length === 0 ? (
-            <span className="text-xs text-[#f7f0df]/62">Just the empty bar</span>
+            <span className="text-xs text-[#e9f3f5]/62">Just the empty bar</span>
           ) : (
             <>
               {[...sidePlates].reverse().map((p, i) => (
@@ -104,12 +104,12 @@ function OneRepMax() {
 
       {/* Training load table */}
       <div className="mt-5">
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Your training loads</p>
+        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">Your training loads</p>
         <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
           {PERCENT_TABLE.map((row) => (
-            <div key={row.pct} className="rounded-lg border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-2.5 text-center">
-              <p className="text-sm font-black tabular-nums">{Math.round((oneRM * row.pct) / 100 / 2.5) * 2.5}<span className="text-[10px] font-normal text-[#f7f0df]/62"> kg</span></p>
-              <p className="text-[10px] text-[#f7f0df]/62">{row.pct}% · {row.reps} reps</p>
+            <div key={row.pct} className="rounded-lg border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-2.5 text-center">
+              <p className="text-sm font-black tabular-nums">{Math.round((oneRM * row.pct) / 100 / 2.5) * 2.5}<span className="text-[10px] font-normal text-[#e9f3f5]/62"> kg</span></p>
+              <p className="text-[10px] text-[#e9f3f5]/62">{row.pct}% · {row.reps} reps</p>
             </div>
           ))}
         </div>
@@ -165,14 +165,14 @@ function PersonalRecords() {
       <h2 className="mt-1 text-xl font-black">Log a lift — beat your best for +15 XP</h2>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <select value={lift} onChange={(e) => setLift(e.target.value)} className="flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
+        <select value={lift} onChange={(e) => setLift(e.target.value)} className="flex-1 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
           {LIFTS.map((l) => <option key={l} value={l}>{l}</option>)}
         </select>
         <input
           type="number" inputMode="decimal" value={weight} placeholder="kg"
           onChange={(e) => setWeight(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && add()}
-          className="w-24 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40"
+          className="w-24 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40"
         />
         <button type="button" onClick={add} className="btn-gloss rounded-xl bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">Add</button>
       </div>
@@ -181,9 +181,9 @@ function PersonalRecords() {
       {Object.keys(bests).length > 0 && (
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
           {Object.entries(bests).map(([l, w]) => (
-            <div key={l} className="rounded-xl border border-[#d8b35a]/25 bg-[#d8b35a]/10 p-3 text-center">
-              <p className="text-lg font-black tabular-nums text-[#d8b35a]">{w} kg</p>
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#f7f0df]/68">{l}</p>
+            <div key={l} className="rounded-xl border border-[#ffb627]/25 bg-[#ffb627]/10 p-3 text-center">
+              <p className="text-lg font-black tabular-nums text-[#ffb627]">{w} kg</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#e9f3f5]/68">{l}</p>
             </div>
           ))}
         </div>
@@ -192,18 +192,18 @@ function PersonalRecords() {
       {/* Recent log */}
       <div className="mt-4 space-y-2">
         {prs.length === 0 ? (
-          <p className="rounded-xl bg-white/5 p-4 text-center text-xs text-[#f7f0df]/62">No lifts logged yet — add your first above to start tracking progress.</p>
+          <p className="rounded-xl bg-white/5 p-4 text-center text-xs text-[#e9f3f5]/62">No lifts logged yet — add your first above to start tracking progress.</p>
         ) : (
           prs.slice(0, 6).map((p) => {
             const isBest = bests[p.lift] === p.weight;
             return (
-              <div key={p.id} className="flex items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
+              <div key={p.id} className="flex items-center gap-3 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-3">
                 <span className="text-lg">{isBest ? "🥇" : "•"}</span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold">{p.lift} — <span className="tabular-nums">{p.weight} kg</span> {isBest && <span className="text-[10px] font-black text-[#d8b35a]">PR</span>}</p>
-                  <p className="text-[11px] text-[#f7f0df]/62">{p.date}</p>
+                  <p className="text-sm font-semibold">{p.lift} — <span className="tabular-nums">{p.weight} kg</span> {isBest && <span className="text-[10px] font-black text-[#ffb627]">PR</span>}</p>
+                  <p className="text-[11px] text-[#e9f3f5]/62">{p.date}</p>
                 </div>
-                <button type="button" onClick={() => remove(p.id)} aria-label="Delete entry" className="rounded-lg border border-[#f7f0df]/12 px-2.5 py-1 text-xs text-[#f7f0df]/60 hover:bg-rose-400/10 hover:text-rose-200">✕</button>
+                <button type="button" onClick={() => remove(p.id)} aria-label="Delete entry" className="rounded-lg border border-[#e9f3f5]/12 px-2.5 py-1 text-xs text-[#e9f3f5]/60 hover:bg-rose-400/10 hover:text-rose-200">✕</button>
               </div>
             );
           })
@@ -261,15 +261,15 @@ function RestTimer() {
 
       <div className="mt-5 flex items-center gap-6">
         <div className="relative h-32 w-32 shrink-0">
-          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${left === 0 ? "#34d399" : "#38bdf8"} ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.9s linear" }} />
-          <div className="absolute inset-[8px] grid place-items-center rounded-full bg-[#0b0714]">
+          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${left === 0 ? "#34e08a" : "#60b6fa"} ${pct * 360}deg, rgba(233,243,245,0.1) ${pct * 360}deg)`, transition: "background 0.9s linear" }} />
+          <div className="absolute inset-[8px] grid place-items-center rounded-full bg-[#0a141f]">
             <span className="text-2xl font-black tabular-nums">{left === 0 ? "Done!" : `${mm}:${ss}`}</span>
           </div>
         </div>
         <div className="flex-1 space-y-3">
           <div className="flex flex-wrap gap-1.5">
             {REST_PRESETS.map((s) => (
-              <button key={s} type="button" onClick={() => pick(s)} className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${target === s ? "bg-sky-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>
+              <button key={s} type="button" onClick={() => pick(s)} className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${target === s ? "bg-sky-500 text-white" : "border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/68 hover:text-[#e9f3f5]"}`}>
                 {s < 120 ? `${s}s` : `${s / 60}m`}
               </button>
             ))}
@@ -278,7 +278,7 @@ function RestTimer() {
             <button type="button" onClick={toggle} className="btn-gloss flex-1 rounded-full bg-gradient-to-r from-sky-400 to-sky-600 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">
               {running ? "⏸ Pause" : left === 0 ? "↻ Restart" : "▶ Start"}
             </button>
-            <button type="button" onClick={reset} className="rounded-full border border-[#f7f0df]/15 px-5 py-3 text-xs font-bold text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">Reset</button>
+            <button type="button" onClick={reset} className="rounded-full border border-[#e9f3f5]/15 px-5 py-3 text-xs font-bold text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/8">Reset</button>
           </div>
         </div>
       </div>
@@ -293,7 +293,7 @@ export default function StrengthLabPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Strength Lab</h1>
-        <p className="text-sm text-[#f7f0df]/68">Interactive tools to calculate, track and time your training</p>
+        <p className="text-sm text-[#e9f3f5]/68">Interactive tools to calculate, track and time your training</p>
       </div>
 
       {/* How this works */}
@@ -307,8 +307,8 @@ export default function StrengthLabPage() {
           ].map((s) => (
             <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
               <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+              <p className="text-sm font-bold text-[#e9f3f5]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#e9f3f5]/68">{s.d}</p>
             </div>
           ))}
         </div>

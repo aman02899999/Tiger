@@ -27,7 +27,7 @@ const MEDITATION_IMAGES: Record<string, { id: string; alt: string }> = {
   sunset_pose:       { id: 'photo-1524863479829-916d8e77f114', alt: 'Woman in a steady meditation pose against a sunset sky' },
 };
 
-const FALLBACK_GRADIENT = 'linear-gradient(135deg, #3b0764 0%, #1e1b4b 55%, #0f0720 100%)';
+const FALLBACK_GRADIENT = 'linear-gradient(135deg, #062a3a 0%, #0b2f4a 55%, #0a141f 100%)';
 
 const MeditationFigure: React.FC<{ pose: string; size?: number; rounded?: number }> = ({ pose, size = 180, rounded = 16 }) => {
   const meta = MEDITATION_IMAGES[pose] ?? MEDITATION_IMAGES.sitting_lotus;
@@ -40,7 +40,7 @@ const MeditationFigure: React.FC<{ pose: string; size?: number; rounded?: number
         overflow: 'hidden',
         background: FALLBACK_GRADIENT,
         flexShrink: 0,
-        boxShadow: '0 8px 32px rgba(124,58,237,0.25)',
+        boxShadow: '0 8px 32px rgba(14,116,144,0.25)',
       }}
     >
       <img
@@ -486,7 +486,7 @@ const stages: Stage[] = [
     techniques: ['Mindfulness of Breath', '4-7-8 Breathing'],
     challenges: ['Mind feels too busy', 'Forgetting to practice', '"Am I doing this right?"'],
     milestones: ['Sat for 5 minutes without stopping', 'Noticed when mind wandered', 'Completed 7 days in a row'],
-    color: '#10b981',
+    color: '#16c172',
   },
   {
     period: 'Week 3–4',
@@ -497,7 +497,7 @@ const stages: Stage[] = [
     techniques: ['Body Scan', 'Mindfulness of Breath', 'Loving-Kindness (intro)'],
     challenges: ['Sleepiness during practice', 'Physical restlessness', 'Inconsistent motivation'],
     milestones: ['10 minutes feels manageable', 'Noticed body sensations clearly', 'Had first moments of genuine stillness'],
-    color: '#3b82f6',
+    color: '#2280f0',
   },
   {
     period: 'Month 2',
@@ -508,7 +508,7 @@ const stages: Stage[] = [
     techniques: ['Loving-Kindness', 'Vipassana basics', 'Walking Meditation'],
     challenges: ['Difficult emotions surfacing', 'Doubting the practice', 'Boredom'],
     milestones: ['Noticed emotional patterns clearly', 'Applied mindfulness in daily life', 'Felt genuine peace during session'],
-    color: '#8b5cf6',
+    color: '#14b8a6',
   },
   {
     period: 'Month 3',
@@ -519,7 +519,7 @@ const stages: Stage[] = [
     techniques: ['Extended breath focus', 'Chakra meditation', 'Yoga Nidra'],
     challenges: ['Plateau feeling', 'Strong hindrances (desire, aversion)', 'Over-efforting'],
     milestones: ['30 minutes flows naturally', 'Extended periods of stillness', 'Noticeable reduction in anxiety/reactivity'],
-    color: '#d8b35a',
+    color: '#ffb627',
   },
   {
     period: 'Months 4–6',
@@ -530,7 +530,7 @@ const stages: Stage[] = [
     techniques: ['Open Monitoring', 'Vipassana insight', 'TM or Zazen'],
     challenges: ['Spiritual bypassing', 'Integration challenges', 'Relationship changes'],
     milestones: ['Meditation extends into daily activities', 'Less reactivity in difficult situations', 'Sitting with discomfort without reacting'],
-    color: '#f97316',
+    color: '#f0a01a',
   },
   {
     period: 'Months 6–12',
@@ -541,7 +541,7 @@ const stages: Stage[] = [
     techniques: ['Vipassana (extended)', 'Zazen', 'Retreat practice'],
     challenges: ['Dark night of the soul', 'Disorientation', 'Need for skilled guidance'],
     milestones: ['Completed a silent retreat', 'Experience of deep equanimity', 'Non-judgmental awareness becomes default'],
-    color: '#ec4899',
+    color: '#ff5e5b',
   },
   {
     period: 'Year 2+',
@@ -552,7 +552,7 @@ const stages: Stage[] = [
     techniques: ['Mahamudra', 'Dzogchen', 'Self-inquiry (Ramana style)', 'Koan practice'],
     challenges: ['Paradox of trying vs. not-trying', 'Understanding vs. realization', 'Teacher relationship'],
     milestones: ['Sustained witness consciousness', 'Meditation and life are no longer separate', 'Genuine compassion without effort'],
-    color: '#7c3aed',
+    color: '#0e7490',
   },
 ];
 
@@ -725,14 +725,14 @@ const BreathingCoach: React.FC<{ onSessionComplete: (minutes: number) => void }>
   return (
     <div className="glass-card border-gold-glow rounded-3xl p-6 md:p-10 relative overflow-hidden">
       {/* ambient glow */}
-      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(167,139,250,0.14), transparent 70%)' }} />
-      <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(216,179,90,0.10), transparent 70%)' }} />
+      <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(45,212,191,0.14), transparent 70%)' }} />
+      <div className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(255,182,39,0.10), transparent 70%)' }} />
 
       <div className="relative z-10">
         <div className="text-center mb-2">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#e879f9]">Breathing Coach</span>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#3b9dff]">Breathing Coach</span>
         </div>
-        <h3 className="text-2xl md:text-3xl font-black tracking-[-0.04em] text-center text-[#f7f0df] mb-6">
+        <h3 className="text-2xl md:text-3xl font-black tracking-[-0.04em] text-center text-[#e9f3f5] mb-6">
           Find Your Rhythm
         </h3>
 
@@ -744,10 +744,10 @@ const BreathingCoach: React.FC<{ onSessionComplete: (minutes: number) => void }>
               role="tab"
               aria-selected={techniqueId === t.id}
               onClick={() => reset(t.id)}
-              className={`btn-gloss px-4 py-2 rounded-xl text-sm font-bold transition-all ${techniqueId === t.id ? 'text-[#07040d]' : 'text-[#f7f0df]/70 hover:text-[#f7f0df]'}`}
+              className={`btn-gloss px-4 py-2 rounded-xl text-sm font-bold transition-all ${techniqueId === t.id ? 'text-[#04070e]' : 'text-[#e9f3f5]/70 hover:text-[#e9f3f5]'}`}
               style={techniqueId === t.id
-                ? { background: 'linear-gradient(135deg, #a78bfa, #e879f9)' }
-                : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(167,139,250,0.25)' }}
+                ? { background: 'linear-gradient(135deg, #2dd4bf, #3b9dff)' }
+                : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(45,212,191,0.25)' }}
             >
               {t.name}
               <span className="block text-[10px] font-medium opacity-80">
@@ -768,7 +768,7 @@ const BreathingCoach: React.FC<{ onSessionComplete: (minutes: number) => void }>
                 style={{
                   width: 280 * r,
                   height: 280 * r,
-                  border: `1px solid rgba(167,139,250,${0.12 + i * 0.06})`,
+                  border: `1px solid rgba(45,212,191,${0.12 + i * 0.06})`,
                   transform: `scale(${scale + i * 0.04})`,
                   transition: `transform ${transitionSec}s ease-in-out`,
                 }}
@@ -780,7 +780,7 @@ const BreathingCoach: React.FC<{ onSessionComplete: (minutes: number) => void }>
               style={{
                 width: 220,
                 height: 220,
-                background: 'radial-gradient(circle, rgba(167,139,250,0.35) 0%, rgba(232,121,249,0.18) 50%, transparent 72%)',
+                background: 'radial-gradient(circle, rgba(45,212,191,0.35) 0%, rgba(59,157,255,0.18) 50%, transparent 72%)',
                 filter: 'blur(6px)',
                 transform: `scale(${scale * 1.15})`,
                 transition: `transform ${transitionSec}s ease-in-out`,
@@ -792,18 +792,18 @@ const BreathingCoach: React.FC<{ onSessionComplete: (minutes: number) => void }>
               style={{
                 width: 180,
                 height: 180,
-                background: 'linear-gradient(135deg, rgba(167,139,250,0.9) 0%, rgba(124,58,237,0.85) 45%, rgba(216,179,90,0.75) 100%)',
-                boxShadow: '0 0 60px rgba(167,139,250,0.45), inset 0 0 40px rgba(255,255,255,0.15)',
+                background: 'linear-gradient(135deg, rgba(45,212,191,0.9) 0%, rgba(14,116,144,0.85) 45%, rgba(255,182,39,0.75) 100%)',
+                boxShadow: '0 0 60px rgba(45,212,191,0.45), inset 0 0 40px rgba(255,255,255,0.15)',
                 transform: `scale(${scale})`,
                 transition: `transform ${transitionSec}s ease-in-out`,
               }}
             >
               <div className="text-center select-none">
-                <div className="text-xl font-black tracking-[-0.04em] text-[#07040d]">
+                <div className="text-xl font-black tracking-[-0.04em] text-[#04070e]">
                   {running ? PHASE_LABEL[phase] : 'Ready'}
                 </div>
                 {running && (
-                  <div className="text-4xl font-black text-[#07040d]/80" aria-live="polite">{remaining}</div>
+                  <div className="text-4xl font-black text-[#04070e]/80" aria-live="polite">{remaining}</div>
                 )}
               </div>
             </div>
@@ -813,32 +813,32 @@ const BreathingCoach: React.FC<{ onSessionComplete: (minutes: number) => void }>
         {/* stats + controls */}
         <div className="flex flex-wrap items-center justify-center gap-6 mb-6">
           <div className="text-center">
-            <div className="text-2xl font-black text-[#d8b35a]">{cycles}</div>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62">Cycles</div>
+            <div className="text-2xl font-black text-[#ffb627]">{cycles}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/62">Cycles</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-black text-[#a78bfa]">{mins}:{String(secs).padStart(2, '0')}</div>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62">Session</div>
+            <div className="text-2xl font-black text-[#2dd4bf]">{mins}:{String(secs).padStart(2, '0')}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/62">Session</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-black text-[#e879f9]">{technique.name}</div>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62">{technique.tagline}</div>
+            <div className="text-2xl font-black text-[#3b9dff]">{technique.name}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/62">{technique.tagline}</div>
           </div>
         </div>
 
         <div className="flex justify-center gap-3">
           <button
             onClick={() => setRunning(r => !r)}
-            className="btn-gloss px-10 py-3.5 rounded-2xl font-black text-[#07040d] text-lg"
-            style={{ background: running ? 'linear-gradient(135deg, #e879f9, #a78bfa)' : 'linear-gradient(135deg, #d8b35a, #b8943a)' }}
+            className="btn-gloss px-10 py-3.5 rounded-2xl font-black text-[#04070e] text-lg"
+            style={{ background: running ? 'linear-gradient(135deg, #3b9dff, #2dd4bf)' : 'linear-gradient(135deg, #ffb627, #f0a01a)' }}
           >
             {running ? 'Pause' : elapsed > 0 ? 'Resume' : 'Begin Breathing'}
           </button>
           {elapsed > 0 && (
             <button
               onClick={() => reset()}
-              className="btn-gloss px-6 py-3.5 rounded-2xl font-bold text-[#f7f0df]/80"
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(167,139,250,0.3)' }}
+              className="btn-gloss px-6 py-3.5 rounded-2xl font-bold text-[#e9f3f5]/80"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(45,212,191,0.3)' }}
             >
               End &amp; Log
             </button>
@@ -889,8 +889,8 @@ const MeditationTimer: React.FC<{ onComplete: (minutes: number) => void }> = ({ 
 
   return (
     <div className="glass-card rounded-3xl p-6 md:p-8">
-      <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#a78bfa]">Meditation Timer</span>
-      <h3 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df] mt-1 mb-6">Sit. Breathe. Be.</h3>
+      <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#2dd4bf]">Meditation Timer</span>
+      <h3 className="text-2xl font-black tracking-[-0.04em] text-[#e9f3f5] mt-1 mb-6">Sit. Breathe. Be.</h3>
 
       <div className="flex flex-col sm:flex-row items-center gap-8">
         {/* progress ring */}
@@ -900,16 +900,16 @@ const MeditationTimer: React.FC<{ onComplete: (minutes: number) => void }> = ({ 
             aria-label={`Timer: ${mm} minutes ${ss} seconds remaining`}
             className="absolute inset-0 rounded-full"
             style={{
-              background: `conic-gradient(#a78bfa 0deg, #e879f9 ${progress * 198}deg, #d8b35a ${progress * 360}deg, rgba(167,139,250,0.15) ${progress * 360}deg)`,
+              background: `conic-gradient(#2dd4bf 0deg, #3b9dff ${progress * 198}deg, #ffb627 ${progress * 360}deg, rgba(45,212,191,0.15) ${progress * 360}deg)`,
               transition: 'background 1s linear',
             }}
           />
-          <div className="absolute inset-[10px] rounded-full bg-[#0b0714]" />
+          <div className="absolute inset-[10px] rounded-full bg-[#0a141f]" />
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="text-4xl font-black tracking-[-0.04em] text-[#f7f0df]">
+            <div className="text-4xl font-black tracking-[-0.04em] text-[#e9f3f5]">
               {mm}:{String(ss).padStart(2, '0')}
             </div>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62">
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/62">
               {done ? 'Complete' : running ? 'Meditating' : 'Ready'}
             </div>
           </div>
@@ -921,10 +921,10 @@ const MeditationTimer: React.FC<{ onComplete: (minutes: number) => void }> = ({ 
               <button
                 key={m}
                 onClick={() => pick(m)}
-                className={`btn-gloss px-5 py-2.5 rounded-xl font-bold text-sm ${targetMin === m ? 'text-[#07040d]' : 'text-[#f7f0df]/70'}`}
+                className={`btn-gloss px-5 py-2.5 rounded-xl font-bold text-sm ${targetMin === m ? 'text-[#04070e]' : 'text-[#e9f3f5]/70'}`}
                 style={targetMin === m
-                  ? { background: 'linear-gradient(135deg, #d8b35a, #b8943a)' }
-                  : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(216,179,90,0.25)' }}
+                  ? { background: 'linear-gradient(135deg, #ffb627, #f0a01a)' }
+                  : { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,182,39,0.25)' }}
               >
                 {m} min
               </button>
@@ -933,21 +933,21 @@ const MeditationTimer: React.FC<{ onComplete: (minutes: number) => void }> = ({ 
           <div className="flex gap-3">
             <button
               onClick={() => { if (done) pick(targetMin); else setRunning(r => !r); }}
-              className="btn-gloss px-8 py-3 rounded-2xl font-black text-[#07040d]"
-              style={{ background: 'linear-gradient(135deg, #a78bfa, #e879f9)' }}
+              className="btn-gloss px-8 py-3 rounded-2xl font-black text-[#04070e]"
+              style={{ background: 'linear-gradient(135deg, #2dd4bf, #3b9dff)' }}
             >
               {done ? 'Again' : running ? 'Pause' : 'Start'}
             </button>
             <button
               onClick={() => pick(targetMin)}
-              className="btn-gloss px-6 py-3 rounded-2xl font-bold text-[#f7f0df]/80"
-              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(167,139,250,0.3)' }}
+              className="btn-gloss px-6 py-3 rounded-2xl font-bold text-[#e9f3f5]/80"
+              style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(45,212,191,0.3)' }}
             >
               Reset
             </button>
           </div>
           {done && (
-            <p className="mt-4 text-sm text-[#d8b35a] font-bold">
+            <p className="mt-4 text-sm text-[#ffb627] font-bold">
               Session complete — {targetMin} minutes added to your practice. Well done.
             </p>
           )}
@@ -1016,11 +1016,11 @@ export function MeditationSection() {
     return (
       <div className="relative">
         <div className="blur-sm pointer-events-none select-none opacity-40">{children}</div>
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-transparent via-[#07040d]/80 to-[#07040d] rounded-2xl">
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-transparent via-[#04070e]/80 to-[#04070e] rounded-2xl">
           <div className="text-center p-8 max-w-md">
             <div className="text-5xl mb-4">🔒</div>
-            <h3 className="text-2xl font-black tracking-[-0.04em] text-[#d8b35a] mb-2">{sectionName} — Pro Feature</h3>
-            <p className="text-[#f7f0df]/70 mb-6">Unlock the complete meditation curriculum, guided scripts, and personalized roadmap with Titan Pro.</p>
+            <h3 className="text-2xl font-black tracking-[-0.04em] text-[#ffb627] mb-2">{sectionName} — Pro Feature</h3>
+            <p className="text-[#e9f3f5]/70 mb-6">Unlock the complete meditation curriculum, guided scripts, and personalized roadmap with Titan Pro.</p>
             <button
               onClick={() => openCheckout('pro')}
               className="btn-gloss px-8 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold rounded-xl hover:from-violet-500 hover:to-fuchsia-500 transition-all shadow-lg shadow-violet-900/40"
@@ -1034,16 +1034,16 @@ export function MeditationSection() {
   };
 
   const statTiles = [
-    { value: `${streak}`, unit: streak === 1 ? 'day' : 'days', label: 'Current Streak', color: '#d8b35a' },
-    { value: `${stats.totalMinutes}`, unit: 'min', label: 'Minutes Meditated', color: '#a78bfa' },
-    { value: `${stats.sessions}`, unit: '', label: 'Sessions Completed', color: '#e879f9' },
-    { value: `${stats.log.slice(-7).length}`, unit: '/ 7', label: 'Days This Week', color: '#10b981' },
+    { value: `${streak}`, unit: streak === 1 ? 'day' : 'days', label: 'Current Streak', color: '#ffb627' },
+    { value: `${stats.totalMinutes}`, unit: 'min', label: 'Minutes Meditated', color: '#2dd4bf' },
+    { value: `${stats.sessions}`, unit: '', label: 'Sessions Completed', color: '#3b9dff' },
+    { value: `${stats.log.slice(-7).length}`, unit: '/ 7', label: 'Days This Week', color: '#16c172' },
   ];
 
   return (
-    <div style={{ background: '#07040d', color: '#f7f0df', minHeight: '100vh' }}>
+    <div style={{ background: '#04070e', color: '#e9f3f5', minHeight: '100vh' }}>
       {/* Hero */}
-      <div className="relative overflow-hidden rounded-3xl mb-8 border-gold-glow" style={{ background: 'linear-gradient(135deg, #0f0720 0%, #1a0a3a 50%, #070418 100%)' }}>
+      <div className="relative overflow-hidden rounded-3xl mb-8 border-gold-glow" style={{ background: 'linear-gradient(135deg, #0a141f 0%, #1a0a3a 50%, #070418 100%)' }}>
         <div className="absolute inset-0" aria-hidden="true">
           {[...Array(24)].map((_, i) => (
             <div
@@ -1052,7 +1052,7 @@ export function MeditationSection() {
               style={{
                 width: `${(i % 4) + 1}px`,
                 height: `${(i % 4) + 1}px`,
-                background: i % 3 === 0 ? '#d8b35a' : i % 3 === 1 ? '#a78bfa' : '#e879f9',
+                background: i % 3 === 0 ? '#ffb627' : i % 3 === 1 ? '#2dd4bf' : '#3b9dff',
                 top: `${(i * 37) % 100}%`,
                 left: `${(i * 53) % 100}%`,
                 opacity: 0.15 + (i % 5) * 0.1,
@@ -1069,16 +1069,16 @@ export function MeditationSection() {
             className="w-full h-full object-cover opacity-40"
             onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #0f0720 0%, transparent 60%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #0a141f 0%, transparent 60%)' }} />
         </div>
         <div className="relative z-10 px-8 py-16 lg:pr-[45%]">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ background: 'rgba(167,139,250,0.15)', border: '1px solid rgba(167,139,250,0.4)' }}>
-            <span className="text-[#d8b35a] text-xs font-bold uppercase tracking-[0.2em]">🧘 Premium Meditation Studio</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ background: 'rgba(45,212,191,0.15)', border: '1px solid rgba(45,212,191,0.4)' }}>
+            <span className="text-[#ffb627] text-xs font-bold uppercase tracking-[0.2em]">🧘 Premium Meditation Studio</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-black tracking-[-0.04em] mb-4" style={{ background: 'linear-gradient(135deg, #f7f0df 0%, #d8b35a 50%, #a78bfa 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+          <h1 className="text-4xl md:text-6xl font-black tracking-[-0.04em] mb-4" style={{ background: 'linear-gradient(135deg, #e9f3f5 0%, #ffb627 50%, #2dd4bf 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             The Science &amp; Art of<br />Inner Stillness
           </h1>
-          <p className="text-[#f7f0df]/70 text-lg max-w-2xl mb-10">
+          <p className="text-[#e9f3f5]/70 text-lg max-w-2xl mb-10">
             From your first breath of awareness to advanced states of consciousness — a complete evidence-based journey from beginner to master.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl">
@@ -1089,8 +1089,8 @@ export function MeditationSection() {
               { num: '7', label: 'Stages of mastery' },
             ].map((s, i) => (
               <div key={i} className="glass-card rounded-xl p-4 text-center">
-                <div className="text-2xl font-black tracking-[-0.04em] text-[#d8b35a]">{s.num}</div>
-                <div className="text-xs text-[#f7f0df]/62 mt-1">{s.label}</div>
+                <div className="text-2xl font-black tracking-[-0.04em] text-[#ffb627]">{s.num}</div>
+                <div className="text-xs text-[#e9f3f5]/62 mt-1">{s.label}</div>
               </div>
             ))}
           </div>
@@ -1103,9 +1103,9 @@ export function MeditationSection() {
           <div key={i} className="glass-card rounded-2xl p-4">
             <div className="flex items-baseline gap-1">
               <span className="text-3xl font-black tracking-[-0.04em]" style={{ color: t.color }}>{t.value}</span>
-              {t.unit && <span className="text-sm font-bold text-[#f7f0df]/62">{t.unit}</span>}
+              {t.unit && <span className="text-sm font-bold text-[#e9f3f5]/62">{t.unit}</span>}
             </div>
-            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62 mt-1">{t.label}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/62 mt-1">{t.label}</div>
           </div>
         ))}
       </div>
@@ -1121,15 +1121,15 @@ export function MeditationSection() {
           ].map((s) => (
             <div key={s.n} className="rounded-xl border border-white/8 bg-white/5 p-4">
               <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-              <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-              <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+              <p className="text-sm font-bold text-[#e9f3f5]">{s.t}</p>
+              <p className="mt-1 text-xs leading-relaxed text-[#e9f3f5]/68">{s.d}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* Sticky Nav */}
-      <div className="sticky top-0 z-20 mb-8 overflow-x-auto rounded-xl" style={{ background: 'rgba(7,4,13,0.95)', borderBottom: '1px solid rgba(167,139,250,0.2)', backdropFilter: 'blur(12px)' }}>
+      <div className="sticky top-0 z-20 mb-8 overflow-x-auto rounded-xl" style={{ background: 'rgba(4,7,14,0.95)', borderBottom: '1px solid rgba(45,212,191,0.2)', backdropFilter: 'blur(12px)' }}>
         <div className="flex gap-1 px-2 py-2 min-w-max">
           {navSections.map(s => (
             <button
@@ -1137,9 +1137,9 @@ export function MeditationSection() {
               onClick={() => setActiveSection(s.id)}
               className="px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap flex items-center gap-1"
               style={{
-                background: activeSection === s.id ? 'rgba(167,139,250,0.25)' : 'transparent',
-                color: activeSection === s.id ? '#d8b35a' : 'rgba(247,240,223,0.62)',
-                border: activeSection === s.id ? '1px solid rgba(167,139,250,0.5)' : '1px solid transparent',
+                background: activeSection === s.id ? 'rgba(45,212,191,0.25)' : 'transparent',
+                color: activeSection === s.id ? '#ffb627' : 'rgba(233,243,245,0.62)',
+                border: activeSection === s.id ? '1px solid rgba(45,212,191,0.5)' : '1px solid transparent',
               }}
             >
               {!s.free && !isPro && <span className="text-xs">🔒</span>}
@@ -1164,21 +1164,21 @@ export function MeditationSection() {
                 className="absolute inset-0 w-full h-full object-cover"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
               />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 20%, rgba(7,4,13,0.92) 100%)' }} />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 20%, rgba(4,7,14,0.92) 100%)' }} />
               <div className="absolute bottom-0 p-6">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#e879f9]">Today's Intention</span>
-                <p className="text-xl font-black tracking-[-0.04em] text-[#f7f0df] mt-1">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#3b9dff]">Today's Intention</span>
+                <p className="text-xl font-black tracking-[-0.04em] text-[#e9f3f5] mt-1">
                   "Between stimulus and response there is a space. In that space is our power to choose."
                 </p>
-                <p className="text-sm text-[#f7f0df]/62 mt-2">— Viktor Frankl</p>
+                <p className="text-sm text-[#e9f3f5]/62 mt-2">— Viktor Frankl</p>
               </div>
             </div>
           </div>
 
           {/* 30-day heatmap */}
           <div className="glass-card rounded-3xl p-6">
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#a78bfa]">Consistency</span>
-            <h3 className="text-xl font-black tracking-[-0.04em] text-[#f7f0df] mt-1 mb-4">Last 30 Days</h3>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#2dd4bf]">Consistency</span>
+            <h3 className="text-xl font-black tracking-[-0.04em] text-[#e9f3f5] mt-1 mb-4">Last 30 Days</h3>
             <div className="flex gap-1.5 flex-wrap">
               {Array.from({ length: 30 }, (_, i) => {
                 const date = new Date();
@@ -1191,9 +1191,9 @@ export function MeditationSection() {
                     className="w-6 h-6 rounded"
                     title={dateStr}
                     style={{
-                      background: practiced ? 'linear-gradient(135deg, #a78bfa, #e879f9)' : 'rgba(255,255,255,0.05)',
-                      border: '1px solid rgba(167,139,250,0.2)',
-                      boxShadow: practiced ? '0 0 8px rgba(167,139,250,0.5)' : 'none',
+                      background: practiced ? 'linear-gradient(135deg, #2dd4bf, #3b9dff)' : 'rgba(255,255,255,0.05)',
+                      border: '1px solid rgba(45,212,191,0.2)',
+                      boxShadow: practiced ? '0 0 8px rgba(45,212,191,0.5)' : 'none',
                     }}
                   />
                 );
@@ -1207,9 +1207,9 @@ export function MeditationSection() {
       {activeSection === 'sessions' && (
         <div className="space-y-6">
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#e879f9]">Guided Library</span>
-            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a] mt-1">12 Guided Sessions</h2>
-            <p className="text-[#f7f0df]/70 mt-2">Curated for every state of mind — from pre-workout focus to post-training recovery and deep sleep.</p>
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#3b9dff]">Guided Library</span>
+            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627] mt-1">12 Guided Sessions</h2>
+            <p className="text-[#e9f3f5]/70 mt-2">Curated for every state of mind — from pre-workout focus to post-training recovery and deep sleep.</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -1217,10 +1217,10 @@ export function MeditationSection() {
               <button
                 key={c}
                 onClick={() => setSessionFilter(c)}
-                className={`btn-gloss px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] ${sessionFilter === c ? 'text-[#07040d]' : 'text-[#f7f0df]/62'}`}
+                className={`btn-gloss px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-[0.2em] ${sessionFilter === c ? 'text-[#04070e]' : 'text-[#e9f3f5]/62'}`}
                 style={sessionFilter === c
-                  ? { background: 'linear-gradient(135deg, #a78bfa, #e879f9)' }
-                  : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(167,139,250,0.25)' }}
+                  ? { background: 'linear-gradient(135deg, #2dd4bf, #3b9dff)' }
+                  : { background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(45,212,191,0.25)' }}
               >
                 {c}
               </button>
@@ -1241,34 +1241,34 @@ export function MeditationSection() {
                       className={`w-full h-full object-cover ${locked ? 'opacity-40 grayscale' : ''}`}
                       onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                     />
-                    <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 40%, rgba(7,4,13,0.9) 100%)' }} />
+                    <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 40%, rgba(4,7,14,0.9) 100%)' }} />
                     <div className="absolute top-3 left-3 flex gap-2">
-                      <span className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-[0.2em] text-[#07040d]" style={{ background: 'linear-gradient(135deg, #d8b35a, #b8943a)' }}>
+                      <span className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-[0.2em] text-[#04070e]" style={{ background: 'linear-gradient(135deg, #ffb627, #f0a01a)' }}>
                         {s.category}
                       </span>
                       {s.premium && (
-                        <span className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-[0.2em]" style={{ background: 'rgba(7,4,13,0.75)', color: '#e879f9', border: '1px solid rgba(232,121,249,0.4)' }}>
+                        <span className="px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-[0.2em]" style={{ background: 'rgba(4,7,14,0.75)', color: '#3b9dff', border: '1px solid rgba(59,157,255,0.4)' }}>
                           {locked ? '🔒 Pro' : '✦ Pro'}
                         </span>
                       )}
                     </div>
                     <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
-                      <h3 className="text-lg font-black tracking-[-0.04em] text-[#f7f0df]">{s.title}</h3>
-                      <span className="text-xs font-bold text-[#f7f0df]/70 shrink-0 ml-2">{s.minutes} min</span>
+                      <h3 className="text-lg font-black tracking-[-0.04em] text-[#e9f3f5]">{s.title}</h3>
+                      <span className="text-xs font-bold text-[#e9f3f5]/70 shrink-0 ml-2">{s.minutes} min</span>
                     </div>
                   </div>
                   <div className="p-5 flex flex-col flex-1">
                     <div className="flex items-center gap-2 mb-3">
                       <span className="text-xs px-2 py-0.5 rounded-full font-bold" style={{
-                        background: s.level === 'Beginner' ? 'rgba(16,185,129,0.2)' : s.level === 'Intermediate' ? 'rgba(245,158,11,0.2)' : 'rgba(239,68,68,0.2)',
-                        color: s.level === 'Beginner' ? '#34d399' : s.level === 'Intermediate' ? '#fbbf24' : '#f87171',
+                        background: s.level === 'Beginner' ? 'rgba(22,193,114,0.2)' : s.level === 'Intermediate' ? 'rgba(255,182,39,0.2)' : 'rgba(237,63,69,0.2)',
+                        color: s.level === 'Beginner' ? '#34e08a' : s.level === 'Intermediate' ? '#ffc23d' : '#ff8a75',
                       }}>{s.level}</span>
                     </div>
-                    <p className="text-sm text-[#f7f0df]/70 mb-4 flex-1">{s.description}</p>
+                    <p className="text-sm text-[#e9f3f5]/70 mb-4 flex-1">{s.description}</p>
                     <div className="mb-4">
                       {s.benefits.map((b, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-[#f7f0df]/70 mb-1">
-                          <span className="text-[#a78bfa]">✓</span> {b}
+                        <div key={i} className="flex items-center gap-2 text-xs text-[#e9f3f5]/70 mb-1">
+                          <span className="text-[#2dd4bf]">✓</span> {b}
                         </div>
                       ))}
                     </div>
@@ -1279,8 +1279,8 @@ export function MeditationSection() {
                       }}
                       className="btn-gloss w-full py-2.5 rounded-xl font-bold text-sm"
                       style={locked
-                        ? { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(232,121,249,0.35)', color: '#e879f9' }
-                        : { background: 'linear-gradient(135deg, #a78bfa, #e879f9)', color: '#07040d' }}
+                        ? { background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(59,157,255,0.35)', color: '#3b9dff' }
+                        : { background: 'linear-gradient(135deg, #2dd4bf, #3b9dff)', color: '#04070e' }}
                     >
                       {locked ? 'Unlock with Pro' : 'View Guided Practice →'}
                     </button>
@@ -1297,15 +1297,15 @@ export function MeditationSection() {
         <div className="space-y-8">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a] mb-4">What is Meditation?</h2>
-              <p className="text-[#f7f0df]/80 text-lg leading-relaxed mb-4">
+              <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627] mb-4">What is Meditation?</h2>
+              <p className="text-[#e9f3f5]/80 text-lg leading-relaxed mb-4">
                 Meditation is the practice of training attention and awareness — cultivating a clear, calm, and stable mind. It is not about stopping thoughts, achieving bliss, or "emptying" the mind. It is about observing experience with greater clarity and equanimity.
               </p>
-              <p className="text-[#f7f0df]/70 leading-relaxed mb-4">
+              <p className="text-[#e9f3f5]/70 leading-relaxed mb-4">
                 Practiced for 2,500+ years across every major civilization, meditation has been rigorously studied by modern neuroscience and validated as one of the most effective interventions for mental health, cognitive performance, and overall wellbeing.
               </p>
-              <div className="p-4 rounded-xl border-gold-glow" style={{ background: 'rgba(216,179,90,0.08)' }}>
-                <p className="text-[#d8b35a] italic text-sm">"You should sit in meditation for twenty minutes every day — unless you're too busy; then you should sit for an hour." — Zen proverb</p>
+              <div className="p-4 rounded-xl border-gold-glow" style={{ background: 'rgba(255,182,39,0.08)' }}>
+                <p className="text-[#ffb627] italic text-sm">"You should sit in meditation for twenty minutes every day — unless you're too busy; then you should sit for an hour." — Zen proverb</p>
               </div>
             </div>
             <div className="flex justify-center">
@@ -1315,7 +1315,7 @@ export function MeditationSection() {
 
           {/* Neuroscience */}
           <div>
-            <h3 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df] mb-4">What Happens in the Brain</h3>
+            <h3 className="text-2xl font-black tracking-[-0.04em] text-[#e9f3f5] mb-4">What Happens in the Brain</h3>
             <div className="grid md:grid-cols-3 gap-4">
               {[
                 { region: 'Prefrontal Cortex', change: 'Thickens with practice', effect: 'Better decision-making, focus, and emotional regulation', icon: '🧠' },
@@ -1327,9 +1327,9 @@ export function MeditationSection() {
               ].map((b, i) => (
                 <div key={i} className="glass-card p-4 rounded-xl">
                   <div className="text-2xl mb-2">{b.icon}</div>
-                  <div className="font-bold text-[#d8b35a] text-sm mb-1">{b.region}</div>
-                  <div className="text-[#a78bfa] text-xs mb-2 font-medium">{b.change}</div>
-                  <div className="text-[#f7f0df]/70 text-xs">{b.effect}</div>
+                  <div className="font-bold text-[#ffb627] text-sm mb-1">{b.region}</div>
+                  <div className="text-[#2dd4bf] text-xs mb-2 font-medium">{b.change}</div>
+                  <div className="text-[#e9f3f5]/70 text-xs">{b.effect}</div>
                 </div>
               ))}
             </div>
@@ -1337,7 +1337,7 @@ export function MeditationSection() {
 
           {/* Types */}
           <div>
-            <h3 className="text-2xl font-black tracking-[-0.04em] text-[#f7f0df] mb-4">The Landscape of Meditation</h3>
+            <h3 className="text-2xl font-black tracking-[-0.04em] text-[#e9f3f5] mb-4">The Landscape of Meditation</h3>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
               {[
                 { name: 'Focused Attention', icon: '🎯', desc: 'Single-point concentration' },
@@ -1353,8 +1353,8 @@ export function MeditationSection() {
               ].map((t, i) => (
                 <div key={i} className="glass-card p-3 rounded-xl text-center">
                   <div className="text-2xl mb-1">{t.icon}</div>
-                  <div className="text-xs font-bold text-[#f7f0df]">{t.name}</div>
-                  <div className="text-xs text-[#f7f0df]/62 mt-1">{t.desc}</div>
+                  <div className="text-xs font-bold text-[#e9f3f5]">{t.name}</div>
+                  <div className="text-xs text-[#e9f3f5]/62 mt-1">{t.desc}</div>
                 </div>
               ))}
             </div>
@@ -1365,29 +1365,29 @@ export function MeditationSection() {
       {/* ── Section: Benefits ─────────────────────────────────────────────── */}
       {activeSection === 'benefits' && (
         <div className="space-y-8">
-          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a]">Evidence-Based Benefits</h2>
+          <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627]">Evidence-Based Benefits</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="glass-card p-6 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(167,139,250,0.12), rgba(79,70,229,0.05))' }}>
-              <h3 className="text-xl font-black tracking-[-0.04em] text-[#a78bfa] mb-4">🧠 Mental Health</h3>
+            <div className="glass-card p-6 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(45,212,191,0.12), rgba(26,102,212,0.05))' }}>
+              <h3 className="text-xl font-black tracking-[-0.04em] text-[#2dd4bf] mb-4">🧠 Mental Health</h3>
               {benefits.mental.map((b, i) => (
                 <div key={i} className="flex items-center gap-4 mb-4">
-                  <div className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a] w-16 shrink-0">{b.stat}</div>
+                  <div className="text-3xl font-black tracking-[-0.04em] text-[#ffb627] w-16 shrink-0">{b.stat}</div>
                   <div>
-                    <div className="text-[#f7f0df] font-medium text-sm">{b.label}</div>
-                    <div className="text-[#f7f0df]/62 text-xs">{b.source}</div>
+                    <div className="text-[#e9f3f5] font-medium text-sm">{b.label}</div>
+                    <div className="text-[#e9f3f5]/62 text-xs">{b.source}</div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="glass-card p-6 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.1), rgba(6,95,70,0.05))' }}>
+            <div className="glass-card p-6 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(22,193,114,0.1), rgba(6,95,80,0.05))' }}>
               <h3 className="text-xl font-black tracking-[-0.04em] text-emerald-400 mb-4">💪 Physical Health</h3>
               {benefits.physical.map((b, i) => (
                 <div key={i} className="flex items-center gap-4 mb-4">
-                  <div className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a] w-16 shrink-0">{b.stat}</div>
+                  <div className="text-3xl font-black tracking-[-0.04em] text-[#ffb627] w-16 shrink-0">{b.stat}</div>
                   <div>
-                    <div className="text-[#f7f0df] font-medium text-sm">{b.label}</div>
-                    <div className="text-[#f7f0df]/62 text-xs">{b.source}</div>
+                    <div className="text-[#e9f3f5] font-medium text-sm">{b.label}</div>
+                    <div className="text-[#e9f3f5]/62 text-xs">{b.source}</div>
                   </div>
                 </div>
               ))}
@@ -1404,10 +1404,10 @@ export function MeditationSection() {
                 { category: 'Cognitive', items: ['Better working memory', 'Enhanced creativity', 'Faster information processing', 'Reduced cognitive decline with age'] },
               ].map((cat, i) => (
                 <div key={i} className="glass-card p-4 rounded-xl">
-                  <div className="font-bold text-[#d8b35a] mb-3">{cat.category} Benefits</div>
+                  <div className="font-bold text-[#ffb627] mb-3">{cat.category} Benefits</div>
                   {cat.items.map((item, j) => (
-                    <div key={j} className="flex items-center gap-2 text-sm text-[#f7f0df]/80 mb-2">
-                      <span className="text-[#a78bfa]">✓</span> {item}
+                    <div key={j} className="flex items-center gap-2 text-sm text-[#e9f3f5]/80 mb-2">
+                      <span className="text-[#2dd4bf]">✓</span> {item}
                     </div>
                   ))}
                 </div>
@@ -1421,14 +1421,14 @@ export function MeditationSection() {
       {activeSection === 'howto' && (
         <ProGate sectionName="How To Meditate">
           <div className="space-y-8">
-            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a]">How to Meditate — Complete Guide</h2>
+            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627]">How to Meditate — Complete Guide</h2>
             <div className="grid md:grid-cols-2 gap-8 items-center mb-8">
               <div className="flex justify-center">
                 <MeditationFigure pose="focused_attention" size={200} rounded={24} />
               </div>
               <div className="glass-card p-6 rounded-2xl">
-                <h3 className="text-lg font-bold text-[#d8b35a] mb-3">Before You Begin</h3>
-                <div className="space-y-2 text-sm text-[#f7f0df]/80">
+                <h3 className="text-lg font-bold text-[#ffb627] mb-3">Before You Begin</h3>
+                <div className="space-y-2 text-sm text-[#e9f3f5]/80">
                   <div>⏰ <strong>Time:</strong> Morning is ideal. Your practice, your rules.</div>
                   <div>📍 <strong>Place:</strong> Quiet, comfortable, consistent spot</div>
                   <div>🪑 <strong>Posture:</strong> Dignified, not rigid. Chair is fine.</div>
@@ -1447,10 +1447,10 @@ export function MeditationSection() {
               { step: 6, title: 'Close', figure: 'loving_kindness', instruction: 'When your timer sounds, don\'t jump up. Rest in open awareness for 1 minute. Offer goodwill: "May I be well. May all beings be well." Open eyes slowly. Carry the quality of attention forward.' },
             ].map((s, i) => (
               <div key={i} className="glass-card flex gap-6 p-6 rounded-2xl">
-                <div className="text-5xl font-black text-[#a78bfa]/40 shrink-0 w-12">{s.step}</div>
+                <div className="text-5xl font-black text-[#2dd4bf]/40 shrink-0 w-12">{s.step}</div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-black tracking-[-0.04em] text-[#d8b35a] mb-2">{s.title}</h3>
-                  <p className="text-[#f7f0df]/80 leading-relaxed">{s.instruction}</p>
+                  <h3 className="text-xl font-black tracking-[-0.04em] text-[#ffb627] mb-2">{s.title}</h3>
+                  <p className="text-[#e9f3f5]/80 leading-relaxed">{s.instruction}</p>
                 </div>
                 <div className="shrink-0 hidden md:block">
                   <MeditationFigure pose={s.figure} size={80} rounded={12} />
@@ -1465,8 +1465,8 @@ export function MeditationSection() {
       {activeSection === 'roadmap' && (
         <ProGate sectionName="Beginner to Advanced Roadmap">
           <div className="space-y-6">
-            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a]">Your Meditation Journey — 7 Stages</h2>
-            <p className="text-[#f7f0df]/70">The path is not linear. Progress appears in daily life before it appears in sessions. Trust the process.</p>
+            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627]">Your Meditation Journey — 7 Stages</h2>
+            <p className="text-[#e9f3f5]/70">The path is not linear. Progress appears in daily life before it appears in sessions. Trust the process.</p>
             <div className="space-y-4">
               {stages.map((stage, i) => (
                 <div key={i} className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${stage.color}33` }}>
@@ -1475,32 +1475,32 @@ export function MeditationSection() {
                     className="w-full flex items-center gap-4 p-5 text-left"
                     style={{ background: `linear-gradient(135deg, ${stage.color}18, transparent)` }}
                   >
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center font-black text-lg shrink-0" style={{ background: stage.color, color: '#07040d' }}>
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center font-black text-lg shrink-0" style={{ background: stage.color, color: '#04070e' }}>
                       {i + 1}
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-3 flex-wrap">
                         <span className="font-black tracking-[-0.04em] text-lg" style={{ color: stage.color }}>{stage.label}</span>
                         <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ background: `${stage.color}22`, color: stage.color }}>{stage.level}</span>
-                        <span className="text-[#f7f0df]/62 text-sm">{stage.period} · {stage.duration}</span>
+                        <span className="text-[#e9f3f5]/62 text-sm">{stage.period} · {stage.duration}</span>
                       </div>
-                      <div className="text-[#f7f0df]/70 text-sm mt-1">{stage.focus}</div>
+                      <div className="text-[#e9f3f5]/70 text-sm mt-1">{stage.focus}</div>
                     </div>
-                    <span className="text-[#f7f0df]/62">{expandedStage === i ? '▲' : '▼'}</span>
+                    <span className="text-[#e9f3f5]/62">{expandedStage === i ? '▲' : '▼'}</span>
                   </button>
                   {expandedStage === i && (
                     <div className="px-5 pb-5 grid md:grid-cols-3 gap-4">
                       <div>
-                        <div className="text-xs font-bold text-[#d8b35a] mb-2 uppercase tracking-[0.2em]">Practices</div>
-                        {stage.techniques.map((t, j) => <div key={j} className="text-sm text-[#f7f0df]/80 mb-1">• {t}</div>)}
+                        <div className="text-xs font-bold text-[#ffb627] mb-2 uppercase tracking-[0.2em]">Practices</div>
+                        {stage.techniques.map((t, j) => <div key={j} className="text-sm text-[#e9f3f5]/80 mb-1">• {t}</div>)}
                       </div>
                       <div>
                         <div className="text-xs font-bold text-red-400 mb-2 uppercase tracking-[0.2em]">Common Challenges</div>
-                        {stage.challenges.map((c, j) => <div key={j} className="text-sm text-[#f7f0df]/70 mb-1">⚠ {c}</div>)}
+                        {stage.challenges.map((c, j) => <div key={j} className="text-sm text-[#e9f3f5]/70 mb-1">⚠ {c}</div>)}
                       </div>
                       <div>
                         <div className="text-xs font-bold text-emerald-400 mb-2 uppercase tracking-[0.2em]">Milestones</div>
-                        {stage.milestones.map((m, j) => <div key={j} className="text-sm text-[#f7f0df]/80 mb-1">✓ {m}</div>)}
+                        {stage.milestones.map((m, j) => <div key={j} className="text-sm text-[#e9f3f5]/80 mb-1">✓ {m}</div>)}
                       </div>
                     </div>
                   )}
@@ -1515,7 +1515,7 @@ export function MeditationSection() {
       {activeSection === 'techniques' && (
         <ProGate sectionName="Techniques Library">
           <div className="space-y-6">
-            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a]">12 Meditation Techniques</h2>
+            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627]">12 Meditation Techniques</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {techniques.map(t => (
                 <div key={t.id} className="glass-card rounded-2xl overflow-hidden">
@@ -1528,36 +1528,36 @@ export function MeditationSection() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <h3 className="font-bold text-[#f7f0df]">{t.name}</h3>
+                        <h3 className="font-bold text-[#e9f3f5]">{t.name}</h3>
                         <span className="text-xs px-2 py-0.5 rounded-full shrink-0" style={{
-                          background: t.difficulty === 'Beginner' ? 'rgba(16,185,129,0.2)' : t.difficulty === 'Intermediate' ? 'rgba(245,158,11,0.2)' : 'rgba(239,68,68,0.2)',
-                          color: t.difficulty === 'Beginner' ? '#34d399' : t.difficulty === 'Intermediate' ? '#fbbf24' : '#f87171',
+                          background: t.difficulty === 'Beginner' ? 'rgba(22,193,114,0.2)' : t.difficulty === 'Intermediate' ? 'rgba(255,182,39,0.2)' : 'rgba(237,63,69,0.2)',
+                          color: t.difficulty === 'Beginner' ? '#34e08a' : t.difficulty === 'Intermediate' ? '#ffc23d' : '#ff8a75',
                         }}>{t.difficulty}</span>
                       </div>
-                      <div className="text-xs text-[#a78bfa] mb-2">{t.origin}</div>
+                      <div className="text-xs text-[#2dd4bf] mb-2">{t.origin}</div>
                       <div className="flex flex-wrap gap-1 mb-2">
                         {t.bestFor.slice(0, 3).map((b, i) => (
-                          <span key={i} className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'rgba(167,139,250,0.15)', color: '#a78bfa' }}>{b}</span>
+                          <span key={i} className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'rgba(45,212,191,0.15)', color: '#2dd4bf' }}>{b}</span>
                         ))}
                       </div>
-                      <div className="text-xs text-[#f7f0df]/62">⏱ {t.duration}</div>
+                      <div className="text-xs text-[#e9f3f5]/62">⏱ {t.duration}</div>
                     </div>
                   </button>
                   {expandedTechnique === t.id && (
-                    <div className="px-5 pb-5 border-t" style={{ borderColor: 'rgba(167,139,250,0.2)' }}>
-                      <p className="text-[#f7f0df]/70 text-sm mb-4 mt-4">{t.description}</p>
+                    <div className="px-5 pb-5 border-t" style={{ borderColor: 'rgba(45,212,191,0.2)' }}>
+                      <p className="text-[#e9f3f5]/70 text-sm mb-4 mt-4">{t.description}</p>
                       <div className="mb-4">
-                        <div className="text-xs font-bold text-[#d8b35a] mb-2 uppercase tracking-[0.2em]">Instructions</div>
+                        <div className="text-xs font-bold text-[#ffb627] mb-2 uppercase tracking-[0.2em]">Instructions</div>
                         {t.steps.map((s, i) => (
-                          <div key={i} className="flex gap-2 text-sm text-[#f7f0df]/80 mb-2">
-                            <span className="text-[#a78bfa] shrink-0">{i + 1}.</span>
+                          <div key={i} className="flex gap-2 text-sm text-[#e9f3f5]/80 mb-2">
+                            <span className="text-[#2dd4bf] shrink-0">{i + 1}.</span>
                             {s}
                           </div>
                         ))}
                       </div>
-                      <div className="p-4 rounded-xl border-gold-glow" style={{ background: 'rgba(216,179,90,0.06)' }}>
-                        <div className="text-xs font-bold text-[#d8b35a] mb-2 uppercase tracking-[0.2em]">📢 Guided Script Excerpt</div>
-                        <p className="text-[#f7f0df]/80 text-sm italic">{t.script}</p>
+                      <div className="p-4 rounded-xl border-gold-glow" style={{ background: 'rgba(255,182,39,0.06)' }}>
+                        <div className="text-xs font-bold text-[#ffb627] mb-2 uppercase tracking-[0.2em]">📢 Guided Script Excerpt</div>
+                        <p className="text-[#e9f3f5]/80 text-sm italic">{t.script}</p>
                       </div>
                     </div>
                   )}
@@ -1572,18 +1572,18 @@ export function MeditationSection() {
       {activeSection === 'challenges' && (
         <ProGate sectionName="Common Challenges">
           <div className="space-y-4">
-            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a] mb-6">Every Meditator Faces These</h2>
+            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627] mb-6">Every Meditator Faces These</h2>
             {faqs.map((faq, i) => (
               <div key={i} className="glass-card rounded-2xl overflow-hidden">
                 <button
                   onClick={() => setExpandedFaq(expandedFaq === i ? null : i)}
                   className="w-full flex items-center justify-between gap-4 p-5 text-left"
                 >
-                  <span className="font-medium text-[#f7f0df]">{faq.q}</span>
-                  <span className="text-[#a78bfa] text-xl shrink-0">{expandedFaq === i ? '−' : '+'}</span>
+                  <span className="font-medium text-[#e9f3f5]">{faq.q}</span>
+                  <span className="text-[#2dd4bf] text-xl shrink-0">{expandedFaq === i ? '−' : '+'}</span>
                 </button>
                 {expandedFaq === i && (
-                  <div className="px-5 pb-5 text-[#f7f0df]/75 leading-relaxed border-t" style={{ borderColor: 'rgba(167,139,250,0.2)' }}>
+                  <div className="px-5 pb-5 text-[#e9f3f5]/75 leading-relaxed border-t" style={{ borderColor: 'rgba(45,212,191,0.2)' }}>
                     <p className="mt-4">{faq.a}</p>
                   </div>
                 )}
@@ -1597,25 +1597,25 @@ export function MeditationSection() {
       {activeSection === 'practice' && (
         <ProGate sectionName="Daily Practice Builder">
           <div className="space-y-8">
-            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#d8b35a]">Build Your Daily Practice</h2>
+            <h2 className="text-3xl font-black tracking-[-0.04em] text-[#ffb627]">Build Your Daily Practice</h2>
 
             {/* Session Logger */}
-            <div className="glass-card border-gold-glow p-6 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(167,139,250,0.12), rgba(79,70,229,0.05))' }}>
+            <div className="glass-card border-gold-glow p-6 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(45,212,191,0.12), rgba(26,102,212,0.05))' }}>
               <div className="flex flex-col md:flex-row md:items-center gap-4 justify-between">
                 <div>
-                  <h3 className="font-black tracking-[-0.04em] text-[#d8b35a] text-lg">Log Today's Session</h3>
-                  <div className="text-[#f7f0df]/62 text-sm">{stats.sessions} sessions logged · {Math.max(0, 7 - stats.log.slice(-7).length)} sessions to complete this week's goal</div>
+                  <h3 className="font-black tracking-[-0.04em] text-[#ffb627] text-lg">Log Today's Session</h3>
+                  <div className="text-[#e9f3f5]/62 text-sm">{stats.sessions} sessions logged · {Math.max(0, 7 - stats.log.slice(-7).length)} sessions to complete this week's goal</div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
-                    <button onClick={() => setPracticeMinutes(Math.max(5, practiceMinutes - 5))} className="btn-gloss w-8 h-8 rounded-full text-[#f7f0df] font-bold" style={{ background: 'rgba(167,139,250,0.3)' }} aria-label="Decrease minutes">−</button>
-                    <span className="text-[#d8b35a] font-black text-xl w-16 text-center">{practiceMinutes} min</span>
-                    <button onClick={() => setPracticeMinutes(Math.min(120, practiceMinutes + 5))} className="btn-gloss w-8 h-8 rounded-full text-[#f7f0df] font-bold" style={{ background: 'rgba(167,139,250,0.3)' }} aria-label="Increase minutes">+</button>
+                    <button onClick={() => setPracticeMinutes(Math.max(5, practiceMinutes - 5))} className="btn-gloss w-8 h-8 rounded-full text-[#e9f3f5] font-bold" style={{ background: 'rgba(45,212,191,0.3)' }} aria-label="Decrease minutes">−</button>
+                    <span className="text-[#ffb627] font-black text-xl w-16 text-center">{practiceMinutes} min</span>
+                    <button onClick={() => setPracticeMinutes(Math.min(120, practiceMinutes + 5))} className="btn-gloss w-8 h-8 rounded-full text-[#e9f3f5] font-bold" style={{ background: 'rgba(45,212,191,0.3)' }} aria-label="Increase minutes">+</button>
                   </div>
                   <button
                     onClick={logSession}
-                    className="btn-gloss px-6 py-3 rounded-xl font-bold text-[#07040d]"
-                    style={{ background: 'linear-gradient(135deg, #d8b35a, #b8943a)' }}
+                    className="btn-gloss px-6 py-3 rounded-xl font-bold text-[#04070e]"
+                    style={{ background: 'linear-gradient(135deg, #ffb627, #f0a01a)' }}
                   >
                     Log Session ✓
                   </button>
@@ -1624,7 +1624,7 @@ export function MeditationSection() {
 
               {/* Last 30 days heatmap */}
               <div className="mt-6">
-                <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#f7f0df]/62 mb-2">Last 30 days</div>
+                <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/62 mb-2">Last 30 days</div>
                 <div className="flex gap-1 flex-wrap">
                   {Array.from({ length: 30 }, (_, i) => {
                     const date = new Date();
@@ -1636,7 +1636,7 @@ export function MeditationSection() {
                         key={i}
                         className="w-6 h-6 rounded"
                         title={dateStr}
-                        style={{ background: practiced ? '#a78bfa' : 'rgba(255,255,255,0.05)', border: '1px solid rgba(167,139,250,0.2)' }}
+                        style={{ background: practiced ? '#2dd4bf' : 'rgba(255,255,255,0.05)', border: '1px solid rgba(45,212,191,0.2)' }}
                       />
                     );
                   })}
@@ -1665,10 +1665,10 @@ export function MeditationSection() {
               ].map((r, i) => (
                 <div key={i} className="glass-card p-5 rounded-2xl">
                   <div className="text-2xl mb-2">{r.icon}</div>
-                  <h3 className="font-bold text-[#d8b35a] mb-3">{r.title}</h3>
+                  <h3 className="font-bold text-[#ffb627] mb-3">{r.title}</h3>
                   {r.items.map((item, j) => (
-                    <div key={j} className="text-sm text-[#f7f0df]/70 mb-2 flex gap-2">
-                      <span className="text-[#a78bfa]">•</span> {item}
+                    <div key={j} className="text-sm text-[#e9f3f5]/70 mb-2 flex gap-2">
+                      <span className="text-[#2dd4bf]">•</span> {item}
                     </div>
                   ))}
                 </div>
@@ -1677,18 +1677,18 @@ export function MeditationSection() {
 
             {/* Resources */}
             <div className="glass-card border-gold-glow p-6 rounded-2xl">
-              <h3 className="font-black tracking-[-0.04em] text-[#d8b35a] mb-4">Recommended Resources</h3>
+              <h3 className="font-black tracking-[-0.04em] text-[#ffb627] mb-4">Recommended Resources</h3>
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <div className="text-xs font-bold text-[#f7f0df]/62 mb-2 uppercase tracking-[0.2em]">Books</div>
+                  <div className="text-xs font-bold text-[#e9f3f5]/62 mb-2 uppercase tracking-[0.2em]">Books</div>
                   {['The Mind Illuminated — Culadasa', 'Waking Up — Sam Harris', 'Full Catastrophe Living — Jon Kabat-Zinn', 'The Miracle of Mindfulness — Thich Nhat Hanh'].map((b, i) => (
-                    <div key={i} className="text-sm text-[#f7f0df]/75 mb-1">📖 {b}</div>
+                    <div key={i} className="text-sm text-[#e9f3f5]/75 mb-1">📖 {b}</div>
                   ))}
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-[#f7f0df]/62 mb-2 uppercase tracking-[0.2em]">Apps &amp; Teachers</div>
+                  <div className="text-xs font-bold text-[#e9f3f5]/62 mb-2 uppercase tracking-[0.2em]">Apps &amp; Teachers</div>
                   {['Waking Up (Sam Harris) — secular', 'Insight Timer — free guided meditations', 'S.N. Goenka — 10-day Vipassana retreats', 'Tara Brach — RAIN technique, PTSD-informed'].map((a, i) => (
-                    <div key={i} className="text-sm text-[#f7f0df]/75 mb-1">🧘 {a}</div>
+                    <div key={i} className="text-sm text-[#e9f3f5]/75 mb-1">🧘 {a}</div>
                   ))}
                 </div>
               </div>
@@ -1700,7 +1700,7 @@ export function MeditationSection() {
       {/* Guided-practice modal — honest written steps + a timer link (no fake video) */}
       {openSession && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onClick={() => setOpenSession(null)}>
-          <div className="glass-card max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-[#0b0714]/95" onClick={(e) => e.stopPropagation()}>
+          <div className="glass-card max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-[#0a141f]/95" onClick={(e) => e.stopPropagation()}>
             <div className="relative h-44 shrink-0" style={{ background: FALLBACK_GRADIENT }}>
               <img
                 src={IMG((MEDITATION_IMAGES[openSession.figure] ?? MEDITATION_IMAGES.sitting_lotus).id, 900)}
@@ -1709,22 +1709,22 @@ export function MeditationSection() {
                 className="h-full w-full rounded-t-3xl object-cover"
                 onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
               />
-              <div className="absolute inset-0 rounded-t-3xl" style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(11,7,20,0.95) 100%)' }} />
-              <button onClick={() => setOpenSession(null)} className="absolute right-3 top-3 rounded-full border border-[#f7f0df]/20 bg-black/40 px-3 py-1.5 text-xs text-[#f7f0df]/80 hover:bg-black/60">✕</button>
+              <div className="absolute inset-0 rounded-t-3xl" style={{ background: 'linear-gradient(180deg, transparent 30%, rgba(10,20,31,0.95) 100%)' }} />
+              <button onClick={() => setOpenSession(null)} className="absolute right-3 top-3 rounded-full border border-[#e9f3f5]/20 bg-black/40 px-3 py-1.5 text-xs text-[#e9f3f5]/80 hover:bg-black/60">✕</button>
               <div className="absolute bottom-3 left-5 right-5">
-                <span className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#07040d]" style={{ background: 'linear-gradient(135deg,#d8b35a,#b8943a)' }}>Guided written practice</span>
-                <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#f7f0df]">{openSession.title}</h2>
-                <p className="text-xs font-bold text-[#f7f0df]/70">{openSession.minutes} min · {openSession.level} · {openSession.category}</p>
+                <span className="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#04070e]" style={{ background: 'linear-gradient(135deg,#ffb627,#f0a01a)' }}>Guided written practice</span>
+                <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-[#e9f3f5]">{openSession.title}</h2>
+                <p className="text-xs font-bold text-[#e9f3f5]/70">{openSession.minutes} min · {openSession.level} · {openSession.category}</p>
               </div>
             </div>
             <div className="p-6">
-              <p className="text-sm text-[#f7f0df]/80">{openSession.description}</p>
+              <p className="text-sm text-[#e9f3f5]/80">{openSession.description}</p>
               <div className="mt-5">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#a78bfa]">Follow these steps</p>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#2dd4bf]">Follow these steps</p>
                 <ol className="mt-3 space-y-2.5">
                   {openSession.steps.map((st, i) => (
-                    <li key={i} className="flex gap-3 text-sm text-[#f7f0df]/82">
-                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] font-black text-[#07040d]" style={{ background: 'linear-gradient(135deg,#a78bfa,#e879f9)' }}>{i + 1}</span>
+                    <li key={i} className="flex gap-3 text-sm text-[#e9f3f5]/82">
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-[11px] font-black text-[#04070e]" style={{ background: 'linear-gradient(135deg,#2dd4bf,#3b9dff)' }}>{i + 1}</span>
                       {st}
                     </li>
                   ))}
@@ -1732,12 +1732,12 @@ export function MeditationSection() {
               </div>
               <button
                 onClick={() => { setOpenSession(null); setActiveSection('studio'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                className="btn-gloss mt-6 w-full rounded-xl py-3 text-sm font-bold text-[#07040d]"
-                style={{ background: 'linear-gradient(135deg,#a78bfa,#e879f9)' }}
+                className="btn-gloss mt-6 w-full rounded-xl py-3 text-sm font-bold text-[#04070e]"
+                style={{ background: 'linear-gradient(135deg,#2dd4bf,#3b9dff)' }}
               >
                 ⏱ Start the breathing timer for this practice
               </button>
-              <p className="mt-2 text-center text-[11px] text-[#f7f0df]/55">Read the steps, then use the breathing coach &amp; timer to practise. This is a written guide, not a video.</p>
+              <p className="mt-2 text-center text-[11px] text-[#e9f3f5]/55">Read the steps, then use the breathing coach &amp; timer to practise. This is a written guide, not a video.</p>
             </div>
           </div>
         </div>
@@ -1750,7 +1750,7 @@ export function MeditationSection() {
 
 export default function MeditationPage() {
   return (
-    <div className="p-4 sm:p-6 lg:p-10" style={{ background: '#07040d', minHeight: '100vh' }}>
+    <div className="p-4 sm:p-6 lg:p-10" style={{ background: '#04070e', minHeight: '100vh' }}>
       <div className="max-w-6xl mx-auto">
         <MeditationSection />
       </div>

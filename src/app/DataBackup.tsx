@@ -77,7 +77,7 @@ export default function DataBackupPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Data &amp; Backup</h1>
-        <p className="text-sm text-[#f7f0df]/68">Export everything you've tracked, or restore it on another device</p>
+        <p className="text-sm text-[#e9f3f5]/68">Export everything you've tracked, or restore it on another device</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -85,37 +85,37 @@ export default function DataBackupPage() {
         <div className="glass-card rounded-2xl p-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">💾 Your data</p>
           <div className="mt-4 flex gap-3">
-            <div className="flex-1 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4 text-center">
-              <p className="text-3xl font-black tabular-nums text-[#d8b35a]">{keyCount}</p>
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65">saved items</p>
+            <div className="flex-1 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4 text-center">
+              <p className="text-3xl font-black tabular-nums text-[#ffb627]">{keyCount}</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/65">saved items</p>
             </div>
-            <div className="flex-1 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4 text-center">
+            <div className="flex-1 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4 text-center">
               <p className="text-3xl font-black tabular-nums text-violet-300">{sizeKb}</p>
-              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65">KB total</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/65">KB total</p>
             </div>
           </div>
 
           <button type="button" onClick={exportData} className="btn-gloss mt-4 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">⬇ Export Backup (JSON)</button>
-          <button type="button" onClick={() => fileRef.current?.click()} className="mt-2 w-full rounded-full border border-[#f7f0df]/15 bg-[#f7f0df]/5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#f7f0df]/80 hover:bg-[#f7f0df]/10">⬆ Import Backup</button>
+          <button type="button" onClick={() => fileRef.current?.click()} className="mt-2 w-full rounded-full border border-[#e9f3f5]/15 bg-[#e9f3f5]/5 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#e9f3f5]/80 hover:bg-[#e9f3f5]/10">⬆ Import Backup</button>
           <input ref={fileRef} type="file" accept="application/json,.json" className="hidden" onChange={(e) => importData(e.target.files?.[0])} />
 
           {status && (
             <p className={`mt-3 rounded-xl p-3 text-center text-xs font-semibold ${status.kind === "ok" ? "bg-emerald-300/10 text-emerald-200" : "bg-rose-400/10 text-rose-200"}`}>{status.msg}</p>
           )}
-          <p className="mt-3 text-[11px] text-[#f7f0df]/55">🔒 Your backup is a plain file on your device — nothing is uploaded to any server.</p>
+          <p className="mt-3 text-[11px] text-[#e9f3f5]/55">🔒 Your backup is a plain file on your device — nothing is uploaded to any server.</p>
         </div>
 
         {/* App tour */}
         <div className="glass-card rounded-2xl p-6">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">🗺️ Quick tour</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">🗺️ Quick tour</p>
           <h2 className="mt-1 text-lg font-black">Everything The Titan Fitness offers</h2>
           <div className="mt-4 space-y-2.5">
             {TOUR.map((t) => (
-              <div key={t.title} className="flex items-start gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
+              <div key={t.title} className="flex items-start gap-3 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-3">
                 <span className="text-2xl">{t.icon}</span>
                 <div>
                   <p className="text-sm font-bold">{t.title}</p>
-                  <p className="text-xs text-[#f7f0df]/68">{t.desc}</p>
+                  <p className="text-xs text-[#e9f3f5]/68">{t.desc}</p>
                 </div>
               </div>
             ))}

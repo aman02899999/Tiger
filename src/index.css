@@ -1,72 +1,358 @@
 @import "tailwindcss";
 
-/* ── Gradient / Glass Design Tokens ─────────────────────────────── */
-:root {
-  --clr-bg:         #07040d;
-  --clr-surface:    #0b0714;
-  --clr-text:       #f7f0df;
-  --clr-gold:       #d8b35a;
-  --clr-violet:     #a78bfa;
-  --clr-fuchsia:    #e879f9;
+/* ═══════════════════════════════════════════════════════════════════
+   THE TITAN FITNESS — "AURORA PERFORMANCE" DESIGN SYSTEM
+   ───────────────────────────────────────────────────────────────────
+   Palette chosen from applied colour psychology for health & training:
 
-  /* Gradient presets */
-  --grad-hero:      linear-gradient(135deg, #3b0764 0%, #1e1b4b 40%, #07040d 100%);
-  --grad-gold-glow: linear-gradient(135deg, #d8b35a 0%, #f59e0b 50%, #d97706 100%);
-  --grad-violet:    linear-gradient(135deg, #c4b5fd 0%, #e879f9 50%, #7c3aed 100%);
-  --grad-card:      linear-gradient(160deg, rgba(167,139,250,0.08) 0%, rgba(232,121,249,0.04) 100%);
-  --grad-red-depth: linear-gradient(135deg, #7f1d1d 0%, #450a0a 60%, #07040d 100%);
+   • ABYSS  (deep blue-black)  → Blue-blacks lower arousal and read as
+     premium/authoritative. Pure #000 is harsh and raises contrast
+     fatigue; a navy-black keeps the luxury feel while staying calm.
+   • AURORA (teal / mint)      → Green-cyan is the single strongest
+     "health, vitality, growth, GO" signal. Teal adds the trust and
+     composure of blue — ideal for a coach the user must believe.
+   • AZURE  (clear blue)       → Trust, competence, reliability,
+     discipline. Used for structure, data and navigation.
+   • SOLAR  (amber / gold)     → Optimism, warmth, reward. Amber is the
+     complementary partner of teal, so achievements POP off the UI.
+   • EMBER  (coral red)        → Urgency and action. Reserved for CTAs,
+     streaks and warnings — high arousal, so used sparingly.
+   • VITAL  (spring green)     → Success / completion confirmations.
+   • ICE    (cool off-white)   → Legible, low-glare body text.
 
-  /* Glass card */
-  --glass-bg:       rgba(247,240,223,0.04);
-  --glass-border:   rgba(167,139,250,0.18);
-  --glass-shadow:   0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
-  --glass-shadow-hover: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(167,139,250,0.12), inset 0 1px 0 rgba(255,255,255,0.08);
+   Teal↔Amber is a true complementary pair: maximum attention contrast
+   with zero colour clash, which is why the CTAs feel "loud" without
+   the page feeling noisy.
+   ═══════════════════════════════════════════════════════════════════ */
 
-  /* Glossy button */
-  --btn-gloss:      linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0) 60%);
+@theme {
+  /* ── AURORA (mapped over Tailwind's `violet` slot) ─────────────── */
+  --color-violet-50:  #ecfffb;
+  --color-violet-100: #cffdf3;
+  --color-violet-200: #9df8e7;
+  --color-violet-300: #5eead4;
+  --color-violet-400: #2dd4bf;
+  --color-violet-500: #14b8a6;
+  --color-violet-600: #0fb5a6;
+  --color-violet-700: #0e7490;
+  --color-violet-800: #155e75;
+  --color-violet-900: #164e63;
+  --color-violet-950: #082f3d;
+
+  /* ── AZURE (mapped over Tailwind's `fuchsia` slot) ─────────────── */
+  --color-fuchsia-50:  #eff8ff;
+  --color-fuchsia-100: #dbeefe;
+  --color-fuchsia-200: #bfe2fe;
+  --color-fuchsia-300: #93d0fd;
+  --color-fuchsia-400: #60b6fa;
+  --color-fuchsia-500: #3b9dff;
+  --color-fuchsia-600: #2280f0;
+  --color-fuchsia-700: #1a66d4;
+  --color-fuchsia-800: #1c54ab;
+  --color-fuchsia-900: #1d4a87;
+  --color-fuchsia-950: #142e52;
+
+  /* ── AURORA alias over `purple` (used in a few gradients) ──────── */
+  --color-purple-300: #5eead4;
+  --color-purple-400: #2dd4bf;
+  --color-purple-500: #14b8a6;
+  --color-purple-600: #0d9488;
+  --color-purple-700: #0e7490;
+
+  /* ── EMBER (mapped over `rose`) — urgency / action ─────────────── */
+  --color-rose-200: #ffd8d0;
+  --color-rose-300: #ffb3a5;
+  --color-rose-400: #ff8a75;
+  --color-rose-500: #ff5e5b;
+  --color-rose-600: #ed3f45;
+  --color-rose-700: #c92c37;
+
+  /* ── VITAL (mapped over `emerald`) — success / completion ──────── */
+  --color-emerald-200: #b6f7cd;
+  --color-emerald-300: #7ef2a8;
+  --color-emerald-400: #34e08a;
+  --color-emerald-500: #16c172;
+  --color-emerald-600: #0ea45f;
+  --color-emerald-700: #0b7d4b;
+
+  /* ── SOLAR (mapped over `amber`) — reward / premium ────────────── */
+  --color-amber-200: #ffe6a8;
+  --color-amber-300: #ffd166;
+  --color-amber-400: #ffc23d;
+  --color-amber-500: #ffb627;
+  --color-amber-600: #f0a01a;
+
+  /* Custom easing available as Tailwind utilities */
+  --ease-titan: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* ── Utility: Glass Card ─────────────────────────────────────────── */
+/* ── Raw design tokens ──────────────────────────────────────────── */
+:root {
+  /* Core surfaces — blue-black ladder */
+  --clr-bg:         #04070e;
+  --clr-bg-deep:    #030610;
+  --clr-surface:    #0a141f;
+  --clr-surface-2:  #0e1d2b;
+  --clr-line:       rgba(233, 243, 245, 0.10);
+  --clr-text:       #e9f3f5;
+  --clr-text-dim:   rgba(233, 243, 245, 0.66);
+  --clr-ink:        #04121a;
+
+  /* Semantic accents */
+  --clr-aurora:     #5eead4;
+  --clr-aurora-deep:#0e7490;
+  --clr-azure:      #3b9dff;
+  --clr-solar:      #ffb627;
+  --clr-ember:      #ff5e5b;
+  --clr-vital:      #34e08a;
+
+  /* Gradient presets */
+  --grad-hero:      linear-gradient(135deg, #0e7490 0%, #0b2f4a 45%, #04070e 100%);
+  --grad-aurora:    linear-gradient(135deg, #5eead4 0%, #3b9dff 50%, #0e7490 100%);
+  --grad-solar:     linear-gradient(135deg, #ffd166 0%, #ffb627 50%, #f0a01a 100%);
+  --grad-ember:     linear-gradient(135deg, #ffb627 0%, #ff5e5b 100%);
+  --grad-card:      linear-gradient(160deg, rgba(94,234,212,0.08) 0%, rgba(59,157,255,0.04) 100%);
+  --grad-mesh:
+    radial-gradient(circle at 12% 18%, rgba(94,234,212,0.20), transparent 42%),
+    radial-gradient(circle at 88% 12%, rgba(59,157,255,0.16), transparent 40%),
+    radial-gradient(circle at 72% 88%, rgba(255,182,39,0.10), transparent 45%),
+    radial-gradient(circle at 25% 85%, rgba(14,116,144,0.20), transparent 45%);
+
+  /* Glass card */
+  --glass-bg:       rgba(233,243,245,0.045);
+  --glass-border:   rgba(94,234,212,0.16);
+  --glass-shadow:   0 8px 32px rgba(1,6,12,0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+  --glass-shadow-hover:
+    0 24px 70px rgba(1,6,12,0.55),
+    0 0 46px rgba(94,234,212,0.16),
+    inset 0 1px 0 rgba(255,255,255,0.10);
+
+  /* Glossy button */
+  --btn-gloss:      linear-gradient(180deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 60%);
+
+  /* Motion */
+  --ease-out-titan: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:  180ms;
+  --dur-base:  320ms;
+  --dur-slow:  620ms;
+
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  accent-color: #5eead4;
+}
+
+html, body {
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Text selection uses the aurora accent, not the browser default */
+::selection { background: rgba(94,234,212,0.30); color: #ecfffb; }
+
+/* ── Custom scrollbar — premium, low-noise ──────────────────────── */
+* { scrollbar-width: thin; scrollbar-color: rgba(94,234,212,0.28) transparent; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(94,234,212,0.40), rgba(59,157,255,0.30));
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(94,234,212,0.65), rgba(59,157,255,0.5));
+  background-clip: content-box;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   3D / DEPTH PRIMITIVES
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Perspective wrapper — parent of any tilting child */
+.scene-3d { perspective: 1200px; perspective-origin: 50% 50%; }
+.scene-3d-near { perspective: 700px; }
+
+/* The element that actually rotates. JS writes --rx / --ry. */
+.tilt-3d {
+  transform-style: preserve-3d;
+  transform:
+    rotateX(var(--rx, 0deg))
+    rotateY(var(--ry, 0deg))
+    translate3d(0, 0, var(--tz, 0px))
+    scale(var(--ts, 1));
+  transition: transform 420ms var(--ease-out-titan);
+  will-change: transform;
+}
+.tilt-3d[data-active="true"] { transition: transform 90ms linear; }
+
+/* Layers that float above the card surface on the Z axis.
+   IMPORTANT: these only work when every ancestor up to .tilt-3d keeps
+   transform-style:preserve-3d. Per CSS Transforms L2, "grouping" values
+   (filter / backdrop-filter, opacity < 1, overflow != visible, isolation,
+   contain:paint, mask) force the used value to `flat` and silently kill
+   the depth. That is why the frosted-glass surface is rendered as an
+   absolutely-positioned SIBLING (.glass-surface) instead of being a
+   backdrop-filtered parent of the content. */
+.layer-z-1 { transform: translateZ(28px); }
+.layer-z-2 { transform: translateZ(52px); }
+.layer-z-3 { transform: translateZ(80px); }
+
+/* Specular glare sheet that follows the pointer across a tilted card */
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 320ms ease;
+  background: radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255,255,255,0.20) 0%,
+    rgba(94,234,212,0.10) 26%,
+    transparent 58%
+  );
+}
+.tilt-3d[data-active="true"] .tilt-glare { opacity: 1; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   SURFACES
+   ═══════════════════════════════════════════════════════════════════ */
+
 .glass-card {
+  position: relative;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: box-shadow 220ms ease, border-color 220ms ease, transform 220ms ease;
+  backdrop-filter: blur(14px) saturate(1.25);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  transition: box-shadow var(--dur-base) ease, border-color var(--dur-base) ease, transform var(--dur-base) var(--ease-out-titan);
 }
 .glass-card:hover {
   box-shadow: var(--glass-shadow-hover);
-  border-color: rgba(167,139,250,0.28);
+  border-color: rgba(94,234,212,0.34);
 }
 
-/* ── Global interaction polish (ui-ux-pro-max pass) ─────────────── */
+/* Frosted surface that is SAFE inside a 3D context.
+   The blur lives on ::before, so the element itself stays free of grouping
+   properties and its .layer-z-* children keep their real Z depth. */
+.glass-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: box-shadow var(--dur-base) ease, border-color var(--dur-base) ease;
+}
+.glass-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px) saturate(1.25);
+  -webkit-backdrop-filter: blur(14px) saturate(1.25);
+  pointer-events: none;
+  z-index: -1;
+}
+.glass-3d:hover {
+  box-shadow: var(--glass-shadow-hover);
+  border-color: rgba(94,234,212,0.34);
+}
+
+/* Clips decorative overflow WITHOUT flattening the parent's 3D context —
+   put `overflow:hidden` here instead of on the card itself. */
+.clip-3d {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Animated conic gradient ring that lights up on hover.
+   NOTE: deliberately no `isolation:isolate` — that is a grouping value and
+   would force transform-style:flat, collapsing all .layer-z-* depth. */
+.glow-ring {
+  position: relative;
+}
+.glow-ring::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--ring-angle, 0deg),
+    transparent 0deg, rgba(94,234,212,0.85) 60deg,
+    rgba(59,157,255,0.85) 130deg, transparent 200deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.glow-ring:hover::after { opacity: 1; animation: ringSpin 3.2s linear infinite; }
+
+@property --ring-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes ringSpin { to { --ring-angle: 360deg; } }
+
+/* Aurora mesh backdrop for full sections */
+.aurora-mesh {
+  background-image: var(--grad-mesh);
+  background-attachment: fixed;
+}
+
+/* Subtle film grain — kills gradient banding on large dark areas */
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Gradient text helper */
+.text-aurora {
+  background: linear-gradient(120deg, #9df8e7 0%, #5eead4 30%, #3b9dff 62%, #ffd166 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 9s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CONTROLS
+   ═══════════════════════════════════════════════════════════════════ */
+
 button:not(:disabled),
 [role="button"]:not([aria-disabled="true"]),
 a[href],
 select,
-label > input[type="range"] {
-  cursor: pointer;
-}
-button:disabled {
-  cursor: not-allowed;
-}
-/* Keyboard-visible focus ring — does not show on mouse click */
+summary,
+label > input[type="range"] { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+
+/* Keyboard-only focus ring, in the new accent */
 :focus-visible {
-  outline: 2px solid rgba(167,139,250,0.75);
+  outline: 2px solid rgba(94,234,212,0.85);
   outline-offset: 2px;
-  border-radius: 6px;
-}
-/* Tabular figures for numeric/stat/timer displays to prevent jitter */
-.tabular-nums {
-  font-variant-numeric: tabular-nums;
+  border-radius: 8px;
 }
 
-/* ── Utility: Glossy Button ─────────────────────────────────────── */
-.btn-gloss {
-  position: relative;
-  overflow: hidden;
-}
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+.btn-gloss { position: relative; overflow: hidden; }
 .btn-gloss::before {
   content: '';
   position: absolute;
@@ -74,37 +360,49 @@ button:disabled {
   background: var(--btn-gloss);
   pointer-events: none;
 }
-.btn-gloss:active {
-  transform: translateY(1px) scale(0.98);
-  filter: brightness(0.9);
+/* Light sweep that crosses the button on hover */
+.btn-gloss::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 45%;
+  left: -60%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.34), transparent);
+  transform: skewX(-18deg);
+  pointer-events: none;
+  transition: left 620ms var(--ease-out-titan);
 }
+.btn-gloss:hover::after { left: 130%; }
+.btn-gloss:active { transform: translateY(1px) scale(0.985); filter: brightness(0.94); }
 
-/* ── Utility: Gold Glow Border ──────────────────────────────────── */
+/* Magnetic button — JS writes --mx / --my.
+   Uses `translate` (not `transform`) so it composes cleanly with a
+   `.layer-z-*` transform on the same element instead of overwriting it. */
+.magnetic {
+  translate: var(--mx, 0px) var(--my, 0px);
+  transition: translate 380ms var(--ease-out-titan);
+  will-change: translate;
+}
+.magnetic[data-active="true"] { transition: translate 110ms ease-out; }
+
 .border-gold-glow {
   border: 1px solid transparent;
   background-clip: padding-box;
-  box-shadow: 0 0 0 1px rgba(216,179,90,0.3), 0 4px 24px rgba(216,179,90,0.1);
+  box-shadow: 0 0 0 1px rgba(255,182,39,0.34), 0 4px 26px rgba(255,182,39,0.14);
 }
 
-/* ── Animations ─────────────────────────────────────────────────── */
-@keyframes slowZoom {
-  from { transform: scale(1.05); }
-  to   { transform: scale(1.12); }
-}
+/* ═══════════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════════════ */
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes gridDrift {
-  from { background-position: 0 0; }
-  to   { background-position: 144px 144px; }
-}
+@keyframes slowZoom   { from { transform: scale(1.05); } to { transform: scale(1.12); } }
+@keyframes fadeUp     { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes gridDrift  { from { background-position: 0 0; } to { background-position: 144px 144px; } }
 
 @keyframes floatGlow {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50%       { transform: translate3d(28px, -18px, 0) scale(1.08); }
+  50%      { transform: translate3d(28px, -18px, 0) scale(1.08); }
 }
 
 @keyframes scanLine {
@@ -114,35 +412,33 @@ button:disabled {
 
 @keyframes shineMove {
   0%, 100% { filter: brightness(1); }
-  50%       { filter: brightness(1.55); }
+  50%      { filter: brightness(1.55); }
 }
 
 @keyframes orbDrift {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-  33%       { transform: translate3d(40px, -30px, 0) scale(1.06) rotate(120deg); }
-  66%       { transform: translate3d(-20px, 20px, 0) scale(0.97) rotate(240deg); }
+  33%      { transform: translate3d(40px, -30px, 0) scale(1.06) rotate(120deg); }
+  66%      { transform: translate3d(-20px, 20px, 0) scale(0.97) rotate(240deg); }
 }
 
 @keyframes gradientShift {
   0%, 100% { background-position: 0% 50%; }
-  50%       { background-position: 100% 50%; }
+  50%      { background-position: 100% 50%; }
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 20px rgba(167,139,250,0.2); }
-  50%       { box-shadow: 0 0 60px rgba(167,139,250,0.5), 0 0 100px rgba(232,121,249,0.2); }
+  0%, 100% { box-shadow: 0 0 20px rgba(94,234,212,0.20); }
+  50%      { box-shadow: 0 0 60px rgba(94,234,212,0.48), 0 0 100px rgba(59,157,255,0.22); }
 }
 
-/* Beating heart — pulse used by the Heart Health breathing trainer */
 @keyframes heartBeat {
   0%, 100% { transform: scale(1); }
-  15%       { transform: scale(1.25); }
-  30%       { transform: scale(1); }
-  45%       { transform: scale(1.18); }
-  60%       { transform: scale(1); }
+  15%      { transform: scale(1.25); }
+  30%      { transform: scale(1); }
+  45%      { transform: scale(1.18); }
+  60%      { transform: scale(1); }
 }
 
-/* Expanding ripple rings behind the breathing orb */
 @keyframes breathRipple {
   0%   { transform: scale(0.6); opacity: 0.55; }
   100% { transform: scale(1.8); opacity: 0; }
@@ -153,11 +449,56 @@ button:disabled {
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0.4; }
 }
 
-/* ── Reduced motion ─────────────────────────────────────────────── */
+/* Slow 3D tumble for decorative wireframe objects */
+@keyframes tumble3d {
+  0%   { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(180deg); }
+}
+
+/* Infinite horizontal marquee */
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+/* Vertical bob used by floating 3D chips */
+@keyframes levitate {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -14px, 0); }
+}
+
+/* Aurora curtain sweep behind the hero */
+@keyframes auroraSweep {
+  0%, 100% { transform: translate3d(-6%, 0, 0) scaleY(1); opacity: 0.55; }
+  50%      { transform: translate3d(6%, -4%, 0) scaleY(1.15); opacity: 0.85; }
+}
+
+.animate-marquee { animation: marquee 32s linear infinite; }
+.animate-levitate { animation: levitate 6s ease-in-out infinite; }
+
+/* ── Entrance reveal driven by IntersectionObserver ─────────────── */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0) rotateX(6deg);
+  transition:
+    opacity 760ms var(--ease-out-titan),
+    transform 760ms var(--ease-out-titan);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) rotateX(0deg);
+}
+
+/* ── Reduced motion — hard opt-out of all the above ─────────────── */
 @media (prefers-reduced-motion: reduce) {
+  :root { scroll-behavior: auto; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .reveal { opacity: 1; transform: none; }
+  .tilt-3d { transform: none !important; }
+  .aurora-mesh { background-attachment: scroll; }
 }

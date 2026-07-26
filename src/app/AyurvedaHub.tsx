@@ -54,7 +54,7 @@ const doshaQuestions = [
 
 const doshaInfo: Record<string, { color: string; desc: string; diet: string[] }> = {
   vata: {
-    color: "#a78bfa",
+    color: "#2dd4bf",
     desc: "Vata governs movement and communication. Vata-dominant people are creative, energetic, and quick-thinking but may experience anxiety, dry skin, and irregular digestion when imbalanced.",
     diet: [
       "Warm, cooked, oily foods",
@@ -65,7 +65,7 @@ const doshaInfo: Record<string, { color: string; desc: string; diet: string[] }>
     ],
   },
   pitta: {
-    color: "#f97316",
+    color: "#f0a01a",
     desc: "Pitta governs transformation and metabolism. Pitta-dominant people are intelligent, driven, and strong-willed but may experience anger, inflammation, and skin issues when imbalanced.",
     diet: [
       "Cool, refreshing, moderately heavy foods",
@@ -76,7 +76,7 @@ const doshaInfo: Record<string, { color: string; desc: string; diet: string[] }>
     ],
   },
   kapha: {
-    color: "#34d399",
+    color: "#34e08a",
     desc: "Kapha governs structure and lubrication. Kapha-dominant people are calm, loving, and stable but may experience weight gain, congestion, and lethargy when imbalanced.",
     diet: [
       "Light, dry, warm foods",
@@ -292,22 +292,22 @@ function DoshaQuiz() {
   const info = result ? doshaInfo[result] : null;
 
   return (
-    <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6 md:p-8">
+    <div className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-6 md:p-8">
       <div className="mb-6 flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-500/20 text-xl">
           🌿
         </div>
         <div>
-          <h2 className="text-xl font-bold text-[#f7f0df]">Prakriti (Dosha) Quiz</h2>
-          <p className="text-sm text-[#f7f0df]/60">Discover your Ayurvedic constitution</p>
+          <h2 className="text-xl font-bold text-[#e9f3f5]">Prakriti (Dosha) Quiz</h2>
+          <p className="text-sm text-[#e9f3f5]/60">Discover your Ayurvedic constitution</p>
         </div>
       </div>
 
       {!result && (
         <div className="space-y-6">
           {doshaQuestions.map((q, qIdx) => (
-            <div key={qIdx} className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
-              <p className="mb-3 font-medium text-[#f7f0df]">
+            <div key={qIdx} className="rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
+              <p className="mb-3 font-medium text-[#e9f3f5]">
                 {qIdx + 1}. {q.question}
               </p>
               <div className="space-y-2">
@@ -317,8 +317,8 @@ function DoshaQuiz() {
                     onClick={() => handleAnswer(qIdx, opt.dosha)}
                     className={`w-full rounded-lg border px-4 py-2.5 text-left text-sm transition-all ${
                       answers[qIdx] === opt.dosha
-                        ? "border-violet-500 bg-violet-500/20 text-[#f7f0df]"
-                        : "border-[#f7f0df]/10 bg-transparent text-[#f7f0df]/70 hover:border-[#f7f0df]/30 hover:text-[#f7f0df]"
+                        ? "border-violet-500 bg-violet-500/20 text-[#e9f3f5]"
+                        : "border-[#e9f3f5]/10 bg-transparent text-[#e9f3f5]/70 hover:border-[#e9f3f5]/30 hover:text-[#e9f3f5]"
                     }`}
                   >
                     {opt.label}
@@ -335,7 +335,7 @@ function DoshaQuiz() {
             Reveal My Dosha
           </button>
           {!allAnswered && (
-            <p className="text-center text-sm text-[#f7f0df]/40">
+            <p className="text-center text-sm text-[#e9f3f5]/40">
               Answer all {doshaQuestions.length} questions to continue
             </p>
           )}
@@ -348,18 +348,18 @@ function DoshaQuiz() {
             className="rounded-2xl border p-6 text-center"
             style={{ borderColor: `${info.color}40`, background: `${info.color}15` }}
           >
-            <p className="mb-1 text-sm uppercase tracking-widest text-[#f7f0df]/60">Your Dominant Dosha</p>
+            <p className="mb-1 text-sm uppercase tracking-widest text-[#e9f3f5]/60">Your Dominant Dosha</p>
             <h3 className="mb-2 text-2xl sm:text-3xl font-extrabold capitalize" style={{ color: info.color }}>
               {result}
             </h3>
-            <p className="text-sm leading-relaxed text-[#f7f0df]/80">{info.desc}</p>
+            <p className="text-sm leading-relaxed text-[#e9f3f5]/80">{info.desc}</p>
           </div>
 
-          <div className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
-            <h4 className="mb-3 font-semibold text-[#f7f0df]">Diet Recommendations</h4>
+          <div className="rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
+            <h4 className="mb-3 font-semibold text-[#e9f3f5]">Diet Recommendations</h4>
             <ul className="space-y-2">
               {info.diet.map((tip, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm text-[#f7f0df]/70">
+                <li key={i} className="flex items-start gap-2 text-sm text-[#e9f3f5]/70">
                   <span style={{ color: info.color }}>✦</span>
                   {tip}
                 </li>
@@ -369,7 +369,7 @@ function DoshaQuiz() {
 
           <button
             onClick={() => { setResult(null); setAnswers({}); }}
-            className="w-full rounded-xl border border-[#f7f0df]/20 py-2.5 text-sm text-[#f7f0df]/70 transition hover:text-[#f7f0df]"
+            className="w-full rounded-xl border border-[#e9f3f5]/20 py-2.5 text-sm text-[#e9f3f5]/70 transition hover:text-[#e9f3f5]"
           >
             Retake Quiz
           </button>
@@ -383,12 +383,12 @@ function ConditionCard({ condition, onClick }: { condition: typeof conditions[0]
   return (
     <button
       onClick={onClick}
-      className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-5 text-left transition-all hover:border-violet-500/40 hover:bg-violet-500/10"
+      className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-5 text-left transition-all hover:border-violet-500/40 hover:bg-violet-500/10"
     >
       <div className="mb-3 text-3xl">{condition.icon}</div>
-      <h3 className="font-semibold text-[#f7f0df]">{condition.name}</h3>
-      <p className="mt-0.5 text-xs text-[#d8b35a]">{condition.sanskrit}</p>
-      <p className="mt-2 text-xs text-[#f7f0df]/50">{condition.herbs.slice(0, 2).join(", ")} +{condition.herbs.length - 2} herbs</p>
+      <h3 className="font-semibold text-[#e9f3f5]">{condition.name}</h3>
+      <p className="mt-0.5 text-xs text-[#ffb627]">{condition.sanskrit}</p>
+      <p className="mt-2 text-xs text-[#e9f3f5]/50">{condition.herbs.slice(0, 2).join(", ")} +{condition.herbs.length - 2} herbs</p>
     </button>
   );
 }
@@ -400,44 +400,44 @@ function ConditionDetail({ condition, onClose }: { condition: typeof conditions[
         <div className="flex items-center gap-3">
           <span className="text-4xl">{condition.icon}</span>
           <div>
-            <h3 className="text-xl font-bold text-[#f7f0df]">{condition.name}</h3>
-            <p className="text-sm text-[#d8b35a]">{condition.sanskrit}</p>
+            <h3 className="text-xl font-bold text-[#e9f3f5]">{condition.name}</h3>
+            <p className="text-sm text-[#ffb627]">{condition.sanskrit}</p>
           </div>
         </div>
         <button
           onClick={onClose}
-          className="rounded-lg border border-[#f7f0df]/10 px-3 py-1 text-sm text-[#f7f0df]/50 hover:text-[#f7f0df]"
+          className="rounded-lg border border-[#e9f3f5]/10 px-3 py-1 text-sm text-[#e9f3f5]/50 hover:text-[#e9f3f5]"
         >
           ✕ Close
         </button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+        <div className="rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
           <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-violet-400">Herbs</h4>
           <div className="flex flex-wrap gap-2">
             {condition.herbs.map((h) => (
-              <span key={h} className="rounded-full bg-violet-500/20 px-3 py-1 text-xs text-[#f7f0df]">
+              <span key={h} className="rounded-full bg-violet-500/20 px-3 py-1 text-xs text-[#e9f3f5]">
                 {h}
               </span>
             ))}
           </div>
         </div>
 
-        <div className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
-          <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#d8b35a]">Formulation</h4>
-          <p className="text-sm font-medium text-[#f7f0df]">{condition.formulation}</p>
-          <p className="mt-1 text-xs text-[#f7f0df]/50">Consult an Ayurvedic physician before use</p>
+        <div className="rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
+          <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-[#ffb627]">Formulation</h4>
+          <p className="text-sm font-medium text-[#e9f3f5]">{condition.formulation}</p>
+          <p className="mt-1 text-xs text-[#e9f3f5]/50">Consult an Ayurvedic physician before use</p>
         </div>
 
-        <div className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+        <div className="rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
           <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-fuchsia-400">Diet Protocol</h4>
-          <p className="text-sm leading-relaxed text-[#f7f0df]/80">{condition.diet}</p>
+          <p className="text-sm leading-relaxed text-[#e9f3f5]/80">{condition.diet}</p>
         </div>
 
-        <div className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-4">
+        <div className="rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-4">
           <h4 className="mb-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">Yoga & Practices</h4>
-          <p className="text-sm leading-relaxed text-[#f7f0df]/80">{condition.yoga}</p>
+          <p className="text-sm leading-relaxed text-[#e9f3f5]/80">{condition.yoga}</p>
         </div>
       </div>
     </div>
@@ -454,45 +454,45 @@ function HerbEncyclopedia() {
   );
 
   return (
-    <div className="rounded-2xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-6 md:p-8">
+    <div className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-6 md:p-8">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-xl font-bold text-[#f7f0df]">Herb Encyclopedia</h2>
-          <p className="text-sm text-[#f7f0df]/60">10 key Ayurvedic herbs and their applications</p>
+          <h2 className="text-xl font-bold text-[#e9f3f5]">Herb Encyclopedia</h2>
+          <p className="text-sm text-[#e9f3f5]/60">10 key Ayurvedic herbs and their applications</p>
         </div>
         <input
           type="text"
           placeholder="Search herbs..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 px-4 py-2 text-sm text-[#f7f0df] placeholder-[#f7f0df]/30 outline-none focus:border-violet-500/50 sm:w-56"
+          className="rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 px-4 py-2 text-sm text-[#e9f3f5] placeholder-[#e9f3f5]/30 outline-none focus:border-violet-500/50 sm:w-56"
         />
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[#f7f0df]/10">
-              <th className="pb-3 text-left font-semibold text-[#d8b35a]">Herb</th>
-              <th className="pb-3 text-left font-semibold text-[#d8b35a]">Sanskrit / Botanical</th>
-              <th className="pb-3 text-left font-semibold text-[#d8b35a]">Key Benefits</th>
-              <th className="pb-3 text-left font-semibold text-[#d8b35a]">Dosage</th>
-              <th className="pb-3 text-left font-semibold text-[#d8b35a]">Caution</th>
+            <tr className="border-b border-[#e9f3f5]/10">
+              <th className="pb-3 text-left font-semibold text-[#ffb627]">Herb</th>
+              <th className="pb-3 text-left font-semibold text-[#ffb627]">Sanskrit / Botanical</th>
+              <th className="pb-3 text-left font-semibold text-[#ffb627]">Key Benefits</th>
+              <th className="pb-3 text-left font-semibold text-[#ffb627]">Dosage</th>
+              <th className="pb-3 text-left font-semibold text-[#ffb627]">Caution</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#f7f0df]/5">
+          <tbody className="divide-y divide-[#e9f3f5]/5">
             {filtered.map((herb) => (
-              <tr key={herb.name} className="transition-colors hover:bg-[#f7f0df]/5">
-                <td className="py-3 pr-4 font-medium text-[#f7f0df]">{herb.name}</td>
-                <td className="py-3 pr-4 text-[#f7f0df]/50 italic">{herb.sanskrit}</td>
-                <td className="py-3 pr-4 text-[#f7f0df]/70 max-w-[200px]">{herb.benefits}</td>
-                <td className="py-3 pr-4 text-[#f7f0df]/70 max-w-[160px]">{herb.dosage}</td>
+              <tr key={herb.name} className="transition-colors hover:bg-[#e9f3f5]/5">
+                <td className="py-3 pr-4 font-medium text-[#e9f3f5]">{herb.name}</td>
+                <td className="py-3 pr-4 text-[#e9f3f5]/50 italic">{herb.sanskrit}</td>
+                <td className="py-3 pr-4 text-[#e9f3f5]/70 max-w-[200px]">{herb.benefits}</td>
+                <td className="py-3 pr-4 text-[#e9f3f5]/70 max-w-[160px]">{herb.dosage}</td>
                 <td className="py-3 text-amber-400/80 max-w-[160px]">{herb.caution}</td>
               </tr>
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={5} className="py-8 text-center text-[#f7f0df]/30">
+                <td colSpan={5} className="py-8 text-center text-[#e9f3f5]/30">
                   No herbs found for "{search}"
                 </td>
               </tr>
@@ -514,14 +514,14 @@ function AyurvedaContent() {
           <span className="rounded-full bg-violet-500/20 px-3 py-1 text-xs font-medium text-violet-400">
             Ancient Wisdom
           </span>
-          <span className="rounded-full bg-[#d8b35a]/20 px-3 py-1 text-xs font-medium text-[#d8b35a]">
+          <span className="rounded-full bg-[#ffb627]/20 px-3 py-1 text-xs font-medium text-[#ffb627]">
             Modern Application
           </span>
         </div>
-        <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#f7f0df]">
+        <h1 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-[#e9f3f5]">
           Ayurveda Hub
         </h1>
-        <p className="mt-2 max-w-2xl text-[#f7f0df]/60">
+        <p className="mt-2 max-w-2xl text-[#e9f3f5]/60">
           Discover your constitution, explore Ayurvedic approaches to common conditions, and dive into the herb
           encyclopedia — all grounded in classical texts and modern research.
         </p>
@@ -530,8 +530,8 @@ function AyurvedaContent() {
       <DoshaQuiz />
 
       <div>
-        <h2 className="mb-4 text-xl font-bold text-[#f7f0df]">Conditions & Protocols</h2>
-        <p className="mb-5 text-sm text-[#f7f0df]/60">
+        <h2 className="mb-4 text-xl font-bold text-[#e9f3f5]">Conditions & Protocols</h2>
+        <p className="mb-5 text-sm text-[#e9f3f5]/60">
           Click any condition to view herbs, formulations, diet, and yoga recommendations.
         </p>
 
@@ -581,7 +581,7 @@ export default function AyurvedaHubPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen" style={{ background: "#07040d" }}>
+    <div className="min-h-screen" style={{ background: "#04070e" }}>
       <div className="mx-auto max-w-7xl px-4 py-10">
         <AyurvedaContent />
       </div>

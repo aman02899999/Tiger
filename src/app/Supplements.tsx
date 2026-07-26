@@ -83,19 +83,19 @@ export default function SupplementsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Supplement Scheduler</h1>
-        <p className="text-sm text-[#f7f0df]/68">Build your daily stack and check each dose off — never miss one again</p>
+        <p className="text-sm text-[#e9f3f5]/68">Build your daily stack and check each dose off — never miss one again</p>
       </div>
 
       {/* Progress */}
       <div className="glass-card rounded-2xl p-6">
         <div className="flex items-center gap-6">
           <div className="relative h-20 w-20 shrink-0">
-            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#34d399 ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.4s ease" }} />
-            <div className="absolute inset-[6px] grid place-items-center rounded-full bg-[#0b0714]"><span className="text-sm font-black">{takenCount}/{stack.length || 0}</span></div>
+            <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(#34e08a ${pct * 360}deg, rgba(233,243,245,0.1) ${pct * 360}deg)`, transition: "background 0.4s ease" }} />
+            <div className="absolute inset-[6px] grid place-items-center rounded-full bg-[#0a141f]"><span className="text-sm font-black">{takenCount}/{stack.length || 0}</span></div>
           </div>
           <div>
             <p className="text-lg font-black">{stack.length === 0 ? "No supplements yet" : takenCount === stack.length ? "All done for today! 🎉" : "Today's stack"}</p>
-            <p className="text-xs text-[#f7f0df]/62">{stack.length === 0 ? "Add from the suggestions below or type your own." : `${stack.length - takenCount} left to take · complete all for +10 XP`}</p>
+            <p className="text-xs text-[#e9f3f5]/62">{stack.length === 0 ? "Add from the suggestions below or type your own." : `${stack.length - takenCount} left to take · complete all for +10 XP`}</p>
           </div>
         </div>
       </div>
@@ -111,19 +111,19 @@ export default function SupplementsPage() {
                 <div className="mb-3 flex items-center gap-2">
                   <span className="text-xl">{s.icon}</span>
                   <p className="text-sm font-black">{s.label}</p>
-                  <span className="text-[11px] text-[#f7f0df]/55">· {s.hint}</span>
+                  <span className="text-[11px] text-[#e9f3f5]/55">· {s.hint}</span>
                 </div>
                 <div className="space-y-2">
                   {items.map((it) => (
-                    <div key={it.id} className={`flex items-center gap-3 rounded-xl border p-3 transition ${done[it.id] ? "border-emerald-300/25 bg-emerald-300/8" : "border-[#f7f0df]/10 bg-[#f7f0df]/5"}`}>
-                      <button type="button" onClick={() => toggle(it.id)} aria-label={done[it.id] ? "Mark not taken" : "Mark taken"} className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 transition ${done[it.id] ? "border-emerald-300 bg-emerald-300 text-[#052e1f]" : "border-[#f7f0df]/25"}`}>
+                    <div key={it.id} className={`flex items-center gap-3 rounded-xl border p-3 transition ${done[it.id] ? "border-emerald-300/25 bg-emerald-300/8" : "border-[#e9f3f5]/10 bg-[#e9f3f5]/5"}`}>
+                      <button type="button" onClick={() => toggle(it.id)} aria-label={done[it.id] ? "Mark not taken" : "Mark taken"} className={`grid h-7 w-7 shrink-0 place-items-center rounded-full border-2 transition ${done[it.id] ? "border-emerald-300 bg-emerald-300 text-[#05231f]" : "border-[#e9f3f5]/25"}`}>
                         {done[it.id] && <span className="text-xs font-black">✓</span>}
                       </button>
                       <div className="min-w-0 flex-1">
-                        <p className={`text-sm font-semibold ${done[it.id] ? "text-[#f7f0df]/62 line-through" : ""}`}>{it.name}</p>
-                        {it.note && <p className="text-[11px] text-[#f7f0df]/62">{it.note}</p>}
+                        <p className={`text-sm font-semibold ${done[it.id] ? "text-[#e9f3f5]/62 line-through" : ""}`}>{it.name}</p>
+                        {it.note && <p className="text-[11px] text-[#e9f3f5]/62">{it.note}</p>}
                       </div>
-                      <button type="button" onClick={() => remove(it.id)} aria-label="Remove" className="text-xs text-[#f7f0df]/45 hover:text-rose-200">✕</button>
+                      <button type="button" onClick={() => remove(it.id)} aria-label="Remove" className="text-xs text-[#e9f3f5]/45 hover:text-rose-200">✕</button>
                     </div>
                   ))}
                 </div>
@@ -137,14 +137,14 @@ export default function SupplementsPage() {
       <div className="glass-card rounded-2xl p-5">
         <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Add to your stack</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <input value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && (addSupp({ name, slot, note: "" }), setName(""))} placeholder="Supplement name…" className="min-w-0 flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
-          <select value={slot} onChange={(e) => setSlot(e.target.value as TimeSlot)} className="rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-3 py-2.5 text-sm outline-none">
+          <input value={name} onChange={(e) => setName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && (addSupp({ name, slot, note: "" }), setName(""))} placeholder="Supplement name…" className="min-w-0 flex-1 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+          <select value={slot} onChange={(e) => setSlot(e.target.value as TimeSlot)} className="rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-3 py-2.5 text-sm outline-none">
             {SLOTS.map((s) => <option key={s.id} value={s.id}>{s.label}</option>)}
           </select>
           <button type="button" onClick={() => { addSupp({ name, slot, note: "" }); setName(""); }} className="btn-gloss rounded-xl bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 text-xs font-black uppercase tracking-[0.14em] text-white">Add</button>
         </div>
 
-        <p className="mb-2 mt-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/55">Quick add popular supplements</p>
+        <p className="mb-2 mt-4 text-[11px] font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/55">Quick add popular supplements</p>
         <div className="flex flex-wrap gap-1.5">
           {SUGGESTIONS.filter((sug) => !stack.some((x) => x.name.toLowerCase() === sug.name.toLowerCase())).map((sug) => (
             <button key={sug.name} type="button" onClick={() => addSupp(sug)} className="rounded-full border border-violet-200/25 bg-violet-200/8 px-3 py-1.5 text-[11px] font-bold text-violet-100 hover:bg-violet-200/16">
@@ -154,7 +154,7 @@ export default function SupplementsPage() {
         </div>
       </div>
 
-      <p className="text-center text-[11px] text-[#f7f0df]/55">ℹ️ General wellness scheduling only — not medical advice. Check with a doctor before starting any supplement.</p>
+      <p className="text-center text-[11px] text-[#e9f3f5]/55">ℹ️ General wellness scheduling only — not medical advice. Check with a doctor before starting any supplement.</p>
     </div>
   );
 }

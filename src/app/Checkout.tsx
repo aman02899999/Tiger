@@ -174,42 +174,42 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onClick={step === "pay" ? onClose : undefined}>
-      <div className="glass-card w-full max-w-md overflow-hidden rounded-3xl bg-[#0b0714]/97" onClick={(e) => e.stopPropagation()}>
+      <div className="glass-card w-full max-w-md overflow-hidden rounded-3xl bg-[#0a141f]/97" onClick={(e) => e.stopPropagation()}>
         {step === "processing" ? (
           <div className="flex flex-col items-center justify-center gap-4 p-12 text-center">
             <div className="h-14 w-14 animate-spin rounded-full border-4 border-violet-300/25 border-t-violet-300" />
-            <p className="text-sm font-bold text-[#f7f0df]/80">Processing your payment securely…</p>
-            <p className="text-xs text-[#f7f0df]/55">Do not close this window</p>
+            <p className="text-sm font-bold text-[#e9f3f5]/80">Processing your payment securely…</p>
+            <p className="text-xs text-[#e9f3f5]/55">Do not close this window</p>
           </div>
         ) : step === "success" ? (
           <div className="flex flex-col items-center justify-center gap-3 p-12 text-center">
             <div className="grid h-16 w-16 place-items-center rounded-full bg-emerald-400/15 text-4xl">✅</div>
             <h3 className="text-xl font-black text-emerald-300">Payment Successful!</h3>
-            <p className="text-sm text-[#f7f0df]/70">
+            <p className="text-sm text-[#e9f3f5]/70">
               {state.kind === "plan" ? (
-                <>Welcome to <span className="font-bold text-[#d8b35a]">{title}</span> — your account has been upgraded instantly.</>
+                <>Welcome to <span className="font-bold text-[#ffb627]">{title}</span> — your account has been upgraded instantly.</>
               ) : (
-                <><span className="font-bold text-[#d8b35a]">{title}</span> is ready — your download has started.</>
+                <><span className="font-bold text-[#ffb627]">{title}</span> is ready — your download has started.</>
               )}
             </p>
-            <p className="text-xs text-[#f7f0df]/50">Receipt sent to {user?.email}</p>
+            <p className="text-xs text-[#e9f3f5]/50">Receipt sent to {user?.email}</p>
           </div>
         ) : (
           <>
-            <div className="border-b border-[#f7f0df]/10 p-6">
+            <div className="border-b border-[#e9f3f5]/10 p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-violet-300">{state.kind === "plan" ? "Upgrade to" : "Purchase"}</p>
                   <h3 className="text-2xl font-black">{title}</h3>
-                  <p className="mt-0.5 text-xs text-[#f7f0df]/62">{tagline}</p>
+                  <p className="mt-0.5 text-xs text-[#e9f3f5]/62">{tagline}</p>
                 </div>
-                <button type="button" onClick={onClose} aria-label="Close" className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-xs text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">✕</button>
+                <button type="button" onClick={onClose} aria-label="Close" className="rounded-full border border-[#e9f3f5]/15 px-3 py-1.5 text-xs text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/8">✕</button>
               </div>
 
               <div className="mt-4 flex items-end gap-2">
-                {discount > 0 && <span className="text-lg text-[#f7f0df]/40 line-through">₹{basePrice}</span>}
-                <span className="text-4xl font-black tabular-nums text-[#d8b35a]">₹{finalPrice}</span>
-                {isRecurring && <span className="pb-1 text-xs text-[#f7f0df]/62">/{state.kind === "plan" && state.cycle === "annual" ? "year" : "month"}</span>}
+                {discount > 0 && <span className="text-lg text-[#e9f3f5]/40 line-through">₹{basePrice}</span>}
+                <span className="text-4xl font-black tabular-nums text-[#ffb627]">₹{finalPrice}</span>
+                {isRecurring && <span className="pb-1 text-xs text-[#e9f3f5]/62">/{state.kind === "plan" && state.cycle === "annual" ? "year" : "month"}</span>}
               </div>
               {discount > 0 && <p className="mt-1 text-xs font-bold text-emerald-300">You saved ₹{discount} with {appliedCoupon?.code}</p>}
             </div>
@@ -225,7 +225,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                     <span className="text-xl">▶️</span>
                     <div>
                       <p className="text-sm font-bold text-emerald-200">Google Play Billing</p>
-                      <p className="text-xs text-[#f7f0df]/62">Charged to your Play Store payment method — cancel anytime from Play Store {'>'} Subscriptions.</p>
+                      <p className="text-xs text-[#e9f3f5]/62">Charged to your Play Store payment method — cancel anytime from Play Store {'>'} Subscriptions.</p>
                     </div>
                   </div>
                   <button type="button" onClick={pay} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white">
@@ -234,43 +234,43 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                 </>
               ) : (
                 <>
-                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#f7f0df]/65">Payment method</p>
+                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">Payment method</p>
                   <div className="mb-4 grid grid-cols-3 gap-2">
                     {([["upi", "📱 UPI"], ["card", "💳 Card"], ["netbanking", "🏦 Net Banking"]] as [Method, string][]).map(([m, label]) => (
-                      <button key={m} type="button" onClick={() => setMethod(m)} className={`rounded-xl border py-2.5 text-xs font-bold transition ${method === m ? "border-violet-300/50 bg-violet-300/12 text-violet-100" : "border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/62"}`}>
+                      <button key={m} type="button" onClick={() => setMethod(m)} className={`rounded-xl border py-2.5 text-xs font-bold transition ${method === m ? "border-violet-300/50 bg-violet-300/12 text-violet-100" : "border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/62"}`}>
                         {label}
                       </button>
                     ))}
                   </div>
 
                   {method === "upi" && (
-                    <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@upi" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                    <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@upi" className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
                   )}
                   {method === "card" && (
                     <div className="space-y-2">
-                      <input value={cardNum} onChange={(e) => setCardNum(e.target.value)} placeholder="1234 5678 9012 3456" inputMode="numeric" className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                      <input value={cardNum} onChange={(e) => setCardNum(e.target.value)} placeholder="1234 5678 9012 3456" inputMode="numeric" className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
                       <div className="flex gap-2">
-                        <input placeholder="MM/YY" className="w-1/2 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                        <input placeholder="CVV" inputMode="numeric" className="w-1/2 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                        <input placeholder="MM/YY" className="w-1/2 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
+                        <input placeholder="CVV" inputMode="numeric" className="w-1/2 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
                       </div>
                     </div>
                   )}
                   {method === "netbanking" && (
-                    <select className="w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
+                    <select className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
                       {["State Bank of India", "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Mahindra Bank"].map((b) => <option key={b}>{b}</option>)}
                     </select>
                   )}
 
                   <div className="mt-4 flex gap-2">
-                    <input value={coupon} onChange={(e) => { setCoupon(e.target.value); setCouponMsg(null); }} placeholder="Coupon code (try LAUNCH20)" className="flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
-                    <button type="button" onClick={applyCoupon} className="rounded-xl border border-[#d8b35a]/30 bg-[#d8b35a]/10 px-4 text-xs font-bold text-[#d8b35a] hover:bg-[#d8b35a]/20">Apply</button>
+                    <input value={coupon} onChange={(e) => { setCoupon(e.target.value); setCouponMsg(null); }} placeholder="Coupon code (try LAUNCH20)" className="flex-1 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+                    <button type="button" onClick={applyCoupon} className="rounded-xl border border-[#ffb627]/30 bg-[#ffb627]/10 px-4 text-xs font-bold text-[#ffb627] hover:bg-[#ffb627]/20">Apply</button>
                   </div>
                   {couponMsg && <p className={`mt-1.5 text-xs font-semibold ${appliedCoupon ? "text-emerald-300" : "text-rose-300"}`}>{couponMsg}</p>}
 
                   <button type="button" onClick={pay} disabled={!canPay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40">
                     🔒 Pay ₹{finalPrice} Securely
                   </button>
-                  <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#f7f0df]/50">
+                  <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#e9f3f5]/50">
                     <span>🔒 256-bit encrypted</span>
                     <span>·</span>
                     <span>✅ Instant activation</span>

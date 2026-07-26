@@ -72,14 +72,14 @@ export default function MuscleAnatomyPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Muscle Anatomy</h1>
-        <p className="text-sm text-[#f7f0df]/68">Tap any muscle on the body — or in the list — to learn what it does</p>
+        <p className="text-sm text-[#e9f3f5]/68">Tap any muscle on the body — or in the list — to learn what it does</p>
       </div>
 
       {/* Front / Back toggle */}
       <div className="flex justify-center">
-        <div className="inline-flex rounded-full border border-[#f7f0df]/12 bg-[#f7f0df]/5 p-1">
+        <div className="inline-flex rounded-full border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 p-1">
           {(["front", "back"] as View[]).map((v) => (
-            <button key={v} type="button" onClick={() => { setView(v); setSelected(null); }} className={`rounded-full px-6 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${view === v ? "bg-violet-500 text-white" : "text-[#f7f0df]/62"}`}>
+            <button key={v} type="button" onClick={() => { setView(v); setSelected(null); }} className={`rounded-full px-6 py-2 text-xs font-black uppercase tracking-[0.14em] transition ${view === v ? "bg-violet-500 text-white" : "text-[#e9f3f5]/62"}`}>
               {v === "front" ? "Front" : "Back"}
             </button>
           ))}
@@ -91,9 +91,9 @@ export default function MuscleAnatomyPage() {
         <div className="glass-card rounded-3xl p-6">
           <div className="relative mx-auto w-full max-w-[300px]" style={{ aspectRatio: "3 / 5.2" }}>
             {/* stylized silhouette behind the zones */}
-            <div aria-hidden className="absolute left-1/2 top-0 h-[9%] w-[15%] -translate-x-1/2 rounded-full bg-[#f7f0df]/8" />
-            <div aria-hidden className="absolute left-1/2 top-[10%] h-[45%] w-[52%] -translate-x-1/2 rounded-[40%_40%_30%_30%] bg-[#f7f0df]/5" />
-            <div aria-hidden className="absolute left-1/2 top-[52%] h-[46%] w-[46%] -translate-x-1/2 rounded-[30%_30%_40%_40%] bg-[#f7f0df]/4" />
+            <div aria-hidden className="absolute left-1/2 top-0 h-[9%] w-[15%] -translate-x-1/2 rounded-full bg-[#e9f3f5]/8" />
+            <div aria-hidden className="absolute left-1/2 top-[10%] h-[45%] w-[52%] -translate-x-1/2 rounded-[40%_40%_30%_30%] bg-[#e9f3f5]/5" />
+            <div aria-hidden className="absolute left-1/2 top-[52%] h-[46%] w-[46%] -translate-x-1/2 rounded-[30%_30%_40%_40%] bg-[#e9f3f5]/4" />
 
             {zones.map((m) => (
               <button
@@ -105,14 +105,14 @@ export default function MuscleAnatomyPage() {
                 className="absolute rounded-2xl border transition"
                 style={{
                   left: `${m.x}%`, top: `${m.y}%`, width: `${m.w}%`, height: `${m.h}%`,
-                  background: isSelected(m) ? "linear-gradient(135deg, rgba(167,139,250,0.6), rgba(232,121,249,0.5))" : "rgba(167,139,250,0.16)",
-                  borderColor: isSelected(m) ? "rgba(232,121,249,0.8)" : "rgba(167,139,250,0.3)",
-                  boxShadow: isSelected(m) ? "0 0 20px rgba(167,139,250,0.5)" : "none",
+                  background: isSelected(m) ? "linear-gradient(135deg, rgba(45,212,191,0.6), rgba(59,157,255,0.5))" : "rgba(45,212,191,0.16)",
+                  borderColor: isSelected(m) ? "rgba(59,157,255,0.8)" : "rgba(45,212,191,0.3)",
+                  boxShadow: isSelected(m) ? "0 0 20px rgba(45,212,191,0.5)" : "none",
                 }}
               />
             ))}
           </div>
-          <p className="mt-3 text-center text-[11px] text-[#f7f0df]/50">{view === "front" ? "Anterior view" : "Posterior view"} · highlighted = selected</p>
+          <p className="mt-3 text-center text-[11px] text-[#e9f3f5]/50">{view === "front" ? "Anterior view" : "Posterior view"} · highlighted = selected</p>
         </div>
 
         {/* Detail or list */}
@@ -123,13 +123,13 @@ export default function MuscleAnatomyPage() {
                 <div>
                   <p className="text-3xl">{active.emoji}</p>
                   <h2 className="mt-2 text-2xl font-black leading-tight">{active.name}</h2>
-                  <p className="text-xs italic text-[#f7f0df]/60">{active.latin} · {active.region}</p>
+                  <p className="text-xs italic text-[#e9f3f5]/60">{active.latin} · {active.region}</p>
                 </div>
-                <button type="button" onClick={() => setSelected(null)} className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-xs text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">✕</button>
+                <button type="button" onClick={() => setSelected(null)} className="rounded-full border border-[#e9f3f5]/15 px-3 py-1.5 text-xs text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/8">✕</button>
               </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#f7f0df]/82">{active.fn}</p>
-              <div className="mt-4 rounded-xl border border-[#d8b35a]/20 bg-[#d8b35a]/8 p-3">
-                <p className="text-xs leading-relaxed text-[#f7f0df]/78">💡 {active.tip}</p>
+              <p className="mt-4 text-sm leading-relaxed text-[#e9f3f5]/82">{active.fn}</p>
+              <div className="mt-4 rounded-xl border border-[#ffb627]/20 bg-[#ffb627]/8 p-3">
+                <p className="text-xs leading-relaxed text-[#e9f3f5]/78">💡 {active.tip}</p>
               </div>
               <div className="mt-4">
                 <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-violet-300">Best exercises</p>
@@ -145,13 +145,13 @@ export default function MuscleAnatomyPage() {
               <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">{view === "front" ? "Front" : "Back"} muscles ({listItems.length})</p>
               <div className="space-y-1.5">
                 {listItems.map((m) => (
-                  <button key={m.id} type="button" onClick={() => setSelected(m.id)} className="flex w-full items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-left transition hover:bg-[#f7f0df]/10">
+                  <button key={m.id} type="button" onClick={() => setSelected(m.id)} className="flex w-full items-center gap-3 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-3 text-left transition hover:bg-[#e9f3f5]/10">
                     <span className="text-xl">{m.emoji}</span>
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold">{m.name}</p>
-                      <p className="text-[11px] italic text-[#f7f0df]/55">{m.latin}</p>
+                      <p className="text-[11px] italic text-[#e9f3f5]/55">{m.latin}</p>
                     </div>
-                    <span className="text-[#f7f0df]/40">›</span>
+                    <span className="text-[#e9f3f5]/40">›</span>
                   </button>
                 ))}
               </div>

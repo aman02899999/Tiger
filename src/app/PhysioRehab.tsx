@@ -985,8 +985,8 @@ const RECOVERY_TIPS = [
   {
     icon: "⏳",
     title: "Tissue Healing Timelines",
-    accent: "text-[#d8b35a]",
-    border: "border-[#d8b35a]/25",
+    accent: "text-[#ffb627]",
+    border: "border-[#ffb627]/25",
     points: [
       "Muscle strains: ~2–6 weeks. Ligament sprains: ~6–12 weeks depending on grade.",
       "Tendinopathy: 12+ weeks of progressive loading — there is no shortcut.",
@@ -1007,7 +1007,7 @@ const SEE_A_PRO = [
 /* --------------------------- Shared UI pieces --------------------------- */
 
 const FALLBACK_GRADIENT =
-  "linear-gradient(135deg, rgba(139,92,246,0.35) 0%, rgba(232,121,249,0.25) 50%, rgba(216,179,90,0.3) 100%)";
+  "linear-gradient(135deg, rgba(20,184,166,0.35) 0%, rgba(59,157,255,0.25) 50%, rgba(255,182,39,0.3) 100%)";
 
 function RehabImg({ src, alt, className }: { src: string; alt: string; className?: string }) {
   const [failed, setFailed] = useState(false);
@@ -1078,20 +1078,20 @@ function HoldTimer({ seconds }: { seconds: number }) {
   const presets = [15, 30, 45, 60];
 
   return (
-    <div className="rounded-xl border border-[#f7f0df]/10 bg-[#07040d]/70 p-4">
+    <div className="rounded-xl border border-[#e9f3f5]/10 bg-[#04070e]/70 p-4">
       <div className="mb-3 flex items-center justify-between">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Hold / Rest Timer</p>
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">Hold / Rest Timer</p>
         <span
           className={`font-mono text-2xl font-black tabular-nums ${
-            remaining === 0 ? "text-emerald-400" : "text-[#f7f0df]"
+            remaining === 0 ? "text-emerald-400" : "text-[#e9f3f5]"
           }`}
         >
           {String(Math.floor(remaining / 60)).padStart(2, "0")}:{String(remaining % 60).padStart(2, "0")}
         </span>
       </div>
-      <div className="mb-3 h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
+      <div className="mb-3 h-2 overflow-hidden rounded-full bg-[#e9f3f5]/10">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-[#d8b35a] transition-all duration-1000 ease-linear"
+          className="h-full rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-[#ffb627] transition-all duration-1000 ease-linear"
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -1110,7 +1110,7 @@ function HoldTimer({ seconds }: { seconds: number }) {
             setRunning(false);
             setRemaining(duration);
           }}
-          className="rounded-full border border-[#f7f0df]/15 px-4 py-1.5 text-sm font-semibold text-[#f7f0df]/70 transition-colors hover:border-[#f7f0df]/35 hover:text-[#f7f0df]"
+          className="rounded-full border border-[#e9f3f5]/15 px-4 py-1.5 text-sm font-semibold text-[#e9f3f5]/70 transition-colors hover:border-[#e9f3f5]/35 hover:text-[#e9f3f5]"
         >
           Reset
         </button>
@@ -1125,8 +1125,8 @@ function HoldTimer({ seconds }: { seconds: number }) {
               }}
               className={`rounded-full border px-2.5 py-1 text-xs font-bold transition-colors ${
                 duration === p
-                  ? "border-[#d8b35a]/60 bg-[#d8b35a]/15 text-[#d8b35a]"
-                  : "border-[#f7f0df]/12 text-[#f7f0df]/62 hover:border-[#f7f0df]/30"
+                  ? "border-[#ffb627]/60 bg-[#ffb627]/15 text-[#ffb627]"
+                  : "border-[#e9f3f5]/12 text-[#e9f3f5]/62 hover:border-[#e9f3f5]/30"
               }`}
             >
               {p}s
@@ -1182,22 +1182,22 @@ function ExerciseModal({
       aria-label={`${exercise.name} details`}
     >
       <div
-        className="glass-card max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-3xl border border-[#f7f0df]/12 bg-[#0b0714]/95 sm:rounded-3xl"
+        className="glass-card max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-t-3xl border border-[#e9f3f5]/12 bg-[#0a141f]/95 sm:rounded-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative">
           <RehabImg src={exercise.image} alt={exercise.alt} className="h-56 w-full sm:h-72" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0714] via-[#0b0714]/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a141f] via-[#0a141f]/30 to-transparent" />
           <button
             onClick={onClose}
             aria-label="Close exercise details"
-            className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-[#f7f0df]/20 bg-black/50 text-[#f7f0df] transition-colors hover:bg-black/80"
+            className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-[#e9f3f5]/20 bg-black/50 text-[#e9f3f5] transition-colors hover:bg-black/80"
           >
             ✕
           </button>
           <div className="absolute bottom-4 left-5 right-5">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">{exercise.dose}</p>
-            <h3 className="mt-1 text-2xl font-black tracking-[-0.04em] text-[#f7f0df] sm:text-3xl">{exercise.name}</h3>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">{exercise.dose}</p>
+            <h3 className="mt-1 text-2xl font-black tracking-[-0.04em] text-[#e9f3f5] sm:text-3xl">{exercise.name}</h3>
           </div>
         </div>
 
@@ -1208,7 +1208,7 @@ function ExerciseModal({
             <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-violet-300">How to perform</p>
             <ol className="space-y-2">
               {exercise.steps.map((s, i) => (
-                <li key={i} className="flex gap-3 text-sm leading-relaxed text-[#f7f0df]/80">
+                <li key={i} className="flex gap-3 text-sm leading-relaxed text-[#e9f3f5]/80">
                   <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 text-[10px] font-black text-white">
                     {i + 1}
                   </span>
@@ -1223,7 +1223,7 @@ function ExerciseModal({
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-amber-400">Common Mistakes</p>
               <ul className="space-y-1.5">
                 {exercise.mistakes.map((m, i) => (
-                  <li key={i} className="flex gap-2 text-xs leading-relaxed text-[#f7f0df]/70">
+                  <li key={i} className="flex gap-2 text-xs leading-relaxed text-[#e9f3f5]/70">
                     <span aria-hidden>⚠</span> {m}
                   </li>
                 ))}
@@ -1233,7 +1233,7 @@ function ExerciseModal({
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-red-400">Stop If…</p>
               <ul className="space-y-1.5">
                 {exercise.stopIf.map((r, i) => (
-                  <li key={i} className="flex gap-2 text-xs leading-relaxed text-[#f7f0df]/70">
+                  <li key={i} className="flex gap-2 text-xs leading-relaxed text-[#e9f3f5]/70">
                     <span aria-hidden>🛑</span> {r}
                   </li>
                 ))}
@@ -1251,14 +1251,14 @@ function ExerciseModal({
                   className={`rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
                     stage === s.key
                       ? "border-fuchsia-500/60 bg-fuchsia-500/15 text-fuchsia-300"
-                      : "border-[#f7f0df]/12 text-[#f7f0df]/62 hover:border-[#f7f0df]/30"
+                      : "border-[#e9f3f5]/12 text-[#e9f3f5]/62 hover:border-[#e9f3f5]/30"
                   }`}
                 >
                   {s.label}
                 </button>
               ))}
             </div>
-            <p className="rounded-xl border border-[#f7f0df]/10 bg-[#07040d]/60 p-4 text-sm leading-relaxed text-[#f7f0df]/80">
+            <p className="rounded-xl border border-[#e9f3f5]/10 bg-[#04070e]/60 p-4 text-sm leading-relaxed text-[#e9f3f5]/80">
               {exercise.progression[stage]}
             </p>
           </div>
@@ -1320,30 +1320,30 @@ export default function PhysioRehabPage() {
     });
 
   return (
-    <div className="min-h-screen bg-[#07040d] px-4 py-10 text-[#f7f0df] sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#04070e] px-4 py-10 text-[#e9f3f5] sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl space-y-12">
         {/* Hero */}
-        <header className="relative overflow-hidden rounded-3xl border border-[#f7f0df]/10">
+        <header className="relative overflow-hidden rounded-3xl border border-[#e9f3f5]/10">
           <RehabImg
             src={IMG("photo-1576091160399-112ba8d25d1d")}
             alt="Healthcare professional reviewing a patient's rehabilitation plan"
             className="absolute inset-0 h-full w-full"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#07040d] via-[#07040d]/92 to-[#07040d]/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04070e] via-[#04070e]/92 to-[#04070e]/55" />
           <div className="relative px-6 py-12 sm:px-10 sm:py-16">
             <SectionLabel>Physiotherapy & Injury Rehab</SectionLabel>
             <h1 className="mt-4 max-w-2xl text-3xl font-black tracking-[-0.04em] sm:text-5xl">
               Recover Smarter.{" "}
-              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-[#d8b35a] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-[#ffb627] bg-clip-text text-transparent">
                 Come Back Stronger.
               </span>
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#f7f0df]/70 sm:text-base">
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-[#e9f3f5]/70 sm:text-base">
               Evidence-based rehab programs for seven body regions — step-by-step exercises, hold timers,
               red-flag safety checks and staged progressions, all in one hub.
             </p>
             <div className="mt-6 flex flex-wrap gap-3 text-xs font-bold uppercase tracking-[0.2em]">
-              <span className="rounded-full border border-[#d8b35a]/40 bg-[#d8b35a]/10 px-3 py-1 text-[#d8b35a]">7 body regions</span>
+              <span className="rounded-full border border-[#ffb627]/40 bg-[#ffb627]/10 px-3 py-1 text-[#ffb627]">7 body regions</span>
               <span className="rounded-full border border-fuchsia-500/40 bg-fuchsia-500/10 px-3 py-1 text-fuchsia-300">30 exercises</span>
               <span className="rounded-full border border-violet-500/40 bg-violet-500/10 px-3 py-1 text-violet-300">3 stages each</span>
             </div>
@@ -1360,10 +1360,10 @@ export default function PhysioRehabPage() {
                 { n: "2", t: "Do the exercises in order", d: "Follow the numbered steps with the real demonstration photo. Use the hold timer and only go as far as a gentle stretch — never sharp pain." },
                 { n: "3", t: "Progress through the stages", d: "Start at Early recovery. As pain settles and movement improves, move up to Mid then Late stage exercises." },
               ].map((s) => (
-                <div key={s.n} className="rounded-xl border border-[#f7f0df]/8 bg-[#f7f0df]/5 p-4">
+                <div key={s.n} className="rounded-xl border border-[#e9f3f5]/8 bg-[#e9f3f5]/5 p-4">
                   <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 text-sm font-black text-white">{s.n}</div>
-                  <p className="text-sm font-bold text-[#f7f0df]">{s.t}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-[#f7f0df]/68">{s.d}</p>
+                  <p className="text-sm font-bold text-[#e9f3f5]">{s.t}</p>
+                  <p className="mt-1 text-xs leading-relaxed text-[#e9f3f5]/68">{s.d}</p>
                 </div>
               ))}
             </div>
@@ -1387,17 +1387,17 @@ export default function PhysioRehabPage() {
                   aria-pressed={active}
                   className={`glass-card group rounded-2xl border p-4 text-center transition-all ${
                     active
-                      ? "border-gold-glow border-[#d8b35a]/60 bg-gradient-to-b from-violet-600/25 to-fuchsia-600/10"
-                      : "border-[#f7f0df]/10 bg-[#0b0714]/60 hover:border-[#f7f0df]/25"
+                      ? "border-gold-glow border-[#ffb627]/60 bg-gradient-to-b from-violet-600/25 to-fuchsia-600/10"
+                      : "border-[#e9f3f5]/10 bg-[#0a141f]/60 hover:border-[#e9f3f5]/25"
                   }`}
                 >
                   <span className="text-2xl" aria-hidden>
                     {b.icon}
                   </span>
-                  <p className={`mt-2 text-sm font-black tracking-[-0.02em] ${active ? "text-[#f7f0df]" : "text-[#f7f0df]/75"}`}>
+                  <p className={`mt-2 text-sm font-black tracking-[-0.02em] ${active ? "text-[#e9f3f5]" : "text-[#e9f3f5]/75"}`}>
                     {b.label}
                   </p>
-                  <p className="mt-1 text-[11px] font-semibold text-[#f7f0df]/62">
+                  <p className="mt-1 text-[11px] font-semibold text-[#e9f3f5]/62">
                     {done}/{b.exercises.length} done
                   </p>
                 </button>
@@ -1407,25 +1407,25 @@ export default function PhysioRehabPage() {
         </section>
 
         {/* Active body part detail */}
-        <section className="glass-card overflow-hidden rounded-3xl border border-[#f7f0df]/10 bg-[#0b0714]/60">
+        <section className="glass-card overflow-hidden rounded-3xl border border-[#e9f3f5]/10 bg-[#0a141f]/60">
           <div className="relative">
             <RehabImg src={part.image} alt={part.alt} className="h-44 w-full sm:h-56" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b0714] via-[#0b0714]/40 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a141f] via-[#0a141f]/40 to-transparent" />
             <div className="absolute bottom-4 left-5 right-5 flex flex-wrap items-end justify-between gap-3">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">
                   {part.exercises.length}-exercise session
                 </p>
                 <h3 className="text-2xl font-black tracking-[-0.04em] sm:text-3xl">{part.label} Rehab Program</h3>
               </div>
               <div className="min-w-[180px]">
-                <div className="mb-1 flex justify-between text-xs font-bold text-[#f7f0df]/70">
+                <div className="mb-1 flex justify-between text-xs font-bold text-[#e9f3f5]/70">
                   <span>Session progress</span>
-                  <span className="text-[#d8b35a]">{progressPct}%</span>
+                  <span className="text-[#ffb627]">{progressPct}%</span>
                 </div>
-                <div className="h-2 overflow-hidden rounded-full bg-[#f7f0df]/12">
+                <div className="h-2 overflow-hidden rounded-full bg-[#e9f3f5]/12">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-[#d8b35a] transition-all duration-500"
+                    className="h-full rounded-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-[#ffb627] transition-all duration-500"
                     style={{ width: `${progressPct}%` }}
                   />
                 </div>
@@ -1434,7 +1434,7 @@ export default function PhysioRehabPage() {
           </div>
 
           <div className="p-5 sm:p-7">
-            <p className="mb-5 text-sm leading-relaxed text-[#f7f0df]/62">{part.blurb}</p>
+            <p className="mb-5 text-sm leading-relaxed text-[#e9f3f5]/62">{part.blurb}</p>
             <div className="grid gap-4 sm:grid-cols-2">
               {part.exercises.map((ex, i) => {
                 const done = doneIds.has(ex.id);
@@ -1442,7 +1442,7 @@ export default function PhysioRehabPage() {
                   <div
                     key={ex.id}
                     className={`group overflow-hidden rounded-2xl border transition-all ${
-                      done ? "border-emerald-500/35 bg-emerald-500/5" : "border-[#f7f0df]/10 bg-[#07040d]/60 hover:border-violet-500/40"
+                      done ? "border-emerald-500/35 bg-emerald-500/5" : "border-[#e9f3f5]/10 bg-[#04070e]/60 hover:border-violet-500/40"
                     }`}
                   >
                     <button
@@ -1452,8 +1452,8 @@ export default function PhysioRehabPage() {
                     >
                       <div className="relative">
                         <RehabImg src={ex.image} alt={ex.alt} className="h-36 w-full transition-transform duration-500 group-hover:scale-[1.03]" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#07040d]/95 via-transparent to-transparent" />
-                        <span className="absolute left-3 top-3 rounded-full border border-[#f7f0df]/20 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#f7f0df]/80">
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#04070e]/95 via-transparent to-transparent" />
+                        <span className="absolute left-3 top-3 rounded-full border border-[#e9f3f5]/20 bg-black/60 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.2em] text-[#e9f3f5]/80">
                           Exercise {i + 1}
                         </span>
                         {done && (
@@ -1463,19 +1463,19 @@ export default function PhysioRehabPage() {
                         )}
                       </div>
                       <div className="p-4">
-                        <h4 className="font-black tracking-[-0.02em] text-[#f7f0df]">{ex.name}</h4>
-                        <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">{ex.dose}</p>
-                        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#f7f0df]/62">{ex.steps[0]}</p>
+                        <h4 className="font-black tracking-[-0.02em] text-[#e9f3f5]">{ex.name}</h4>
+                        <p className="mt-1 text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">{ex.dose}</p>
+                        <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-[#e9f3f5]/62">{ex.steps[0]}</p>
                       </div>
                     </button>
-                    <div className="flex items-center justify-between border-t border-[#f7f0df]/8 px-4 py-2.5">
+                    <div className="flex items-center justify-between border-t border-[#e9f3f5]/8 px-4 py-2.5">
                       <button
                         onClick={() => setOpenExercise(ex)}
                         className="text-xs font-bold text-violet-300 transition-colors hover:text-fuchsia-300"
                       >
                         View steps, timer & progressions →
                       </button>
-                      <label className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-[#f7f0df]/62">
+                      <label className="flex cursor-pointer items-center gap-2 text-xs font-semibold text-[#e9f3f5]/62">
                         <input
                           type="checkbox"
                           checked={done}
@@ -1499,25 +1499,25 @@ export default function PhysioRehabPage() {
         </section>
 
         {/* POLICE protocol */}
-        <section className="glass-card rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-900/20 via-[#0b0714]/60 to-fuchsia-900/10 p-6 sm:p-8">
+        <section className="glass-card rounded-3xl border border-violet-500/20 bg-gradient-to-br from-violet-900/20 via-[#0a141f]/60 to-fuchsia-900/10 p-6 sm:p-8">
           <div className="mb-6 flex items-center gap-3">
             <div className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 text-sm font-black text-white">
               Rx
             </div>
             <div>
               <h2 className="text-xl font-black tracking-[-0.04em]">POLICE Protocol</h2>
-              <p className="text-xs text-[#f7f0df]/62">Immediate management for a fresh injury (first 72 hours)</p>
+              <p className="text-xs text-[#e9f3f5]/62">Immediate management for a fresh injury (first 72 hours)</p>
             </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {POLICE.map((item) => (
-              <div key={item.letter} className="flex gap-3 rounded-xl border border-[#f7f0df]/8 bg-[#07040d]/60 p-4">
+              <div key={item.letter} className="flex gap-3 rounded-xl border border-[#e9f3f5]/8 bg-[#04070e]/60 p-4">
                 <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-sm font-black text-white">
                   {item.letter}
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-[#f7f0df]">{item.name}</p>
-                  <p className="mt-0.5 text-xs leading-relaxed text-[#f7f0df]/62">{item.desc}</p>
+                  <p className="text-sm font-bold text-[#e9f3f5]">{item.name}</p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-[#e9f3f5]/62">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -1532,7 +1532,7 @@ export default function PhysioRehabPage() {
           </div>
           <div className="grid gap-5 lg:grid-cols-3">
             {RECOVERY_TIPS.map((tip) => (
-              <div key={tip.title} className={`glass-card rounded-2xl border ${tip.border} bg-[#0b0714]/60 p-5`}>
+              <div key={tip.title} className={`glass-card rounded-2xl border ${tip.border} bg-[#0a141f]/60 p-5`}>
                 <div className="mb-3 flex items-center gap-3">
                   <span className="text-2xl" aria-hidden>
                     {tip.icon}
@@ -1541,7 +1541,7 @@ export default function PhysioRehabPage() {
                 </div>
                 <ul className="space-y-2.5">
                   {tip.points.map((p, i) => (
-                    <li key={i} className="flex gap-2 text-sm leading-relaxed text-[#f7f0df]/70">
+                    <li key={i} className="flex gap-2 text-sm leading-relaxed text-[#e9f3f5]/70">
                       <span className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-current ${tip.accent}`} aria-hidden />
                       {p}
                     </li>
@@ -1553,17 +1553,17 @@ export default function PhysioRehabPage() {
         </section>
 
         {/* When to see a professional */}
-        <section className="border-gold-glow rounded-3xl border border-[#d8b35a]/30 bg-gradient-to-br from-[#d8b35a]/10 to-amber-900/5 p-6 sm:p-8">
+        <section className="border-gold-glow rounded-3xl border border-[#ffb627]/30 bg-gradient-to-br from-[#ffb627]/10 to-amber-900/5 p-6 sm:p-8">
           <div className="flex flex-col gap-5 sm:flex-row">
-            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-[#d8b35a]/40 bg-[#d8b35a]/15 text-2xl" aria-hidden>
+            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-[#ffb627]/40 bg-[#ffb627]/15 text-2xl" aria-hidden>
               ⚕️
             </div>
             <div className="flex-1">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">When to see a professional</p>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">When to see a professional</p>
               <h2 className="mt-1 text-xl font-black tracking-[-0.04em]">Self-rehab has limits. Know yours.</h2>
               <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
                 {SEE_A_PRO.map((s, i) => (
-                  <li key={i} className="flex gap-2 text-sm leading-relaxed text-[#f7f0df]/75">
+                  <li key={i} className="flex gap-2 text-sm leading-relaxed text-[#e9f3f5]/75">
                     <span className="text-red-400" aria-hidden>
                       ▸
                     </span>
@@ -1571,7 +1571,7 @@ export default function PhysioRehabPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 text-xs leading-relaxed text-[#f7f0df]/62">
+              <p className="mt-5 text-xs leading-relaxed text-[#e9f3f5]/62">
                 Medical disclaimer: this content is educational and does not replace professional medical advice.
                 Always consult a qualified physiotherapist or physician before starting a rehabilitation program,
                 especially after acute injury or surgery.

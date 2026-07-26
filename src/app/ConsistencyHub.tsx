@@ -18,11 +18,11 @@ function loadDays(email: string | null | undefined): Record<string, number> {
 }
 
 const LEVEL_BG = [
-  "rgba(247,240,223,0.06)", // 0 — none
-  "rgba(167,139,250,0.35)", // 1
-  "rgba(167,139,250,0.60)", // 2
-  "rgba(232,121,249,0.75)", // 3
-  "linear-gradient(135deg,#e879f9,#d8b35a)", // 4 — max
+  "rgba(233,243,245,0.06)", // 0 — none
+  "rgba(45,212,191,0.35)", // 1
+  "rgba(45,212,191,0.60)", // 2
+  "rgba(59,157,255,0.75)", // 3
+  "linear-gradient(135deg,#3b9dff,#ffb627)", // 4 — max
 ];
 
 export default function ConsistencyHub() {
@@ -96,17 +96,17 @@ export default function ConsistencyHub() {
   }, [activeKeys]);
 
   const stats = [
-    { label: "Current Streak", value: `${currentStreak}`, unit: "days", color: "#d8b35a" },
-    { label: "Best Streak", value: `${bestStreak}`, unit: "days", color: "#e879f9" },
-    { label: "Active Days", value: `${totalActive}`, unit: "logged", color: "#a78bfa" },
-    { label: "Effort Points", value: `${totalPoints}`, unit: "total", color: "#34d399" },
+    { label: "Current Streak", value: `${currentStreak}`, unit: "days", color: "#ffb627" },
+    { label: "Best Streak", value: `${bestStreak}`, unit: "days", color: "#3b9dff" },
+    { label: "Active Days", value: `${totalActive}`, unit: "logged", color: "#2dd4bf" },
+    { label: "Effort Points", value: `${totalPoints}`, unit: "total", color: "#34e08a" },
   ];
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Consistency</h1>
-        <p className="text-sm text-[#f7f0df]/68">Don't break the chain — tap each day you train to build your streak</p>
+        <p className="text-sm text-[#e9f3f5]/68">Don't break the chain — tap each day you train to build your streak</p>
       </div>
 
       {/* Stats */}
@@ -114,7 +114,7 @@ export default function ConsistencyHub() {
         {stats.map((s) => (
           <div key={s.label} className="glass-card rounded-2xl p-4">
             <p className="text-3xl font-black tabular-nums" style={{ color: s.color }}>{s.value}</p>
-            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/65">{s.unit} · {s.label}</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/65">{s.unit} · {s.label}</p>
           </div>
         ))}
       </div>
@@ -123,7 +123,7 @@ export default function ConsistencyHub() {
       <div className="glass-card rounded-2xl p-6">
         <div className="mb-4 flex items-center justify-between">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Last {WEEKS} weeks</p>
-          <p className="text-[11px] text-[#f7f0df]/62">Tap a day to cycle intensity · +3 XP first log</p>
+          <p className="text-[11px] text-[#e9f3f5]/62">Tap a day to cycle intensity · +3 XP first log</p>
         </div>
         <div className="overflow-x-auto">
           <div className="flex gap-1" style={{ minWidth: WEEKS * 18 }}>
@@ -148,7 +148,7 @@ export default function ConsistencyHub() {
           </div>
         </div>
         {/* legend */}
-        <div className="mt-4 flex items-center justify-end gap-2 text-[10px] text-[#f7f0df]/62">
+        <div className="mt-4 flex items-center justify-end gap-2 text-[10px] text-[#e9f3f5]/62">
           <span>Less</span>
           {LEVEL_BG.map((bg, i) => <span key={i} className="h-3 w-3 rounded-sm" style={{ background: bg }} />)}
           <span>More</span>
@@ -156,8 +156,8 @@ export default function ConsistencyHub() {
       </div>
 
       <div className="glass-card rounded-2xl p-5">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">💡 The chain method</p>
-        <p className="mt-2 text-sm leading-relaxed text-[#f7f0df]/75">
+        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">💡 The chain method</p>
+        <p className="mt-2 text-sm leading-relaxed text-[#e9f3f5]/75">
           Jerry Seinfeld's productivity trick: mark an X for every day you show up. Soon you'll have a chain of X's —
           and your only job becomes "don't break the chain." One tap a day is all it takes.
         </p>

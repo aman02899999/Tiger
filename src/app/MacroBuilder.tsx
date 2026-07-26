@@ -49,9 +49,9 @@ const FOODS: Food[] = [
 interface Item extends Food { id: string; qty: number }
 
 const RING = [
-  { key: "p", label: "Protein", color: "#a78bfa", kcalPerG: 4 },
-  { key: "c", label: "Carbs", color: "#d8b35a", kcalPerG: 4 },
-  { key: "f", label: "Fat", color: "#e879f9", kcalPerG: 9 },
+  { key: "p", label: "Protein", color: "#2dd4bf", kcalPerG: 4 },
+  { key: "c", label: "Carbs", color: "#ffb627", kcalPerG: 4 },
+  { key: "f", label: "Fat", color: "#3b9dff", kcalPerG: 9 },
 ] as const;
 
 export default function MacroBuilderPage() {
@@ -93,14 +93,14 @@ export default function MacroBuilderPage() {
   const macroTotal = macroKcal.p + macroKcal.c + macroKcal.f || 1;
   const pDeg = (macroKcal.p / macroTotal) * 360;
   const cDeg = pDeg + (macroKcal.c / macroTotal) * 360;
-  const ringBg = `conic-gradient(#a78bfa 0deg ${pDeg}deg, #d8b35a ${pDeg}deg ${cDeg}deg, #e879f9 ${cDeg}deg 360deg)`;
+  const ringBg = `conic-gradient(#2dd4bf 0deg ${pDeg}deg, #ffb627 ${pDeg}deg ${cDeg}deg, #3b9dff ${cDeg}deg 360deg)`;
   const goalPct = Math.min(100, Math.round((totals.kcal / goalKcal) * 100));
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Macro Builder</h1>
-        <p className="text-sm text-[#f7f0df]/68">Search foods, build your plate, and watch your macros add up live</p>
+        <p className="text-sm text-[#e9f3f5]/68">Search foods, build your plate, and watch your macros add up live</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -111,7 +111,7 @@ export default function MacroBuilderPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search foods (e.g. paneer, dal, egg)…"
-            className="mt-3 w-full rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-3 text-sm outline-none focus:border-violet-200/40"
+            className="mt-3 w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40"
           />
           <div className="mt-4 max-h-80 space-y-1.5 overflow-y-auto pr-1">
             {filtered.map((f) => (
@@ -119,11 +119,11 @@ export default function MacroBuilderPage() {
                 key={f.name}
                 type="button"
                 onClick={() => add(f)}
-                className="flex w-full items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-left transition hover:bg-[#f7f0df]/10"
+                className="flex w-full items-center gap-3 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-3 text-left transition hover:bg-[#e9f3f5]/10"
               >
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold">{f.name}</p>
-                  <p className="text-[11px] text-[#f7f0df]/62">{f.unit} · {f.kcal} kcal · P{f.p} C{f.c} F{f.f}</p>
+                  <p className="text-[11px] text-[#e9f3f5]/62">{f.unit} · {f.kcal} kcal · P{f.p} C{f.c} F{f.f}</p>
                 </div>
                 <span className="grid h-7 w-7 place-items-center rounded-full bg-violet-500/80 text-sm font-black text-white">+</span>
               </button>
@@ -136,11 +136,11 @@ export default function MacroBuilderPage() {
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center gap-6">
               <div className="relative h-32 w-32 shrink-0">
-                <div className="absolute inset-0 rounded-full" style={{ background: plate.length ? ringBg : "rgba(247,240,223,0.1)", transition: "background 0.4s ease" }} />
-                <div className="absolute inset-[10px] grid place-items-center rounded-full bg-[#0b0714] text-center">
+                <div className="absolute inset-0 rounded-full" style={{ background: plate.length ? ringBg : "rgba(233,243,245,0.1)", transition: "background 0.4s ease" }} />
+                <div className="absolute inset-[10px] grid place-items-center rounded-full bg-[#0a141f] text-center">
                   <div>
                     <p className="text-2xl font-black tabular-nums">{Math.round(totals.kcal)}</p>
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-[#f7f0df]/62">kcal</p>
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-[#e9f3f5]/62">kcal</p>
                   </div>
                 </div>
               </div>
@@ -150,7 +150,7 @@ export default function MacroBuilderPage() {
                   return (
                     <div key={m.key} className="flex items-center gap-2">
                       <span className="h-3 w-3 rounded-full" style={{ background: m.color }} />
-                      <span className="text-xs font-bold text-[#f7f0df]/75">{m.label}</span>
+                      <span className="text-xs font-bold text-[#e9f3f5]/75">{m.label}</span>
                       <span className="ml-auto text-sm font-black tabular-nums">{Math.round(g)}g</span>
                     </div>
                   );
@@ -159,12 +159,12 @@ export default function MacroBuilderPage() {
             </div>
             {/* goal bar */}
             <div className="mt-5">
-              <div className="mb-1 flex justify-between text-xs text-[#f7f0df]/65">
+              <div className="mb-1 flex justify-between text-xs text-[#e9f3f5]/65">
                 <span>Daily goal</span>
                 <span className={goalPct >= 100 ? "font-bold text-emerald-300" : ""}>{Math.round(totals.kcal)} / {goalKcal} kcal</span>
               </div>
-              <div className="h-2 overflow-hidden rounded-full bg-[#f7f0df]/10">
-                <div className="h-full rounded-full bg-gradient-to-r from-violet-400 via-fuchsia-400 to-[#d8b35a] transition-all duration-500" style={{ width: `${goalPct}%` }} />
+              <div className="h-2 overflow-hidden rounded-full bg-[#e9f3f5]/10">
+                <div className="h-full rounded-full bg-gradient-to-r from-violet-400 via-fuchsia-400 to-[#ffb627] transition-all duration-500" style={{ width: `${goalPct}%` }} />
               </div>
             </div>
           </div>
@@ -173,22 +173,22 @@ export default function MacroBuilderPage() {
           <div className="glass-card rounded-2xl p-6">
             <div className="flex items-center justify-between">
               <p className="text-xs font-bold uppercase tracking-[0.2em] text-fuchsia-300">🍽️ Your plate</p>
-              {plate.length > 0 && <button type="button" onClick={() => setPlate([])} className="text-xs text-[#f7f0df]/60 hover:text-rose-200">Clear all</button>}
+              {plate.length > 0 && <button type="button" onClick={() => setPlate([])} className="text-xs text-[#e9f3f5]/60 hover:text-rose-200">Clear all</button>}
             </div>
             {plate.length === 0 ? (
-              <p className="mt-4 rounded-xl bg-white/5 p-4 text-center text-xs text-[#f7f0df]/62">Tap foods on the left to build your meal.</p>
+              <p className="mt-4 rounded-xl bg-white/5 p-4 text-center text-xs text-[#e9f3f5]/62">Tap foods on the left to build your meal.</p>
             ) : (
               <div className="mt-4 space-y-2">
                 {plate.map((it) => (
-                  <div key={it.id} className="flex items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3">
+                  <div key={it.id} className="flex items-center gap-3 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-3">
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold">{it.name}</p>
-                      <p className="text-[11px] text-[#f7f0df]/62">{it.qty} × {it.unit} · {Math.round(it.kcal * it.qty)} kcal</p>
+                      <p className="text-[11px] text-[#e9f3f5]/62">{it.qty} × {it.unit} · {Math.round(it.kcal * it.qty)} kcal</p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <button type="button" onClick={() => changeQty(it.id, -1)} aria-label="Decrease" className="grid h-7 w-7 place-items-center rounded-full border border-[#f7f0df]/15 text-sm hover:bg-[#f7f0df]/10">−</button>
+                      <button type="button" onClick={() => changeQty(it.id, -1)} aria-label="Decrease" className="grid h-7 w-7 place-items-center rounded-full border border-[#e9f3f5]/15 text-sm hover:bg-[#e9f3f5]/10">−</button>
                       <span className="w-5 text-center text-sm font-black tabular-nums">{it.qty}</span>
-                      <button type="button" onClick={() => changeQty(it.id, 1)} aria-label="Increase" className="grid h-7 w-7 place-items-center rounded-full border border-[#f7f0df]/15 text-sm hover:bg-[#f7f0df]/10">+</button>
+                      <button type="button" onClick={() => changeQty(it.id, 1)} aria-label="Increase" className="grid h-7 w-7 place-items-center rounded-full border border-[#e9f3f5]/15 text-sm hover:bg-[#e9f3f5]/10">+</button>
                     </div>
                   </div>
                 ))}

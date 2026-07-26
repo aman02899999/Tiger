@@ -71,7 +71,7 @@ function RecipePhoto({ src, alt, className = "" }: { src: string; alt: string; c
   return (
     <div className={`relative overflow-hidden bg-gradient-to-br from-violet-950 to-fuchsia-950 ${className}`}>
       {!fail && <img src={src} alt={alt} loading="lazy" onError={() => setFail(true)} className="h-full w-full object-cover" />}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0b0714]/70 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a141f]/70 to-transparent" />
     </div>
   );
 }
@@ -128,23 +128,23 @@ function FastingTimer() {
 
       <div className="mt-4 flex flex-wrap gap-2">
         {IF_PLANS.map((p) => (
-          <button key={p.id} type="button" disabled={!!startAt} onClick={() => setPlan(p)} className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${plan.id === p.id ? "bg-sky-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68"} ${startAt ? "opacity-50" : ""}`}>{p.label}</button>
+          <button key={p.id} type="button" disabled={!!startAt} onClick={() => setPlan(p)} className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${plan.id === p.id ? "bg-sky-500 text-white" : "border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/68"} ${startAt ? "opacity-50" : ""}`}>{p.label}</button>
         ))}
       </div>
-      <p className="mt-2 text-xs text-[#f7f0df]/62">{plan.tagline}</p>
+      <p className="mt-2 text-xs text-[#e9f3f5]/62">{plan.tagline}</p>
 
       <div className="mt-5 flex items-center gap-6">
         <div className="relative h-28 w-28 shrink-0">
-          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${done ? "#34d399" : "#38bdf8"} ${pct * 360}deg, rgba(247,240,223,0.1) ${pct * 360}deg)`, transition: "background 0.9s linear" }} />
-          <div className="absolute inset-[8px] grid place-items-center rounded-full bg-[#0b0714] text-center">
+          <div className="absolute inset-0 rounded-full" style={{ background: `conic-gradient(${done ? "#34e08a" : "#60b6fa"} ${pct * 360}deg, rgba(233,243,245,0.1) ${pct * 360}deg)`, transition: "background 0.9s linear" }} />
+          <div className="absolute inset-[8px] grid place-items-center rounded-full bg-[#0a141f] text-center">
             <div>
               <p className="text-lg font-black tabular-nums">{startAt ? (done ? "Done!" : `${hh}:${String(mm).padStart(2, "0")}`) : plan.label}</p>
-              <p className="text-[9px] uppercase tracking-[0.14em] text-[#f7f0df]/62">{startAt ? (done ? "complete" : "left") : "ready"}</p>
+              <p className="text-[9px] uppercase tracking-[0.14em] text-[#e9f3f5]/62">{startAt ? (done ? "complete" : "left") : "ready"}</p>
             </div>
           </div>
         </div>
         <div className="flex-1">
-          <p className="text-sm text-[#f7f0df]/75">{startAt ? (done ? "🎉 Fast complete! +15 XP — time to break your fast." : `Fasted ${elapsedH.toFixed(1)} of ${plan.fast} hrs`) : "Start when you finish your last meal."}</p>
+          <p className="text-sm text-[#e9f3f5]/75">{startAt ? (done ? "🎉 Fast complete! +15 XP — time to break your fast." : `Fasted ${elapsedH.toFixed(1)} of ${plan.fast} hrs`) : "Start when you finish your last meal."}</p>
           <button type="button" onClick={toggle} className={`btn-gloss mt-3 w-full rounded-full py-3 text-xs font-black uppercase tracking-[0.16em] text-white ${startAt ? "bg-gradient-to-r from-rose-400 to-pink-500" : "bg-gradient-to-r from-sky-400 to-sky-600"}`}>
             {startAt ? "⏹ End Fast" : "▶ Start Fast"}
           </button>
@@ -178,17 +178,17 @@ function GroceryList({ suggestions }: { suggestions: string[] }) {
 
   return (
     <div className="glass-card rounded-2xl p-6">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">🛒 Grocery List</p>
+      <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">🛒 Grocery List</p>
       <h2 className="mt-1 text-xl font-black">Build your shopping list</h2>
 
       <div className="mt-4 flex gap-2">
-        <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add(input)} placeholder="Add an item…" className="flex-1 rounded-xl border border-[#f7f0df]/12 bg-[#0b0714] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
-        <button type="button" onClick={() => add(input)} className="btn-gloss rounded-xl bg-gradient-to-r from-[#d8b35a] to-orange-400 px-5 text-xs font-black uppercase tracking-[0.14em] text-[#090511]">Add</button>
+        <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add(input)} placeholder="Add an item…" className="flex-1 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
+        <button type="button" onClick={() => add(input)} className="btn-gloss rounded-xl bg-gradient-to-r from-[#ffb627] to-orange-400 px-5 text-xs font-black uppercase tracking-[0.14em] text-[#04121a]">Add</button>
       </div>
 
       {suggestions.length > 0 && (
         <div className="mt-3">
-          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#f7f0df]/55">Tap to add from your saved recipes</p>
+          <p className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/55">Tap to add from your saved recipes</p>
           <div className="flex flex-wrap gap-1.5">
             {suggestions.slice(0, 12).map((s) => (
               <button key={s} type="button" onClick={() => add(s)} className="rounded-full border border-violet-200/25 bg-violet-200/8 px-2.5 py-1 text-[11px] text-violet-100 hover:bg-violet-200/16">+ {s}</button>
@@ -199,13 +199,13 @@ function GroceryList({ suggestions }: { suggestions: string[] }) {
 
       <div className="mt-4 space-y-1.5">
         {items.length === 0 ? (
-          <p className="rounded-xl bg-white/5 p-4 text-center text-xs text-[#f7f0df]/62">Your list is empty — add items or tap a recipe suggestion.</p>
+          <p className="rounded-xl bg-white/5 p-4 text-center text-xs text-[#e9f3f5]/62">Your list is empty — add items or tap a recipe suggestion.</p>
         ) : (
           items.map((it, i) => (
-            <button key={i} type="button" onClick={() => save(items.map((x, xi) => xi === i ? { ...x, done: !x.done } : x))} className="flex w-full items-center gap-3 rounded-xl border border-[#f7f0df]/10 bg-[#f7f0df]/5 p-3 text-left transition hover:bg-[#f7f0df]/10">
-              <span className={`grid h-6 w-6 place-items-center rounded-full border-2 ${it.done ? "border-emerald-300 bg-emerald-300 text-[#0b0714]" : "border-[#f7f0df]/25"}`}>{it.done && <span className="text-xs font-black">✓</span>}</span>
-              <span className={`flex-1 text-sm ${it.done ? "text-[#f7f0df]/50 line-through" : ""}`}>{it.text}</span>
-              <span onClick={(e) => { e.stopPropagation(); save(items.filter((_, xi) => xi !== i)); }} className="text-xs text-[#f7f0df]/45 hover:text-rose-200">✕</span>
+            <button key={i} type="button" onClick={() => save(items.map((x, xi) => xi === i ? { ...x, done: !x.done } : x))} className="flex w-full items-center gap-3 rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-3 text-left transition hover:bg-[#e9f3f5]/10">
+              <span className={`grid h-6 w-6 place-items-center rounded-full border-2 ${it.done ? "border-emerald-300 bg-emerald-300 text-[#0a141f]" : "border-[#e9f3f5]/25"}`}>{it.done && <span className="text-xs font-black">✓</span>}</span>
+              <span className={`flex-1 text-sm ${it.done ? "text-[#e9f3f5]/50 line-through" : ""}`}>{it.text}</span>
+              <span onClick={(e) => { e.stopPropagation(); save(items.filter((_, xi) => xi !== i)); }} className="text-xs text-[#e9f3f5]/45 hover:text-rose-200">✕</span>
             </button>
           ))
         )}
@@ -245,13 +245,13 @@ export default function RecipeHubPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-black tracking-[-0.04em]">Recipe Hub</h1>
-        <p className="text-sm text-[#f7f0df]/68">High-protein Indian recipes, a fasting timer, and a smart grocery list</p>
+        <p className="text-sm text-[#e9f3f5]/68">High-protein Indian recipes, a fasting timer, and a smart grocery list</p>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2">
         {(["All", "Veg", "Non-Veg", "Vegan"] as const).map((t) => (
-          <button key={t} type="button" onClick={() => setTag(t)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${tag === t ? "bg-violet-500 text-white" : "border border-[#f7f0df]/12 bg-[#f7f0df]/5 text-[#f7f0df]/68 hover:text-[#f7f0df]"}`}>{t}</button>
+          <button key={t} type="button" onClick={() => setTag(t)} className={`rounded-full px-4 py-2 text-xs font-bold transition ${tag === t ? "bg-violet-500 text-white" : "border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/68 hover:text-[#e9f3f5]"}`}>{t}</button>
         ))}
       </div>
 
@@ -265,10 +265,10 @@ export default function RecipeHubPage() {
                 <h3 className="font-black leading-tight">{r.name}</h3>
                 <button type="button" onClick={() => toggleSave(r.id)} aria-label="Save recipe" className="shrink-0 text-lg">{savedIds.includes(r.id) ? "⭐" : "☆"}</button>
               </div>
-              <p className="mt-1 text-[11px] text-[#f7f0df]/62">{r.tag} · {r.time} · {r.kcal} kcal</p>
+              <p className="mt-1 text-[11px] text-[#e9f3f5]/62">{r.tag} · {r.time} · {r.kcal} kcal</p>
               <div className="mt-2 flex gap-2 text-[11px] font-bold">
                 <span className="rounded-full bg-violet-200/12 px-2 py-0.5 text-violet-100">P {r.p}g</span>
-                <span className="rounded-full bg-[#d8b35a]/15 px-2 py-0.5 text-[#d8b35a]">C {r.c}g</span>
+                <span className="rounded-full bg-[#ffb627]/15 px-2 py-0.5 text-[#ffb627]">C {r.c}g</span>
                 <span className="rounded-full bg-fuchsia-300/12 px-2 py-0.5 text-fuchsia-200">F {r.f}g</span>
               </div>
               <button type="button" onClick={() => setOpen(r)} className="btn-gloss mt-3 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-2.5 text-xs font-black uppercase tracking-[0.14em] text-white">View Recipe</button>
@@ -286,25 +286,25 @@ export default function RecipeHubPage() {
       {/* Recipe modal */}
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={() => setOpen(null)}>
-          <div className="glass-card max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-[#0b0714]/95" onClick={(e) => e.stopPropagation()}>
+          <div className="glass-card max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl bg-[#0a141f]/95" onClick={(e) => e.stopPropagation()}>
             <RecipePhoto src={open.photo} alt={open.name} className="h-48 w-full rounded-t-3xl" />
             <div className="p-6">
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="text-2xl font-black">{open.name}</h2>
-                  <p className="mt-1 text-xs text-[#f7f0df]/68">{open.tag} · {open.time} · {open.kcal} kcal · P{open.p} C{open.c} F{open.f}</p>
+                  <p className="mt-1 text-xs text-[#e9f3f5]/68">{open.tag} · {open.time} · {open.kcal} kcal · P{open.p} C{open.c} F{open.f}</p>
                 </div>
-                <button type="button" onClick={() => setOpen(null)} className="rounded-full border border-[#f7f0df]/15 px-3 py-1.5 text-xs text-[#f7f0df]/70 hover:bg-[#f7f0df]/8">✕</button>
+                <button type="button" onClick={() => setOpen(null)} className="rounded-full border border-[#e9f3f5]/15 px-3 py-1.5 text-xs text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/8">✕</button>
               </div>
               <div className="mt-5">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d8b35a]">Ingredients</p>
-                <ul className="mt-2 space-y-1 text-sm text-[#f7f0df]/80">
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#ffb627]">Ingredients</p>
+                <ul className="mt-2 space-y-1 text-sm text-[#e9f3f5]/80">
                   {open.ingredients.map((ing, i) => <li key={i} className="flex gap-2"><span className="text-violet-300">•</span>{ing}</li>)}
                 </ul>
               </div>
               <div className="mt-5">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-300">Method</p>
-                <ol className="mt-2 space-y-2 text-sm text-[#f7f0df]/80">
+                <ol className="mt-2 space-y-2 text-sm text-[#e9f3f5]/80">
                   {open.steps.map((s, i) => (
                     <li key={i} className="flex gap-3"><span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-violet-500/70 text-[11px] font-black text-white">{i + 1}</span>{s}</li>
                   ))}
