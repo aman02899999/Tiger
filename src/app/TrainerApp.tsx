@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { useCheckout } from "./Checkout";
+import { type Client, subscribeClients, saveClients, loadCachedClients } from "./trainerStore";
 import PhysioRehabPage from "./PhysioRehab";
 import MeditationPage from "./Meditation";
 import BloodReportPage from "./BloodReport";
@@ -17,29 +18,9 @@ import PhysiotherapyLibraryPage from "./PhysiotherapyLibrary";
 /* Client data persists per trainer in localStorage. No SVG.          */
 /* ---------------------------------------------------------------- */
 
-interface Payment { date: string; amount: number }
-interface Client {
-  id: string;
-  name: string;
-  phone: string;
-  goal: string;
-  fee: number;
-  cycle: "monthly" | "session" | "quarterly";
-  startDate: string;
-  target: string;
-  plan: string;
-  status: "active" | "paused";
-  payments: Payment[];
-  attendance: string[]; // ISO dates present
-}
-
-type View = "dashboard" | "clients" | "attendance" | "fees" | "plans" | "physio" | "physiolib" | "diet" | "blood" | "builder" | "meditation" | "pdf" | "subscription";
+type View = "dashboard" | "clients" | "attendance" | "fees" | "plans" | "progress" | "schedule" | "physio" | "physiolib" | "diet" | "blood" | "builder" | "meditation" | "pdf" | "subscription";
 
 function todayISO() { return new Date().toISOString().slice(0, 10); }
-function key(email: string | null | undefined) { return `tfp_trainer_clients_${email ?? "guest"}`; }
-function loadClients(email: string | null | undefined): Client[] {
-  try { return JSON.parse(localStorage.getItem(key(email)) ?? "[]"); } catch { return []; }
-}
 function uid() { return "c" + Math.abs(Math.floor((Date.now() % 1e9) + performance.now())).toString(36); }
 
 const NAV: { group: string; items: { id: View; icon: string; label: string }[] }[] = [
@@ -49,6 +30,8 @@ const NAV: { group: string; items: { id: View; icon: string; label: string }[] }
     { id: "attendance", icon: "✅", label: "Attendance" },
     { id: "fees", icon: "💰", label: "Fees & Revenue" },
     { id: "plans", icon: "🗂️", label: "Client Plans" },
+    { id: "progress", icon: "📈", label: "Client Progress" },
+    { id: "schedule", icon: "📅", label: "Schedule" },
   ]},
   { group: "Pro Tools", items: [
     { id: "builder", icon: "🗒️", label: "Workout Builder" },
@@ -74,14 +57,20 @@ export default function TrainerApp() {
   const { user, updateUser, logout } = useAuth();
   const { openCheckout } = useCheckout();
   const [view, setView] = useState<View>("dashboard");
-  const [clients, setClients] = useState<Client[]>(() => loadClients(user?.email));
+  const [clients, setClients] = useState<Client[]>(() => loadCachedClients(user?.id));
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const trainerPlan = user?.trainerPlan ?? "Free";
 
+  // Live-sync the roster from Firestore (with a localStorage cache fallback).
+  useEffect(() => {
+    if (!user?.id) return;
+    return subscribeClients(user.id, setClients);
+  }, [user?.id]);
+
   function persist(next: Client[]) {
     setClients(next);
-    try { localStorage.setItem(key(user?.email), JSON.stringify(next)); } catch { /* ignore */ }
+    if (user?.id) saveClients(user.id, next);
   }
 
   return (
@@ -139,6 +128,8 @@ export default function TrainerApp() {
           {view === "attendance" && <AttendanceView clients={clients} persist={persist} />}
           {view === "fees" && <FeesView clients={clients} persist={persist} />}
           {view === "plans" && <PlansView clients={clients} persist={persist} />}
+          {view === "progress" && <ProgressView clients={clients} persist={persist} />}
+          {view === "schedule" && <ScheduleView clients={clients} persist={persist} />}
           {view === "builder" && <WorkoutBuilderPage />}
           {view === "diet" && <DietCalculator />}
           {view === "blood" && <BloodReportPage />}
@@ -146,7 +137,7 @@ export default function TrainerApp() {
           {view === "physiolib" && <PhysiotherapyLibraryPage />}
           {view === "meditation" && <MeditationPage />}
           {view === "pdf" && <PDFStorePage />}
-          {view === "subscription" && <TrainerSubscription current={trainerPlan} onPick={(id) => { if (id === "Free") updateUser({ trainerPlan: "Free" }); else openCheckout(id === "Coach" ? "pro" : "elite"); }} />}
+          {view === "subscription" && <TrainerSubscription current={trainerPlan} onPick={(id) => { if (id === "Free") updateUser({ trainerPlan: "Free" }); else openCheckout(id === "Coach" ? "trainer-coach" : "trainer-studio"); }} />}
         </main>
       </div>
     </div>
@@ -239,7 +230,7 @@ function monthsBetween(a: string, b: string) {
 }
 
 /* ===================== Clients CRUD ===================== */
-const BLANK: Omit<Client, "id" | "payments" | "attendance"> = { name: "", phone: "", goal: "", fee: 2000, cycle: "monthly", startDate: todayISO(), target: "", plan: "", status: "active" };
+const BLANK: Omit<Client, "id" | "payments" | "attendance" | "weightLog" | "sessions" | "notes"> = { name: "", phone: "", goal: "", fee: 2000, cycle: "monthly", startDate: todayISO(), target: "", plan: "", status: "active" };
 
 function ClientsManager({ clients, persist, trainerPlan, onUpgrade }: { clients: Client[]; persist: (c: Client[]) => void; trainerPlan: string; onUpgrade: () => void }) {
   const [editing, setEditing] = useState<Client | null>(null);
@@ -259,7 +250,7 @@ function ClientsManager({ clients, persist, trainerPlan, onUpgrade }: { clients:
     if (editing) {
       persist(clients.map((c) => c.id === editing.id ? { ...editing, ...form } : c));
     } else {
-      persist([...clients, { ...form, id: uid(), payments: [], attendance: [] }]);
+      persist([...clients, { ...form, id: uid(), payments: [], attendance: [], weightLog: [], sessions: [], notes: "" }]);
     }
     setAdding(false); setEditing(null);
   }
@@ -472,6 +463,127 @@ function TrainerSubscription({ current, onPick }: { current: string; onPick: (id
         })}
       </div>
       <p className="text-center text-[11px] text-[#2a1e16]/55">Trainer subscriptions are billed separately from personal member plans.</p>
+    </div>
+  );
+}
+
+/* ===================== Client Progress ===================== */
+function ProgressView({ clients, persist }: { clients: Client[]; persist: (c: Client[]) => void }) {
+  const [selId, setSelId] = useState(clients[0]?.id ?? "");
+  const [w, setW] = useState("");
+  const sel = clients.find((c) => c.id === selId) ?? clients[0];
+  if (!sel) return <div className="space-y-6"><div><h1 className="text-3xl font-black tracking-[-0.04em]">Client Progress</h1></div><p className="glass-card rounded-2xl p-8 text-center text-sm text-[#2a1e16]/60">Add a client to log their progress.</p></div>;
+
+  const log = [...sel.weightLog].sort((a, b) => a.date.localeCompare(b.date));
+  const max = log.length ? Math.max(...log.map((p) => p.weight)) : 0;
+  const min = log.length ? Math.min(...log.map((p) => p.weight)) : 0;
+  const range = max - min || 1;
+  const change = log.length >= 2 ? +(log[log.length - 1].weight - log[0].weight).toFixed(1) : 0;
+
+  function addWeight() {
+    const val = Number(w);
+    if (!val || val < 20 || val > 300) return;
+    const weightLog = [...sel!.weightLog.filter((p) => p.date !== todayISO()), { date: todayISO(), weight: val }];
+    persist(clients.map((c) => c.id === sel!.id ? { ...c, weightLog } : c));
+    setW("");
+  }
+
+  return (
+    <div className="space-y-6">
+      <div><h1 className="text-3xl font-black tracking-[-0.04em]">Client Progress</h1><p className="text-sm text-[#2a1e16]/68">Log weigh-ins and watch each client's trend</p></div>
+      <div className="glass-card rounded-2xl p-4">
+        <div className="flex flex-wrap gap-2">
+          {clients.map((c) => <button key={c.id} type="button" onClick={() => setSelId(c.id)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${sel.id === c.id ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/70"}`}>{c.name}</button>)}
+        </div>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-3">
+        <div className="glass-card rounded-2xl p-5 text-center"><p className="text-2xl font-black tabular-nums text-[#ea580c]">{log.at(-1)?.weight ?? "—"} kg</p><p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/60">Current</p></div>
+        <div className="glass-card rounded-2xl p-5 text-center"><p className="text-2xl font-black tabular-nums" style={{ color: change < 0 ? "#059669" : change > 0 ? "#ea580c" : "#2a1e16" }}>{change > 0 ? "+" : ""}{change} kg</p><p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/60">Total change</p></div>
+        <div className="glass-card rounded-2xl p-5 text-center"><p className="text-2xl font-black tabular-nums text-[#0284c7]">{log.length}</p><p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/60">Weigh-ins</p></div>
+      </div>
+
+      <div className="glass-card rounded-2xl p-6">
+        <div className="flex items-end gap-2">
+          <label className="flex-1"><span className="mb-1 block text-[11px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/65">Log today's weight for {sel.name} (kg)</span>
+            <input type="number" inputMode="decimal" value={w} onChange={(e) => setW(e.target.value)} placeholder="e.g. 74.5" className="w-full rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-400/50" />
+          </label>
+          <button type="button" onClick={addWeight} className="btn-gloss rounded-full bg-gradient-to-r from-orange-400 to-amber-600 px-5 py-2.5 text-xs font-black uppercase tracking-[0.14em] text-white">Log</button>
+        </div>
+
+        {log.length > 0 && (
+          <div className="mt-6 flex h-40 items-end justify-between gap-1.5">
+            {log.slice(-14).map((p) => {
+              const h = 15 + ((p.weight - min) / range) * 80;
+              return (
+                <div key={p.date} className="flex flex-1 flex-col items-center gap-1">
+                  <div className="flex w-full flex-1 items-end"><div className="w-full rounded-t-md bg-gradient-to-t from-orange-500 to-amber-400 transition-all" style={{ height: `${h}%` }} title={`${p.weight} kg`} /></div>
+                  <span className="text-[9px] text-[#2a1e16]/50">{p.date.slice(5)}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ===================== Schedule ===================== */
+function ScheduleView({ clients, persist }: { clients: Client[]; persist: (c: Client[]) => void }) {
+  const [clientId, setClientId] = useState(clients[0]?.id ?? "");
+  const [date, setDate] = useState(todayISO());
+  const [time, setTime] = useState("07:00");
+  const [note, setNote] = useState("");
+
+  const all = clients.flatMap((c) => c.sessions.map((s) => ({ ...s, clientId: c.id, clientName: c.name })))
+    .filter((s) => s.date >= todayISO())
+    .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+
+  function book() {
+    if (!clientId) return;
+    persist(clients.map((c) => c.id === clientId ? { ...c, sessions: [...c.sessions, { date, time, note }] } : c));
+    setNote("");
+  }
+  function toggleDone(cid: string, s: { date: string; time: string }) {
+    persist(clients.map((c) => c.id === cid ? { ...c, sessions: c.sessions.map((x) => x.date === s.date && x.time === s.time ? { ...x, done: !x.done } : x) } : c));
+  }
+  function cancel(cid: string, s: { date: string; time: string }) {
+    persist(clients.map((c) => c.id === cid ? { ...c, sessions: c.sessions.filter((x) => !(x.date === s.date && x.time === s.time)) } : c));
+  }
+
+  return (
+    <div className="space-y-6">
+      <div><h1 className="text-3xl font-black tracking-[-0.04em]">Schedule</h1><p className="text-sm text-[#2a1e16]/68">Book and track your upcoming sessions</p></div>
+
+      <div className="glass-card rounded-2xl p-6">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Book a session</p>
+        <div className="grid gap-3 sm:grid-cols-4">
+          <select value={clientId} onChange={(e) => setClientId(e.target.value)} className="rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none">
+            {clients.length === 0 && <option>Add a client first</option>}
+            {clients.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+          </select>
+          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className="rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none" />
+          <input type="time" value={time} onChange={(e) => setTime(e.target.value)} className="rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none" />
+          <input value={note} onChange={(e) => setNote(e.target.value)} placeholder="Focus (e.g. legs)" className="rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-3 py-2.5 text-sm outline-none" />
+        </div>
+        <button type="button" onClick={book} disabled={!clients.length} className="btn-gloss mt-3 rounded-full bg-gradient-to-r from-orange-400 to-amber-600 px-6 py-2.5 text-xs font-black uppercase tracking-[0.14em] text-white disabled:opacity-50">+ Book session</button>
+      </div>
+
+      <div className="glass-card rounded-2xl p-6">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#059669]">Upcoming</p>
+        <div className="space-y-2">
+          {all.length === 0 && <p className="text-center text-sm text-[#2a1e16]/60">No upcoming sessions.</p>}
+          {all.map((s, i) => (
+            <div key={i} className={`flex items-center gap-3 rounded-xl border p-3 ${s.done ? "border-emerald-400/40 bg-emerald-400/10" : "border-[#2a1e16]/10 bg-[#2a1e16]/[0.03]"}`}>
+              <div className="w-16 shrink-0 text-center"><p className="text-sm font-black text-[#ea580c]">{s.time}</p><p className="text-[10px] text-[#2a1e16]/55">{s.date.slice(5)}</p></div>
+              <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold">{s.clientName}</p>{s.note && <p className="text-[11px] text-[#2a1e16]/55">{s.note}</p>}</div>
+              <button type="button" onClick={() => toggleDone(s.clientId, s)} className={`rounded-full px-3 py-1.5 text-[10px] font-black uppercase ${s.done ? "bg-emerald-500 text-white" : "border border-emerald-500/30 text-emerald-700"}`}>{s.done ? "Done ✓" : "Mark done"}</button>
+              <button type="button" onClick={() => cancel(s.clientId, s)} className="text-[11px] font-bold text-rose-600">✕</button>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

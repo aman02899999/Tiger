@@ -17,12 +17,14 @@ import { functions } from "../firebase";
 /* UI) is already wired end-to-end.                                   */
 /* ---------------------------------------------------------------- */
 
-export type PlanId = "pro" | "elite" | "lifetime";
+export type PlanId = "pro" | "elite" | "lifetime" | "trainer-coach" | "trainer-studio";
 
 export interface PlanDef {
   id: PlanId;
   label: string;
   planValue: "Pro" | "Elite";
+  /** When set, this is a TRAINER plan and unlocks trainerPlan instead of the member plan. */
+  trainerValue?: "Coach" | "Studio";
   monthly: number;
   annual: number; // per year
   lifetime?: number;
@@ -33,6 +35,8 @@ export const PLANS: Record<PlanId, PlanDef> = {
   pro: { id: "pro", label: "Gold", planValue: "Pro", monthly: 199, annual: 1499, tagline: "Unlimited AI coaching & full library access" },
   elite: { id: "elite", label: "Platinum Family", planValue: "Elite", monthly: 399, annual: 2999, tagline: "Everything in Gold, for up to 8 family members" },
   lifetime: { id: "lifetime", label: "Platinum Lifetime", planValue: "Elite", monthly: 0, annual: 0, lifetime: 6999, tagline: "Pay once, own Platinum forever" },
+  "trainer-coach": { id: "trainer-coach", label: "Trainer · Coach", planValue: "Pro", trainerValue: "Coach", monthly: 799, annual: 7990, tagline: "Up to 40 clients + full coaching pro-tools" },
+  "trainer-studio": { id: "trainer-studio", label: "Trainer · Studio", planValue: "Elite", trainerValue: "Studio", monthly: 1999, annual: 19990, tagline: "Unlimited clients, team seats & branded PDFs" },
 };
 
 // Maps an internal plan+cycle to the Play Console product id that must be
@@ -163,7 +167,8 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
 
   async function unlockAfterPayment() {
     if (state.kind === "plan") {
-      await updateUser({ plan: plan!.planValue });
+      if (plan!.trainerValue) await updateUser({ trainerPlan: plan!.trainerValue });
+      else await updateUser({ plan: plan!.planValue });
     } else {
       state.item.onSuccess();
     }
@@ -176,7 +181,8 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
 
     // Razorpay Checkout — used automatically when VITE_RAZORPAY_KEY_ID is set.
     if (isRazorpayConfigured()) {
-      const planValue = state.kind === "plan" ? plan!.planValue : undefined;
+      const isTrainerPlan = state.kind === "plan" && !!plan!.trainerValue;
+      const planValue = isTrainerPlan ? undefined : (state.kind === "plan" ? plan!.planValue : undefined);
 
       // SECURE PATH: create an order and verify the signature via Cloud
       // Functions (which hold the Razorpay secret). Requires the functions to
@@ -203,7 +209,8 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
               const v = await verify({ orderId, paymentId, signature, plan: planValue });
               if (v.data.valid) {
                 if (state.kind === "item") state.item.onSuccess();
-                else await refreshUser(); // reflect the server-side plan unlock
+                else if (isTrainerPlan) await updateUser({ trainerPlan: plan!.trainerValue }); // trainer plans unlock client-side (allowed by rules)
+                else await refreshUser(); // reflect the server-side member-plan unlock
                 setStep("success");
                 setTimeout(onClose, 2400);
               } else {
