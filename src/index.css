@@ -172,6 +172,14 @@ button:disabled {
   100% { transform: translateY(110vh) rotate(720deg); opacity: 0.4; }
 }
 
+/* ── Print (trainer client reports → PDF) ───────────────────────── */
+@media print {
+  aside { display: none !important; }
+  header { display: none !important; }
+  html, body { background: #fff !important; }
+  main { padding: 0 !important; overflow: visible !important; }
+}
+
 /* ── Reduced motion ─────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

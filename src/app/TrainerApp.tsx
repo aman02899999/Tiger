@@ -18,7 +18,7 @@ import PhysiotherapyLibraryPage from "./PhysiotherapyLibrary";
 /* Client data persists per trainer in localStorage. No SVG.          */
 /* ---------------------------------------------------------------- */
 
-type View = "dashboard" | "clients" | "attendance" | "fees" | "plans" | "progress" | "schedule" | "physio" | "physiolib" | "diet" | "blood" | "builder" | "meditation" | "pdf" | "subscription";
+type View = "dashboard" | "clients" | "attendance" | "fees" | "plans" | "progress" | "schedule" | "journal" | "reports" | "reminders" | "physio" | "physiolib" | "diet" | "blood" | "builder" | "meditation" | "pdf" | "subscription";
 
 function todayISO() { return new Date().toISOString().slice(0, 10); }
 function uid() { return "c" + Math.abs(Math.floor((Date.now() % 1e9) + performance.now())).toString(36); }
@@ -32,6 +32,9 @@ const NAV: { group: string; items: { id: View; icon: string; label: string }[] }
     { id: "plans", icon: "🗂️", label: "Client Plans" },
     { id: "progress", icon: "📈", label: "Client Progress" },
     { id: "schedule", icon: "📅", label: "Schedule" },
+    { id: "journal", icon: "📓", label: "Coaching Journal" },
+    { id: "reminders", icon: "🔔", label: "Reminders" },
+    { id: "reports", icon: "🧾", label: "Client Reports" },
   ]},
   { group: "Pro Tools", items: [
     { id: "builder", icon: "🗒️", label: "Workout Builder" },
@@ -130,6 +133,9 @@ export default function TrainerApp() {
           {view === "plans" && <PlansView clients={clients} persist={persist} />}
           {view === "progress" && <ProgressView clients={clients} persist={persist} />}
           {view === "schedule" && <ScheduleView clients={clients} persist={persist} />}
+          {view === "journal" && <JournalView clients={clients} persist={persist} />}
+          {view === "reminders" && <RemindersView clients={clients} coachName={user?.name ?? "Your coach"} />}
+          {view === "reports" && <ReportsView clients={clients} coachName={user?.name ?? "Coach"} />}
           {view === "builder" && <WorkoutBuilderPage />}
           {view === "diet" && <DietCalculator />}
           {view === "blood" && <BloodReportPage />}
@@ -230,7 +236,7 @@ function monthsBetween(a: string, b: string) {
 }
 
 /* ===================== Clients CRUD ===================== */
-const BLANK: Omit<Client, "id" | "payments" | "attendance" | "weightLog" | "sessions" | "notes"> = { name: "", phone: "", goal: "", fee: 2000, cycle: "monthly", startDate: todayISO(), target: "", plan: "", status: "active" };
+const BLANK: Omit<Client, "id" | "payments" | "attendance" | "weightLog" | "sessions" | "notes" | "journal"> = { name: "", phone: "", goal: "", fee: 2000, cycle: "monthly", startDate: todayISO(), target: "", plan: "", status: "active" };
 
 function ClientsManager({ clients, persist, trainerPlan, onUpgrade }: { clients: Client[]; persist: (c: Client[]) => void; trainerPlan: string; onUpgrade: () => void }) {
   const [editing, setEditing] = useState<Client | null>(null);
@@ -250,7 +256,7 @@ function ClientsManager({ clients, persist, trainerPlan, onUpgrade }: { clients:
     if (editing) {
       persist(clients.map((c) => c.id === editing.id ? { ...editing, ...form } : c));
     } else {
-      persist([...clients, { ...form, id: uid(), payments: [], attendance: [], weightLog: [], sessions: [], notes: "" }]);
+      persist([...clients, { ...form, id: uid(), payments: [], attendance: [], weightLog: [], sessions: [], notes: "", journal: [] }]);
     }
     setAdding(false); setEditing(null);
   }
@@ -583,6 +589,146 @@ function ScheduleView({ clients, persist }: { clients: Client[]; persist: (c: Cl
             </div>
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== Coaching Journal ===================== */
+function JournalView({ clients, persist }: { clients: Client[]; persist: (c: Client[]) => void }) {
+  const [selId, setSelId] = useState(clients[0]?.id ?? "");
+  const [text, setText] = useState("");
+  const sel = clients.find((c) => c.id === selId) ?? clients[0];
+  if (!sel) return <div className="space-y-6"><div><h1 className="text-3xl font-black tracking-[-0.04em]">Coaching Journal</h1></div><p className="glass-card rounded-2xl p-8 text-center text-sm text-[#2a1e16]/60">Add a client to keep coaching notes.</p></div>;
+  function add() {
+    if (!text.trim()) return;
+    const journal = [{ date: todayISO(), text: text.trim() }, ...sel!.journal];
+    persist(clients.map((c) => c.id === sel!.id ? { ...c, journal } : c));
+    setText("");
+  }
+  function del(i: number) {
+    persist(clients.map((c) => c.id === sel!.id ? { ...c, journal: sel!.journal.filter((_, idx) => idx !== i) } : c));
+  }
+  return (
+    <div className="space-y-6">
+      <div><h1 className="text-3xl font-black tracking-[-0.04em]">Coaching Journal</h1><p className="text-sm text-[#2a1e16]/68">Log check-ins, form notes, and observations per client</p></div>
+      <div className="glass-card rounded-2xl p-4"><div className="flex flex-wrap gap-2">{clients.map((c) => <button key={c.id} type="button" onClick={() => setSelId(c.id)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${sel.id === c.id ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/70"}`}>{c.name}</button>)}</div></div>
+      <div className="glass-card rounded-2xl p-6">
+        <div className="flex gap-2">
+          <input value={text} onChange={(e) => setText(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add()} placeholder={`Note for ${sel.name} — e.g. "Great squat depth today, add 5kg next week"`} className="flex-1 rounded-xl border border-[#2a1e16]/12 bg-[#fffdf9] px-4 py-2.5 text-sm outline-none focus:border-orange-400/50" />
+          <button type="button" onClick={add} className="btn-gloss rounded-full bg-gradient-to-r from-orange-400 to-amber-600 px-5 py-2.5 text-xs font-black uppercase tracking-[0.14em] text-white">Add</button>
+        </div>
+        <div className="mt-5 space-y-2">
+          {sel.journal.length === 0 && <p className="text-center text-sm text-[#2a1e16]/55">No notes yet.</p>}
+          {sel.journal.map((n, i) => (
+            <div key={i} className="flex items-start gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/[0.03] p-3">
+              <span className="shrink-0 rounded-full bg-orange-400/15 px-2.5 py-1 text-[10px] font-black text-orange-700">{n.date.slice(5)}</span>
+              <p className="min-w-0 flex-1 text-sm text-[#2a1e16]/80">{n.text}</p>
+              <button type="button" onClick={() => del(i)} className="text-[11px] font-bold text-rose-600">✕</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== Reminders (WhatsApp) ===================== */
+function RemindersView({ clients, coachName }: { clients: Client[]; coachName: string }) {
+  function wa(phone: string, msg: string) {
+    const num = phone.replace(/[^0-9]/g, "");
+    return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
+  }
+  const feeDue = clients.filter((c) => feeStatus(c) === "due");
+  const upcoming = clients.flatMap((c) => c.sessions.filter((s) => s.date === todayISO() && !s.done).map((s) => ({ c, s })));
+
+  return (
+    <div className="space-y-6">
+      <div><h1 className="text-3xl font-black tracking-[-0.04em]">Reminders</h1><p className="text-sm text-[#2a1e16]/68">One tap to send fee &amp; session reminders on WhatsApp</p></div>
+
+      <div className="glass-card rounded-2xl p-6">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-rose-600">Fees due ({feeDue.length})</p>
+        <div className="space-y-2">
+          {feeDue.length === 0 && <p className="text-sm text-[#2a1e16]/55">All fees are up to date 🎉</p>}
+          {feeDue.map((c) => (
+            <div key={c.id} className="flex items-center gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/[0.03] p-3">
+              <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold">{c.name}</p><p className="text-[11px] text-[#2a1e16]/55">₹{c.fee} due</p></div>
+              {c.phone ? <a href={wa(c.phone, `Hi ${c.name}, a friendly reminder that your training fee of ₹${c.fee} is due. Thanks! — ${coachName}`)} target="_blank" rel="noreferrer" className="btn-gloss rounded-full bg-gradient-to-r from-emerald-500 to-emerald-700 px-4 py-2 text-[11px] font-black uppercase tracking-[0.1em] text-white">WhatsApp</a> : <span className="text-[11px] text-[#2a1e16]/45">No phone</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="glass-card rounded-2xl p-6">
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#ea580c]">Today's sessions ({upcoming.length})</p>
+        <div className="space-y-2">
+          {upcoming.length === 0 && <p className="text-sm text-[#2a1e16]/55">No sessions scheduled for today.</p>}
+          {upcoming.map(({ c, s }, i) => (
+            <div key={i} className="flex items-center gap-3 rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/[0.03] p-3">
+              <span className="shrink-0 rounded-full bg-orange-400/15 px-2.5 py-1 text-[11px] font-black text-orange-700">{s.time}</span>
+              <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold">{c.name}</p>{s.note && <p className="text-[11px] text-[#2a1e16]/55">{s.note}</p>}</div>
+              {c.phone ? <a href={wa(c.phone, `Hi ${c.name}, reminder for your session today at ${s.time}${s.note ? ` (${s.note})` : ""}. See you! — ${coachName}`)} target="_blank" rel="noreferrer" className="btn-gloss rounded-full bg-gradient-to-r from-emerald-500 to-emerald-700 px-4 py-2 text-[11px] font-black uppercase tracking-[0.1em] text-white">Remind</a> : <span className="text-[11px] text-[#2a1e16]/45">No phone</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ===================== Client Reports (print / PDF) ===================== */
+function ReportsView({ clients, coachName }: { clients: Client[]; coachName: string }) {
+  const [selId, setSelId] = useState(clients[0]?.id ?? "");
+  const sel = clients.find((c) => c.id === selId) ?? clients[0];
+  if (!sel) return <div className="space-y-6"><div><h1 className="text-3xl font-black tracking-[-0.04em]">Client Reports</h1></div><p className="glass-card rounded-2xl p-8 text-center text-sm text-[#2a1e16]/60">Add a client to generate a report.</p></div>;
+
+  const log = [...sel.weightLog].sort((a, b) => a.date.localeCompare(b.date));
+  const change = log.length >= 2 ? +(log[log.length - 1].weight - log[0].weight).toFixed(1) : 0;
+  const paid = sel.payments.reduce((a, p) => a + p.amount, 0);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
+        <div><h1 className="text-3xl font-black tracking-[-0.04em]">Client Reports</h1><p className="text-sm text-[#2a1e16]/68">Generate a printable / PDF progress report</p></div>
+        <button type="button" onClick={() => window.print()} className="btn-gloss rounded-full bg-gradient-to-r from-orange-400 to-amber-600 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white">🧾 Print / Save PDF</button>
+      </div>
+      <div className="glass-card rounded-2xl p-4 print:hidden"><div className="flex flex-wrap gap-2">{clients.map((c) => <button key={c.id} type="button" onClick={() => setSelId(c.id)} className={`rounded-full px-4 py-1.5 text-xs font-bold transition ${sel.id === c.id ? "bg-orange-500 text-white" : "border border-[#2a1e16]/12 bg-[#2a1e16]/5 text-[#2a1e16]/70"}`}>{c.name}</button>)}</div></div>
+
+      {/* Printable report */}
+      <div id="client-report" className="glass-card rounded-2xl p-8 print:border-0 print:shadow-none">
+        <div className="flex items-center justify-between border-b border-[#2a1e16]/15 pb-4">
+          <div><p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#ea580c]">The Titan Fitness</p><h2 className="text-2xl font-black">{sel.name} — Progress Report</h2></div>
+          <div className="text-right text-[11px] text-[#2a1e16]/60"><p>Coach: {coachName}</p><p>{todayISO()}</p></div>
+        </div>
+
+        <div className="mt-5 grid gap-3 sm:grid-cols-4">
+          {[
+            { l: "Goal", v: sel.goal || "—" },
+            { l: "Started", v: sel.startDate || "—" },
+            { l: "Sessions", v: String(sel.attendance.length) },
+            { l: "Weight change", v: `${change > 0 ? "+" : ""}${change} kg` },
+          ].map((s) => <div key={s.l} className="rounded-xl border border-[#2a1e16]/10 bg-[#2a1e16]/[0.03] p-3"><p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#2a1e16]/55">{s.l}</p><p className="mt-1 text-sm font-black">{s.v}</p></div>)}
+        </div>
+
+        <div className="mt-5">
+          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#ea580c]">🎯 Target</p>
+          <p className="mt-1 text-sm text-[#2a1e16]/80">{sel.target || "No target set."}</p>
+        </div>
+        <div className="mt-4">
+          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#ea580c]">🗒️ Plan</p>
+          <p className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-[#2a1e16]/80">{sel.plan || "No plan yet."}</p>
+        </div>
+        {log.length > 0 && (
+          <div className="mt-4">
+            <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#ea580c]">📈 Weigh-ins</p>
+            <p className="mt-1 text-sm text-[#2a1e16]/80">{log.map((p) => `${p.date.slice(5)}: ${p.weight}kg`).join("  ·  ")}</p>
+          </div>
+        )}
+        <div className="mt-4">
+          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#ea580c]">💰 Fees</p>
+          <p className="mt-1 text-sm text-[#2a1e16]/80">₹{sel.fee}/{sel.cycle} · ₹{paid.toLocaleString("en-IN")} collected to date · status: {feeStatus(sel)}</p>
+        </div>
+        <p className="mt-6 border-t border-[#2a1e16]/10 pt-3 text-center text-[10px] text-[#2a1e16]/50">Generated by The Titan Fitness · Trainer Studio</p>
       </div>
     </div>
   );

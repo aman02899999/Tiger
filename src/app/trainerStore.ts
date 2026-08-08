@@ -13,6 +13,7 @@ import { db } from "../firebase";
 export interface Payment { date: string; amount: number }
 export interface WeightPoint { date: string; weight: number }
 export interface Session { date: string; time: string; note: string; done?: boolean }
+export interface JournalNote { date: string; text: string }
 export interface Client {
   id: string;
   name: string;
@@ -29,6 +30,7 @@ export interface Client {
   weightLog: WeightPoint[];
   sessions: Session[];
   notes: string;
+  journal: JournalNote[];
 }
 
 function cacheKey(uid: string | null | undefined) { return `tfp_trainer_clients_${uid ?? "guest"}`; }
@@ -48,6 +50,7 @@ function normalize(c: Partial<Client>): Client {
     target: c.target ?? "", plan: c.plan ?? "", status: c.status ?? "active",
     payments: c.payments ?? [], attendance: c.attendance ?? [],
     weightLog: c.weightLog ?? [], sessions: c.sessions ?? [], notes: c.notes ?? "",
+    journal: c.journal ?? [],
   };
 }
 
