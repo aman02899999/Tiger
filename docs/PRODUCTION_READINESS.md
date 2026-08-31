@@ -34,7 +34,7 @@ However, the project is not yet a complete live SaaS deployment because several 
 | Firebase Auth | PASS | Enabled only with valid Firebase env config |
 | Admin access gating | BLOCKED | A browser password is not an authorization boundary; server-issued `super_admin` custom claims are required |
 | Role provisioning | BLOCKED | A server-only custom-claim Function is implemented, but the first super-admin bootstrap and deployment remain required |
-| Trainer/client separation | BLOCKED | Relationship model is architected but not fully enforced at database/backend layer |
+| Trainer/client separation | BLOCKED | Server-managed assignment and active-relationship read rules are implemented, but gym-scoped product data and emulator coverage are still required |
 
 ## Firestore and storage
 

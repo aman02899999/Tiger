@@ -17,6 +17,20 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
+    function isSameGym(gymId) {
+      return isSignedIn() && request.auth.token.gymId == gymId;
+    }
+
+    function trainerRelationshipId(clientId) {
+      return request.auth.token.gymId + '_' + request.auth.uid + '_' + clientId;
+    }
+
+    function isActiveTrainerOf(clientId) {
+      return hasRole('trainer')
+        && exists(/databases/$(database)/documents/trainerClients/$(trainerRelationshipId(clientId)))
+        && get(/databases/$(database)/documents/trainerClients/$(trainerRelationshipId(clientId))).data.status == 'active';
+    }
+
     function profileCreateIsSafe(userId) {
       return request.resource.data.keys().hasOnly([
         'id', 'name', 'email', 'avatar', 'phone', 'age', 'gender', 'height',
@@ -33,7 +47,7 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read: if isOwner(userId) || isSuperAdmin();
+      allow read: if isOwner(userId) || isSuperAdmin() || isActiveTrainerOf(userId);
       allow create: if isOwner(userId) && profileCreateIsSafe(userId);
       allow update: if isOwner(userId) && profileUpdateIsSafe();
       allow delete: if isOwner(userId) || isSuperAdmin();
@@ -87,7 +101,10 @@ service cloud.firestore {
     }
 
     match /trainerClients/{relationshipId} {
-      allow read, write: if false;
+      allow read: if isSuperAdmin()
+        || (isSignedIn() && request.auth.uid == resource.data.trainerId && isSameGym(resource.data.gymId))
+        || (isSignedIn() && request.auth.uid == resource.data.clientId && isSameGym(resource.data.gymId));
+      allow write: if false;
     }
   }
 }

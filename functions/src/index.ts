@@ -13,6 +13,8 @@ const auth = getAuth();
 const playPackageName = defineSecret("PLAY_PACKAGE_NAME");
 const roles = ["super_admin", "gym_owner", "trainer", "client"] as const;
 type Role = (typeof roles)[number];
+const relationshipStatuses = ["active", "inactive", "pending"] as const;
+type RelationshipStatus = (typeof relationshipStatuses)[number];
 
 function requireSuperAdmin(request: { auth?: { token: Record<string, unknown> } | null }) {
   if (!request.auth || request.auth.token.role !== "super_admin") {
@@ -25,6 +27,21 @@ function parseRole(value: unknown): Role {
     throw new HttpsError("invalid-argument", "role must be super_admin, gym_owner, trainer, or client.");
   }
   return value as Role;
+}
+
+function parseRelationshipStatus(value: unknown): RelationshipStatus {
+  if (!relationshipStatuses.includes(value as RelationshipStatus)) {
+    throw new HttpsError("invalid-argument", "status must be active, inactive, or pending.");
+  }
+  return value as RelationshipStatus;
+}
+
+function requireGymAuthority(request: { auth?: { token: Record<string, unknown>; uid: string } | null }, gymId: string) {
+  if (!request.auth) throw new HttpsError("unauthenticated", "Sign-in is required.");
+  if (request.auth.token.role === "super_admin") return;
+  if (request.auth.token.role !== "gym_owner" || request.auth.token.gymId !== gymId) {
+    throw new HttpsError("permission-denied", "A same-gym owner or super_admin is required.");
+  }
 }
 
 /** Server-only custom-claim provisioning. Bootstrap the first super_admin with Firebase Admin tooling. */
@@ -44,6 +61,35 @@ export const setUserRole = onCall(async (request) => {
     roleUpdatedBy: request.auth!.uid,
   }, { merge: true });
   return { uid, role, gymId, refreshTokenRequired: true };
+});
+
+/** Creates or updates a server-managed trainer-client relationship for one gym. */
+export const assignTrainerClient = onCall(async (request) => {
+  const { trainerId, clientId, gymId, status: rawStatus = "active" } = request.data ?? {};
+  if ([trainerId, clientId, gymId].some((value) => typeof value !== "string" || value.length === 0)) {
+    throw new HttpsError("invalid-argument", "trainerId, clientId, and gymId are required.");
+  }
+  requireGymAuthority(request, gymId);
+  const status = parseRelationshipStatus(rawStatus);
+
+  const [trainer, client] = await Promise.all([auth.getUser(trainerId), auth.getUser(clientId)]);
+  if (trainer.customClaims?.role !== "trainer" || trainer.customClaims?.gymId !== gymId) {
+    throw new HttpsError("failed-precondition", "The trainer must have a trainer claim for this gym.");
+  }
+  if (client.customClaims?.role !== "client" || client.customClaims?.gymId !== gymId) {
+    throw new HttpsError("failed-precondition", "The client must have a client claim for this gym.");
+  }
+
+  const relationshipId = `${gymId}_${trainerId}_${clientId}`;
+  await db.collection("trainerClients").doc(relationshipId).set({
+    trainerId,
+    clientId,
+    gymId,
+    status,
+    updatedAt: FieldValue.serverTimestamp(),
+    updatedBy: request.auth!.uid,
+  }, { merge: true });
+  return { relationshipId, trainerId, clientId, gymId, status };
 });
 
 /** Verifies a Play subscription with Google before issuing a Firestore entitlement. */
