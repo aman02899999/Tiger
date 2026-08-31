@@ -875,7 +875,9 @@ export default function CoursesPage() {
   const [levelFilter, setLevelFilter] = useState<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All');
   const [showModal, setShowModal] = useState(false);
   const [paymentBlocked, setPaymentBlocked] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // Browser checkout no longer performs an enrollment write, so there is no
+  // client-side processing state to manage until a verified backend flow exists.
+  const loading = false;
   const [activeTab, setActiveTab] = useState<'all' | 'my-courses'>('all');
 
   // Load courses from Firestore
