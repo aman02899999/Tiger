@@ -23,7 +23,7 @@ However, the project is not yet a complete live SaaS deployment because several 
 | Authorization | BLOCKED | Role model is documented and guarded, but full server-side RBAC enforcement requires Firebase custom claims and backend logic |
 | Firestore rules | BLOCKED | Claims-based, fail-closed rules are in the repository, but require deployed Firebase custom claims, a gym/trainer schema, and emulator verification |
 | Storage rules | BLOCKED | Private health upload rules are in the repository, but require deployment and a trainer-client access design before trainer sharing is enabled |
-| Payment security | BLOCKED | No real payment backend verification is implemented; UI never auto-grants entitlement |
+| Payment security | BLOCKED | A Google Play verification Function is implemented but not installed, configured, deployed, or webhook-tested |
 | API key exposure | PASS | No production secrets are checked into source; env-driven configuration is used |
 | Secret scan | PASS | No committed private keys or service account material were found in the source tree |
 
@@ -33,7 +33,7 @@ However, the project is not yet a complete live SaaS deployment because several 
 |---|---|---|
 | Firebase Auth | PASS | Enabled only with valid Firebase env config |
 | Admin access gating | BLOCKED | A browser password is not an authorization boundary; server-issued `super_admin` custom claims are required |
-| Role provisioning | BLOCKED | Secure role claims and server-side enforcement are not implemented in this frontend-only repository |
+| Role provisioning | BLOCKED | A server-only custom-claim Function is implemented, but the first super-admin bootstrap and deployment remain required |
 | Trainer/client separation | BLOCKED | Relationship model is architected but not fully enforced at database/backend layer |
 
 ## Firestore and storage
@@ -50,7 +50,7 @@ However, the project is not yet a complete live SaaS deployment because several 
 | Item | Status | Notes |
 |---|---|---|
 | Payment UI | PASS | Payment flow is a controlled, non-authoritative interface |
-| Server-side verification | BLOCKED | Required before premium access is granted in production |
+| Server-side verification | BLOCKED | `verifyPlaySubscription` exists but requires Play Console service-account access, a secret, deployment, and integration testing |
 | Entitlement model | BLOCKED | Requires production backend and Firestore entitlement verification |
 | Idempotent webhooks | BLOCKED | Not implemented in this frontend-only repository stage |
 

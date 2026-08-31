@@ -67,6 +67,12 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // Only trusted backend code may issue or revoke paid access.
+    match /entitlements/{userId} {
+      allow read: if isOwner(userId) || isSuperAdmin();
+      allow write: if false;
+    }
+
     // Challenge participation is scoped to the signed-in participant. Points
     // are non-financial app data and must not be used as entitlement evidence.
     match /challengeEntries/{challengeId}/participants/{userId} {
