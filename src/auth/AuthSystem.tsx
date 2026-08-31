@@ -141,7 +141,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsub = onAuthStateChanged(auth, async (fbUser) => {
       if (fbUser) {
         const profile = await loadProfile(fbUser.uid);
-        setUser(profile ?? DEMO_PROFILE);
+        // A configured Firebase environment must never silently substitute a
+        // privileged local demo profile for a missing production profile.
+        setUser(profile);
       } else {
         setUser(null);
       }
@@ -160,16 +162,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      if (email === "demo@tigerfitpro.in") {
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
-        } catch (e: any) {
-          if (e.code === "auth/user-not-found" || e.code === "auth/invalid-credential") {
-            const { user: fbUser } = await createUserWithEmailAndPassword(auth, email, password);
-            await setDoc(doc(db, "users", fbUser.uid), { ...DEMO_PROFILE, id: fbUser.uid });
-          } else throw e;
-        }
-        return { success: true, message: "Welcome back!" };
+      if (email === DEMO_PROFILE.email) {
+        return { success: false, message: "Demo mode is available only when Firebase is not configured." };
       }
 
       await signInWithEmailAndPassword(auth, email, password);
