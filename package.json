@@ -8,7 +8,9 @@
     "build": "node scripts/check-3d.mjs && vite build",
     "preview": "vite preview",
     "check:3d": "node scripts/check-3d.mjs",
-    "test": "node scripts/test-insights.mjs"
+    "test": "node scripts/test-insights.mjs",
+    "test:rules": "firebase emulators:exec --only firestore \"node --test tests/firestore.rules.test.mjs\"",
+    "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -22,12 +24,14 @@
     "three": "^0.185.0"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.0",
     "@tailwindcss/vite": "4.1.17",
     "@types/node": "22.19.17",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "5.1.1",
     "tailwindcss": "4.1.17",
+    "firebase-tools": "^14.0.0",
     "typescript": "5.9.3",
     "vite": "7.3.2",
     "vite-plugin-singlefile": "2.3.0"

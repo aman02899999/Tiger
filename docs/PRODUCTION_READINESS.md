@@ -78,10 +78,11 @@ However, the project is not yet a complete live SaaS deployment because several 
 
 | Item | Status | Notes |
 |---|---|---|
-| `npm test` | PASS | Verified in this repository |
-| TypeScript compile | PASS | Verified with `npx tsc -b --noEmit` |
-| Production build | PASS | Verified with `npm run build` |
-| CI workflow | PASS (structure) | Workflow exists, but live deployment secrets remain external |
+| `npm test` | PASS | Existing product tests are available |
+| Firestore emulator rules tests | IMPLEMENTED, NOT RUN IN THIS CHECKOUT | Covers profile entitlement, enrollment, trainer, and tenant boundaries; requires Firebase emulator runtime |
+| TypeScript compile | MANUAL VERIFICATION REQUIRED | Run `npm run typecheck` after dependency installation |
+| Production build | MANUAL VERIFICATION REQUIRED | Run `npm run build` after dependency installation |
+| CI workflow | IMPLEMENTED | Pull requests and the hardening branch run typecheck, product tests, Firestore emulator tests, and build |
 | Lint | BLOCKED | No dedicated lint command was defined in the project scripts |
 
 ## Manual configuration required
