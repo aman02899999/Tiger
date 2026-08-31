@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../auth/AuthSystem';
 import { db } from '../firebase';
-import { collection, doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 type Course = {
   id: string;
@@ -874,7 +874,7 @@ export default function CoursesPage() {
   const [enrollments, setEnrollments] = useState<Record<string, Enrollment>>({});
   const [levelFilter, setLevelFilter] = useState<'All' | 'Beginner' | 'Intermediate' | 'Advanced'>('All');
   const [showModal, setShowModal] = useState(false);
-  const [paymentDone, setPaymentDone] = useState(false);
+  const [paymentBlocked, setPaymentBlocked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'all' | 'my-courses'>('all');
 
@@ -933,24 +933,11 @@ export default function CoursesPage() {
     setShowModal(true);
   };
 
-  const handlePaymentConfirm = async () => {
-    if (!user || !selected || !db) return;
-    setLoading(true);
-    try {
-      const enrollment: Enrollment = {
-        enrolledAt: new Date().toISOString(),
-        courseId: selected.id,
-        ...(selected.pdfUrl ? { pdfUrl: selected.pdfUrl } : {}),
-      };
-      await setDoc(doc(db, 'courseEnrollments', user.id, 'courses', selected.id), enrollment);
-      setEnrollments((prev) => ({ ...prev, [selected.id]: enrollment }));
-      setPaymentDone(true);
-      setShowModal(false);
-    } catch (err) {
-      console.error('Enrollment failed', err);
-    } finally {
-      setLoading(false);
-    }
+  const handlePaymentConfirm = () => {
+    // Enrollment records are issued only after trusted backend verification.
+    // The browser must never turn a payment click into course access.
+    setShowModal(false);
+    setPaymentBlocked(true);
   };
 
   return (
@@ -1089,7 +1076,7 @@ export default function CoursesPage() {
         <CourseDetailModal
           course={selected}
           enrollment={enrollments[selected.id] || null}
-          onClose={() => { setSelected(null); setPaymentDone(false); }}
+          onClose={() => { setSelected(null); setPaymentBlocked(false); }}
           onEnroll={handleEnroll}
           enrolling={loading}
         />
@@ -1106,15 +1093,15 @@ export default function CoursesPage() {
       )}
 
       {/* Success Toast */}
-      {paymentDone && (
-        <div className="fixed bottom-6 right-6 z-[70] bg-green-900/90 border border-green-500/40 rounded-xl px-5 py-3 flex items-center gap-3 shadow-2xl animate-in slide-in-from-bottom-4">
-          <span className="text-green-400 text-xl">✅</span>
+      {paymentBlocked && (
+        <div className="fixed bottom-6 right-6 z-[70] bg-amber-900/90 border border-amber-500/40 rounded-xl px-5 py-3 flex items-center gap-3 shadow-2xl animate-in slide-in-from-bottom-4">
+          <span className="text-amber-300 text-xl">🔒</span>
           <div>
-            <p className="text-green-400 font-semibold text-sm">Enrollment Successful!</p>
-            <p className="text-[#e9f3f5]/50 text-xs">Check your email for course materials.</p>
+            <p className="text-amber-200 font-semibold text-sm">Enrollment verification is not configured.</p>
+            <p className="text-[#e9f3f5]/50 text-xs">Course access is granted only after the payment backend confirms the purchase.</p>
           </div>
           <button
-            onClick={() => setPaymentDone(false)}
+            onClick={() => setPaymentBlocked(false)}
             className="ml-3 text-[#e9f3f5]/30 hover:text-[#e9f3f5]/60 text-sm"
           >
             ✕

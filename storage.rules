@@ -1,0 +1,44 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && request.auth.token.role == 'super_admin';
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAcceptedHealthDocument() {
+      return request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('^(application/pdf|image/(jpeg|png|webp))$');
+    }
+
+    match /blood-reports/{userId}/{fileName} {
+      allow read: if isOwner(userId) || isSuperAdmin();
+      allow create, update: if isOwner(userId) && isAcceptedHealthDocument();
+      allow delete: if isOwner(userId) || isSuperAdmin();
+    }
+
+    match /profile-photos/{userId}/{fileName} {
+      allow read: if isOwner(userId) || isSuperAdmin();
+      allow create, update: if isOwner(userId)
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('^image/(jpeg|png|webp)$');
+      allow delete: if isOwner(userId) || isSuperAdmin();
+    }
+
+    // Course materials are intentionally public once published; only a
+    // server-issued super-admin claim can create, replace, or delete them.
+    match /course-pdfs/{fileName} {
+      allow read: if true;
+      allow create, update, delete: if isSuperAdmin()
+        && request.resource.size < 25 * 1024 * 1024
+        && request.resource.contentType == 'application/pdf';
+    }
+  }
+}

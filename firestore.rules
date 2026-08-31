@@ -1,22 +1,87 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Users can only read/write their own profile
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    function isSignedIn() {
+      return request.auth != null;
     }
 
-    // Blog posts: anyone can read, only admins can write
+    function hasRole(role) {
+      return isSignedIn() && request.auth.token.role == role;
+    }
+
+    function isSuperAdmin() {
+      return hasRole('super_admin');
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function profileCreateIsSafe(userId) {
+      return request.resource.data.keys().hasOnly([
+        'id', 'name', 'email', 'avatar', 'phone', 'age', 'gender', 'height',
+        'weight', 'goal', 'plan', 'joinDate', 'streak', 'onboardingComplete',
+        'preferences', 'stats'
+      ]) && request.resource.data.id == userId && request.resource.data.plan == 'Free';
+    }
+
+    function profileUpdateIsSafe() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+        'name', 'avatar', 'phone', 'age', 'gender', 'height', 'weight', 'goal',
+        'streak', 'onboardingComplete', 'preferences', 'stats'
+      ]);
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isSuperAdmin();
+      allow create: if isOwner(userId) && profileCreateIsSafe(userId);
+      allow update: if isOwner(userId) && profileUpdateIsSafe();
+      allow delete: if isOwner(userId) || isSuperAdmin();
+
+      // Health report records are private to the account holder. Trainer access
+      // remains denied until a gym-scoped, server-managed trainerClients model is deployed.
+      match /bloodReports/{reportId} {
+        allow read, create, update, delete: if isOwner(userId) || isSuperAdmin();
+      }
+    }
+
     match /blogs/{blogId} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.email == 'admin@tigerfitpro.in';
+      allow create, update, delete: if isSuperAdmin();
     }
 
-    // Newsletter subscribers: anyone can create, only admins can read/delete
     match /subscribers/{email} {
       allow create: if true;
-      allow read, delete: if request.auth != null && request.auth.token.email == 'admin@tigerfitpro.in';
+      allow read, delete: if isSuperAdmin();
+    }
+
+    // Published course metadata is public. Only a server-issued super-admin
+    // claim may manage course records; payment services create enrollments.
+    match /courses/{courseId} {
+      allow read: if resource.data.published == true || isSuperAdmin();
+      allow create, update, delete: if isSuperAdmin();
+    }
+
+    match /courseEnrollments/{userId}/courses/{courseId} {
+      allow read: if isOwner(userId) || isSuperAdmin();
+      allow write: if false;
+    }
+
+    // Challenge participation is scoped to the signed-in participant. Points
+    // are non-financial app data and must not be used as entitlement evidence.
+    match /challengeEntries/{challengeId}/participants/{userId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isOwner(userId);
+    }
+
+    // Trainer-client and gym resources are intentionally fail-closed until
+    // custom claims, gym-scoped documents, and their application flows land.
+    match /gyms/{gymId} {
+      allow read, write: if false;
+    }
+
+    match /trainerClients/{relationshipId} {
+      allow read, write: if false;
     }
   }
 }

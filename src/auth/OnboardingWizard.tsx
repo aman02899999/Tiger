@@ -20,7 +20,10 @@ export default function OnboardingWizard({ onComplete }: { onComplete: () => voi
   const progress = ((steps.indexOf(step) + 1) / steps.length) * 100;
 
   function handleFinish() {
-    completeOnboarding(data);
+    // Plan selection is a checkout preference, not an entitlement. Only a
+    // trusted payment backend may change the persisted subscription plan.
+    const { plan: _selectedPlan, ...profileUpdates } = data;
+    completeOnboarding(profileUpdates);
     onComplete();
   }
 

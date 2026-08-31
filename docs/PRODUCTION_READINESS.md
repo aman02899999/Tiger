@@ -4,9 +4,9 @@ This document records the repository’s current production status as implemente
 
 ## Executive summary
 
-Status: PRODUCTION READY AFTER MANUAL CONFIGURATION
+Status: NO-GO FOR LIVE SAAS DEPLOYMENT
 
-Tiger is now hardened against common false-production issues: Firebase initialization is environment-gated, admin access requires an environment password, external API calls use safe fallbacks, and payment flows explicitly block entitlement unless backend verification is configured.
+Tiger contains several safer frontend controls, but it is not a live production SaaS deployment. Browser workflows are prevented from granting course enrollment or changing a persisted plan, and the repository now contains claims-based Firestore and Storage rule foundations. However, the custom-claim provisioning service, gym tenant model, trainer-client authorization flows, payment-verification backend, deployed rules, and automated emulator coverage are not yet present.
 
 However, the project is not yet a complete live SaaS deployment because several items require real deployment credentials and external configuration:
 
@@ -21,8 +21,8 @@ However, the project is not yet a complete live SaaS deployment because several 
 |---|---|---|
 | Authentication | PASS | Firebase auth is used when configured; demo fallback remains explicitly non-production |
 | Authorization | BLOCKED | Role model is documented and guarded, but full server-side RBAC enforcement requires Firebase custom claims and backend logic |
-| Firestore rules | PASS (baseline) | Rules are present and least-privilege oriented for obvious user documents |
-| Storage rules | MANUAL CONFIGURATION REQUIRED | Protected health data requires stricter storage rules and deployment-specific policy review |
+| Firestore rules | BLOCKED | Claims-based, fail-closed rules are in the repository, but require deployed Firebase custom claims, a gym/trainer schema, and emulator verification |
+| Storage rules | BLOCKED | Private health upload rules are in the repository, but require deployment and a trainer-client access design before trainer sharing is enabled |
 | Payment security | BLOCKED | No real payment backend verification is implemented; UI never auto-grants entitlement |
 | API key exposure | PASS | No production secrets are checked into source; env-driven configuration is used |
 | Secret scan | PASS | No committed private keys or service account material were found in the source tree |
@@ -32,8 +32,8 @@ However, the project is not yet a complete live SaaS deployment because several 
 | Item | Status | Notes |
 |---|---|---|
 | Firebase Auth | PASS | Enabled only with valid Firebase env config |
-| Admin access gating | PASS | Requires `VITE_ADMIN_PASSWORD` |
-| Role provisioning | BLOCKED | Secure role claims and server-side enforcement are still deployment-time work |
+| Admin access gating | BLOCKED | A browser password is not an authorization boundary; server-issued `super_admin` custom claims are required |
+| Role provisioning | BLOCKED | Secure role claims and server-side enforcement are not implemented in this frontend-only repository |
 | Trainer/client separation | BLOCKED | Relationship model is architected but not fully enforced at database/backend layer |
 
 ## Firestore and storage
@@ -89,14 +89,15 @@ However, the project is not yet a complete live SaaS deployment because several 
 The following items still require real external credentials or console setup:
 
 1. Firebase project values for auth, database, and storage
-2. A strong admin password for `VITE_ADMIN_PASSWORD`
-3. Real Android signing certificate fingerprint in `public/.well-known/assetlinks.json`
-4. Backend payment verification and entitlement issuance service
-5. Final Firestore security rules and indexes for production app usage
-6. Real API credentials for weather/AQI/location if those providers are enabled for production
+2. Firebase Admin/custom-claim provisioning for `super_admin`, `gym_owner`, `trainer`, and `client`
+3. A gym-scoped tenant and `trainerClients` authorization model, with deployed and emulator-tested rules
+4. Real Android signing certificate fingerprint in `public/.well-known/assetlinks.json`
+5. Backend payment verification and entitlement issuance service
+6. Deploy Firestore and Storage rules and validate them against production queries/uploads
+7. Real API credentials for weather/AQI/location if those providers are enabled for production
 
 ## Production verdict
 
-PRODUCTION READY AFTER MANUAL CONFIGURATION
+NO-GO FOR LIVE SAAS DEPLOYMENT
 
-This is the honest current state for the repository: the codebase has been hardened and validated for safety and production-facing behavior, but it still requires external deployment credentials and live backend flows before it can be treated as a fully live commercial SaaS platform.
+This is the honest current state for the repository: the codebase has a safer rules foundation and the browser no longer self-issues course access or paid plans, but it still requires a trusted backend, deployed custom claims and rules, gym/trainer authorization, payment verification, and end-to-end testing before it can be treated as a live commercial SaaS platform.
