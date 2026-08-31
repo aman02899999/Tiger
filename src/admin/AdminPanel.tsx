@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from "firebase/firestore";
-import { storage, db } from "../firebase";
+import { requireDb, requireStorage } from "../firebase";
 import { blogs as defaultBlogs, type BlogPost } from "../data/blogs";
 import {
   loadData, saveData, generateId,
@@ -11,7 +11,7 @@ import {
   type User, type NewsletterSubscriber, type Toast,
 } from "./types";
 
-const ADMIN_PASSWORD = "tiger123";
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD?.trim() ?? "";
 
 /* ---------------------------------------------------------------- */
 /* UI Components                                                     */
@@ -384,10 +384,15 @@ function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => vo
   const [pdfFile, setPdfFile] = useState<File | null>(null);
 
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, "courses"), (snap) => {
-      setCourses(snap.docs.map((d) => ({ id: d.id, ...d.data() } as AdminCourse)));
-    });
-    return unsub;
+    if (!ADMIN_PASSWORD) return undefined;
+    try {
+      const unsub = onSnapshot(collection(requireDb(), "courses"), (snap) => {
+        setCourses(snap.docs.map((d) => ({ id: d.id, ...d.data() } as AdminCourse)));
+      });
+      return unsub;
+    } catch {
+      return undefined;
+    }
   }, []);
 
   async function saveCourse() {
@@ -398,8 +403,9 @@ function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => vo
       let storagePath = editing.storagePath;
 
       if (pdfFile) {
+        const storageInstance = requireStorage();
         const path = `course-pdfs/${Date.now()}_${pdfFile.name}`;
-        const storageRef = ref(storage, path);
+        const storageRef = ref(storageInstance, path);
         await new Promise<void>((resolve, reject) => {
           const task = uploadBytesResumable(storageRef, pdfFile);
           task.on("state_changed", (snap) => setProgress(Math.round(snap.bytesTransferred / snap.totalBytes * 100)), reject, async () => {
@@ -409,18 +415,19 @@ function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => vo
           });
         });
         if (editing.storagePath && editing.storagePath !== storagePath) {
-          await deleteObject(ref(storage, editing.storagePath)).catch(() => {});
+          await deleteObject(ref(requireStorage(), editing.storagePath)).catch(() => {});
         }
       }
 
+      const firestoreDb = requireDb();
       const data = { ...editing, pdfUrl, storagePath, updatedAt: serverTimestamp() };
       delete (data as any).id;
 
       if (editing.id) {
-        await updateDoc(doc(db, "courses", editing.id), data);
+        await updateDoc(doc(firestoreDb, "courses", editing.id), data);
         pushToast({ type: "success", message: "Course updated!" });
       } else {
-        await addDoc(collection(db, "courses"), { ...data, createdAt: serverTimestamp() });
+        await addDoc(collection(firestoreDb, "courses"), { ...data, createdAt: serverTimestamp() });
         pushToast({ type: "success", message: "Course created!" });
       }
       setEditing(null);
@@ -435,8 +442,8 @@ function CoursesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) => vo
 
   async function deleteCourse(c: AdminCourse) {
     if (!c.id || !confirm(`Delete "${c.title}"?`)) return;
-    if (c.storagePath) await deleteObject(ref(storage, c.storagePath)).catch(() => {});
-    await deleteDoc(doc(db, "courses", c.id));
+    if (c.storagePath) await deleteObject(ref(requireStorage(), c.storagePath)).catch(() => {});
+    await deleteDoc(doc(requireDb(), "courses", c.id));
     pushToast({ type: "success", message: "Deleted" });
   }
 
@@ -518,10 +525,14 @@ function ChallengesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) =>
   ];
 
   useEffect(() => {
-    const unsub = onSnapshot(collection(db, "challengeEntries", selected, "participants"), (snap) => {
-      setEntries(snap.docs.map((d) => ({ challengeId: selected, name: d.data().name, points: d.data().points || 0, joinedAt: d.data().joinedAt || "" })));
-    });
-    return unsub;
+    try {
+      const unsub = onSnapshot(collection(requireDb(), "challengeEntries", selected, "participants"), (snap) => {
+        setEntries(snap.docs.map((d) => ({ challengeId: selected, name: d.data().name, points: d.data().points || 0, joinedAt: d.data().joinedAt || "" })));
+      });
+      return unsub;
+    } catch {
+      return undefined;
+    }
   }, [selected]);
 
   async function removeParticipant(name: string) {
@@ -588,6 +599,10 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
   };
 
   function handleLogin() {
+    if (!ADMIN_PASSWORD) {
+      pushToast({ type: "error", message: "Admin access is disabled. Set VITE_ADMIN_PASSWORD in your environment." });
+      return;
+    }
     if (password === ADMIN_PASSWORD) {
       setAuthenticated(true);
       pushToast({ type: "success", message: "Welcome, Admin! 🔐" });
@@ -629,7 +644,7 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
             </div>
           </div>
           <Input label="Admin Password" type="password" value={password} onChange={setPassword} placeholder="Enter password..." />
-          <p className="mt-3 text-xs text-[#e9f3f5]/30">Default: <code className="rounded bg-[#e9f3f5]/10 px-2 py-0.5 text-violet-100">tiger123</code></p>
+          <p className="mt-3 text-xs text-[#e9f3f5]/30">{ADMIN_PASSWORD ? "Environment-protected admin access is enabled." : "Admin access is disabled until VITE_ADMIN_PASSWORD is configured."}</p>
           <div className="mt-6 flex gap-3">
             <Button variant="secondary" onClick={onClose} className="flex-1">Cancel</Button>
             <Button onClick={handleLogin} className="flex-1">Unlock Access</Button>

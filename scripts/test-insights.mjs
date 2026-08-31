@@ -31,11 +31,24 @@ execSync(
     { stdio: "inherit" }
   );
 }
+{
+  const extra = [
+    "src/services/api/wger.ts",
+    "src/services/api/open-food-facts.ts",
+  ];
+  for (const file of extra) {
+    execSync(
+      `npx tsc ${file} --outDir ${dir} --module esnext --target es2022 --moduleResolution bundler --esModuleInterop`,
+      { stdio: "inherit" }
+    );
+  }
+}
 writeFileSync(join(dir, "package.json"), JSON.stringify({ type: "module" }));
 
 const M = await import(join(dir, "insights.js"));
+const WGER = await import(join(dir, "wger.js"));
+const OFF = await import(join(dir, "open-food-facts.js"));
 
-/* ── helpers ─────────────────────────────────────────────────────── */
 const day = (n) => {
   const d = new Date();
   d.setDate(d.getDate() - n);
@@ -274,6 +287,44 @@ test("targets stay physiologically sane", () => {
 test("handles a null user without throwing", () => {
   const t = N.calorieTarget(null);
   assert.ok(t.kcal > 0 && t.protein > 0);
+});
+
+console.log("\napi normalization");
+test("wger normalization preserves core exercise fields", () => {
+  const normalized = WGER.normalizeWgerExercise({
+    id: 42,
+    name: "Bench Press",
+    description: "Press the bar from chest to lockout.",
+    category: { name: "Strength" },
+    equipment: [{ name: "Barbell" }],
+    muscles: [{ name: "Chest" }],
+    muscles_secondary: [{ name: "Triceps" }],
+    images: [{ image: "https://example.com/bench.jpg" }],
+  });
+  assert.equal(normalized.name, "Bench Press");
+  assert.equal(normalized.muscles[0], "Chest");
+  assert.equal(normalized.equipment[0], "Barbell");
+  assert.equal(normalized.source, "wger");
+});
+test("open food facts normalization maps product macros", () => {
+  const normalized = OFF.normalizeOpenFoodFactsProduct({
+    status: 1,
+    product: {
+      product_name: "Paneer Bhurji",
+      nutriments: { energy_100g: 260, proteins_100g: 18, carbohydrates_100g: 5, fat_100g: 19 },
+      serving_size: "100 g",
+      ingredients_text: "Paneer, onion, spices",
+      allergens: "milk",
+      image_front_url: "https://example.com/front.png",
+      brands: "Tiger",
+    },
+  });
+  assert.equal(normalized.name, "Paneer Bhurji");
+  assert.equal(normalized.calories, 260);
+  assert.equal(normalized.protein, 18);
+  assert.equal(normalized.carbohydrates, 5);
+  assert.equal(normalized.fat, 19);
+  assert.equal(normalized.source, "open-food-facts");
 });
 
 rmSync(dir, { recursive: true, force: true });

@@ -139,9 +139,10 @@ export default function ChallengesPage() {
   const [checkinMsg, setCheckinMsg] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !db) return;
+    const firestore = db;
     const unsubs = CHALLENGES.map((c) => {
-      const ref = doc(db, "challengeEntries", c.id, "participants", user.id);
+      const ref = doc(firestore, "challengeEntries", c.id, "participants", user.id);
       return onSnapshot(ref, (snap) => {
         if (snap.exists()) {
           setMyEntries((prev) => ({ ...prev, [c.id]: snap.data() as { joinedAt: string; lastCheckin?: string } }));
@@ -152,8 +153,10 @@ export default function ChallengesPage() {
   }, [user?.id]);
 
   useEffect(() => {
+    if (!db) return;
+    const firestore = db;
     const unsubs = CHALLENGES.map((c) => {
-      const q = query(collection(db, "challengeEntries", c.id, "participants"), orderBy("points", "desc"), limit(5));
+      const q = query(collection(firestore, "challengeEntries", c.id, "participants"), orderBy("points", "desc"), limit(5));
       return onSnapshot(q, (snap) => {
         const rows = snap.docs.map((d) => ({ name: d.data().name, points: d.data().points || 0, avatar: d.data().avatar || "👤" }));
         setLeaderboard((prev) => ({ ...prev, [c.id]: rows }));
@@ -163,10 +166,11 @@ export default function ChallengesPage() {
   }, []);
 
   async function joinChallenge(c: typeof CHALLENGES[0]) {
-    if (!user) return;
+    if (!user || !db) return;
+    const firestore = db;
     setJoining(c.id);
     try {
-      const ref = doc(db, "challengeEntries", c.id, "participants", user.id);
+      const ref = doc(firestore, "challengeEntries", c.id, "participants", user.id);
       await setDoc(ref, {
         name: user.name,
         avatar: (user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase() + "XX").slice(0, 2),
@@ -180,9 +184,10 @@ export default function ChallengesPage() {
   }
 
   async function doCheckin(challengeId: string) {
-    if (!user) return;
+    if (!user || !db) return;
+    const firestore = db;
     const today = new Date().toISOString().slice(0, 10);
-    const ref = doc(db, "challengeEntries", challengeId, "participants", user.id);
+    const ref = doc(firestore, "challengeEntries", challengeId, "participants", user.id);
     const snap = await getDoc(ref);
     if (!snap.exists()) return;
     const data = snap.data();

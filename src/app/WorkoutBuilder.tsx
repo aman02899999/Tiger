@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { addXP } from "./Achievements";
+import { fetchWgerExercise, type NormalizedWgerExercise } from "../services/api/wger";
 
 /* ---------------------------------------------------------------- */
 /* Exercise Library + Custom Workout Builder.                        */
@@ -63,6 +64,9 @@ export default function WorkoutBuilderPage() {
   const storeKey = `tfp_routine_${user?.email ?? "guest"}`;
   const [group, setGroup] = useState<Group | "All">("All");
   const [query, setQuery] = useState("");
+  const [wgerQuery, setWgerQuery] = useState("");
+  const [wgerResult, setWgerResult] = useState<NormalizedWgerExercise | null>(null);
+  const [wgerError, setWgerError] = useState<string | null>(null);
   const [routine, setRoutine] = useState<RoutineItem[]>([]);
   const [saved, setSaved] = useState(false);
 
@@ -96,6 +100,29 @@ export default function WorkoutBuilderPage() {
     if (routine.length >= 3) addXP(user?.email, 15);
   }
 
+  async function loadWgerExercise() {
+    const trimmed = wgerQuery.trim();
+    if (!trimmed) {
+      setWgerResult(null);
+      setWgerError("Enter an exercise name to look it up from wger.");
+      return;
+    }
+
+    try {
+      const result = await fetchWgerExercise(trimmed);
+      if (!result) {
+        setWgerResult(null);
+        setWgerError("No matching exercise was found in wger.");
+        return;
+      }
+      setWgerResult(result);
+      setWgerError(null);
+    } catch (error) {
+      setWgerResult(null);
+      setWgerError(error instanceof Error ? error.message : "Wger lookup failed.");
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -104,6 +131,43 @@ export default function WorkoutBuilderPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
+        <div className="lg:col-span-3 glass-card rounded-2xl p-4">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center">
+            <input
+              value={wgerQuery}
+              onChange={(e) => setWgerQuery(e.target.value)}
+              placeholder="Look up an exercise in wger (e.g. bench press)"
+              className="flex-1 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40"
+            />
+            <button
+              type="button"
+              onClick={loadWgerExercise}
+              className="rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-3 text-xs font-black uppercase tracking-[0.16em] text-white"
+            >
+              Search wger
+            </button>
+          </div>
+          {wgerError && <p className="mt-2 text-xs text-amber-300">{wgerError}</p>}
+          {wgerResult && (
+            <div className="mt-3 rounded-xl border border-violet-300/20 bg-violet-300/5 p-3">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-violet-200">wger result</p>
+                  <h3 className="mt-1 text-lg font-black">{wgerResult.name}</h3>
+                  <p className="mt-1 text-xs text-[#e9f3f5]/66">{wgerResult.category} · {wgerResult.equipment.join(", ") || "Bodyweight"}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => addToRoutine(`wger-${wgerResult.id}`)}
+                  className="rounded-full border border-violet-200/20 bg-violet-200/10 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.14em] text-violet-100"
+                >
+                  Add to routine
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         {/* Library */}
         <div className="lg:col-span-2 space-y-4">
           <div className="glass-card rounded-2xl p-4">

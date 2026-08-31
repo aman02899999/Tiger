@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../firebase";
+import { requireAuth } from "../firebase";
 import { useAuth } from "../auth/AuthSystem";
 
 export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => void; onSuccess: () => void }) {
@@ -23,7 +23,7 @@ export default function LoginPage({ onSwitch, onSuccess }: { onSwitch: () => voi
   async function handleForgotPassword() {
     if (!email) { setError("Enter your email above first."); return; }
     try {
-      await sendPasswordResetEmail(auth, email);
+      sendPasswordResetEmail(requireAuth(), email);
       setError("");
       alert(`Password reset email sent to ${email}. Check your inbox.`);
     } catch {

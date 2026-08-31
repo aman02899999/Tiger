@@ -2,6 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useAuth } from "../auth/AuthSystem";
 import { isPlayBillingAvailable, purchaseWithPlayBilling, acknowledgePlayPurchase } from "./PlayBilling";
 
+const PAYMENT_SETUP_MESSAGE = "Payment verification is not configured in this environment. No entitlement will be granted until a secure server-side checkout and verification flow is active.";
+
 /* ---------------------------------------------------------------- */
 /* Checkout — the app's actual monetization mechanism. Any button    */
 /* anywhere can call useCheckout().openCheckout(planId) to launch a  */
@@ -140,7 +142,17 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
     const sku = state.kind === "plan" ? playSkuFor(state.plan, state.cycle) : state.item.id.replace(/^(guide|bundle)-/, "$1_");
     try {
       const result = await purchaseWithPlayBilling(sku);
-      if (!result) { setStep("pay"); return; } // user backed out of the Play sheet
+      if (!result) {
+        setStep("pay");
+        return;
+      }
+
+      const verificationRequired = true;
+      if (verificationRequired) {
+        setStep("pay");
+        return;
+      }
+
       if (state.kind === "plan") {
         await updateUser({ plan: plan!.planValue });
       } else {
@@ -150,24 +162,18 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
       setStep("success");
       setTimeout(onClose, 2400);
     } catch {
-      setStep("pay"); // Play sheet cancelled/failed — let them retry
+      setStep("pay");
     }
   }
 
   async function pay() {
     if (playAvailable) return payViaPlay();
     setStep("processing");
-    // INTEGRATION POINT: replace with a real Razorpay/Stripe order-create +
-    // checkout.js call, then verify the payment signature server-side before
-    // unlocking the plan/item. Simulated here so the purchase flow is fully testable.
-    await new Promise((r) => setTimeout(r, 1600));
-    if (state.kind === "plan") {
-      await updateUser({ plan: plan!.planValue });
-    } else {
-      state.item.onSuccess();
-    }
-    setStep("success");
-    setTimeout(onClose, 2400);
+    await new Promise((r) => setTimeout(r, 900));
+    setStep("pay");
+    setTimeout(() => {
+      window.alert(PAYMENT_SETUP_MESSAGE);
+    }, 0);
   }
 
   const canPay = method === "upi" ? upiId.includes("@") : method === "card" ? cardNum.replace(/\s/g, "").length >= 12 : true;
@@ -178,8 +184,8 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
         {step === "processing" ? (
           <div className="flex flex-col items-center justify-center gap-4 p-12 text-center">
             <div className="h-14 w-14 animate-spin rounded-full border-4 border-violet-300/25 border-t-violet-300" />
-            <p className="text-sm font-bold text-[#e9f3f5]/80">Processing your payment securely…</p>
-            <p className="text-xs text-[#e9f3f5]/55">Do not close this window</p>
+            <p className="text-sm font-bold text-[#e9f3f5]/80">Contacting payment backend…</p>
+            <p className="text-xs text-[#e9f3f5]/55">Server-side verification is required before entitlements are granted.</p>
           </div>
         ) : step === "success" ? (
           <div className="flex flex-col items-center justify-center gap-3 p-12 text-center">
@@ -231,6 +237,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                   <button type="button" onClick={pay} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white">
                     ▶️ Continue with Google Play
                   </button>
+                  <p className="mt-3 text-xs text-[#e9f3f5]/60">This environment is not configured for live entitlement verification. The app will not grant premium access until the backend confirms the purchase.</p>
                 </>
               ) : (
                 <>

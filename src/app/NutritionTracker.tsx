@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { addXP } from "./Achievements";
 import { isoDay } from "./insights";
+import { lookupOpenFoodFactsProduct } from "../services/api/open-food-facts";
 
 /* ═══════════════════════════════════════════════════════════════════
    Nutrition Tracker — now actually functional.
@@ -114,6 +115,8 @@ export default function NutritionTracker() {
   const [name, setName] = useState("");
   const [kcal, setKcal] = useState("");
   const [protein, setProtein] = useState("");
+  const [barcode, setBarcode] = useState("");
+  const [foodLookupError, setFoodLookupError] = useState<string | null>(null);
 
   useEffect(() => {
     setMeals(load<Meal[]>(mealsKey(user?.email, day), []));
@@ -153,6 +156,27 @@ export default function NutritionTracker() {
     persistMeals([entry, ...meals]);
     if (meals.length === 0) addXP(user?.email, 10);
     setName(""); setKcal(""); setProtein("");
+  }
+
+  async function lookupFoodByBarcode() {
+    const trimmed = barcode.trim();
+    if (!trimmed) {
+      setFoodLookupError("Enter a barcode or product code first.");
+      return;
+    }
+
+    try {
+      const product = await lookupOpenFoodFactsProduct(trimmed);
+      if (!product) {
+        setFoodLookupError("Product not found — add manually.");
+        return;
+      }
+      addMeal({ name: product.name, kcal: product.calories, protein: product.protein });
+      setBarcode("");
+      setFoodLookupError(null);
+    } catch (error) {
+      setFoodLookupError(error instanceof Error ? error.message : "Food lookup failed.");
+    }
   }
 
   const remaining = goals.kcal - totals.kcal;
@@ -218,7 +242,24 @@ export default function NutritionTracker() {
 
       {/* Quick add */}
       <div className="glass-3d rounded-2xl p-6">
-        <h3 className="text-sm font-black uppercase tracking-[0.18em] text-[#e9f3f5]/70">Quick add</h3>
+        <h3 className="text-sm font-black uppercase tracking-[0.18em] text-[#e9f3f5]/70">Food scanner</h3>
+        <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+          <input
+            value={barcode}
+            onChange={(e) => setBarcode(e.target.value)}
+            placeholder="Scan barcode or product code"
+            className="flex-1 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none placeholder:text-[#e9f3f5]/35 focus:border-teal-300/45"
+          />
+          <button
+            type="button"
+            onClick={lookupFoodByBarcode}
+            className="rounded-full bg-gradient-to-r from-teal-300 to-sky-400 px-5 py-3 text-xs font-black uppercase tracking-[0.14em] text-[#04121a]"
+          >
+            Lookup
+          </button>
+        </div>
+        {foodLookupError && <p className="mt-2 text-xs text-amber-300">{foodLookupError}</p>}
+        <h3 className="mt-5 text-sm font-black uppercase tracking-[0.18em] text-[#e9f3f5]/70">Quick add</h3>
         <div className="mt-3 flex flex-wrap gap-2">
           {SLOTS.map((s) => (
             <button
