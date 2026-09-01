@@ -1,22 +1,261 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // Users can only read/write their own profile
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    function isSignedIn() {
+      return request.auth != null;
     }
 
-    // Blog posts: anyone can read, only admins can write
+    function role() {
+      return request.auth.token.role;
+    }
+
+    function isSuperAdmin() {
+      return isSignedIn() && role() == 'super_admin';
+    }
+
+    function isGymOwner(gymId) {
+      return isSignedIn() && role() == 'gym_owner' && request.auth.token.gymId == gymId;
+    }
+
+    function isTrainer() {
+      return isSignedIn() && role() == 'trainer';
+    }
+
+    function isClient() {
+      return isSignedIn() && role() == 'client';
+    }
+
+    function sameUser(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function trainerRelationshipAllowed(clientId, gymId) {
+      return isTrainer() &&
+        exists(/databases/$(database)/documents/trainerClients/${request.auth.uid}_${clientId}) &&
+        get(/databases/$(database)/documents/trainerClients/${request.auth.uid}_${clientId}).data.gymId == gymId &&
+        get(/databases/$(database)/documents/trainerClients/${request.auth.uid}_${clientId}).data.status == 'active';
+    }
+
+    function gymOwnerCanManageGym(gymId) {
+      return isSignedIn() && isGymOwner(gymId);
+    }
+
+    match /users/{userId} {
+      allow create: if isSignedIn() && sameUser(userId) && (
+        !('role' in request.resource.data) || request.resource.data.role == 'client'
+      );
+
+      allow read: if isSignedIn() && (
+        sameUser(userId) ||
+        isSuperAdmin() ||
+        (resource.data.gymId != null && isGymOwner(resource.data.gymId)) ||
+        trainerRelationshipAllowed(userId, resource.data.gymId)
+      );
+
+      allow update: if isSignedIn() && (
+        sameUser(userId) || isSuperAdmin()
+      ) && request.resource.data.role == resource.data.role && request.resource.data.gymId == resource.data.gymId;
+
+      allow delete: if isSuperAdmin();
+    }
+
+    match /gyms/{gymId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        isGymOwner(gymId) ||
+        (resource.data.members != null && request.auth.uid in resource.data.members)
+      );
+      allow create: if isSignedIn() && isSuperAdmin();
+      allow update, delete: if isSignedIn() && isSuperAdmin();
+    }
+
+    match /trainerClients/{relationshipId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        request.auth.uid == resource.data.trainerId ||
+        request.auth.uid == resource.data.clientId ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create: if isSignedIn() && (
+        isSuperAdmin() ||
+        isGymOwner(request.resource.data.gymId)
+      ) && request.resource.data.trainerId is string && request.resource.data.clientId is string && request.resource.data.gymId is string;
+      allow update: if isSignedIn() && (
+        isSuperAdmin() ||
+        isGymOwner(resource.data.gymId) ||
+        request.auth.uid == resource.data.trainerId ||
+        request.auth.uid == resource.data.clientId
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /workouts/{workoutId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.ownerUserId) ||
+        trainerRelationshipAllowed(resource.data.ownerUserId, resource.data.gymId) ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        isSuperAdmin() ||
+        (resource.data.ownerUserId == request.auth.uid && isClient()) ||
+        (isTrainer() && request.resource.data.gymId == request.auth.token.gymId)
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /workoutPlans/{planId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        isGymOwner(resource.data.gymId) ||
+        sameUser(resource.data.clientId) ||
+        trainerRelationshipAllowed(resource.data.clientId, resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        isSuperAdmin() ||
+        (isTrainer() && request.resource.data.gymId == request.auth.token.gymId) ||
+        (isGymOwner(request.resource.data.gymId))
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /workoutAssignments/{assignmentId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.clientId) ||
+        isGymOwner(resource.data.gymId) ||
+        trainerRelationshipAllowed(resource.data.clientId, resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        isSuperAdmin() ||
+        (isTrainer() && request.resource.data.gymId == request.auth.token.gymId) ||
+        (isGymOwner(request.resource.data.gymId))
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /workoutSessions/{sessionId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.clientId) ||
+        isGymOwner(resource.data.gymId) ||
+        trainerRelationshipAllowed(resource.data.clientId, resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        sameUser(request.resource.data.clientId) ||
+        isSuperAdmin() ||
+        trainerRelationshipAllowed(request.resource.data.clientId, request.resource.data.gymId)
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /nutrition/{recordId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.userId) ||
+        trainerRelationshipAllowed(resource.data.userId, resource.data.gymId) ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        sameUser(request.resource.data.userId) ||
+        isSuperAdmin() ||
+        trainerRelationshipAllowed(request.resource.data.userId, request.resource.data.gymId)
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /progress/{recordId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.userId) ||
+        trainerRelationshipAllowed(resource.data.userId, resource.data.gymId) ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        sameUser(request.resource.data.userId) ||
+        isSuperAdmin() ||
+        trainerRelationshipAllowed(request.resource.data.userId, request.resource.data.gymId)
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /measurements/{recordId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.userId) ||
+        trainerRelationshipAllowed(resource.data.userId, resource.data.gymId) ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        sameUser(request.resource.data.userId) ||
+        isSuperAdmin() ||
+        trainerRelationshipAllowed(request.resource.data.userId, request.resource.data.gymId)
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /appointments/{appointmentId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.userId) ||
+        trainerRelationshipAllowed(resource.data.userId, resource.data.gymId) ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        sameUser(request.resource.data.userId) ||
+        isSuperAdmin() ||
+        trainerRelationshipAllowed(request.resource.data.userId, request.resource.data.gymId)
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+    }
+
+    match /subscriptions/{subscriptionId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.userId) ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(request.resource.data.userId)
+      );
+      allow delete: if isSuperAdmin();
+    }
+
+    match /payments/{paymentId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.userId) ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(request.resource.data.userId)
+      ) && request.resource.data.status in ['pending', 'active', 'cancelled', 'expired', 'refunded', 'revoked'];
+      allow delete: if isSuperAdmin();
+    }
+
+    match /notifications/{notificationId} {
+      allow read: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(resource.data.userId) ||
+        isGymOwner(resource.data.gymId)
+      );
+      allow create, update: if isSignedIn() && (
+        isSuperAdmin() ||
+        sameUser(request.resource.data.userId)
+      );
+      allow delete: if isSignedIn() && (isSuperAdmin() || sameUser(resource.data.userId));
+    }
+
     match /blogs/{blogId} {
       allow read: if true;
-      allow write: if request.auth != null && request.auth.token.email == 'admin@tigerfitpro.in';
+      allow create, update, delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(request.resource.data.gymId));
     }
 
-    // Newsletter subscribers: anyone can create, only admins can read/delete
     match /subscribers/{email} {
       allow create: if true;
-      allow read, delete: if request.auth != null && request.auth.token.email == 'admin@tigerfitpro.in';
+      allow read, delete: if isSignedIn() && isSuperAdmin();
     }
   }
 }

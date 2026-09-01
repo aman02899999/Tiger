@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, serverTimestamp } from "firebase/firestore";
 import { requireDb, requireStorage } from "../firebase";
+import { useAuth } from "../auth/AuthSystem";
 import { blogs as defaultBlogs, type BlogPost } from "../data/blogs";
 import {
   loadData, saveData, generateId,
@@ -587,8 +588,8 @@ function ChallengesManager({ pushToast }: { pushToast: (t: Omit<Toast, "id">) =>
 /* ---------------------------------------------------------------- */
 
 export default function AdminPanel({ onClose }: { onClose: () => void }) {
+  const { user, authLoading } = useAuth();
   const [authenticated, setAuthenticated] = useState(false);
-  const [password, setPassword] = useState("");
   const [activeSection, setActiveSection] = useState("dashboard");
   const [toasts, setToasts] = useState<Toast[]>([]);
 
@@ -599,16 +600,16 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
   };
 
   function handleLogin() {
-    if (!ADMIN_PASSWORD) {
-      pushToast({ type: "error", message: "Admin access is disabled. Set VITE_ADMIN_PASSWORD in your environment." });
+    if (!user) {
+      pushToast({ type: "error", message: "Secure admin access requires an authenticated Firebase user with a super_admin custom claim." });
       return;
     }
-    if (password === ADMIN_PASSWORD) {
-      setAuthenticated(true);
-      pushToast({ type: "success", message: "Welcome, Admin! 🔐" });
-    } else {
-      pushToast({ type: "error", message: "Invalid password" });
+    if (user.role !== "super_admin") {
+      pushToast({ type: "error", message: "This account is not authorized as a super_admin. Role assignment must be done server-side via Firebase custom claims." });
+      return;
     }
+    setAuthenticated(true);
+    pushToast({ type: "success", message: "Welcome, Super Admin! 🔐" });
   }
 
   function resetAll() {
@@ -643,11 +644,14 @@ export default function AdminPanel({ onClose }: { onClose: () => void }) {
               <h1 className="text-2xl font-black text-[#e9f3f5]">Admin Panel</h1>
             </div>
           </div>
-          <Input label="Admin Password" type="password" value={password} onChange={setPassword} placeholder="Enter password..." />
-          <p className="mt-3 text-xs text-[#e9f3f5]/30">{ADMIN_PASSWORD ? "Environment-protected admin access is enabled." : "Admin access is disabled until VITE_ADMIN_PASSWORD is configured."}</p>
+          <div className="rounded-2xl border border-violet-200/15 bg-violet-200/5 p-4 text-sm text-[#e9f3f5]/80">
+            Secure admin access is enforced through Firebase Authentication + custom claims. The browser never assigns privileged roles.
+            {user ? ` Current user: ${user.email}` : " No authenticated Firebase user is available."}
+          </div>
+          <p className="mt-3 text-xs text-[#e9f3f5]/30">{user?.role === "super_admin" ? "Custom-claim authorization is present." : "MANUAL CONFIGURATION REQUIRED: deploy Firebase Auth + custom claims before live admin access is granted."}</p>
           <div className="mt-6 flex gap-3">
             <Button variant="secondary" onClick={onClose} className="flex-1">Cancel</Button>
-            <Button onClick={handleLogin} className="flex-1">Unlock Access</Button>
+            <Button onClick={handleLogin} className="flex-1" disabled={authLoading}>Unlock Access</Button>
           </div>
           <ToastContainer toasts={toasts} removeToast={(id) => setToasts(toasts.filter((t) => t.id !== id))} />
         </div>

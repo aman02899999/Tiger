@@ -4,16 +4,18 @@ This document records the repository’s current production status as implemente
 
 ## Executive summary
 
-Status: PRODUCTION READY AFTER MANUAL CONFIGURATION
+Status: MANUAL CONFIGURATION REQUIRED — NOT PRODUCTION READY
 
-Tiger is now hardened against common false-production issues: Firebase initialization is environment-gated, admin access requires an environment password, external API calls use safe fallbacks, and payment flows explicitly block entitlement unless backend verification is configured.
+Tiger is hardened against false-production assumptions: Firebase initialization is environment-gated, the UI blocks fake payment entitlement, and the repository does not pretend that third-party services are live without configuration. The branch now also documents the required secure custom-claims RBAC model and tenant restrictions.
 
-However, the project is not yet a complete live SaaS deployment because several items require real deployment credentials and external configuration:
+However, the project is not yet a complete live SaaS deployment because several items require real deployment credentials and trusted backend enforcement:
 
 - Firebase project values must be supplied in the hosting environment
-- Apache/Android app links need the real release certificate fingerprint
-- Admin password must be set in production
+- Firebase Auth custom claims must be provisioned by a trusted backend
+- Trainer/client relationships and gym isolation must be enforced in Firestore rules and backend logic
+- Storage rules for health documents need deployment-time review and enforcement
 - Real payment verification backend must be active before premium entitlement is granted
+- Admin access must be granted only to authenticated users with the `super_admin` custom claim and not to arbitrary frontend passwords
 
 ## Security
 
@@ -21,8 +23,8 @@ However, the project is not yet a complete live SaaS deployment because several 
 |---|---|---|
 | Authentication | PASS | Firebase auth is used when configured; demo fallback remains explicitly non-production |
 | Authorization | BLOCKED | Role model is documented and guarded, but full server-side RBAC enforcement requires Firebase custom claims and backend logic |
-| Firestore rules | PASS (baseline) | Rules are present and least-privilege oriented for obvious user documents |
-| Storage rules | MANUAL CONFIGURATION REQUIRED | Protected health data requires stricter storage rules and deployment-specific policy review |
+| Firestore rules | BLOCKED | Rules are now structured around role, gym, and trainer/client ownership, but deployment-time custom claims and relationships must be configured before live use |
+| Storage rules | MANUAL CONFIGURATION REQUIRED | Protected health data requires deployment review and secure storage policy enforcement |
 | Payment security | BLOCKED | No real payment backend verification is implemented; UI never auto-grants entitlement |
 | API key exposure | PASS | No production secrets are checked into source; env-driven configuration is used |
 | Secret scan | PASS | No committed private keys or service account material were found in the source tree |

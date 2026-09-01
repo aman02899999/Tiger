@@ -15,9 +15,21 @@ Tiger is a fitness and wellness platform built with React, Vite, TypeScript, and
 This project is intentionally safe-by-default:
 
 - Firebase is only initialized when all required Firebase environment variables are present.
-- Admin access is disabled unless `VITE_ADMIN_PASSWORD` is configured.
+- The browser never assigns privileged roles. Production RBAC is implemented through Firebase Authentication custom claims and trusted backend provisioning.
 - External API calls use TTL caching and graceful fallback values.
 - Payment flows explicitly require backend verification before granting entitlements.
+- Private health data and tenant-scoped resources require authenticated authorization and database rules, not frontend-only filtering.
+
+## Production RBAC model
+
+Roles are restricted to the trusted Firebase custom-claim model:
+
+- `super_admin`
+- `gym_owner`
+- `trainer`
+- `client`
+
+The frontend must never assign these roles. The trusted provider is Firebase Admin SDK / secure backend logic. This repository includes RBAC helpers and security architecture documentation, but live role assignment remains a deployment-time configuration step.
 
 ## Deployment checklist
 
