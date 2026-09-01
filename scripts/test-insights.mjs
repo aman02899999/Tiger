@@ -35,6 +35,9 @@ execSync(
   const extra = [
     "src/services/api/wger.ts",
     "src/services/api/open-food-facts.ts",
+    "src/security/rbac.ts",
+    "src/security/payment.ts",
+    "src/security/role-provisioning.ts",
   ];
   for (const file of extra) {
     execSync(
@@ -48,6 +51,7 @@ writeFileSync(join(dir, "package.json"), JSON.stringify({ type: "module" }));
 const M = await import(join(dir, "insights.js"));
 const WGER = await import(join(dir, "wger.js"));
 const OFF = await import(join(dir, "open-food-facts.js"));
+const RBAC = await import(join(dir, "rbac.js"));
 
 const day = (n) => {
   const d = new Date();
@@ -257,6 +261,29 @@ test("skips wins and returns something actionable", () => {
   assert.ok(nba);
   assert.ok(nba.action, "must have an action");
   assert.notEqual(nba.severity, "win");
+});
+
+console.log("\nsecurity model");
+test("clients cannot assign privileged roles", () => {
+  assert.equal(RBAC.canAssignRole("client", "trainer"), false);
+  assert.equal(RBAC.canAssignRole("client", "gym_owner"), false);
+  assert.equal(RBAC.canAssignRole("client", "super_admin"), false);
+});
+test("gym owners can manage their own gym but not another gym", () => {
+  assert.equal(RBAC.canAccessGym("gym_owner", "gym-1", "gym-1"), true);
+  assert.equal(RBAC.canAccessGym("gym_owner", "gym-1", "gym-2"), false);
+});
+test("trainer access is allowed only for assigned active clients", () => {
+  const active = RBAC.canAccessClient("trainer", "trainer-1", "client-1", "gym-1", { trainerId: "trainer-1", clientId: "client-1", gymId: "gym-1", status: "active" });
+  const pending = RBAC.canAccessClient("trainer", "trainer-1", "client-1", "gym-1", { trainerId: "trainer-1", clientId: "client-1", gymId: "gym-1", status: "pending" });
+  const diffGym = RBAC.canAccessClient("trainer", "trainer-1", "client-1", "gym-1", { trainerId: "trainer-1", clientId: "client-1", gymId: "gym-2", status: "active" });
+  assert.equal(active, true);
+  assert.equal(pending, false);
+  assert.equal(diffGym, false);
+});
+test("clients can read only their own profile and not others", () => {
+  assert.equal(RBAC.canReadUser("client", "client-1", "client-1", "gym-1", "gym-1"), true);
+  assert.equal(RBAC.canReadUser("client", "client-1", "client-2", "gym-1", "gym-1"), false);
 });
 
 const N = await import(join(dir, "nutrition.js"));

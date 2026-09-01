@@ -17,6 +17,14 @@ Tiger intentionally avoids assuming that third-party services are live in every 
 | Open Library | NOT IMPLEMENTED | Not used in current app flow | Kept as optional educational enrichment only |
 | YouTube Data API | NOT IMPLEMENTED | Not used | Rejected unless a production scenario and quota plan are valid |
 | Google Calendar | NOT IMPLEMENTED | Not used | Tiger owns its appointment system first |
+| USDA FoodData Central | REJECTED | Not used | Not used unless current commercial terms and free-tier suitability are validated |
+
+## Security and deployment notes
+
+- The browser is explicitly not allowed to assign privileged roles.
+- Role provisioning must be done via Firebase custom claims through a trusted backend or Firebase Admin SDK.
+- Tenant and trainer/client isolation are enforced in secure Firestore rules and not by client-side filtering alone.
+- Storage rules must keep health records and private uploads behind authenticated access controls.
 
 ## Required environment variables
 

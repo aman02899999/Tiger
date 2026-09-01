@@ -12,6 +12,8 @@ import { auth, db } from "../firebase";
 /* Types                                                             */
 /* ---------------------------------------------------------------- */
 
+export type UserRole = "super_admin" | "gym_owner" | "trainer" | "client";
+
 export type UserProfile = {
   id: string;
   name: string;
@@ -23,6 +25,8 @@ export type UserProfile = {
   height: number;
   weight: number;
   goal: "fat-loss" | "muscle-gain" | "maintenance" | "wedding" | "general";
+  role?: UserRole;
+  gymId?: string | null;
   plan: "Free" | "Pro" | "Elite";
   joinDate: string;
   streak: number;
@@ -69,6 +73,8 @@ const DEMO_PROFILE: UserProfile = {
   height: 175,
   weight: 78,
   goal: "fat-loss",
+  role: "client",
+  gymId: "demo-gym",
   plan: "Pro",
   joinDate: "2025-06-01",
   streak: 12,
@@ -191,6 +197,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         height: 0,
         weight: 0,
         goal: "general",
+        role: "client",
+        gymId: null,
         plan: "Free",
         joinDate: new Date().toISOString().split("T")[0],
         streak: 0,

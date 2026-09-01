@@ -1,3 +1,4 @@
+<<<<<<< ours
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
@@ -42,3 +43,64 @@ service firebase.storage {
     }
   }
 }
+||||||| base
+=======
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isRole(roleName) {
+      return isSignedIn() && request.auth.token.role == roleName;
+    }
+
+    function isSameUser(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isTrainerOfClient(clientId, gymId) {
+      return isSignedIn() &&
+        request.auth.token.role == 'trainer' &&
+        exists(/databases/(default)/documents/trainerClients/$(request.auth.uid)_$(clientId)) &&
+        get(/databases/(default)/documents/trainerClients/$(request.auth.uid)_$(clientId)).data.status == 'active' &&
+        get(/databases/(default)/documents/trainerClients/$(request.auth.uid)_$(clientId)).data.gymId == gymId;
+    }
+
+    match /private/{userId}/{allPaths=**} {
+      allow read, write: if isSignedIn() && isSameUser(userId);
+    }
+
+    match /gyms/{gymId}/{userId}/{allPaths=**} {
+      allow read: if isSignedIn() && (
+        isRole('super_admin') ||
+        isRole('gym_owner') && request.auth.token.gymId == gymId ||
+        isTrainerOfClient(userId, gymId)
+      );
+      allow write: if isSignedIn() && (
+        isRole('super_admin') ||
+        isRole('gym_owner') && request.auth.token.gymId == gymId ||
+        isSameUser(userId)
+      );
+    }
+
+    match /health/{userId}/{allPaths=**} {
+      allow read: if isSignedIn() && (
+        isSameUser(userId) ||
+        isRole('super_admin') ||
+        isTrainerOfClient(userId, request.auth.token.gymId)
+      );
+      allow write: if isSignedIn() && (
+        isSameUser(userId) ||
+        isRole('super_admin')
+      );
+    }
+
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
+>>>>>>> theirs
