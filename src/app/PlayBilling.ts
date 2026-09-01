@@ -87,6 +87,10 @@ export async function purchaseWithPlayBilling(sku: PlaySku | string): Promise<{ 
   return { purchaseToken };
 }
 
+export function requiresServerSideVerification(): boolean {
+  return true;
+}
+
 /** Acknowledge/consume a completed one-time purchase so Play doesn't refund it after 3 days. */
 export async function acknowledgePlayPurchase(purchaseToken: string) {
   const service = await getService();

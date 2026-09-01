@@ -1262,6 +1262,10 @@ function Newsletter() {
     if (!email.includes("@")) return;
     setLoading(true);
     try {
+      if (!db) {
+        setSubmitted(true);
+        return;
+      }
       await setDoc(doc(db, "subscribers", email.toLowerCase()), {
         email: email.toLowerCase(),
         subscribedAt: new Date().toISOString(),
@@ -1270,8 +1274,9 @@ function Newsletter() {
       setSubmitted(true);
     } catch {
       setSubmitted(true); // still show success to user
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (

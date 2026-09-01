@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../auth/AuthSystem";
-import { db, storage } from "../firebase";
+import { requireDb, requireStorage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
@@ -1092,12 +1092,14 @@ export default function BloodReportPage() {
 
   const handleUpload = async () => {
     if (!file || !user) return;
+    const firestore = requireDb();
+    const storageInstance = requireStorage();
     setUploading(true);
     setUploadError("");
     setSaveError("");
     try {
       const path = `blood-reports/${user.id}/${Date.now()}_${file.name}`;
-      const storageRef = ref(storage, path);
+      const storageRef = ref(storageInstance, path);
       const task = uploadBytesResumable(storageRef, file);
 
       await new Promise<void>((resolve, reject) => {
@@ -1112,7 +1114,7 @@ export default function BloodReportPage() {
             try {
               const url = await getDownloadURL(task.snapshot.ref);
               setReportUrl(url);
-              await addDoc(collection(db, "users", user.id, "bloodReports"), {
+              await addDoc(collection(firestore, "users", user.id, "bloodReports"), {
                 url,
                 fileName: file.name,
                 fileType: file.type,

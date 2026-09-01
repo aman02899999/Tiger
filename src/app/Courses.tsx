@@ -794,6 +794,10 @@ export function CoursesSection() {
 
   // Load courses from Firestore
   useEffect(() => {
+    if (!db) {
+      setCourses(DEFAULT_COURSES);
+      return undefined;
+    }
     let unsub: (() => void) | undefined;
     try {
       unsub = onSnapshot(
@@ -876,6 +880,10 @@ export default function CoursesPage() {
 
   // Load courses from Firestore
   useEffect(() => {
+    if (!db) {
+      setCourses(DEFAULT_COURSES);
+      return undefined;
+    }
     let unsub: (() => void) | undefined;
     try {
       unsub = onSnapshot(
@@ -898,7 +906,7 @@ export default function CoursesPage() {
 
   // Load enrollments
   useEffect(() => {
-    if (!user?.id) return;
+    if (!user?.id || !db) return;
     let unsub: (() => void) | undefined;
     try {
       unsub = onSnapshot(
@@ -926,7 +934,7 @@ export default function CoursesPage() {
   };
 
   const handlePaymentConfirm = async () => {
-    if (!user || !selected) return;
+    if (!user || !selected || !db) return;
     setLoading(true);
     try {
       const enrollment: Enrollment = {

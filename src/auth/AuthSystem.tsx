@@ -12,6 +12,8 @@ import { auth, db } from "../firebase";
 /* Types                                                             */
 /* ---------------------------------------------------------------- */
 
+export type UserRole = "super_admin" | "gym_owner" | "trainer" | "client";
+
 export type UserProfile = {
   id: string;
   name: string;
@@ -23,6 +25,8 @@ export type UserProfile = {
   height: number;
   weight: number;
   goal: "fat-loss" | "muscle-gain" | "maintenance" | "wedding" | "general";
+  role?: UserRole;
+  gymId?: string | null;
   plan: "Free" | "Pro" | "Elite";
   joinDate: string;
   streak: number;
@@ -69,6 +73,8 @@ const DEMO_PROFILE: UserProfile = {
   height: 175,
   weight: 78,
   goal: "fat-loss",
+  role: "client",
+  gymId: "demo-gym",
   plan: "Pro",
   joinDate: "2025-06-01",
   streak: 12,
@@ -112,6 +118,7 @@ function friendlyError(code: string): string {
 }
 
 async function loadProfile(uid: string): Promise<UserProfile | null> {
+  if (!db) return null;
   try {
     const snap = await getDoc(doc(db, "users", uid));
     return snap.exists() ? (snap.data() as UserProfile) : null;
@@ -131,10 +138,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
+    if (!auth || !db) {
+      setUser(DEMO_PROFILE);
+      setAuthLoading(false);
+      return undefined;
+    }
+
     const unsub = onAuthStateChanged(auth, async (fbUser) => {
       if (fbUser) {
         const profile = await loadProfile(fbUser.uid);
-        setUser(profile);
+        setUser(profile ?? DEMO_PROFILE);
       } else {
         setUser(null);
       }
@@ -144,8 +157,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   async function login(email: string, password: string) {
+    if (!auth || !db) {
+      if (email === DEMO_PROFILE.email && password.length >= 6) {
+        setUser(DEMO_PROFILE);
+        return { success: true, message: "Local demo mode enabled." };
+      }
+      return { success: false, message: "Firebase is not configured. Add your VITE_FIREBASE_* values to continue." };
+    }
+
     try {
-      // Handle demo account — create it in Firebase if it doesn't exist yet
       if (email === "demo@tigerfitpro.in") {
         try {
           await signInWithEmailAndPassword(auth, email, password);
@@ -166,6 +186,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function signup(name: string, email: string, password: string) {
+    if (!auth || !db) {
+      return { success: false, message: "Firebase is not configured. Add your VITE_FIREBASE_* values before creating an account." };
+    }
+
     try {
       const { user: fbUser } = await createUserWithEmailAndPassword(auth, email, password);
       const newProfile: UserProfile = {
@@ -179,6 +203,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         height: 0,
         weight: 0,
         goal: "general",
+        role: "client",
+        gymId: null,
         plan: "Free",
         joinDate: new Date().toISOString().split("T")[0],
         streak: 0,
@@ -201,12 +227,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function logout() {
-    signOut(auth);
+    if (auth) {
+      signOut(auth);
+    }
     setUser(null);
   }
 
   async function updateUser(updates: Partial<UserProfile>) {
-    if (!user || !auth.currentUser) return;
+    if (!user || !auth || !db || !auth.currentUser) return;
     const updated = { ...user, ...updates };
     setUser(updated); // optimistic
     try {

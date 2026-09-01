@@ -917,6 +917,10 @@ function SettingsPage() {
   async function deleteAccount() {
     if (!confirm("Permanently delete your account and all data? This cannot be undone.")) return;
     try {
+      if (!auth || !db) {
+        logout();
+        return;
+      }
       if (auth.currentUser) {
         await deleteDoc(doc(db, "users", auth.currentUser.uid));
         await deleteUser(auth.currentUser);

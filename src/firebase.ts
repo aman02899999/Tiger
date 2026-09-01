@@ -1,26 +1,54 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { initializeApp, type FirebaseApp } from "firebase/app";
+import { getAuth, type Auth } from "firebase/auth";
+import { getFirestore, type Firestore } from "firebase/firestore";
+import { getStorage, type FirebaseStorage } from "firebase/storage";
 import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDFtXvgaVv5vDKlrtEluuAopXjUtRgTuqE",
-  authDomain: "tiger-fitness-pro-2f047.firebaseapp.com",
-  projectId: "tiger-fitness-pro-2f047",
-  storageBucket: "tiger-fitness-pro-2f047.firebasestorage.app",
-  messagingSenderId: "1018363378380",
-  appId: "1:1018363378380:web:0d25be6fb035948a9de069",
-  measurementId: "G-N0ZPLT3JXY",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY ?? "",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ?? "",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID ?? "",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ?? "",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID ?? "",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID ?? "",
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID ?? "",
 };
 
-const app = initializeApp(firebaseConfig);
+export const isFirebaseConfigured = Object.values(firebaseConfig).every(Boolean);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+let app: FirebaseApp | null = null;
 
-// Analytics only in browser (not SSR/tests)
-isSupported().then((yes) => { if (yes) getAnalytics(app); });
+if (isFirebaseConfigured) {
+  app = initializeApp(firebaseConfig);
+}
+
+export const auth: Auth | null = app ? getAuth(app) : null;
+export const db: Firestore | null = app ? getFirestore(app) : null;
+export const storage: FirebaseStorage | null = app ? getStorage(app) : null;
+
+export function requireAuth(): Auth {
+  if (!auth) {
+    throw new Error("Firebase Auth is not configured. Set the VITE_FIREBASE_* values in your environment.");
+  }
+  return auth;
+}
+
+export function requireDb(): Firestore {
+  if (!db) {
+    throw new Error("Firebase Firestore is not configured. Set the VITE_FIREBASE_* values in your environment.");
+  }
+  return db;
+}
+
+export function requireStorage(): FirebaseStorage {
+  if (!storage) {
+    throw new Error("Firebase Storage is not configured. Set the VITE_FIREBASE_* values in your environment.");
+  }
+  return storage;
+}
+
+if (app) {
+  isSupported().then((yes) => { if (yes) getAnalytics(app!); });
+}
 
 export default app;
