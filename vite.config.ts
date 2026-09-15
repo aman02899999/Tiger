@@ -9,6 +9,13 @@ const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  server: {
+    host: "0.0.0.0",
+    // The preview is served from a proxied sandbox host, so the dev server
+    // must accept it rather than 403 the request.
+    allowedHosts: true,
+  },
+  preview: { host: "0.0.0.0", allowedHosts: true },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
