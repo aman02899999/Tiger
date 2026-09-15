@@ -967,6 +967,59 @@ test("the demo source is labelled and refuses nothing it should allow", async ()
   source.reset?.();
 });
 
+/* ═══════════════════════════════════════════════════════════════════
+   10. EVERY ROLE'S READ PATH IS WIRED (what the demo workspace renders)
+   ═══════════════════════════════════════════════════════════════════ */
+
+group("10. Workspace read paths");
+
+await testAsync("the demo tenant populates every workspace with joined data", async () => {
+  const source = new D.DemoSource(SEED.buildDemoSeed());
+  const owner = new R.TenantClient({ uid: "demo_owner", role: "gym_owner", gymId: GYM, gymIds: [GYM] }, source, claimsFor("gym_owner"));
+  const trainerSession = new R.TenantClient({ uid: TRAINER, role: "trainer", gymId: GYM, gymIds: [GYM] }, source, claimsFor("trainer"));
+  const memberSession = new R.TenantClient({ uid: CLIENT, role: "client", gymId: GYM, gymIds: [GYM] }, source, claimsFor("client"));
+
+  const overview = await owner.loadGymOverview();
+  assert.ok(overview.activeMembers > 0, "an owner must see their member count");
+  assert.ok(overview.activeTrainers > 0, "…and their trainer count");
+  assert.ok(overview.seatLimit, "…and the seat limit the entitlement grants");
+  assert.ok(typeof overview.averageAdherence === "number", "adherence is derived from logged sessions");
+
+  const roster = await trainerSession.loadRoster();
+  assert.ok(roster.length > 0, "a trainer must get a roster");
+  assert.equal(roster[0].rank, 1, "the roster is ranked by who needs attention");
+  assert.ok(roster[0].profile?.name, "…with the client's name joined in");
+
+  const home = await memberSession.loadClientHome();
+  assert.ok(home, "a member must get a home payload");
+  assert.ok(home.plan || home.assignment, "…carrying their assigned programme");
+  assert.ok(Array.isArray(home.sessions), "…and their session history");
+  assert.ok(home.nextSessionDay, "…and the next day of the programme to train");
+
+  const entitlements = await new R.TenantClient({ uid: "demo_admin", role: "super_admin", gymId: null, gymIds: [] }, source, claimsFor("super_admin", null)).listAllEntitlements();
+  assert.ok(entitlements.length > 0, "a platform admin must see entitlements");
+});
+
+await testAsync("an empty tenant reports nulls, never invented metrics", async () => {
+  const empty = new D.DemoSource({});
+  const owner = new R.TenantClient({ uid: "fresh_owner", role: "gym_owner", gymId: "gym_empty", gymIds: ["gym_empty"] }, empty, claimsFor("gym_owner", "gym_empty"));
+  const overview = await owner.loadGymOverview();
+  for (const metric of ["activeMembers", "activeTrainers", "averageAdherence", "volumeLast7Kg", "revenueLast30Minor", "atRiskMembers"]) {
+    assert.equal(overview[metric], null, `${metric} must be null — not 0 — when nothing has been recorded`);
+  }
+  const roster = await owner.loadRoster();
+  assert.deepEqual(roster, [], "an empty gym has an empty roster, not a placeholder row");
+  const plans = await owner.listPlans();
+  assert.deepEqual(plans, []);
+});
+
+await testAsync("a member with no entitlement is not silently upgraded", async () => {
+  const source = new D.DemoSource(SEED.buildDemoSeed());
+  const member = new R.TenantClient({ uid: "demo_client_20", role: "client", gymId: GYM, gymIds: [GYM] }, source, claimsFor("client"));
+  const entitlement = await member.getEntitlement("demo_client_20");
+  assert.ok(entitlement === null || entitlement.plan === "free" || entitlement.status !== "active", "a free member must not read as paid");
+});
+
 /* ── report ─────────────────────────────────────────────────────── */
 
 rmSync(join(ROOT, ".test-build"), { recursive: true, force: true });
