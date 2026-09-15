@@ -30,6 +30,7 @@ trainer→client loop. The remaining risk is configuration and operations, not m
 | Composite indexes | DONE | `firestore.indexes.json`, generated from the registry; `npm run check:indexes` fails on drift |
 | Audit trail | DONE | privileged actions append to `auditLog` from the backend; the console reads it (`useAuditTrail`) |
 | CI gate | DONE | `.github/workflows/quality.yml` runs typecheck, index check, both suites, build, and the functions typecheck |
+| Workspace wiring | DONE | group 10 asserts each role's primary read returns joined data, and that an empty tenant reports `null`, never `0` |
 | Honesty pass | DONE | fabricated user counts, ratings, uptime, testimonials, "AI trained on Indian dishes" and the fake billing tab are corrected — `npm run test:saas` scans for the admin password and simulated payments |
 
 ## 2. What is deliberately NOT claimed
@@ -50,7 +51,7 @@ npm ci                                  # reproducible install
 npm run typecheck                       # tsc -b --noEmit
 npm run check:indexes                   # registry → firestore.indexes.json is in sync
 npm run test:insights                   # 36 assertions: insight maths + API normalisers
-npm run test:saas                       # 64 assertions: permissions, tenancy, entitlement, payments, rules, indexes, tokens, hygiene
+npm run test:saas                       # 67 assertions: permissions, tenancy, entitlement, payments, rules, indexes, tokens, hygiene, workspace wiring
 npm run build                           # includes scripts/check-3d.mjs (visual-depth guard)
 npm run typecheck:functions             # trusted backend compiles
 git diff --check                        # no whitespace errors or conflict markers
