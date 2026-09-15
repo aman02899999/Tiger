@@ -4,21 +4,43 @@ Tiger is a fitness and wellness platform built with React, Vite, TypeScript, and
 
 ## Local development
 
-1. Install dependencies:
-   npm install
-2. Copy `.env.example` to `.env.local` and fill in the required values.
-3. Start the app:
-   npm run dev
+```bash
+npm ci
+cp .env.example .env.local        # optional — without it the app runs the labelled Demo Workspace
+npm run dev
+```
 
-## Production guardrails
+## Quality gate
 
-This project is intentionally safe-by-default:
+```bash
+npm run verify          # typecheck → both test suites → production build
+npm run test:saas       # 64 assertions: RBAC, tenancy, entitlement, payments, rules, indexes, tokens
+npm run test:insights   # 36 assertions: insight maths + API response normalisers
+npm run check:indexes   # firestore.indexes.json is generated from the collection registry
+npm run typecheck:functions
+```
 
-- Firebase is only initialized when all required Firebase environment variables are present.
-- The browser never assigns privileged roles. Production RBAC is implemented through Firebase Authentication custom claims and trusted backend provisioning.
-- External API calls use TTL caching and graceful fallback values.
-- Payment flows explicitly require backend verification before granting entitlements.
-- Private health data and tenant-scoped resources require authenticated authorization and database rules, not frontend-only filtering.
+`scripts/check-3d.mjs` runs first inside `npm run build`: it fails the build if a 3D tilt subtree is
+flattened by an intermediate surface.
+
+## Security model (short version)
+
+- **Roles come from custom claims**, not documents: `super_admin | gym_owner | trainer | client`.
+  `src/security/permissions.ts` holds the capability matrix; `scripts/test-saas.mjs` asserts every
+  decision, including that a missing `gymId` claim denies.
+- **Tenants are enforced in the database.** Every tenant document carries `gymId`; `firestore.rules`
+  compares it to the caller's claim and refuses anything that does not match. Client-side filtering is
+  presentation only.
+- **A trainer's authority is a row**, not a role: an *active* `trainerClients/{trainerId_clientId}`
+  document in the same gym. Without it, a trainer sees nothing.
+- **Money is a server fact.** The browser sends a plan id; the backend prices it, the provider takes the
+  payment, the webhook signature is verified, and only then is `entitlements/{subjectId}` written.
+  `entitlements`, `payments` and `auditLog` are `write: if false` for every browser session, including
+  `super_admin`. See `functions/README.md`.
+- **Health documents are owner-only by default.** `storage.rules` resolves the member's gym through
+  `gymOf()` rather than trusting the caller's own claim.
+- **No frontend admin password.** There is no `VITE_ADMIN_PASSWORD`; the first platform admin is created
+  once by `functions/scripts/bootstrap-admin.mjs`.
 
 ## Production RBAC model
 
@@ -29,13 +51,21 @@ Roles are restricted to the trusted Firebase custom-claim model:
 - `trainer`
 - `client`
 
-The frontend must never assign these roles. The trusted provider is Firebase Admin SDK / secure backend logic. This repository includes RBAC helpers and security architecture documentation, but live role assignment remains a deployment-time configuration step.
+The frontend never assigns them. Claims are written by the trusted backend in `functions/`
+(`adminProvisionGym`, `adminAssignRole`, `gymAddMember`) or, once, by
+`functions/scripts/bootstrap-admin.mjs`. A user document's `role`/`gymId` are a display mirror only —
+authorisation always reads the token.
 
 ## Deployment checklist
 
-- Set Firebase values in the hosting environment.
-- Add the production admin password.
-- Add the live API keys for weather, AQI, geocoding, exercise, and currencies as needed.
+See `docs/PRODUCTION_READINESS.md` §4 for the full list. The short version:
+
+1. Create the Firebase project and set `VITE_FIREBASE_*`.
+2. `firebase deploy --only firestore:rules,storage:rules,firestore:indexes`
+3. `node functions/scripts/bootstrap-admin.mjs you@company.com`
+4. Set the Razorpay secrets, deploy `functions/`, register the webhook.
+5. Provision the first gym, invite the owner and trainers.
+6. Optional: weather/AQI/geocoding/currency keys. The coaching loop does not need them.
 - Add the real Android signing certificate fingerprint to `public/.well-known/assetlinks.json`.
 - Validate the deployment with `npm test` and `npm run build`.
 

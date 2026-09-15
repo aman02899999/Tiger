@@ -17,3 +17,10 @@ android/key.properties
 
 # Local visual preview artifact (generated, not source)
 .preview/
+
+# Archived audit logs — kept on disk for reference, not tracked (134 MB).
+docs/audit-archive/
+
+# Local test build output
+.test-build/
+.indexes-build/
