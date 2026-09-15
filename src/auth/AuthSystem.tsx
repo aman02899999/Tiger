@@ -29,6 +29,7 @@ import {
   type User as FirebaseUser,
 } from "firebase/auth";
 import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { nowIso } from "../data/datasource";
 import { auth, db, isFirebaseConfigured } from "../firebase";
 import { stripProtectedUserFields } from "../domain/collections";
 import type {
@@ -75,6 +76,13 @@ export type AuthContextType = {
   /** Gym document for the active claim, when one is loaded. */
   gym: Gym | null;
   authLoading: boolean;
+  /**
+   * Set when a live session authenticated but the tenant data could not be
+   * read — almost always because `firestore.rules` has not been deployed on
+   * a brand-new project. Without this the app silently bounced back to the
+   * sign-in screen and looked broken.
+   */
+  dataError: { code: string; message: string } | null;
   /** True while running the in-memory Demo Workspace. */
   demo: boolean;
   demoPersona: Persona | null;
@@ -150,10 +158,43 @@ function friendlyError(code: string): string {
     case "auth/cancelled-popup-request":
       return "Sign-in popup was closed before completing.";
     case "auth/operation-not-allowed":
-      return "That sign-in method is not enabled for this Firebase project yet.";
+      return "That sign-in method is not enabled for this Firebase project yet. Enable it in Firebase Console → Authentication → Sign-in method.";
+    case "auth/unauthorized-domain":
+      return "This domain is not authorised for sign-in. Add it in Firebase Console → Authentication → Settings → Authorized domains, then reload.";
+    case "auth/invalid-api-key":
+    case "auth/api-key-not-valid":
+      return "Firebase rejected the API key. Run `npm run check:firebase` — the value in .env.local does not belong to this project.";
+    case "auth/configuration-not-found":
+      return "This Firebase project has no Authentication configuration yet. Open Firebase Console → Authentication and press Get started.";
+    case "auth/quota-exceeded":
+      return "Firebase Auth quota reached. Try again shortly or check the project's usage.";
+    case "permission-denied":
+    case "firestore/permission-denied":
+      return "Firestore refused the request. The security rules are probably not deployed yet — run `npm run deploy:rules`, then reload.";
+    case "unavailable":
+    case "firestore/unavailable":
+      return "Could not reach Firestore. Check your connection and that the project's database exists.";
     default:
-      return "Something went wrong. Please try again.";
+      return code && !code.startsWith("auth/")
+        ? `Request failed: ${code}`
+        : "Something went wrong. Please try again.";
   }
+}
+
+/**
+ * Idempotently create the `users/{uid}` document for a freshly authenticated
+ * account. `role` and `gymId` are written explicitly as the weakest values —
+ * a self-created profile may never claim authority, and the rules enforce
+ * that independently.
+ */
+async function ensureProfileDoc(fbUser: FirebaseUser): Promise<void> {
+  if (!db) return;
+  const profile = emptyProfile(fbUser.uid, fbUser.displayName ?? "Athlete", fbUser.email ?? "");
+  await setDoc(
+    doc(db, "users", fbUser.uid),
+    { ...profile, role: "client", gymId: null, createdAt: nowIso(), updatedAt: nowIso() },
+    { merge: true },
+  );
 }
 
 const DEFAULT_PREFERENCES: UserPreferences = {
@@ -276,6 +317,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [gym, setGym] = useState<Gym | null>(null);
   const [uid, setUid] = useState<string | null>(null);
   const [authLoading, setAuthLoading] = useState(true);
+  const [dataError, setDataError] = useState<{ code: string; message: string } | null>(null);
   const [demoPersona, setDemoPersona] = useState<Persona | null>(null);
   const unsubscribeProfile = useRef<(() => void) | null>(null);
 
@@ -317,9 +359,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setProfile(null);
         setClaims(null);
         setEntitlement(null);
+        setDataError(null);
         setAuthLoading(false);
         return;
       }
+      setDataError(null);
       setUid(fbUser.uid);
       const token = await fbUser.getIdTokenResult(true);
       setClaims(claimsFromToken(token.claims as Record<string, unknown>));
@@ -338,9 +382,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           } else {
             setProfile(emptyProfile(fbUser.uid, fbUser.displayName ?? "Athlete", fbUser.email ?? ""));
           }
+          setDataError(null);
           setAuthLoading(false);
         },
-        () => setAuthLoading(false),
+        (error: unknown) => {
+          const code = (error as { code?: string }).code ?? "unknown";
+          setDataError({ code, message: friendlyError(code) });
+          setAuthLoading(false);
+        },
       );
 
       /* Entitlement drives the plan badge; the browser can only read it. */
@@ -404,15 +453,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       try {
         const { user: fbUser } = await createUserWithEmailAndPassword(auth!, email, password);
-        const newProfile = emptyProfile(fbUser.uid, name || "Athlete", email);
-        /* `role` and `gymId` are intentionally absent: the backend sets the claim and
-           the rules let a self-created profile declare only the client role. */
-        await setDoc(doc(db!, "users", fbUser.uid), {
-          ...newProfile,
-          role: "client",
-          gymId: null,
-        });
-        setProfile(newProfile);
+        /* `role` and `gymId` are pinned to the weakest values: the backend sets
+           the claim, and the rules let a self-created profile declare only the
+           client role. Same helper as Google sign-in so the paths cannot drift. */
+        await ensureProfileDoc(fbUser);
+        setProfile(emptyProfile(fbUser.uid, name || "Athlete", email));
         return { success: true, message: "Account created." };
       } catch (error) {
         const code = (error as { code?: string }).code ?? "";
@@ -429,7 +474,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     try {
       const { signInWithPopup, GoogleAuthProvider } = await import("firebase/auth");
-      await signInWithPopup(auth!, new GoogleAuthProvider());
+      const { user: fbUser } = await signInWithPopup(auth!, new GoogleAuthProvider());
+      /* A Google account has no profile document. Without this the app would
+         build one in memory on every load and the backend trigger would never
+         see the user. `merge: true` keeps an existing profile untouched. */
+      await ensureProfileDoc(fbUser);
       return { success: true, message: "Signed in with Google." };
     } catch (error) {
       const code = (error as { code?: string }).code ?? "";
@@ -443,6 +492,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setProfile(null);
     setClaims(null);
     setEntitlement(null);
+    setDataError(null);
     setUid(null);
   }, [firebaseReady, demoPersona]);
 
@@ -499,6 +549,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       actor,
       gym,
       authLoading,
+      dataError,
       demo,
       demoPersona,
       switchDemoPersona: setDemoPersona,

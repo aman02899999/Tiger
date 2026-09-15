@@ -9,7 +9,8 @@
 
 import { useState } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
-import { auth, isFirebaseConfigured } from "../firebase";
+import { auth, isFirebaseConfigured, missingFirebaseFields } from "../firebase";
+import { LIVE_SETUP_STEPS } from "../firebaseConfig";
 import { useAuth, type Persona } from "../auth/AuthSystem";
 import { Button, Chip, Field, Input, Panel } from "../ui/kit";
 import { cn } from "../utils/cn";
@@ -137,6 +138,16 @@ export default function EnterWorkspace() {
               </Chip>
             </div>
 
+            {!firebaseReady && (
+              <div className="mb-5 rounded-xl border border-amber-300/25 bg-amber-300/[0.07] p-3.5">
+                <p className="text-[11px] font-black uppercase tracking-[0.16em] text-amber-100">Configuration incomplete</p>
+                <p className="mt-1.5 text-xs leading-5 text-amber-50/80">
+                  Missing {missingFirebaseFields.join(", ")}. Until those are set the app runs the labelled demo
+                  workspace and stores nothing — run <code className="rounded bg-black/30 px-1">npm run check:firebase</code>.
+                </p>
+              </div>
+            )}
+
             <form onSubmit={submit} className="space-y-4">
               {mode === "signup" && (
                 <Field label="Full name">
@@ -228,6 +239,32 @@ export default function EnterWorkspace() {
           </p>
         </div>
       </div>
+
+      {/* Operator checklist. Shown only once a real project is wired, so it
+          reads as "finish these three things", not as a wall of setup for
+          somebody who just wants to look around. */}
+      {firebaseReady && (
+        <Panel className="mx-auto mt-10 w-full max-w-4xl p-5">
+          <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#e9f3f5]/45">
+            Finishing a live deployment
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            {LIVE_SETUP_STEPS.map((step) => (
+              <div key={step.title} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-3.5">
+                <p className="text-sm font-bold">{step.title}</p>
+                <p className="mt-1 text-xs leading-5 text-[#e9f3f5]/55">{step.body}</p>
+                <code className="mt-2 block overflow-x-auto rounded bg-black/30 px-2 py-1.5 text-[10px] text-emerald-200/90">
+                  {step.command}
+                </code>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-[11px] leading-5 text-[#e9f3f5]/40">
+            Full list in docs/PRODUCTION_READINESS.md §4. Nothing in this app grants a role or a plan by itself —
+            claims come from the trusted backend, entitlements from a verified payment webhook.
+          </p>
+        </Panel>
+      )}
     </div>
   );
 }

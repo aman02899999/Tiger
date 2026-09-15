@@ -158,6 +158,7 @@ compile(
     "src/data/demoSeed.ts",
     "src/data/analytics.ts",
     "src/ui/tokens.ts",
+    "src/firebaseConfig.ts",
   ],
   SRC_BUILD,
   "src",
@@ -175,6 +176,7 @@ const D = await import(join(SRC_BUILD, "data/datasource.js"));
 const R = await import(join(SRC_BUILD, "data/repos.js"));
 const SEED = await import(join(SRC_BUILD, "data/demoSeed.js"));
 const TOKENS = await import(join(SRC_BUILD, "ui/tokens.js"));
+const FIREBASE = await import(join(SRC_BUILD, "firebaseConfig.js"));
 const VERIFY = await import(join(FN_BUILD, "verification.js"));
 
 const GYM = SEED.DEMO_GYM_ID;
@@ -1018,6 +1020,127 @@ await testAsync("a member with no entitlement is not silently upgraded", async (
   const member = new R.TenantClient({ uid: "demo_client_20", role: "client", gymId: GYM, gymIds: [GYM] }, source, claimsFor("client"));
   const entitlement = await member.getEntitlement("demo_client_20");
   assert.ok(entitlement === null || entitlement.plan === "free" || entitlement.status !== "active", "a free member must not read as paid");
+});
+
+/* ═══════════════════════════════════════════════════════════════════
+   11. FIREBASE CONFIGURATION RESOLUTION
+   ═══════════════════════════════════════════════════════════════════ */
+
+group("11. Firebase configuration");
+
+/* A key whose name a reader may recognise from the Firebase console is not a
+   secret. The ONLY thing that makes this project safe is the rules; these
+   tests exist to prove that a missing or malformed value fails loudly
+   instead of silently degrading to the demo workspace. */
+
+const COMPLETE_ENV = {
+  VITE_FIREBASE_API_KEY: "AIzaSyDFtXvgaVv5vDKlrtEluuAopXjUtRgTuqE",
+  VITE_FIREBASE_AUTH_DOMAIN: "tiger-fitness-pro-2f047.firebaseapp.com",
+  VITE_FIREBASE_PROJECT_ID: "tiger-fitness-pro-2f047",
+  VITE_FIREBASE_STORAGE_BUCKET: "tiger-fitness-pro-2f047.firebasestorage.app",
+  VITE_FIREBASE_MESSAGING_SENDER_ID: "1018363378380",
+  VITE_FIREBASE_APP_ID: "1:1018363378380:web:0d25be6fb035948a9de069",
+  VITE_FIREBASE_MEASUREMENT_ID: "G-N0ZPLT3JXY",
+};
+
+test("a complete environment resolves to a live configuration", () => {
+  const resolved = FIREBASE.resolveFirebaseConfig(COMPLETE_ENV);
+  assert.equal(resolved.configured, true);
+  assert.deepEqual(resolved.missing, []);
+  assert.equal(resolved.analytics, true);
+  assert.equal(resolved.config.projectId, "tiger-fitness-pro-2f047");
+  assert.equal(resolved.config.storageBucket, "tiger-fitness-pro-2f047.firebasestorage.app");
+});
+
+test("measurementId is optional — Firebase documents it as such for v7.20+", () => {
+  const withoutAnalytics = { ...COMPLETE_ENV };
+  delete withoutAnalytics.VITE_FIREBASE_MEASUREMENT_ID;
+  const resolved = FIREBASE.resolveFirebaseConfig(withoutAnalytics);
+  assert.equal(resolved.configured, true, "analytics must not be able to disable the whole app");
+  assert.equal(resolved.analytics, false);
+  assert.equal(resolved.config.measurementId, undefined, "analytics must be skipped, not stubbed");
+});
+
+test("every required field is required, and named when absent", () => {
+  assert.deepEqual([...FIREBASE.REQUIRED_FIREBASE_FIELDS].sort(), [
+    "apiKey", "appId", "authDomain", "messagingSenderId", "projectId", "storageBucket",
+  ]);
+  for (const field of FIREBASE.REQUIRED_FIREBASE_FIELDS) {
+    const broken = { ...COMPLETE_ENV };
+    delete broken[FIREBASE.ENV_KEYS[field]];
+    const resolved = FIREBASE.resolveFirebaseConfig(broken);
+    assert.equal(resolved.configured, false, `removing ${field} must stop live mode`);
+    assert.deepEqual(resolved.missing, [field], `${field} must be named as the missing key`);
+  }
+  assert.equal(FIREBASE.resolveFirebaseConfig({}).configured, false, "an empty environment is not configured");
+  assert.equal(FIREBASE.resolveFirebaseConfig({}).missing.length, 6);
+});
+
+test("a whitespace-only value counts as missing", () => {
+  const resolved = FIREBASE.resolveFirebaseConfig({ ...COMPLETE_ENV, VITE_FIREBASE_API_KEY: "   " });
+  assert.equal(resolved.configured, false);
+  assert.deepEqual(resolved.missing, ["apiKey"]);
+});
+
+test("a missing storage bucket stops live mode instead of guessing one", () => {
+  /* Two bucket names exist and only the console knows which is right, so a
+     guess would fail later as an opaque storage error. Refuse instead. */
+  const withoutBucket = { ...COMPLETE_ENV };
+  delete withoutBucket.VITE_FIREBASE_STORAGE_BUCKET;
+  const resolved = FIREBASE.resolveFirebaseConfig(withoutBucket);
+  assert.equal(resolved.configured, false);
+  assert.deepEqual(resolved.missing, ["storageBucket"]);
+  assert.equal(resolved.config.storageBucket, "", "the resolver must not invent a bucket");
+
+  assert.equal(FIREBASE.suggestStorageBucket("proj-1"), "proj-1.firebasestorage.app");
+  assert.equal(FIREBASE.suggestStorageBucket("proj-1", "appspot"), "proj-1.appspot.com");
+  assert.equal(FIREBASE.suggestStorageBucket(""), "", "no project, no suggestion");
+});
+
+test("cross-field mismatches are caught, not just missing values", () => {
+  /* The resolver answers "is it complete?". `inspectFirebaseConfig` answers
+     "does it make sense?" — the same function `npm run check:firebase` runs,
+     so the doctor and this suite can never disagree. */
+  const clean = FIREBASE.inspectFirebaseConfig(COMPLETE_ENV);
+  assert.equal(clean.resolved.configured, true);
+  assert.deepEqual(clean.issues, [], "the shipped configuration must be clean");
+
+  const foreignBucket = FIREBASE.inspectFirebaseConfig({ ...COMPLETE_ENV, VITE_FIREBASE_STORAGE_BUCKET: "someone-elses.appspot.com" });
+  assert.ok(
+    foreignBucket.issues.some((issue) => issue.field === "storageBucket" && issue.level === "bad"),
+    "a bucket belonging to another project is a hard error",
+  );
+
+  const swappedSender = FIREBASE.inspectFirebaseConfig({ ...COMPLETE_ENV, VITE_FIREBASE_MESSAGING_SENDER_ID: "999999999999" });
+  assert.ok(
+    swappedSender.issues.some((issue) => issue.field === "appId" && issue.level === "bad"),
+    "an app id from a different project is a hard error",
+  );
+
+  const truncatedKey = FIREBASE.inspectFirebaseConfig({ ...COMPLETE_ENV, VITE_FIREBASE_API_KEY: "AIzaShort" });
+  assert.ok(truncatedKey.issues.some((issue) => issue.field === "apiKey"), "a truncated key is flagged");
+
+  const customDomain = FIREBASE.inspectFirebaseConfig({ ...COMPLETE_ENV, VITE_FIREBASE_AUTH_DOMAIN: "app.tigerfitpro.in" });
+  assert.ok(
+    customDomain.issues.some((issue) => issue.field === "authDomain" && issue.level === "warn"),
+    "a custom auth domain warns rather than fails",
+  );
+
+  const badAnalytics = FIREBASE.inspectFirebaseConfig({ ...COMPLETE_ENV, VITE_FIREBASE_MEASUREMENT_ID: "not-a-stream" });
+  assert.ok(badAnalytics.issues.some((issue) => issue.field === "measurementId"), "a malformed stream id is flagged");
+});
+
+test("the configuration check names the project when live, and the gaps when not", () => {
+  assert.match(FIREBASE.describeFirebaseConfig(COMPLETE_ENV), /live project tiger-fitness-pro-2f047/);
+  const demo = FIREBASE.describeFirebaseConfig({ VITE_FIREBASE_PROJECT_ID: "p" });
+  assert.match(demo, /demo workspace/);
+  assert.match(demo, /VITE_FIREBASE_API_KEY/, "the operator is told exactly which value to set");
+});
+
+test("the shipped .env.example documents every key the resolver reads", () => {
+  const example = readFileSync(join(ROOT, ".env.example"), "utf8");
+  const missing = FIREBASE.REQUIRED_FIREBASE_FIELDS.filter((field) => !example.includes(FIREBASE.ENV_KEYS[field]));
+  assert.deepEqual(missing, [], `these keys are required but undocumented: ${missing.join(", ")}`);
 });
 
 /* ── report ─────────────────────────────────────────────────────── */

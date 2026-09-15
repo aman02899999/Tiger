@@ -10,6 +10,24 @@ cp .env.example .env.local        # optional — without it the app runs the lab
 npm run dev
 ```
 
+## Firebase
+
+This checkout is wired to project **`tiger-fitness-pro-2f047`** through `.env.local` (git-ignored —
+a Firebase web config is public by design and is never a credential) and `.firebaserc`.
+
+```bash
+npm run check:firebase   # structure + project files + live probes (needs Google HTTPS)
+npm run fb -- login      # firebase-tools via npx, no global install
+npm run deploy:rules     # firestore + storage rules + indexes
+npm run deploy:functions # trusted backend (claims, entitlements, webhook)
+npm run deploy:hosting   # build + deploy the app
+npm run emulators        # auth · functions · firestore · storage · hosting + UI
+```
+
+The sign-in screen reports live/demo state and lists what is left to configure; a live session that
+cannot read its data now says why instead of bouncing back to the login form. Remaining project
+actions are listed in `docs/PRODUCTION_READINESS.md` §4.
+
 ## Quality gate
 
 ```bash

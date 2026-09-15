@@ -324,10 +324,59 @@ function Splash({ message = "Preparing your workspace" }: { message?: string }) 
   );
 }
 
+/**
+ * A live session that cannot read its own data. On a brand-new project this
+ * is almost always undeployed rules, and the previous behaviour — silently
+ * returning the user to the sign-in screen — made a configuration problem
+ * look like a broken password. Say what happened and what fixes it.
+ */
+function BlockedByData({ message, code }: { message: string; code: string }) {
+  return (
+    <div className="grid min-h-screen place-items-center bg-[#04070e] px-6">
+      <div className="w-full max-w-xl rounded-2xl border border-amber-300/25 bg-amber-300/[0.06] p-7">
+        <p className="text-[11px] font-black uppercase tracking-[0.22em] text-amber-100">
+          Signed in, data unavailable
+        </p>
+        <p className="mt-3 text-lg font-bold text-[#e9f3f5]">Your account works; its records could not be read.</p>
+        <p className="mt-2 text-sm leading-6 text-[#e9f3f5]/70">{message}</p>
+        <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-[#e9f3f5]/40">Firebase error: {code}</p>
+
+        <ol className="mt-5 space-y-2 text-sm text-[#e9f3f5]/75">
+          <li>
+            <span className="font-bold">1.</span> Deploy the security model:{" "}
+            <code className="rounded bg-black/35 px-1.5 py-0.5 text-xs text-emerald-200">npm run deploy:rules</code>
+          </li>
+          <li>
+            <span className="font-bold">2.</span> Confirm the wiring:{" "}
+            <code className="rounded bg-black/35 px-1.5 py-0.5 text-xs text-emerald-200">npm run check:firebase</code>
+          </li>
+          <li>
+            <span className="font-bold">3.</span> Reload this page. Your session is still valid.
+          </li>
+        </ol>
+
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Button onClick={() => window.location.reload()}>Reload</Button>
+          <button
+            type="button"
+            onClick={() => {
+              window.location.hash = "";
+            }}
+            className="rounded-full border border-white/15 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-[#e9f3f5]/70 hover:bg-white/5"
+          >
+            Back to sign in
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function WorkspaceRouter() {
-  const { user, authLoading, session } = useAuth();
+  const { user, authLoading, session, dataError } = useAuth();
 
   if (authLoading) return <Splash />;
+  if (dataError && !user) return <BlockedByData message={dataError.message} code={dataError.code} />;
   if (!user || !session) return <EnterWorkspace />;
   if (!user.onboardingComplete && session.claims.role === "client") {
     return <OnboardingWizard onComplete={() => undefined} />;

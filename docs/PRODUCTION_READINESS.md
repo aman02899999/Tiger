@@ -63,18 +63,57 @@ drifted index fails the run and therefore CI.
 
 ## 4. Manual configuration required before going live
 
-1. **Firebase project** — create it, then set `VITE_FIREBASE_*` (see `.env.example`).
-2. **Deploy the security model** — `firebase deploy --only firestore:rules,storage:rules,firestore:indexes`.
-3. **Bootstrap the first admin** — `node functions/scripts/bootstrap-admin.mjs you@company.com`
-   (needs `GOOGLE_APPLICATION_CREDENTIALS`). There is no endpoint that can do this.
-4. **Payment provider** — `firebase functions:secrets:set RAZORPAY_KEY_ID|RAZORPAY_KEY_SECRET|RAZORPAY_WEBHOOK_SECRET`,
-   then `firebase deploy --only functions` and register the webhook URL for
-   `payment.captured`, `payment.failed`, `refund.processed`.
-5. **Provision the first gym** — call `adminProvisionGym` (or `TenantClient` as `super_admin`), then
-   invite the owner and trainers from the gym console.
-6. **Android signing** — place the release SHA-256 in `public/.well-known/assetlinks.json`.
-7. **Optional providers** — weather/AQI/geocoding/currency keys are off by default and are not required
+### 4.0 Current state of the wired project
+
+| Item | Value | State |
+|---|---|---|
+| Project | `tiger-fitness-pro-2f047` | configured in `.env.local` (git-ignored) and `.firebaserc` |
+| Hosting targets | `tiger-fitness-pro-2f047-c4f21` (`main`) | declared in `firebase.json` |
+| Client config | `VITE_FIREBASE_*` | **done** — six required values, mutually consistent |
+| Sign-in screen | live mode + operator checklist | verified: the dev server inlines the real project id |
+| Firestore rules | `firestore.rules` | **not deployed yet** (step 2) |
+| Storage rules | `storage.rules` | **not deployed yet** (step 2) |
+| Composite indexes | `firestore.indexes.json` (22) | **not deployed yet** (step 2) |
+| Cloud Functions | `functions/` | **not deployed** (step 5) |
+| First `super_admin` | — | **not created** (step 3) |
+
+Check all of this from your own machine — the pass-3 probes need outbound HTTPS to Google, which
+sandboxes and CI usually block:
+
+```bash
+npm run check:firebase
+```
+
+### 4.1 Steps
+
+1. **Sign in to the CLI** — `npm run fb -- login` (aliases `npx firebase-tools@latest`).
+2. **Deploy the security model** — `npm run deploy:rules`.
+   *Until this runs, Firestore and Storage answer with the default deny. That is the safe failure, and
+   the app now says so instead of bouncing you back to the sign-in screen.*
+3. **Create your own account** through the app's sign-up screen, then promote it once, locally:
+   `export GOOGLE_APPLICATION_CREDENTIALS=/path/service-account.json && node functions/scripts/bootstrap-admin.mjs you@example.com`
+   There is no endpoint that can do this — by design.
+4. **Authorise the domains you serve from** — Firebase Console → Authentication → Settings →
+   Authorized domains. Add `localhost`, your hosting domain, and any preview/staging host; otherwise
+   Google pop-up sign-in fails with `auth/unauthorized-domain` (the app now names that error).
+5. **Payment provider** — `firebase functions:secrets:set RAZORPAY_KEY_ID|RAZORPAY_KEY_SECRET|RAZORPAY_WEBHOOK_SECRET`,
+   then `npm run deploy:functions` and register the printed URL as a webhook for
+   `payment.captured`, `payment.failed` and `refund.processed`.
+6. **Provision the first gym** — in the platform console (or `adminProvisionGym`), then invite the
+   owner and trainers.
+7. **Hosting** — `npm run deploy:hosting`, or `npm run deploy:all` for everything at once.
+8. **Android signing** — place the release SHA-256 in `public/.well-known/assetlinks.json`.
+9. **Optional providers** — weather/AQI/geocoding/currency keys are off by default and are not required
    for the coaching loop.
+
+### 4.2 Local emulators (no cloud project needed)
+
+```bash
+npm run emulators      # auth 9099 · functions 5001 · firestore 8080 · storage 9199 · hosting 5000 · UI 4000
+```
+
+The emulator suite is the only place the repository-level isolation proofs can be exercised against
+real Firestore rules; `scripts/test-saas.mjs` currently uses the in-memory `DemoSource` instead.
 
 Until step 4 is complete, `createCheckout` fails with `failed-precondition` and the UI states:
 *"Payment verification is not configured in this environment. Nothing was charged and no plan changed."*
