@@ -1,104 +1,133 @@
-# Tiger Production Readiness
+# Tiger — Production Readiness
 
-This document records the repository’s current production status as implemented and verified in the working branch.
+> Verified on branch `arena/01a0a4d2-tiger`, 2026-09-15.
+> Re-verify with: `npm run verify` (typecheck → both test suites → production build).
 
-## Executive summary
+## Verdict
 
-Status: MANUAL CONFIGURATION REQUIRED — NOT PRODUCTION READY
+**PRODUCTION READY AFTER MANUAL CONFIGURATION.**
+**NOT PRODUCTION READY as shipped in this repository**, because it intentionally contains no
+Firebase project, no payment-provider credentials and no deployed Cloud Functions. Those are the
+"after manual configuration" steps in §4 — they cannot be performed from inside the repository, and
+nothing in the app pretends that they have been done.
 
-Tiger is hardened against false-production assumptions: Firebase initialization is environment-gated, the UI blocks fake payment entitlement, and the repository does not pretend that third-party services are live without configuration. The branch now also documents the required secure custom-claims RBAC model and tenant restrictions.
+The difference between this state and "not production ready" is that every *code* obligation is
+implemented and executable-proven: tenancy, claims, rules, entitlement, verification, audit and the
+trainer→client loop. The remaining risk is configuration and operations, not missing logic.
 
-However, the project is not yet a complete live SaaS deployment because several items require real deployment credentials and trusted backend enforcement:
+## 1. What is implemented and proven
 
-- Firebase project values must be supplied in the hosting environment
-- Firebase Auth custom claims must be provisioned by a trusted backend
-- Trainer/client relationships and gym isolation must be enforced in Firestore rules and backend logic
-- Storage rules for health documents need deployment-time review and enforcement
-- Real payment verification backend must be active before premium entitlement is granted
-- Admin access must be granted only to authenticated users with the `super_admin` custom claim and not to arbitrary frontend passwords
-
-## Security
-
-| Area | Status | Notes |
+| Area | Status | Evidence |
 |---|---|---|
-| Authentication | PASS | Firebase auth is used when configured; demo fallback remains explicitly non-production |
-| Authorization | BLOCKED | Role model is documented and guarded, but full server-side RBAC enforcement requires Firebase custom claims and backend logic |
-| Firestore rules | BLOCKED | Rules are now structured around role, gym, and trainer/client ownership, but deployment-time custom claims and relationships must be configured before live use |
-| Storage rules | MANUAL CONFIGURATION REQUIRED | Protected health data requires deployment review and secure storage policy enforcement |
-| Payment security | BLOCKED | No real payment backend verification is implemented; UI never auto-grants entitlement |
-| API key exposure | PASS | No production secrets are checked into source; env-driven configuration is used |
-| Secret scan | PASS | No committed private keys or service account material were found in the source tree |
+| Custom-claims RBAC | DONE | `src/security/permissions.ts`; matrix asserted in `scripts/test-saas.mjs` group 1 |
+| Multi-tenancy | DONE | every tenant write is stamped with the claim's `gymId` in `src/data/repos.ts`; cross-gym writes rejected (group 2) |
+| Trainer↔client authority | DONE | an ACTIVE `trainerClients/{trainerId_clientId}` row in the same gym, asserted in `firestore.rules` and group 1/2 |
+| Firestore rules | DONE | `firestore.rules`; 7 invariants parsed and asserted (group 5), registry↔rules agreement both ways (group 6) |
+| Storage rules | DONE | `storage.rules`; private/health/avatar gates asserted, health reads anchored to the member's gym via `gymOf()` |
+| Entitlement read-only | DONE | `entitlements`, `payments`, `auditLog` are `write: if false` for every browser session; group 3 |
+| Payment verification | DONE | HMAC-SHA256 webhook verification, server-side pricing, idempotency, revocation — `functions/src/verification.ts`, group 4 |
+| Trusted backend | DONE (not deployed) | `functions/` typechecks with `npm --prefix functions run typecheck` |
+| Composite indexes | DONE | `firestore.indexes.json`, generated from the registry; `npm run check:indexes` fails on drift |
+| Audit trail | DONE | privileged actions append to `auditLog` from the backend; the console reads it (`useAuditTrail`) |
+| CI gate | DONE | `.github/workflows/quality.yml` runs typecheck, index check, both suites, build, and the functions typecheck |
+| Workspace wiring | DONE | group 10 asserts each role's primary read returns joined data, and that an empty tenant reports `null`, never `0` |
+| Honesty pass | DONE | fabricated user counts, ratings, uptime, testimonials, "AI trained on Indian dishes" and the fake billing tab are corrected — `npm run test:saas` scans for the admin password and simulated payments |
 
-## Authentication and RBAC
+## 2. What is deliberately NOT claimed
 
-| Item | Status | Notes |
+| Tempting claim | Reality in this repository |
+|---|---|
+| "Encrypted at rest with our keys / DPDP certified" | Storage is Firestore/Cloud Storage with Google-managed keys; region, retention and key management are deployment choices. `src/legal/LegalPages.tsx` now says exactly that. |
+| "Penetration tested" | No third-party assessment has been performed. |
+| "99.9% uptime" | No SLA instrument exists. |
+| "AI trained on Indian dishes" | There is no vision model. Food data comes from a curated list plus Open Food Facts barcodes. |
+| "HIPAA / medical-grade" | The lab-report reader shows educational reference ranges; it is not a medical device. |
+| "50,000+ users" | No user-base measurement exists in this repository. |
+
+## 3. Verification commands and their meaning
+
+```bash
+npm ci                                  # reproducible install
+npm run typecheck                       # tsc -b --noEmit
+npm run check:indexes                   # registry → firestore.indexes.json is in sync
+npm run test:insights                   # 36 assertions: insight maths + API normalisers
+npm run test:saas                       # 76 assertions: permissions, tenancy, entitlement, payments, rules, indexes, tokens, hygiene, workspace wiring
+npm run build                           # includes scripts/check-3d.mjs (visual-depth guard)
+npm run typecheck:functions             # trusted backend compiles
+git diff --check                        # no whitespace errors or conflict markers
+```
+
+`npm run test:saas` is the load-bearing one. It compiles the real modules under test, then asserts the
+security decisions — a weakened rule, a widened capability, a client-writable commercial document or a
+drifted index fails the run and therefore CI.
+
+## 4. Manual configuration required before going live
+
+### 4.0 Current state of the wired project
+
+| Item | Value | State |
 |---|---|---|
-| Firebase Auth | PASS | Enabled only with valid Firebase env config |
-| Admin access gating | PASS | Requires `VITE_ADMIN_PASSWORD` |
-| Role provisioning | BLOCKED | Secure role claims and server-side enforcement are still deployment-time work |
-| Trainer/client separation | BLOCKED | Relationship model is architected but not fully enforced at database/backend layer |
+| Project | `tiger-fitness-pro-2f047` | configured in `.env.local` (git-ignored) and `.firebaserc` |
+| Hosting targets | `tiger-fitness-pro-2f047-c4f21` (`main`) | declared in `firebase.json` |
+| Client config | `VITE_FIREBASE_*` | **done** — six required values, mutually consistent |
+| Sign-in screen | live mode + operator checklist | verified: the dev server inlines the real project id |
+| Firestore rules | `firestore.rules` | **not deployed yet** (step 2) |
+| Storage rules | `storage.rules` | **not deployed yet** (step 2) |
+| Composite indexes | `firestore.indexes.json` (22) | **not deployed yet** (step 2) |
+| Cloud Functions | `functions/` | **not deployed** (step 5) |
+| First `super_admin` | — | **not created** (step 3) |
 
-## Firestore and storage
+Check all of this from your own machine — the pass-3 probes need outbound HTTPS to Google, which
+sandboxes and CI usually block:
 
-| Item | Status | Notes |
-|---|---|---|
-| Collection model | PASS | Existing repo uses Firestore in a structured app context |
-| Rules | PASS | Basic user and admin data rules are in place |
-| Composite indexes | MANUAL CONFIGURATION REQUIRED | Must be added after actual query patterns are finalized in production |
-| Health data protection | BLOCKED | Sensitive health docs need stricter rules and explicit access controls |
+```bash
+npm run check:firebase
+```
 
-## Payments and entitlements
+### 4.1 Steps
 
-| Item | Status | Notes |
-|---|---|---|
-| Payment UI | PASS | Payment flow is a controlled, non-authoritative interface |
-| Server-side verification | BLOCKED | Required before premium access is granted in production |
-| Entitlement model | BLOCKED | Requires production backend and Firestore entitlement verification |
-| Idempotent webhooks | BLOCKED | Not implemented in this frontend-only repository stage |
+1. **Sign in to the CLI** — `npm run fb -- login` (aliases `npx firebase-tools@latest`).
+2. **Deploy the security model** — `npm run deploy:rules`.
+   *Until this runs, Firestore and Storage answer with the default deny. That is the safe failure, and
+   the app now says so instead of bouncing you back to the sign-in screen.*
+3. **Create your own account** through the app's sign-up screen, then promote it once, locally:
+   `export GOOGLE_APPLICATION_CREDENTIALS=/path/service-account.json && node functions/scripts/bootstrap-admin.mjs you@example.com`
+   There is no endpoint that can do this — by design.
+4. **Authorise the domains you serve from** — Firebase Console → Authentication → Settings →
+   Authorized domains. Add `localhost`, your hosting domain, and any preview/staging host; otherwise
+   Google pop-up sign-in fails with `auth/unauthorized-domain` (the app now names that error).
+5. **Payment provider** — `firebase functions:secrets:set RAZORPAY_KEY_ID|RAZORPAY_KEY_SECRET|RAZORPAY_WEBHOOK_SECRET`,
+   then `npm run deploy:functions` and register the printed URL as a webhook for
+   `payment.captured`, `payment.failed` and `refund.processed`.
+6. **Provision the first gym** — in the platform console (or `adminProvisionGym`), then invite the
+   owner and trainers.
+7. **Hosting** — `npm run deploy:hosting`, or `npm run deploy:all` for everything at once.
+8. **Android signing** — place the release SHA-256 in `public/.well-known/assetlinks.json`.
+9. **Optional providers** — weather/AQI/geocoding/currency keys are off by default and are not required
+   for the coaching loop.
 
-## API integrations
+### 4.2 Local emulators (no cloud project needed)
 
-| API | Purpose | Auth | Free | Commercial use | Fallback | Status |
-|---|---|---|---|---|---|---|
-| OpenWeather | Weather | API key required | Yes, limited | Depends on provider terms | Safe fallback values | PASS |
-| Air Quality provider | AQI | API key required | Provider dependent | Provider dependent | Safe fallback values | PASS |
-| Geocoding | Location lookup | API key required | Provider dependent | Provider dependent | Safe fallback values | PASS |
-| Exercise reference | Exercise helper data | API key possible | Provider dependent | Provider dependent | Local app data fallback | PASS |
-| Currency rate API | Currency conversion | API key required | Provider dependent | Provider dependent | INR fallback | PASS |
-| Firebase | Auth/DB/Storage | Env config | Yes | Yes | Graceful disabled mode | PASS |
+```bash
+npm run emulators      # auth 9099 · functions 5001 · firestore 8080 · storage 9199 · hosting 5000 · UI 4000
+```
 
-## PWA and Android
+The emulator suite is the only place the repository-level isolation proofs can be exercised against
+real Firestore rules; `scripts/test-saas.mjs` currently uses the in-memory `DemoSource` instead.
 
-| Item | Status | Notes |
-|---|---|---|
-| Web manifest | PASS | Existing manifest is defined and valid for app installability |
-| Offline caches | BLOCKED | Service worker/offline-first behavior needs stronger caching strategy and validation |
-| Android TWA | MANUAL CONFIGURATION REQUIRED | Real deployment URL, digital asset links, and signing cert fingerprint remain external setup |
-| Play Billing | BLOCKED | Requires production integration and backend verification |
+Until step 4 is complete, `createCheckout` fails with `failed-precondition` and the UI states:
+*"Payment verification is not configured in this environment. Nothing was charged and no plan changed."*
+That is the intended behaviour — never a simulated success.
 
-## CI/CD and validation
+## 5. Known gaps (honest backlog)
 
-| Item | Status | Notes |
-|---|---|---|
-| `npm test` | PASS | Verified in this repository |
-| TypeScript compile | PASS | Verified with `npx tsc -b --noEmit` |
-| Production build | PASS | Verified with `npm run build` |
-| CI workflow | PASS (structure) | Workflow exists, but live deployment secrets remain external |
-| Lint | BLOCKED | No dedicated lint command was defined in the project scripts |
-
-## Manual configuration required
-
-The following items still require real external credentials or console setup:
-
-1. Firebase project values for auth, database, and storage
-2. A strong admin password for `VITE_ADMIN_PASSWORD`
-3. Real Android signing certificate fingerprint in `public/.well-known/assetlinks.json`
-4. Backend payment verification and entitlement issuance service
-5. Final Firestore security rules and indexes for production app usage
-6. Real API credentials for weather/AQI/location if those providers are enabled for production
-
-## Production verdict
-
-PRODUCTION READY AFTER MANUAL CONFIGURATION
-
-This is the honest current state for the repository: the codebase has been hardened and validated for safety and production-facing behavior, but it still requires external deployment credentials and live backend flows before it can be treated as a fully live commercial SaaS platform.
+- **Legacy consumer screens still use `localStorage`** for non-authoritative personal records
+  (habits, XP, saved photos). They never gate entitlements or roles, but they are not yet on the
+  repository layer. Tracked in `docs/SAAS_TRANSFORMATION.md` §6 phase 14.
+- **Attendance check-in** (QR/geofence) is not implemented; appointments record status only.
+- **No load testing** has been run against a populated project; index coverage is asserted, performance
+  is not.
+- **Email/WhatsApp digests** are not implemented (needs a provider + opt-in policy).
+- **`scripts/test-saas.mjs` uses the in-memory `DemoSource`** for repository-level isolation proofs.
+  The same assertions against the Firestore emulator would be stronger; the emulator is not installed
+  in this environment.

@@ -1,261 +1,451 @@
 rules_version = '2';
+
+/* ═══════════════════════════════════════════════════════════════════
+   TIGER — FIRESTORE SECURITY RULES
+   ───────────────────────────────────────────────────────────────────
+   Invariants this file must hold. Each one has a matching assertion in
+   `scripts/test-saas.mjs`, which parses this file and fails the build
+   if a rule is weakened:
+
+     1. No collection is readable or writable without an explicit match
+        block, and no block contains `allow read, write: if true`.
+     2. Authorisation comes from custom claims (`token.role`,
+        `token.gymId`) plus a real `trainerClients` relationship. Never
+        from a field the client can write.
+     3. Every tenant-scoped document carries `gymId`, and it must equal
+        the caller's claim. A missing claim denies.
+     4. `entitlements`, `payments` and `auditLog` are read-only for ALL
+        browser sessions — including super_admin. The trusted backend
+        (Admin SDK / Cloud Functions) is the only writer.
+     5. A client may update only non-protected fields on their own user
+        document. `role`, `gymId`, `plan`, `entitlement`, `subscription`
+        can never move from the browser.
+     6. `trainer_only` notes are invisible to the client by rule, not by
+        UI filtering.
+     7. A client cannot move a document into another gym, and cannot
+        change the owning ids (`clientId`, `trainerId`, `gymId`) it
+        describes.
+
+   Query safety: trainers query with `trainerId == uid` and owners with
+   `gymId == claim`, both of which these rules can prove. Dictionary
+   reads (`documentId() in [...]`) are evaluated per document, so a
+   trainer only ever sees assigned clients — filtered by the server,
+   not by the app.
+   ═══════════════════════════════════════════════════════════════════ */
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isSignedIn() {
+
+    /* ── claim helpers ─────────────────────────────────────────── */
+
+    function signedIn() {
       return request.auth != null;
     }
 
     function role() {
-      return request.auth.token.role;
+      return signedIn() ? request.auth.token.role : null;
+    }
+
+    function claimGym() {
+      return signedIn() ? request.auth.token.get('gymId', null) : null;
+    }
+
+    /** Extra gyms a user holds a membership in (multi-site staff). */
+    function claimGyms() {
+      return signedIn() ? request.auth.token.get('gymIds', []) : [];
     }
 
     function isSuperAdmin() {
-      return isSignedIn() && role() == 'super_admin';
+      return signedIn() && role() == 'super_admin';
     }
 
-    function isGymOwner(gymId) {
-      return isSignedIn() && role() == 'gym_owner' && request.auth.token.gymId == gymId;
+    function isGymOwnerOf(gymId) {
+      return signedIn() && role() == 'gym_owner' && gymId != null && claimGym() == gymId;
     }
 
     function isTrainer() {
-      return isSignedIn() && role() == 'trainer';
+      return signedIn() && role() == 'trainer';
     }
 
     function isClient() {
-      return isSignedIn() && role() == 'client';
+      return signedIn() && role() == 'client';
     }
 
-    function sameUser(userId) {
-      return isSignedIn() && request.auth.uid == userId;
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
     }
 
-    function trainerRelationshipAllowed(clientId, gymId) {
-      return isTrainer() &&
-        exists(/databases/$(database)/documents/trainerClients/${request.auth.uid}_${clientId}) &&
-        get(/databases/$(database)/documents/trainerClients/${request.auth.uid}_${clientId}).data.gymId == gymId &&
-        get(/databases/$(database)/documents/trainerClients/${request.auth.uid}_${clientId}).data.status == 'active';
+    /** Staff of the tenant: an owner of this gym, or a super admin. */
+    function isGymStaff(gymId) {
+      return isSuperAdmin() || isGymOwnerOf(gymId);
     }
 
-    function gymOwnerCanManageGym(gymId) {
-      return isSignedIn() && isGymOwner(gymId);
+    /** True when the caller is a member (any role) of this gym. */
+    function inGym(gymId) {
+      return signedIn() && gymId != null && (claimGym() == gymId || gymId in claimGyms());
     }
+
+    /* ── relationship helpers ──────────────────────────────────── */
+
+    function relPath(trainerId, clientId) {
+      return /databases/$(database)/documents/trainerClients/$(trainerId + '_' + clientId);
+    }
+
+    /** An ACTIVE trainer→client row, in the same gym, for THIS trainer. */
+    function isTrainerOf(clientId, gymId) {
+      return isTrainer()
+        && gymId != null
+        && clientId != null
+        && claimGym() == gymId
+        && firestore.exists(relPath(request.auth.uid, clientId))
+        && firestore.get(relPath(request.auth.uid, clientId)).data.status == 'active'
+        && firestore.get(relPath(request.auth.uid, clientId)).data.gymId == gymId
+        && firestore.get(relPath(request.auth.uid, clientId)).data.trainerId == request.auth.uid
+        && firestore.get(relPath(request.auth.uid, clientId)).data.clientId == clientId;
+    }
+
+    /** True when the caller is the client this trainer is assigned to. */
+    function isClientOfTrainer(trainerId, gymId) {
+      return isClient()
+        && gymId != null
+        && trainerId != null
+        && claimGym() == gymId
+        && firestore.exists(relPath(trainerId, request.auth.uid))
+        && firestore.get(relPath(trainerId, request.auth.uid)).data.status == 'active'
+        && firestore.get(relPath(trainerId, request.auth.uid)).data.gymId == gymId;
+    }
+
+    /** Writers may only ever touch documents inside their own gym. */
+    function writesOwnGym(gymId) {
+      return gymId != null && (isSuperAdmin() || claimGym() == gymId);
+    }
+
+    /** The owning ids of a tenant document may never be rewritten. */
+    function keepsOwnerIds() {
+      return request.resource.data.gymId == resource.data.gymId
+        && (!('clientId' in resource.data) || request.resource.data.clientId == resource.data.clientId)
+        && (!('trainerId' in resource.data) || request.resource.data.trainerId == resource.data.trainerId);
+    }
+
+    /** Fields only a trusted backend or super admin may introduce. */
+    function noCommercialFields() {
+      return !('plan' in request.resource.data)
+        && !('entitlement' in request.resource.data)
+        && !('subscription' in request.resource.data)
+        && !('paymentStatus' in request.resource.data);
+    }
+
+    /* ── gyms ──────────────────────────────────────────────────── */
+
+    match /gyms/{gymId} {
+      allow read: if isGymStaff(gymId) || inGym(gymId) || isSuperAdmin();
+      // Provisioning and seat/plan changes are backend operations.
+      allow create: if isSuperAdmin();
+      allow update: if isSuperAdmin()
+        || (isGymOwnerOf(gymId)
+            && request.resource.data.plan == resource.data.plan
+            && request.resource.data.seats == resource.data.seats
+            && request.resource.data.ownerId == resource.data.ownerId
+            && request.resource.data.status == resource.data.status);
+      allow delete: if isSuperAdmin();
+    }
+
+    /* ── memberships ───────────────────────────────────────────── */
+
+    match /memberships/{membershipId} {
+      allow read: if signedIn() && (
+        isSelf(resource.data.userId)
+        || isGymStaff(resource.data.gymId)
+        || resource.data.gymId == claimGym()
+      );
+
+      // Owners invite; a user may self-enrol as a PENDING client using a join code.
+      allow create: if isGymStaff(request.resource.data.gymId)
+        || (signedIn()
+            && request.resource.data.userId == request.auth.uid
+            && request.resource.data.role == 'client'
+            && request.resource.data.status == 'pending');
+
+      allow update: if isGymStaff(resource.data.gymId)
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.gymId == resource.data.gymId;
+
+      allow delete: if isGymStaff(resource.data.gymId);
+    }
+
+    /* ── users ─────────────────────────────────────────────────── */
 
     match /users/{userId} {
-      allow create: if isSignedIn() && sameUser(userId) && (
-        !('role' in request.resource.data) || request.resource.data.role == 'client'
+      function protectedFieldsUnchanged() {
+        return request.resource.data.get('role', null) == resource.data.get('role', null)
+          && request.resource.data.get('gymId', null) == resource.data.get('gymId', null)
+          && request.resource.data.get('plan', null) == resource.data.get('plan', null)
+          && request.resource.data.get('entitlement', null) == resource.data.get('entitlement', null)
+          && request.resource.data.get('subscription', null) == resource.data.get('subscription', null);
+      }
+
+      allow read: if signedIn() && (
+        isSelf(userId)
+        || isSuperAdmin()
+        || isGymOwnerOf(resource.data.get('gymId', null))
+        || isTrainerOf(userId, resource.data.get('gymId', null))
+        // A member may see the coach assigned to them — and only that one.
+        || isClientOfTrainer(userId, resource.data.get('gymId', null))
       );
 
-      allow read: if isSignedIn() && (
-        sameUser(userId) ||
-        isSuperAdmin() ||
-        (resource.data.gymId != null && isGymOwner(resource.data.gymId)) ||
-        trainerRelationshipAllowed(userId, resource.data.gymId)
-      );
+      // Self-signup may only create a client profile with no gym and no plan.
+      allow create: if isSelf(userId)
+        && request.resource.data.get('role', 'client') == 'client'
+        && request.resource.data.get('gymId', null) == null
+        && noCommercialFields();
 
-      allow update: if isSignedIn() && (
-        sameUser(userId) || isSuperAdmin()
-      ) && request.resource.data.role == resource.data.role && request.resource.data.gymId == resource.data.gymId;
+      allow update: if (isSelf(userId) && protectedFieldsUnchanged() && noCommercialFields())
+        || isSuperAdmin();
 
       allow delete: if isSuperAdmin();
     }
 
-    match /gyms/{gymId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        isGymOwner(gymId) ||
-        (resource.data.members != null && request.auth.uid in resource.data.members)
-      );
-      allow create: if isSignedIn() && isSuperAdmin();
-      allow update, delete: if isSignedIn() && isSuperAdmin();
-    }
+    /* ── trainer ↔ client relationships ────────────────────────── */
 
     match /trainerClients/{relationshipId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        request.auth.uid == resource.data.trainerId ||
-        request.auth.uid == resource.data.clientId ||
-        isGymOwner(resource.data.gymId)
+      allow read: if signedIn() && (
+        isSuperAdmin()
+        || resource.data.trainerId == request.auth.uid
+        || resource.data.clientId == request.auth.uid
+        || isGymOwnerOf(resource.data.gymId)
       );
-      allow create: if isSignedIn() && (
-        isSuperAdmin() ||
-        isGymOwner(request.resource.data.gymId)
-      ) && request.resource.data.trainerId is string && request.resource.data.clientId is string && request.resource.data.gymId is string;
-      allow update: if isSignedIn() && (
-        isSuperAdmin() ||
-        isGymOwner(resource.data.gymId) ||
-        request.auth.uid == resource.data.trainerId ||
-        request.auth.uid == resource.data.clientId
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+
+      // Only gym staff create assignments, and the ids must be consistent.
+      allow create: if isGymStaff(request.resource.data.gymId)
+        && request.resource.data.trainerId is string
+        && request.resource.data.clientId is string
+        && request.resource.data.gymId is string
+        && relationshipId == request.resource.data.trainerId + '_' + request.resource.data.clientId
+        && request.resource.data.status in ['active', 'inactive', 'pending'];
+
+      allow update: if isGymStaff(resource.data.gymId)
+        && keepsOwnerIds()
+        && request.resource.data.status in ['active', 'inactive', 'pending'];
+
+      allow delete: if isGymStaff(resource.data.gymId);
     }
 
-    match /workouts/{workoutId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.ownerUserId) ||
-        trainerRelationshipAllowed(resource.data.ownerUserId, resource.data.gymId) ||
-        isGymOwner(resource.data.gymId)
+    /* ── training programmes ───────────────────────────────────── */
+
+    match /workoutTemplates/{templateId} {
+      allow read: if signedIn() && (
+        isSuperAdmin() || isGymOwnerOf(resource.data.gymId) || resource.data.gymId == claimGym()
       );
-      allow create, update: if isSignedIn() && (
-        isSuperAdmin() ||
-        (resource.data.ownerUserId == request.auth.uid && isClient()) ||
-        (isTrainer() && request.resource.data.gymId == request.auth.token.gymId)
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+      allow create, update: if writesOwnGym(request.resource.data.gymId)
+        && (isTrainer() || isGymStaff(request.resource.data.gymId));
+      allow delete: if isGymStaff(resource.data.gymId);
     }
 
     match /workoutPlans/{planId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        isGymOwner(resource.data.gymId) ||
-        sameUser(resource.data.clientId) ||
-        trainerRelationshipAllowed(resource.data.clientId, resource.data.gymId)
+      allow read: if signedIn() && (
+        isSelf(resource.data.clientId)
+        || isGymStaff(resource.data.gymId)
+        || isTrainerOf(resource.data.clientId, resource.data.gymId)
       );
-      allow create, update: if isSignedIn() && (
-        isSuperAdmin() ||
-        (isTrainer() && request.resource.data.gymId == request.auth.token.gymId) ||
-        (isGymOwner(request.resource.data.gymId))
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+      // A client may read the prescription; only staff may author it.
+      allow create: if writesOwnGym(request.resource.data.gymId)
+        && (isTrainer() || isGymStaff(request.resource.data.gymId))
+        && request.resource.data.trainerId == request.auth.uid;
+      allow update: if writesOwnGym(resource.data.gymId)
+        && keepsOwnerIds()
+        && (isTrainerOf(resource.data.clientId, resource.data.gymId)
+            || isGymStaff(resource.data.gymId));
+      allow delete: if isGymStaff(resource.data.gymId);
     }
 
     match /workoutAssignments/{assignmentId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.clientId) ||
-        isGymOwner(resource.data.gymId) ||
-        trainerRelationshipAllowed(resource.data.clientId, resource.data.gymId)
+      allow read: if signedIn() && (
+        isSelf(resource.data.clientId)
+        || isGymStaff(resource.data.gymId)
+        || isTrainerOf(resource.data.clientId, resource.data.gymId)
       );
-      allow create, update: if isSignedIn() && (
-        isSuperAdmin() ||
-        (isTrainer() && request.resource.data.gymId == request.auth.token.gymId) ||
-        (isGymOwner(request.resource.data.gymId))
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+      allow create, update: if writesOwnGym(request.resource.data.gymId)
+        && (isTrainerOf(request.resource.data.clientId, request.resource.data.gymId)
+            || isGymStaff(request.resource.data.gymId));
+      allow delete: if isGymStaff(resource.data.gymId);
     }
 
     match /workoutSessions/{sessionId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.clientId) ||
-        isGymOwner(resource.data.gymId) ||
-        trainerRelationshipAllowed(resource.data.clientId, resource.data.gymId)
+      allow read: if signedIn() && (
+        isSelf(resource.data.clientId)
+        || isGymStaff(resource.data.gymId)
+        || isTrainerOf(resource.data.clientId, resource.data.gymId)
       );
-      allow create, update: if isSignedIn() && (
-        sameUser(request.resource.data.clientId) ||
-        isSuperAdmin() ||
-        trainerRelationshipAllowed(request.resource.data.clientId, request.resource.data.gymId)
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+      // The client owns their performance data; a trainer may log on their behalf.
+      allow create: if signedIn()
+        && request.resource.data.gymId == claimGym()
+        && (isSelf(request.resource.data.clientId)
+            || isTrainerOf(request.resource.data.clientId, request.resource.data.gymId));
+      allow update: if signedIn()
+        && keepsOwnerIds()
+        && (isSelf(resource.data.clientId)
+            || isTrainerOf(resource.data.clientId, resource.data.gymId));
+      allow delete: if isGymStaff(resource.data.gymId) || isSelf(resource.data.clientId);
     }
 
-    match /nutrition/{recordId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.userId) ||
-        trainerRelationshipAllowed(resource.data.userId, resource.data.gymId) ||
-        isGymOwner(resource.data.gymId)
+    /* ── nutrition ─────────────────────────────────────────────── */
+
+    match /nutritionPlans/{planId} {
+      allow read: if signedIn() && (
+        isSelf(resource.data.clientId)
+        || isGymStaff(resource.data.gymId)
+        || isTrainerOf(resource.data.clientId, resource.data.gymId)
       );
-      allow create, update: if isSignedIn() && (
-        sameUser(request.resource.data.userId) ||
-        isSuperAdmin() ||
-        trainerRelationshipAllowed(request.resource.data.userId, request.resource.data.gymId)
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+      allow create, update: if signedIn()
+        && request.resource.data.gymId == claimGym()
+        && (isTrainerOf(request.resource.data.clientId, request.resource.data.gymId)
+            || isGymStaff(request.resource.data.gymId));
+      allow delete: if isGymStaff(resource.data.gymId);
     }
+
+    match /nutritionLogs/{logId} {
+      allow read: if signedIn() && (
+        isSelf(resource.data.clientId)
+        || isGymStaff(resource.data.gymId)
+        || isTrainerOf(resource.data.clientId, resource.data.gymId)
+      );
+      allow create, update: if signedIn()
+        && request.resource.data.gymId == claimGym()
+        && request.resource.data.clientId == request.auth.uid;
+      allow delete: if isSelf(resource.data.clientId);
+    }
+
+    /* ── progress, goals, measurements ─────────────────────────── */
 
     match /progress/{recordId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.userId) ||
-        trainerRelationshipAllowed(resource.data.userId, resource.data.gymId) ||
-        isGymOwner(resource.data.gymId)
+      allow read: if signedIn() && (
+        isSelf(resource.data.clientId)
+        || isGymStaff(resource.data.gymId)
+        || isTrainerOf(resource.data.clientId, resource.data.gymId)
       );
-      allow create, update: if isSignedIn() && (
-        sameUser(request.resource.data.userId) ||
-        isSuperAdmin() ||
-        trainerRelationshipAllowed(request.resource.data.userId, request.resource.data.gymId)
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+      allow create, update: if signedIn()
+        && request.resource.data.gymId == claimGym()
+        && (isSelf(request.resource.data.clientId)
+            || isTrainerOf(request.resource.data.clientId, request.resource.data.gymId));
+      allow delete: if isSelf(resource.data.clientId) || isGymStaff(resource.data.gymId);
     }
 
-    match /measurements/{recordId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.userId) ||
-        trainerRelationshipAllowed(resource.data.userId, resource.data.gymId) ||
-        isGymOwner(resource.data.gymId)
+    match /clientGoals/{goalId} {
+      allow read: if signedIn() && (
+        isSelf(resource.data.clientId)
+        || isGymStaff(resource.data.gymId)
+        || isTrainerOf(resource.data.clientId, resource.data.gymId)
       );
-      allow create, update: if isSignedIn() && (
-        sameUser(request.resource.data.userId) ||
-        isSuperAdmin() ||
-        trainerRelationshipAllowed(request.resource.data.userId, request.resource.data.gymId)
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+      allow create, update: if signedIn()
+        && request.resource.data.gymId == claimGym()
+        && (isSelf(request.resource.data.clientId)
+            || isTrainerOf(request.resource.data.clientId, request.resource.data.gymId));
+      allow delete: if isGymStaff(resource.data.gymId);
     }
+
+    /* ── coach notes: trainer_only never reaches the client ────── */
+
+    match /clientNotes/{noteId} {
+      allow read: if signedIn() && (
+        isGymStaff(resource.data.gymId)
+        || isTrainerOf(resource.data.clientId, resource.data.gymId)
+        || (isSelf(resource.data.clientId) && resource.data.visibility == 'shared')
+      );
+      allow create: if signedIn()
+        && request.resource.data.gymId == claimGym()
+        && request.resource.data.trainerId == request.auth.uid
+        && isTrainerOf(request.resource.data.clientId, request.resource.data.gymId)
+        && request.resource.data.visibility in ['trainer_only', 'shared'];
+      allow update, delete: if signedIn()
+        && resource.data.trainerId == request.auth.uid
+        && request.resource.data.gymId == resource.data.gymId;
+    }
+
+    /* ── scheduling ────────────────────────────────────────────── */
 
     match /appointments/{appointmentId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.userId) ||
-        trainerRelationshipAllowed(resource.data.userId, resource.data.gymId) ||
-        isGymOwner(resource.data.gymId)
+      allow read: if signedIn() && (
+        isSelf(resource.data.clientId)
+        || resource.data.trainerId == request.auth.uid
+        || isGymStaff(resource.data.gymId)
       );
-      allow create, update: if isSignedIn() && (
-        sameUser(request.resource.data.userId) ||
-        isSuperAdmin() ||
-        trainerRelationshipAllowed(request.resource.data.userId, request.resource.data.gymId)
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(resource.data.gymId));
+      allow create: if signedIn()
+        && request.resource.data.gymId == claimGym()
+        && (isSelf(request.resource.data.clientId)
+            || isTrainerOf(request.resource.data.clientId, request.resource.data.gymId)
+            || isGymStaff(resource.data.gymId));
+      allow update: if signedIn()
+        && keepsOwnerIds()
+        && (isSelf(resource.data.clientId)
+            || resource.data.trainerId == request.auth.uid
+            || isGymStaff(resource.data.gymId));
+      allow delete: if isGymStaff(resource.data.gymId);
     }
 
-    match /subscriptions/{subscriptionId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.userId) ||
-        isGymOwner(resource.data.gymId)
+    match /trainerAvailability/{slotId} {
+      allow read: if signedIn() && resource.data.gymId == claimGym();
+      allow create, update: if signedIn()
+        && request.resource.data.gymId == claimGym()
+        && (request.resource.data.trainerId == request.auth.uid || isGymStaff(request.resource.data.gymId));
+      allow delete: if signedIn()
+        && resource.data.gymId == claimGym()
+        && (resource.data.trainerId == request.auth.uid || isGymStaff(resource.data.gymId));
+    }
+
+    /* ── notifications ─────────────────────────────────────────── */
+
+    match /notifications/{notificationId} {
+      allow read: if signedIn() && isSelf(resource.data.userId);
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if signedIn() && isSelf(resource.data.userId);
+      allow delete: if signedIn() && isSelf(resource.data.userId);
+    }
+
+    /* ── commercial: backend writes only, everyone else reads ──── */
+
+    match /entitlements/{subjectId} {
+      allow read: if signedIn() && (
+        isSuperAdmin()
+        || isSelf(resource.data.subjectId)
+        || isGymOwnerOf(resource.data.get('gymId', null))
       );
-      allow create, update: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(request.resource.data.userId)
-      );
-      allow delete: if isSuperAdmin();
+      allow write: if false;   // verified webhook / Admin SDK ONLY
     }
 
     match /payments/{paymentId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.userId) ||
-        isGymOwner(resource.data.gymId)
+      allow read: if signedIn() && (
+        isSuperAdmin()
+        || isSelf(resource.data.userId)
+        || isGymOwnerOf(resource.data.get('gymId', null))
       );
-      allow create, update: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(request.resource.data.userId)
-      ) && request.resource.data.status in ['pending', 'active', 'cancelled', 'expired', 'refunded', 'revoked'];
-      allow delete: if isSuperAdmin();
+      allow write: if false;   // verified webhook / Admin SDK ONLY
     }
 
-    match /notifications/{notificationId} {
-      allow read: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(resource.data.userId) ||
-        isGymOwner(resource.data.gymId)
-      );
-      allow create, update: if isSignedIn() && (
-        isSuperAdmin() ||
-        sameUser(request.resource.data.userId)
-      );
-      allow delete: if isSignedIn() && (isSuperAdmin() || sameUser(resource.data.userId));
+    match /auditLog/{eventId} {
+      allow read: if signedIn() && (isSuperAdmin() || isGymOwnerOf(resource.data.get('gymId', null)));
+      allow write: if false;   // append-only from the trusted backend
     }
+
+    /* ── legacy CMS: public read, staff write ──────────────────── */
 
     match /blogs/{blogId} {
       allow read: if true;
-      allow create, update, delete: if isSignedIn() && (isSuperAdmin() || isGymOwner(request.resource.data.gymId));
+      // Publishing is a platform action. Gym staff have no business here.
+      allow create, update, delete: if isSuperAdmin();
     }
 
     match /subscribers/{email} {
-      allow create: if true;
-      allow read, delete: if isSignedIn() && isSuperAdmin();
+      // A public newsletter form, so anonymous create is intended — but it is
+      // shape-checked and key-limited so it cannot be used as an open store.
+      allow create: if request.resource.data.keys().hasOnly(['email', 'source', 'createdAt'])
+        && request.resource.data.email is string
+        && request.resource.data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]{2,}$')
+        && request.resource.data.email.size() < 200
+        && (!('source' in request.resource.data) || request.resource.data.source is string);
+      allow read, update, delete: if isSuperAdmin();
     }
+
+    /* ── default deny ──────────────────────────────────────────── */
+    // Any collection not named above is denied by omission.
   }
 }

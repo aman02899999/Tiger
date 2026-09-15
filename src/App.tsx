@@ -2,9 +2,7 @@ import { useMemo, useState, useEffect, lazy, Suspense } from "react";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import { blogs, type BlogPost, type BlogBlock } from "./data/blogs";
-import AdminPanel from "./admin/AdminPanel";
-import SaaSApp from "./app/SaaSApp";
-import { AuthProvider } from "./auth/AuthSystem";
+import SaasShell from "./saas/Shell";
 import LegalPage, { type LegalType } from "./legal/LegalPages";
 import { CoursesSection } from "./app/Courses";
 import { ChallengesSection } from "./app/Challenges";
@@ -118,11 +116,13 @@ type HeroStat = {
   decimals?: number;
 };
 
+/* Every figure here is checkable in this repository — no invented user
+   counts, ratings or uptime claims. See docs/SAAS_TRANSFORMATION.md §2.4. */
 const heroStats: HeroStat[] = [
-  { number: "50K+", label: "Active Users", count: 50, suffix: "K+" },
-  { number: "35+", label: "Premium Features", count: 35, suffix: "+" },
-  { number: "4.9★", label: "Play Store Rating", count: 4.9, decimals: 1, suffix: "★" },
-  { number: "22", label: "Expert PDF Guides", count: 22 },
+  { number: "4", label: "Role-aware workspaces", count: 4 },
+  { number: "100%", label: "Gym-scoped records", count: 100, suffix: "%" },
+  { number: "6", label: "Subscription states handled", count: 6 },
+  { number: "0", label: "Invented metrics", count: 0 },
 ];
 
 const howItWorks = [
@@ -132,23 +132,42 @@ const howItWorks = [
   { step: "04", title: "Transform Together", desc: "Watch your Titan Score climb. Unlock achievements. Share family health dashboard. Reach your goal with an accountability partner AI.", icon: "🏆" },
 ];
 
-const testimonials = [
-  { name: "Rohit S.", role: "Lost 22kg · Mumbai", text: "Beast Calculator ne meri life badal di! 4 mahine mein pehchaana nahi jata ab. Indian meal plan ekdum sahi tha!", avatar: "RS" },
-  { name: "Ananya K.", role: "Lost 15kg · Delhi", text: "Pehli baar kisi app ne mujhe Indian foods ka proper macro breakdown diya. Dal, roti, sabzi sab ka calculation!", avatar: "AK" },
-  { name: "Siddharth M.", role: "+14kg Muscle · Pune", text: "Titan Pro ki 7-day meal plan follow ki. 6 mahine mein 14kg lean mass gain! Chawal aur paneer se!", avatar: "SM" },
-  { name: "Deepika R.", role: "Lost 18kg · Bangalore", text: "Body anatomy visualizer dekh ke samajh aaya mera body fat kitna tha. Streak system amazing hai!", avatar: "DR" },
-  { name: "Amit P.", role: "Athlete · Chennai", text: "₹499 mein itna sab kuch? Yaar ye toh London ka subscription bhi sharminda ho jaye iske samne!", avatar: "AP" },
-  { name: "Priyanka N.", role: "Lost 12kg · Hyderabad", text: "Before/after photos feature bahut emotional tha. 3 mahine baad apna photo dekha toh bilkul alag tha!", avatar: "PN" },
-  { name: "Kartik B.", role: "Lost 25kg · Kolkata", text: "Chawal, roti, sabzi sab ka calorie count! Finally ek app jo samajhta hai Indian eating. Game changer!", avatar: "KB" },
-  { name: "Vijay G.", role: "+20kg Bulk · Jaipur", text: "Doodh, paneer, eggs, chicken — sabka proper plan. 8 mahine mein 20kg muscle gain! Beast level!", avatar: "VG" },
+/* Replaces the previous fabricated testimonial wall. These are the
+   outcomes each role gets in the product, verified against the shipped
+   surfaces — we do not publish customer quotes we cannot attribute. */
+const roleOutcomes = [
+  {
+    role: "Gym owner",
+    headline: "See churn before it happens",
+    body: "A retention board ranks every member by evidence: days silent, 28-day adherence, unassigned trainer. Seats, collections and trainer load sit on the same screen.",
+    avatar: "GO",
+  },
+  {
+    role: "Trainer",
+    headline: "Plan the week, not the spreadsheet",
+    body: "Build a block once and deliver it to a client. Their logging comes back as adherence, tonnage and personal records — with the exact session that produced them.",
+    avatar: "TR",
+  },
+  {
+    role: "Member",
+    headline: "Open the app and train",
+    body: "Today's session is already there with every set, load and rest interval your coach prescribed. Log it as you lift and your progress analytics update immediately.",
+    avatar: "MB",
+  },
+  {
+    role: "Platform admin",
+    headline: "Operate tenants safely",
+    body: "Provision gyms, assign claims through the trusted backend, watch verified revenue, and read an append-only audit trail of privileged actions.",
+    avatar: "PA",
+  },
 ];
 
 const faqs = [
   { q: "Is The Titan Fitness free?", a: "Basic features are free forever. Premium Elite membership unlocks AI coaching, medical report analysis, family dashboard, wedding mode, voice coach, and 28+ advanced features starting at ₹199/month." },
-  { q: "How does Indian food scanner work?", a: "Our AI model was trained specifically on common Indian dishes — roti, dal, rice, sabzi, paneer, idli, dosa, biryani, and more. Just take a photo and get calories, protein, carbs, and fat estimates instantly." },
-  { q: "What is Energy Prediction Engine?", a: "Every morning, we analyze your sleep quality, stress levels, recent training load, nutrition, and recovery status. We give you a Today's Energy percentage and automatically adjust your workout intensity accordingly." },
+  { q: "How does the food log work?", a: "Tiger ships a curated Indian food database plus verified barcode lookups through Open Food Facts. We do not claim a photo-recognition model: entries are chosen or scanned by you, so the macros are the ones on the label or in the database — not a guess." },
+  { q: "What is today's readiness score?", a: "It is a transparent rule-based score computed from what you logged: sleep duration, stress check-ins, and recent training load. Every input is visible and the formula ships with the tests, so you can see exactly why it moved." },
   { q: "Can my whole family use it?", a: "Yes! Our Family Health Dashboard lets you track parents, spouse, and children under one account. Each person gets personalized recommendations while you see everyone's health overview." },
-  { q: "Is health risk prediction accurate?", a: "Our predictions are based on lifestyle patterns, not medical diagnostics. They provide early warnings but come with clear disclaimers stating they do not replace professional medical advice. Always consult your doctor." },
+  { q: "Does Tiger diagnose anything?", a: "No. The lab-report reader shows educational reference ranges and flags values outside them. It is not a diagnosis, it is not a medical device, and it never replaces a clinician. Anything clinical belongs in a consultation." },
   { q: "Does it work offline?", a: "Core tracking features work offline. AI food scanning, voice coaching, and real-time analytics require internet connection. Downloaded workouts function fully without connectivity." },
   { q: "What makes it different from other apps?", a: "Most apps only track workouts. We track your complete lifestyle — sleep, stress, productivity, food, expenses, family health, injury prevention, mental wellness, and more. One dashboard for everything." },
 ];
@@ -308,13 +327,14 @@ const heroChips = [
 ];
 
 const trustSignals = [
-  "50,000+ Active Users",
-  "4.9★ Play Store",
-  "AI Indian Food Scanner",
+  "Gym-scoped by construction",
+  "Verified entitlements only",
+  "Custom-claims RBAC",
+  "Trainer → client assignments",
+  "wger exercise library",
+  "Open Food Facts barcodes",
   "22 Expert Guides",
-  "Family Health Dashboard",
-  "Ayurveda + Modern Science",
-  "Made in India",
+  "Built in India",
 ];
 
 function Hero() {
@@ -801,13 +821,17 @@ function Testimonials() {
     <section id="testimonials" className="relative px-6 py-28 sm:px-10 lg:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Testimonials</p>
-          <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">Real stories. Real results.</h2>
+          <p className="text-sm font-semibold uppercase tracking-[0.34em] text-violet-100">Built for four roles</p>
+          <h2 className="mt-5 text-2xl sm:text-4xl lg:text-6xl font-black tracking-[-0.05em]">One workspace. Four jobs done.</h2>
+          <p className="mt-5 text-base leading-7 text-[#e9f3f5]/60">
+            No customer quotes are shown here until they can be attributed. What follows is what each role
+            can actually do in the shipped product.
+          </p>
         </div>
 
         <div className="mt-14 grid gap-5 sm:gap-6 md:grid-cols-2">
-          {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={i * 70} className="h-full">
+          {roleOutcomes.map((t, i) => (
+            <Reveal key={t.role} delay={i * 70} className="h-full">
               <Tilt3DCard className="h-full rounded-[2rem]" max={7} lift={20}>
                 <div className="glass-3d group relative h-full rounded-[2rem] p-5 sm:p-8">
                   <span className="clip-3d" aria-hidden>
@@ -816,19 +840,16 @@ function Testimonials() {
                     </span>
                   </span>
                   <div className="layer-z-1 relative">
-                    <div className="mb-4 flex items-center gap-1">
-                      {[...Array(5)].map((_, j) => (
-                        <span key={j} className="text-lg text-amber-300">&#9733;</span>
-                      ))}
-                    </div>
-                    <p className="text-base italic leading-7 text-[#e9f3f5]/82">&ldquo;{t.text}&rdquo;</p>
+                    <p className="text-xs font-black uppercase tracking-[0.24em] text-violet-200">{t.role}</p>
+                    <p className="mt-3 text-lg font-bold leading-7 text-[#e9f3f5]">{t.headline}</p>
+                    <p className="mt-3 text-base leading-7 text-[#e9f3f5]/70">{t.body}</p>
                     <div className="mt-6 flex items-center gap-4 border-t border-[#e9f3f5]/10 pt-5">
                       <div className="layer-z-2 grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-teal-300 via-sky-400 to-amber-300 text-sm font-black text-[#04121a] shadow-[0_0_22px_rgba(45,212,191,0.35)]">
                         {t.avatar}
                       </div>
                       <div>
-                        <p className="font-bold text-[#e9f3f5]">{t.name}</p>
-                        <p className="text-xs font-medium text-[#e9f3f5]/70">{t.role}</p>
+                        <p className="font-bold text-[#e9f3f5]">{t.role} workspace</p>
+                        <p className="text-xs font-medium text-[#e9f3f5]/70">Shipped and testable in the demo tenant</p>
                       </div>
                     </div>
                   </div>
@@ -900,7 +921,7 @@ function DownloadCTA() {
             Ready to transform<br />
             <span className="bg-gradient-to-r from-violet-200 to-[#ffb627] bg-clip-text text-transparent">your lifestyle?</span>
           </h2>
-          <p className="mt-6 text-lg leading-8 text-[#e9f3f5]/66">Download The Titan Fitness. Join 50K+ Indians already transforming with our AI Life Coach.</p>
+          <p className="mt-6 text-lg leading-8 text-[#e9f3f5]/66">Open the workspace and see it with a real gym's shape: roster triage for trainers, a retention board for owners, and today's assigned session for members.</p>
           
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a href="#app" className="group flex items-center gap-3 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-9 py-5 text-sm font-black uppercase tracking-[0.2em] text-white shadow-[0_22px_80px_rgba(45,212,191,0.36)] transition-all hover:-translate-y-0.5 hover:shadow-[0_30px_110px_rgba(45,212,191,0.48)]">
@@ -1311,7 +1332,7 @@ function Newsletter() {
 function Footer({ onAdminClick }: { onAdminClick: () => void }) {
   const footerLinks = [
     { heading: "Product", links: [{ label: "Features", href: "#features" }, { label: "Pricing", href: "#pricing" }, { label: "Blog", href: "#blog" }, { label: "Launch App", href: "#app" }] },
-    { heading: "Company", links: [{ label: "About", href: "#about" }, { label: "Testimonials", href: "#testimonials" }, { label: "Careers", href: "#" }, { label: "Press", href: "#" }] },
+    { heading: "Company", links: [{ label: "About", href: "#about" }, { label: "Workspaces", href: "#testimonials" }, { label: "Careers", href: "#" }, { label: "Press", href: "#" }] },
     { heading: "Legal", links: [{ label: "Terms of Service", href: "#legal/terms" }, { label: "Privacy Policy", href: "#legal/privacy" }, { label: "Refund Policy", href: "#legal/refund" }, { label: "Disclaimer", href: "#legal/disclaimer" }] },
     { heading: "Support", links: [{ label: "Help Center", href: "#legal/help" }, { label: "Contact", href: "mailto:support@tigerfitpro.in" }, { label: "Status", href: "#" }] },
   ];
@@ -1369,7 +1390,7 @@ function getHashRoute(): string {
 
 export default function App() {
   const [route, setRoute] = useState(getHashRoute());
-  const [adminOpen, setAdminOpen] = useState(false);
+
 
   useEffect(() => {
     const onHash = () => setRoute(getHashRoute());
@@ -1379,11 +1400,9 @@ export default function App() {
 
   // SaaS App routes
   if (route === "app" || route === "app/login" || route === "app/signup") {
-    return (
-      <AuthProvider>
-        <SaaSApp />
-      </AuthProvider>
-    );
+    /* The workspace owns its own AuthProvider so the marketing site never
+       pays for a Firebase auth listener. */
+    return <SaasShell />;
   }
 
   // Legal pages
@@ -1413,9 +1432,9 @@ export default function App() {
         <Testimonials />
         <FAQ />
         <DownloadCTA />
-        <Footer onAdminClick={() => setAdminOpen(true)} />
+        <Footer onAdminClick={() => { window.location.hash = "app"; }} />
       </main>
-      {adminOpen && <AdminPanel onClose={() => setAdminOpen(false)} />}
+
     </>
   );
 }

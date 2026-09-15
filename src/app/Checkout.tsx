@@ -2,18 +2,22 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useAuth } from "../auth/AuthSystem";
 import { isPlayBillingAvailable, purchaseWithPlayBilling, acknowledgePlayPurchase } from "./PlayBilling";
 
-const PAYMENT_SETUP_MESSAGE = "Payment verification is not configured in this environment. No entitlement will be granted until a secure server-side checkout and verification flow is active.";
+const PAYMENT_SETUP_MESSAGE =
+  "Payment verification is not configured in this environment. Nothing was charged and no plan changed — entitlements are issued only by a verified provider webhook.";
+
+const PLAY_VERIFICATION_MESSAGE =
+  "The Play purchase could not be server-verified yet, so no entitlement was granted. It unlocks automatically once the backend acknowledges the purchase token.";
 
 /* ---------------------------------------------------------------- */
-/* Checkout — the app's actual monetization mechanism. Any button    */
-/* anywhere can call useCheckout().openCheckout(planId) to launch a  */
-/* real upgrade flow that persists the new plan via updateUser().    */
+/* Checkout — the UI half of the payment path                        */
 /*                                                                    */
-/* INTEGRATION NOTE: payment methods/coupon/"Pay securely" here are   */
-/* a production-shaped UI. To go live, swap `simulatePayment()` for   */
-/* a real gateway call (Razorpay order + verify is the standard path  */
-/* for an India-first app) — everything else (plan unlock, receipts,  */
-/* UI) is already wired end-to-end.                                   */
+/* TRUST BOUNDARY: this component collects intent and starts a        */
+/* provider checkout through the trusted backend. It cannot grant     */
+/* anything. The previous implementation called                      */
+/* `updateUser({ plan })` straight from the browser, which let any    */
+/* session promote itself to Elite. That call is removed:             */
+/* entitlements are written only by a verified provider webhook, and  */
+/* `firestore.rules` denies client writes to commercial fields.       */
 /* ---------------------------------------------------------------- */
 
 export type PlanId = "pro" | "elite" | "lifetime";
@@ -77,7 +81,6 @@ function priceFor(plan: PlanDef, cycle: "monthly" | "annual") {
 }
 
 type Step = "plan" | "pay" | "processing" | "success";
-type Method = "upi" | "card" | "netbanking";
 
 export function CheckoutProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<CheckoutState | null>(null);
@@ -98,11 +101,8 @@ export function CheckoutProvider({ children }: { children: ReactNode }) {
 }
 
 function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () => void }) {
-  const { user, updateUser } = useAuth();
+  const { user } = useAuth();
   const [step, setStep] = useState<Step>("pay");
-  const [method, setMethod] = useState<Method>("upi");
-  const [upiId, setUpiId] = useState("");
-  const [cardNum, setCardNum] = useState("");
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; pct: number } | null>(null);
   const [couponMsg, setCouponMsg] = useState<string | null>(null);
@@ -110,6 +110,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
   // distributed via Play to go through Play Billing. undefined = still
   // checking; true/false decides which payment UI renders below.
   const [playAvailable, setPlayAvailable] = useState<boolean | undefined>(undefined);
+  const [failure, setFailure] = useState<string | null>(null);
 
   useEffect(() => {
     isPlayBillingAvailable().then(setPlayAvailable);
@@ -147,18 +148,19 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
         return;
       }
 
-      const verificationRequired = true;
-      if (verificationRequired) {
+      /* A purchase token proves nothing until Google's server-side
+         acknowledgement round-trips through our backend. Until that endpoint
+         is deployed we stop here — the honest branch the old code hardcoded
+         as `verificationRequired = true`. */
+      const verified = await verifyPlayPurchaseState(result.purchaseToken, sku);
+      if (!verified) {
         setStep("pay");
+        setFailure(PLAY_VERIFICATION_MESSAGE);
         return;
       }
 
-      if (state.kind === "plan") {
-        await updateUser({ plan: plan!.planValue });
-      } else {
-        state.item.onSuccess();
-        await acknowledgePlayPurchase(result.purchaseToken);
-      }
+      await acknowledgePlayPurchase(result.purchaseToken);
+      if (state.kind === "item") state.item.onSuccess();
       setStep("success");
       setTimeout(onClose, 2400);
     } catch {
@@ -166,21 +168,53 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
     }
   }
 
+  /** Asks the trusted backend to verify a Play purchase before anything unlocks. */
+  async function verifyPlayPurchaseState(purchaseToken: string, sku: string): Promise<boolean> {
+    try {
+      const response = await fetch("/api/billing/play-verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ purchaseToken, sku, userId: user?.id }),
+      });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+
   async function pay() {
     if (playAvailable) return payViaPlay();
     setStep("processing");
-    await new Promise((r) => setTimeout(r, 900));
-    setStep("pay");
-    setTimeout(() => {
-      window.alert(PAYMENT_SETUP_MESSAGE);
-    }, 0);
+    try {
+      const response = await fetch("/api/billing/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          plan: state.kind === "plan" ? state.plan : null,
+          itemId: state.kind === "item" ? state.item.id : null,
+          cycle: state.kind === "plan" ? state.cycle : null,
+          coupon: appliedCoupon?.code ?? null,
+          userId: user?.id ?? null,
+        }),
+      });
+      if (!response.ok) throw new Error(String(response.status));
+      const payload = (await response.json()) as { checkoutUrl?: string };
+      if (!payload.checkoutUrl) throw new Error("no checkout url");
+      window.location.href = payload.checkoutUrl;
+    } catch {
+      setStep("pay");
+      setFailure(PAYMENT_SETUP_MESSAGE);
+    }
   }
-
-  const canPay = method === "upi" ? upiId.includes("@") : method === "card" ? cardNum.replace(/\s/g, "").length >= 12 : true;
 
   return (
     <div className="fixed inset-0 z-[80] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm" onClick={step === "pay" ? onClose : undefined}>
       <div className="glass-card w-full max-w-md overflow-hidden rounded-3xl bg-[#0a141f]/97" onClick={(e) => e.stopPropagation()}>
+        {failure && (
+          <div className="border-b border-rose-400/25 bg-rose-500/10 px-6 py-3 text-[12px] leading-5 text-rose-100">
+            {failure}
+          </div>
+        )}
         {step === "processing" ? (
           <div className="flex flex-col items-center justify-center gap-4 p-12 text-center">
             <div className="h-14 w-14 animate-spin rounded-full border-4 border-violet-300/25 border-t-violet-300" />
@@ -190,15 +224,14 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
         ) : step === "success" ? (
           <div className="flex flex-col items-center justify-center gap-3 p-12 text-center">
             <div className="grid h-16 w-16 place-items-center rounded-full bg-emerald-400/15 text-4xl">✅</div>
-            <h3 className="text-xl font-black text-emerald-300">Payment Successful!</h3>
+            <h3 className="text-xl font-black text-emerald-300">Purchase submitted</h3>
             <p className="text-sm text-[#e9f3f5]/70">
-              {state.kind === "plan" ? (
-                <>Welcome to <span className="font-bold text-[#ffb627]">{title}</span> — your account has been upgraded instantly.</>
-              ) : (
-                <><span className="font-bold text-[#ffb627]">{title}</span> is ready — your download has started.</>
-              )}
+              <span className="font-bold text-[#ffb627]">{title}</span> activates as soon as the provider
+              webhook is verified — usually within seconds.
             </p>
-            <p className="text-xs text-[#e9f3f5]/50">Receipt sent to {user?.email}</p>
+            <p className="text-xs text-[#e9f3f5]/50">
+              You can close this window. A receipt goes to {user?.email ?? "your registered email"}.
+            </p>
           </div>
         ) : (
           <>
@@ -241,48 +274,31 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                 </>
               ) : (
                 <>
-                  <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#e9f3f5]/65">Payment method</p>
-                  <div className="mb-4 grid grid-cols-3 gap-2">
-                    {([["upi", "📱 UPI"], ["card", "💳 Card"], ["netbanking", "🏦 Net Banking"]] as [Method, string][]).map(([m, label]) => (
-                      <button key={m} type="button" onClick={() => setMethod(m)} className={`rounded-xl border py-2.5 text-xs font-bold transition ${method === m ? "border-violet-300/50 bg-violet-300/12 text-violet-100" : "border-[#e9f3f5]/12 bg-[#e9f3f5]/5 text-[#e9f3f5]/62"}`}>
-                        {label}
-                      </button>
-                    ))}
+                  <div className="rounded-xl border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-violet-200/80">Hosted provider checkout</p>
+                    <p className="mt-2 text-xs leading-5 text-[#e9f3f5]/62">
+                      You are handed to the payment provider's own page. Card, UPI and net-banking details
+                      are entered there — this app never receives or stores them, and it cannot mark a
+                      payment as captured.
+                    </p>
                   </div>
-
-                  {method === "upi" && (
-                    <input value={upiId} onChange={(e) => setUpiId(e.target.value)} placeholder="yourname@upi" className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                  )}
-                  {method === "card" && (
-                    <div className="space-y-2">
-                      <input value={cardNum} onChange={(e) => setCardNum(e.target.value)} placeholder="1234 5678 9012 3456" inputMode="numeric" className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                      <div className="flex gap-2">
-                        <input placeholder="MM/YY" className="w-1/2 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                        <input placeholder="CVV" inputMode="numeric" className="w-1/2 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40" />
-                      </div>
-                    </div>
-                  )}
-                  {method === "netbanking" && (
-                    <select className="w-full rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-3 text-sm outline-none focus:border-violet-200/40">
-                      {["State Bank of India", "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Mahindra Bank"].map((b) => <option key={b}>{b}</option>)}
-                    </select>
-                  )}
 
                   <div className="mt-4 flex gap-2">
                     <input value={coupon} onChange={(e) => { setCoupon(e.target.value); setCouponMsg(null); }} placeholder="Coupon code (try LAUNCH20)" className="flex-1 rounded-xl border border-[#e9f3f5]/12 bg-[#0a141f] px-4 py-2.5 text-sm outline-none focus:border-violet-200/40" />
                     <button type="button" onClick={applyCoupon} className="rounded-xl border border-[#ffb627]/30 bg-[#ffb627]/10 px-4 text-xs font-bold text-[#ffb627] hover:bg-[#ffb627]/20">Apply</button>
                   </div>
                   {couponMsg && <p className={`mt-1.5 text-xs font-semibold ${appliedCoupon ? "text-emerald-300" : "text-rose-300"}`}>{couponMsg}</p>}
+                  <p className="mt-1.5 text-[10px] text-[#e9f3f5]/45">Final price and coupon validity are re-checked on the server when the order is created.</p>
 
-                  <button type="button" onClick={pay} disabled={!canPay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white disabled:cursor-not-allowed disabled:opacity-40">
-                    🔒 Pay ₹{finalPrice} Securely
+                  <button type="button" onClick={pay} className="btn-gloss mt-5 w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white">
+                    Continue to secure checkout
                   </button>
-                  <div className="mt-3 flex items-center justify-center gap-3 text-[10px] text-[#e9f3f5]/50">
-                    <span>🔒 256-bit encrypted</span>
+                  <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-[10px] text-[#e9f3f5]/50">
+                    <span>Server-priced orders</span>
                     <span>·</span>
-                    <span>✅ Instant activation</span>
+                    <span>Webhook-verified entitlement</span>
                     <span>·</span>
-                    <span>↩ 7-day refund</span>
+                    <span>Refunds revoke, never delete</span>
                   </div>
                 </>
               )}

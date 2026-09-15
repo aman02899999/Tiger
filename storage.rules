@@ -1,58 +1,120 @@
 rules_version = '2';
+
+/* ═══════════════════════════════════════════════════════════════════
+   TIGER — CLOUD STORAGE RULES
+   ───────────────────────────────────────────────────────────────────
+   Layout:
+
+     avatars/{userId}/{file}                 profile picture, owner-write
+     private/{userId}/{file}                 personal uploads, owner-only
+     health/{userId}/{file}                  lab reports, body photos:
+                                             owner writes; ONLY an active
+                                             trainer of that client (same
+                                             gym) and the gym owner read
+     gyms/{gymId}/members/{userId}/{file}    tenant-scoped member files
+     public/{file}                           shipped assets, nobody writes
+
+   `firestore.exists()` / `firestore.get()` are the cross-service calls
+   that make the trainer/client relationship authoritative here, instead
+   of trusting a path segment the uploader chose.
+   ═══════════════════════════════════════════════════════════════════ */
+
 service firebase.storage {
   match /b/{bucket}/o {
-    function isSignedIn() {
+
+    function signedIn() {
       return request.auth != null;
     }
 
-    function isRole(roleName) {
-      return isSignedIn() && request.auth.token.role == roleName;
+    function role() {
+      return signedIn() ? request.auth.token.role : null;
     }
 
-    function isSameUser(userId) {
-      return isSignedIn() && request.auth.uid == userId;
+    function claimGym() {
+      return signedIn() ? request.auth.token.get('gymId', null) : null;
     }
 
-    function isTrainerOfClient(clientId, gymId) {
-      return isSignedIn() &&
-        request.auth.token.role == 'trainer' &&
-        exists(/databases/(default)/documents/trainerClients/$(request.auth.uid)_$(clientId)) &&
-        get(/databases/(default)/documents/trainerClients/$(request.auth.uid)_$(clientId)).data.status == 'active' &&
-        get(/databases/(default)/documents/trainerClients/$(request.auth.uid)_$(clientId)).data.gymId == gymId;
+    function isSuperAdmin() {
+      return signedIn() && role() == 'super_admin';
+    }
+
+    function isGymOwnerOf(gymId) {
+      return signedIn() && role() == 'gym_owner' && gymId != null && claimGym() == gymId;
+    }
+
+    function isSelf(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function relPath(trainerId, clientId) {
+      return /databases/(default)/documents/trainerClients/$(trainerId + '_' + clientId);
+    }
+
+    /** The gym a user document belongs to, resolved server-side. */
+    function gymOf(userId) {
+      return firestore.exists(/databases/(default)/documents/users/$(userId))
+        ? firestore.get(/databases/(default)/documents/users/$(userId)).data.get('gymId', null)
+        : null;
+    }
+
+    /** Active trainer of this client, in the trainer's own gym. */
+    function isActiveTrainerOf(clientId, gymId) {
+      return signedIn()
+        && role() == 'trainer'
+        && gymId != null
+        && claimGym() == gymId
+        && firestore.exists(relPath(request.auth.uid, clientId))
+        && firestore.get(relPath(request.auth.uid, clientId)).data.status == 'active'
+        && firestore.get(relPath(request.auth.uid, clientId)).data.gymId == gymId;
+    }
+
+    /** Content-type and size guards for images people upload. */
+    function isImageWithin(limitMb) {
+      return request.resource.size < limitMb * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    function isDocWithin(limitMb) {
+      return request.resource.size < limitMb * 1024 * 1024
+        && request.resource.contentType.matches('(image/.*|application/pdf)');
+    }
+
+    match /avatars/{userId}/{fileName} {
+      allow read: if true;
+      allow write: if isSelf(userId) && isImageWithin(5);
     }
 
     match /private/{userId}/{allPaths=**} {
-      allow read, write: if isSignedIn() && isSameUser(userId);
+      allow read: if isSelf(userId) || isSuperAdmin();
+      allow write: if isSelf(userId) && isDocWithin(25);
     }
 
-    match /gyms/{gymId}/{userId}/{allPaths=**} {
-      allow read: if isSignedIn() && (
-        isRole('super_admin') ||
-        isRole('gym_owner') && request.auth.token.gymId == gymId ||
-        isTrainerOfClient(userId, gymId)
-      );
-      allow write: if isSignedIn() && (
-        isRole('super_admin') ||
-        isRole('gym_owner') && request.auth.token.gymId == gymId ||
-        isSameUser(userId)
-      );
-    }
-
+    /* Sensitive health records: read access requires an active coaching
+       relationship — a trainer cannot browse a member they do not coach. */
     match /health/{userId}/{allPaths=**} {
-      allow read: if isSignedIn() && (
-        isSameUser(userId) ||
-        isRole('super_admin') ||
-        isTrainerOfClient(userId, request.auth.token.gymId)
-      );
-      allow write: if isSignedIn() && (
-        isSameUser(userId) ||
-        isRole('super_admin')
-      );
+      /* The member's own gym is resolved from their user document — passing
+         `claimGym()` here would let ANY gym owner read ANY member's records. */
+      allow read: if isSelf(userId)
+        || isSuperAdmin()
+        || isGymOwnerOf(gymOf(userId))
+        || isActiveTrainerOf(userId, gymOf(userId));
+      allow write: if isSelf(userId) && isDocWithin(25);
+    }
+
+    match /gyms/{gymId}/members/{userId}/{allPaths=**} {
+      allow read: if isSuperAdmin()
+        || isSelf(userId)
+        || isGymOwnerOf(gymId)
+        || isActiveTrainerOf(userId, gymId);
+      allow write: if isSelf(userId) && isDocWithin(25)
+        || isGymOwnerOf(gymId);
     }
 
     match /public/{allPaths=**} {
       allow read: if true;
       allow write: if false;
     }
+
+    /* ── default deny ───────────────────────────────────────────── */
   }
 }

@@ -2,6 +2,12 @@ node_modules/
 dist/
 .firebase/
 
+# Environment files — per-machine configuration, and the place a future
+# contributor will inevitably paste a real secret. Never commit them.
+.env
+.env.*
+!.env.example
+
 tsconfig.tsbuildinfo
 .claude/worktrees/
 
@@ -17,3 +23,13 @@ android/key.properties
 
 # Local visual preview artifact (generated, not source)
 .preview/
+
+# Archived audit logs — kept on disk for reference, not tracked (134 MB).
+docs/audit-archive/
+
+# Local test build output
+.test-build/
+.indexes-build/
+
+# Firebase doctor scratch build
+.firebase-check-build/
