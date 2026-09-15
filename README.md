@@ -32,7 +32,7 @@ actions are listed in `docs/PRODUCTION_READINESS.md` §4.
 
 ```bash
 npm run verify          # typecheck → both test suites → production build
-npm run test:saas       # 67 assertions: RBAC, tenancy, entitlement, payments, rules, indexes, tokens, workspace read paths
+npm run test:saas       # 76 assertions: RBAC, tenancy, entitlement, payments, rules, indexes, tokens, workspace read paths
 npm run test:insights   # 36 assertions: insight maths + API response normalisers
 npm run check:indexes   # firestore.indexes.json is generated from the collection registry
 npm run typecheck:functions

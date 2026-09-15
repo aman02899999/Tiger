@@ -51,7 +51,7 @@ npm ci                                  # reproducible install
 npm run typecheck                       # tsc -b --noEmit
 npm run check:indexes                   # registry → firestore.indexes.json is in sync
 npm run test:insights                   # 36 assertions: insight maths + API normalisers
-npm run test:saas                       # 67 assertions: permissions, tenancy, entitlement, payments, rules, indexes, tokens, hygiene, workspace wiring
+npm run test:saas                       # 76 assertions: permissions, tenancy, entitlement, payments, rules, indexes, tokens, hygiene, workspace wiring
 npm run build                           # includes scripts/check-3d.mjs (visual-depth guard)
 npm run typecheck:functions             # trusted backend compiles
 git diff --check                        # no whitespace errors or conflict markers

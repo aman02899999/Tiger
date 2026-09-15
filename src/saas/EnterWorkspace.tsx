@@ -248,7 +248,7 @@ export default function EnterWorkspace() {
           <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#e9f3f5]/45">
             Finishing a live deployment
           </p>
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {LIVE_SETUP_STEPS.map((step) => (
               <div key={step.title} className="rounded-xl border border-white/[0.08] bg-white/[0.02] p-3.5">
                 <p className="text-sm font-bold">{step.title}</p>

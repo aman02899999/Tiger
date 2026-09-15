@@ -1137,6 +1137,16 @@ test("the configuration check names the project when live, and the gaps when not
   assert.match(demo, /VITE_FIREBASE_API_KEY/, "the operator is told exactly which value to set");
 });
 
+test("the operator checklist on the sign-in screen names a real command per step", () => {
+  assert.ok(FIREBASE.LIVE_SETUP_STEPS.length >= 3, "a live project needs at least three steps to become usable");
+  for (const step of FIREBASE.LIVE_SETUP_STEPS) {
+    assert.ok(step.title && step.body && step.command, `step "${step.title}" is incomplete`);
+  }
+  const commands = FIREBASE.LIVE_SETUP_STEPS.map((step) => step.command).join("\n");
+  assert.match(commands, /deploy:rules/, "someone must be told to deploy the rules before trusting the database");
+  assert.match(commands, /bootstrap-admin/, "someone must be told how the first admin is created");
+});
+
 test("the shipped .env.example documents every key the resolver reads", () => {
   const example = readFileSync(join(ROOT, ".env.example"), "utf8");
   const missing = FIREBASE.REQUIRED_FIREBASE_FIELDS.filter((field) => !example.includes(FIREBASE.ENV_KEYS[field]));

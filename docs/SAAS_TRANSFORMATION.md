@@ -246,7 +246,7 @@ carries the banner. This replaces the old silent `DEMO_PROFILE` fallback.
 | 1 | Domain model + tenant-scoped data layer + demo/live data sources | ✅ `src/domain`, `src/data` |
 | 2 | Claims-based RBAC + permission matrix + guards | ✅ `src/security/permissions.ts`, `guard.tsx` |
 | 3 | Firestore + Storage rules rewritten around `gymId`/relationship/entitlement | ✅ `firestore.rules`, `storage.rules` |
-| 4 | Executable proofs: permission matrix, tenant isolation, entitlement read-only, webhook signatures, rules invariants | ✅ `scripts/test-saas.mjs` — 67 assertions, green |
+| 4 | Executable proofs: permission matrix, tenant isolation, entitlement read-only, webhook signatures, rules invariants | ✅ `scripts/test-saas.mjs` — 76 assertions, green |
 | 5 | Trusted backend: role provisioning, gym provisioning, Razorpay order + verified webhook | ✅ `functions/` — installs and typechecks (`npm run typecheck:functions`) |
 | 6 | Trainer Studio (roster, client 360, plan builder, assignment, notes, appointments, analytics) | ✅ `src/saas/TrainerStudio.tsx` |
 | 7 | Client Workspace (today's assigned session, logging, progress, appointments, goals) | ✅ `src/saas/ClientWorkspace.tsx` |

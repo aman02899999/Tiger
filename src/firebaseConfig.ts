@@ -174,17 +174,22 @@ export function missingFirebaseFieldsOf(resolved: ResolvedFirebaseConfig): strin
  */
 export const LIVE_SETUP_STEPS: Array<{ title: string; body: string; command: string }> = [
   {
-    title: "1 · Deploy the rules",
-    body: "Until they are live, Firestore and Storage answer with the default deny. That is the safe failure — not a bug.",
-    command: "firebase deploy --only firestore:rules,storage:rules,firestore:indexes",
+    title: "1 · Enable a sign-in method",
+    body: "A fresh project has every provider switched off, so sign-up fails with `operation-not-allowed`.",
+    command: "# Console → Authentication → Sign-in method → Email/Password",
   },
   {
-    title: "2 · Make yourself the admin",
-    body: "Sign up in the form beside this panel, then promote that one account locally. There is no endpoint that can do it.",
+    title: "2 · Deploy the rules",
+    body: "Until they are live, Firestore and Storage answer with the default deny. That is the safe failure — not a bug.",
+    command: "npm run deploy:rules",
+  },
+  {
+    title: "3 · Make yourself the admin",
+    body: "Sign up with the form beside this panel, then promote that one account locally. No endpoint can do it for you.",
     command: "node functions/scripts/bootstrap-admin.mjs you@example.com",
   },
   {
-    title: "3 · Provision a gym",
+    title: "4 · Provision a gym",
     body: "Create the tenant in the platform console, then invite its owner. Trainers and members follow from there.",
     command: "# Platform console → Tenants → Provision gym",
   },
