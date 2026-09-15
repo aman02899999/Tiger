@@ -8,7 +8,14 @@
     "build": "node scripts/check-3d.mjs && vite build",
     "preview": "vite preview",
     "check:3d": "node scripts/check-3d.mjs",
-    "test": "node scripts/test-insights.mjs"
+    "typecheck": "tsc -b --noEmit",
+    "typecheck:functions": "npm --prefix functions run typecheck",
+    "test": "node scripts/test-insights.mjs && node scripts/test-saas.mjs",
+    "test:insights": "node scripts/test-insights.mjs",
+    "test:saas": "node scripts/test-saas.mjs",
+    "gen:indexes": "node scripts/gen-indexes.mjs",
+    "check:indexes": "node scripts/gen-indexes.mjs --check",
+    "verify": "npm run typecheck && npm test && npm run build"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
