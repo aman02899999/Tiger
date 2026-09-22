@@ -69,6 +69,7 @@ import ChallengesPage from "../app/Challenges";
 import AchievementsPage from "../app/Achievements";
 import CoursesPage from "../app/Courses";
 import PDFStorePage from "../app/PDFStore";
+import ToolsGrid from "../app/ToolsGrid";
 import YogaPage from "../app/Yoga";
 import MeditationPage from "../app/Meditation";
 import PhysioRehabPage from "../app/PhysioRehab";
@@ -108,6 +109,7 @@ type Section =
   | "aicoach"
   | "strengthlab"
   | "toolbox"
+  | "tools"
   | "player"
   | "settings";
 
@@ -123,6 +125,7 @@ const LIBRARY_GROUPS: NavGroup[] = [
       { id: "calendar", label: "Training Calendar" },
       { id: "strengthlab", label: "Strength Lab" },
       { id: "aicoach", label: "AI Coach" },
+      { id: "tools", label: "Tools" },
     ],
   },
   {
@@ -224,6 +227,7 @@ export default function ClientWorkspace() {
     aicoach: { title: "AI coach", subtitle: "Rule-based guidance from your own records" },
     strengthlab: { title: "Strength lab", subtitle: "Load, 1RM estimates and standards" },
     toolbox: { title: "Toolbox", subtitle: "Calculators and utilities" },
+    tools: { title: "Tools", subtitle: "22 calculators, planners and quizzes — each opens on demand" },
     player: { title: "Workout player", subtitle: "Guided session player" },
     settings: { title: "Settings", subtitle: "Profile, preferences and data" },
   };
@@ -288,6 +292,8 @@ export default function ClientWorkspace() {
         return <StrengthLabPage />;
       case "toolbox":
         return <FitnessToolbox />;
+      case "tools":
+        return <ToolsGrid />;
       case "player":
         return (
           <WorkoutPlayer

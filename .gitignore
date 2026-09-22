@@ -33,3 +33,10 @@ docs/audit-archive/
 
 # Firebase doctor scratch build
 .firebase-check-build/
+
+# Generated audit/action transcripts. These were committed as 133 MB of
+# tracked text, which every clone and every CI checkout paid for. Keep them
+# out of the tree; they remain in git history (see docs/REPO_ANALYSIS.md for
+# how to purge history if that matters).
+*-audit-*.txt
+*-production-action-*.txt

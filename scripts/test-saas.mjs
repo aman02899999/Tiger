@@ -1134,6 +1134,77 @@ test("every upgrade button goes through the one shared checkout path", () => {
   assert.doesNotMatch(shared, /setPlan|grantEntitlement|\bplan\s*=/, "the checkout path must not assign a plan");
 });
 
+test("paid content is gated on the backend entitlement, not a browser ledger", () => {
+  /* REGRESSION: PDFStore kept its own `localStorage` list of "purchased" guide
+     ids that it both wrote and trusted, so editing one devtools key granted
+     the whole catalog. It now reads the same entitlement as the rest of the
+     app — a record only the payment webhook writes. */
+  const store = readFileSync(join(ROOT, "src/app/PDFStore.tsx"), "utf8");
+  const code = store.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");
+
+  assert.doesNotMatch(code, /localStorage/, "PDFStore must not keep its own purchase ledger");
+  assert.doesNotMatch(code, /markPurchased|loadPurchased/, "the self-written purchase ledger must be gone");
+  assert.match(code, /useEntitlement/, "PDFStore must read the backend entitlement");
+  assert.match(code, /entitlementIsLive/, "an expired entitlement must not unlock the library");
+
+  /* Every download path must be behind the gate, not just the buttons. */
+  const downloads = [...code.matchAll(/function downloadGuide\([\s\S]*?\n  \}/g)].map((m) => m[0]);
+  assert.ok(downloads.length >= 2, "expected both store surfaces to define a download path");
+  for (const body of downloads) {
+    assert.match(body, /if \(!unlocked\)/, "a download path bypasses the entitlement gate");
+  }
+
+  /* And the plans it honours must be plans the catalog actually prices. */
+  const plans = code.match(/const LIBRARY_PLANS = new Set\(\[([^\]]*)\]\)/);
+  assert.ok(plans, "LIBRARY_PLANS must be declared");
+  for (const quoted of plans[1].match(/"[a-z_]+"/g) ?? []) {
+    const plan = quoted.slice(1, -1);
+    assert.ok(VERIFY.PLAN_CATALOG[plan], `LIBRARY_PLANS names ${plan}, which is not in the plan catalog`);
+    assert.notEqual(plan, "free", "the free plan must not unlock paid content");
+  }
+});
+
+test("no screen advertises a price the backend cannot charge", () => {
+  /* The guide cards showed "₹299 / Buy Now" for items with no SKU in
+     PLAN_CATALOG, so `createCheckout` could never have priced one. */
+  const store = readFileSync(join(ROOT, "src/app/PDFStore.tsx"), "utf8")
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/(^|[^:])\/\/.*$/gm, "$1");
+  assert.doesNotMatch(store, /₹\{guide\.price\}/, "a per-guide price is displayed but cannot be charged");
+  assert.doesNotMatch(store, /₹\{bundle\.price\}/, "a bundle price is displayed but cannot be charged");
+  assert.doesNotMatch(store, /Buy Now|Buy Bundle/, "a buy action is offered for something that is not sold");
+});
+
+test("every tool the hub routes exists, and every tool file is routed", () => {
+  /* 22 components were salvaged from an abandoned branch. A component with no
+     route is dead weight the build still pays for, so the index and the files
+     must agree in both directions. */
+  const hub = readFileSync(join(ROOT, "src/app/ToolsGrid.tsx"), "utf8");
+  const routed = [...hub.matchAll(/import\("\.\/([A-Za-z0-9_]+)"\)/g)].map((m) => m[1]);
+  assert.equal(routed.length, 22, `expected 22 routed tools, found ${routed.length}`);
+  assert.equal(new Set(routed).size, routed.length, "a tool is routed twice");
+
+  for (const name of routed) {
+    const file = join(ROOT, "src/app", `${name}.tsx`);
+    assert.ok(existsFile(file), `ToolsGrid routes ${name}, which does not exist`);
+    assert.match(readFileSync(file, "utf8"), /export default/, `${name} has no default export to lazy-load`);
+  }
+
+  /* Every tool is lazy, so opening the hub does not pull 22 chunks. */
+  assert.doesNotMatch(
+    hub.replace(/import\("\.\/[A-Za-z0-9_]+"\)/g, ""),
+    /^import .* from "\.\/(BodyFat|Rpe|Dots|Pace|Vo2|Glossary|Flashcards)/m,
+    "a tool is statically imported, defeating the code-splitting",
+  );
+
+  /* And the hub is reachable: a route nobody can navigate to is the same bug
+     one level up. */
+  const workspace = readFileSync(join(ROOT, "src/saas/ClientWorkspace.tsx"), "utf8");
+  assert.match(workspace, /import ToolsGrid from "\.\.\/app\/ToolsGrid"/, "the workspace must import the hub");
+  assert.match(workspace, /case "tools":/, "the workspace must render the tools section");
+  assert.match(workspace, /\{ id: "tools", label: "Tools" \}/, "the tools section must have a nav entry");
+});
+
 test("the demo source is labelled and refuses nothing it should allow", async () => {
   assert.equal(D.isLive(), false, "unit tests must never run against a live project");
   const source = new D.DemoSource(SEED.buildDemoSeed());

@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { useCheckout } from "./Checkout";
 import { isPlayStoreChannel } from "./PlatformChannel";
+import { useEntitlement, useGymEntitlement } from "../data/hooks";
+import { entitlementIsLive } from "../domain/validation";
 
 type Guide = {
   id: number;
@@ -100,18 +102,26 @@ function visibleBundles(bundles: Bundle[]): Bundle[] {
   return bundles.filter((b) => !PLAY_RESTRICTED_BUNDLE_IDS.has(b.id));
 }
 
-function purchasedKey(email: string | null | undefined) {
-  return `tfp_purchased_pdfs_${email ?? "guest"}`;
-}
-function loadPurchased(email: string | null | undefined): string[] {
-  try { return JSON.parse(localStorage.getItem(purchasedKey(email)) ?? "[]"); } catch { return []; }
-}
-function markPurchased(email: string | null | undefined, id: string) {
-  const cur = loadPurchased(email);
-  if (!cur.includes(id)) {
-    try { localStorage.setItem(purchasedKey(email), JSON.stringify([...cur, id])); } catch { /* storage full */ }
-  }
-}
+/* ── who may download ───────────────────────────────────────────────
+   This used to be a `localStorage` list of "purchased" ids that the page
+   both wrote and trusted, so editing one key in devtools granted the whole
+   catalog. Access now comes from the entitlement the backend wrote after a
+   verified payment — the same record the rest of the app reads, which no
+   browser session can write (`firestore.rules` denies it).
+
+   The guides are included with a plan rather than sold individually: the
+   backend's PLAN_CATALOG has no per-guide SKU, so `createCheckout` could
+   never price one. Checkout says the same thing when asked for an item.
+
+   STILL OPEN (deployment, not code): the PDFs are static files under
+   `public/guides/`, so they are fetchable by URL regardless of this gate.
+   Closing that means moving them into Cloud Storage behind `storage.rules`
+   and serving time-limited download URLs. See docs/REPO_ANALYSIS.md.
+   ────────────────────────────────────────────────────────────────── */
+
+/** Plans whose entitlement includes the full guide library. */
+const LIBRARY_PLANS = new Set(["pro", "elite", "gym_growth", "gym_scale", "gym_enterprise"]);
+
 function downloadFile(filename: string) {
   const a = document.createElement("a");
   a.href = `/guides/${filename}`;
@@ -203,17 +213,17 @@ function BuyModal({
           className="rounded-xl p-4 mb-6 text-center text-sm"
           style={{ background: "rgba(14,116,144,0.1)", color: "#9df8e7", border: "1px solid rgba(14,116,144,0.3)" }}
         >
-          Secure digital delivery after payment. Instant PDF download link sent to your email.
+          Included with a Pro or Elite plan. Access appears as soon as the payment provider confirms the subscription.
         </div>
         <button
           onClick={onProceed}
           className="w-full py-4 rounded-xl font-bold text-lg transition-all duration-200 hover:opacity-90 active:scale-95"
           style={{ background: "linear-gradient(135deg, #0e7490, #1a66d4)", color: "#e9f3f5" }}
         >
-          Proceed to Payment
+          Continue
         </button>
         <p className="text-center text-xs mt-4 opacity-50" style={{ color: "#e9f3f5" }}>
-          🔒 Secure checkout · UPI, Card & Net Banking accepted
+          🔒 Hosted provider checkout · UPI, Card &amp; Net Banking
         </p>
       </div>
     </div>
@@ -249,14 +259,17 @@ function GuideCard({ guide, owned, onBuy, onDownload }: { guide: Guide; owned: b
         {owned ? (
           <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(52,224,138,0.15)", color: "#34e08a", border: "1px solid rgba(52,224,138,0.35)" }}>✓ Owned</span>
         ) : (
-          <span className="text-2xl font-extrabold" style={{ color: "#ffb627" }}>₹{guide.price}</span>
+          /* Guides are not sold individually — the backend has no per-guide
+             SKU, so a "₹299 / Buy Now" card advertised a price nothing could
+             charge. It is included with a plan, and says so. */
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full" style={{ background: "rgba(255,182,39,0.12)", color: "#ffb627", border: "1px solid rgba(255,182,39,0.35)" }}>Included with Pro</span>
         )}
         <button
           onClick={() => (owned ? onDownload(guide) : onBuy(guide))}
           className="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:opacity-90 active:scale-95"
           style={{ background: owned ? "linear-gradient(135deg, #34e08a, #16c172)" : "linear-gradient(135deg, #0e7490, #1a66d4)", color: owned ? "#05231f" : "#e9f3f5" }}
         >
-          {owned ? "⬇ Download" : "Buy Now"}
+          {owned ? "⬇ Download" : "Unlock"}
         </button>
       </div>
     </div>
@@ -273,15 +286,14 @@ function BundleCard({ bundle, owned, onBuy }: { bundle: Bundle; owned: boolean; 
         className="absolute top-3 right-3 text-xs font-extrabold px-3 py-1 rounded-full"
         style={{ background: "linear-gradient(135deg, #ffb627, #ffb627)", color: "#04070e" }}
       >
-        SAVE {bundle.savings}
+        BUNDLE
       </div>
       <div className="text-4xl mb-3">{bundle.icon}</div>
       <h3 className="font-extrabold text-lg mb-1" style={{ color: "#ffb627" }}>{bundle.title}</h3>
       <p className="text-xs mb-3 opacity-70 leading-relaxed">{bundle.description}</p>
       <div className="text-xs mb-4 opacity-60">{bundle.guides}</div>
       <div className="flex items-end gap-3 mb-4">
-        <span className="text-3xl font-extrabold" style={{ color: "#ffb627" }}>₹{bundle.price}</span>
-        <span className="text-sm line-through opacity-50 mb-1">₹{bundle.originalPrice}</span>
+        <span className="text-xl font-extrabold" style={{ color: "#ffb627" }}>Included with Pro &amp; Elite</span>
       </div>
       <button
         onClick={() => !owned && onBuy(bundle)}
@@ -289,7 +301,7 @@ function BundleCard({ bundle, owned, onBuy }: { bundle: Bundle; owned: boolean; 
         className="w-full py-3 rounded-xl font-bold transition-all duration-200 hover:opacity-90 active:scale-95 disabled:cursor-default disabled:opacity-80"
         style={{ background: owned ? "linear-gradient(135deg, #34e08a, #16c172)" : "linear-gradient(135deg, #ffb627, #ffb627)", color: owned ? "#05231f" : "#04070e" }}
       >
-        {owned ? "✓ Owned — All Guides Unlocked" : "Buy Bundle"}
+        {owned ? "✓ All guides unlocked" : "See plans"}
       </button>
     </div>
   );
@@ -297,15 +309,23 @@ function BundleCard({ bundle, owned, onBuy }: { bundle: Bundle; owned: boolean; 
 
 export default function PDFStorePage() {
   const { user } = useAuth();
-  const { openItemCheckout } = useCheckout();
+  const { openCheckout } = useCheckout();
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
   const [selectedBundle, setSelectedBundle] = useState<Bundle | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [purchased, setPurchased] = useState<string[]>([]);
 
-  useEffect(() => { setPurchased(loadPurchased(user?.email)); }, [user?.email]);
+  /* A member can be entitled in their own right or through their gym's plan;
+     either unlocks the library. Both records are backend-written. */
+  const memberEntitlement = useEntitlement(user?.id ?? null);
+  const gymEntitlement = useGymEntitlement();
+  const unlocked = useMemo(() => {
+    for (const entitlement of [memberEntitlement.data, gymEntitlement.data]) {
+      if (entitlementIsLive(entitlement) && LIBRARY_PLANS.has(entitlement!.plan)) return true;
+    }
+    return false;
+  }, [memberEntitlement.data, gymEntitlement.data]);
 
   const availableGuides = useMemo(() => visibleGuides(GUIDES), []);
   const availableBundles = useMemo(() => visibleBundles(BUNDLES), []);
@@ -326,42 +346,37 @@ export default function PDFStorePage() {
 
   function downloadGuide(guide: Guide) {
     const file = GUIDE_FILES[guide.id];
-    if (file) downloadFile(file);
+    if (!file) return;
+    if (!unlocked) {
+      setToast("This guide is included with Pro and Elite — upgrade to unlock the library.");
+      setTimeout(() => setToast(null), 5000);
+      return;
+    }
+    downloadFile(file);
   }
 
+  /* Nothing here can unlock anything. An entitled member downloads; anyone
+     else is sent to the plan checkout, and access appears only after the
+     provider webhook writes the entitlement. */
   const handleProceed = () => {
     const guide = selectedGuide;
     const bundle = selectedBundle;
     setSelectedGuide(null);
     setSelectedBundle(null);
-    if (guide) {
-      openItemCheckout({
-        id: `guide-${guide.id}`,
-        title: guide.title,
-        price: guide.price,
-        onSuccess: () => {
-          markPurchased(user?.email, `guide-${guide.id}`);
-          setPurchased(loadPurchased(user?.email));
-          downloadGuide(guide);
-          setToast(`✓ ${guide.title} unlocked — download started`);
-          setTimeout(() => setToast(null), 5000);
-        },
-      });
-    } else if (bundle) {
-      openItemCheckout({
-        id: `bundle-${bundle.id}`,
-        title: bundle.title,
-        price: bundle.price,
-        onSuccess: () => {
-          markPurchased(user?.email, `bundle-${bundle.id}`);
-          setPurchased(loadPurchased(user?.email));
-          GUIDES.forEach((g) => { markPurchased(user?.email, `guide-${g.id}`); downloadGuide(g); });
-          setPurchased(loadPurchased(user?.email));
-          setToast(`✓ ${bundle.title} unlocked — all guides downloading`);
-          setTimeout(() => setToast(null), 5000);
-        },
-      });
+
+    if (unlocked) {
+      if (guide) {
+        downloadGuide(guide);
+        setToast(`✓ ${guide.title} — download started`);
+      } else if (bundle) {
+        GUIDES.forEach(downloadGuide);
+        setToast(`✓ ${bundle.title} — all guides downloading`);
+      }
+      setTimeout(() => setToast(null), 5000);
+      return;
     }
+
+    openCheckout("pro", "annual");
   };
 
   return (
@@ -381,7 +396,7 @@ export default function PDFStorePage() {
             <h2 className="text-2xl font-extrabold mb-6 text-center" style={{ color: "#ffb627" }}>Bundle Deals</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {availableBundles.map((b) => (
-                <BundleCard key={b.id} bundle={b} owned={purchased.includes(`bundle-${b.id}`)} onBuy={setSelectedBundle} />
+                <BundleCard key={b.id} bundle={b} owned={unlocked} onBuy={setSelectedBundle} />
               ))}
             </div>
           </div>
@@ -426,7 +441,7 @@ export default function PDFStorePage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
             {filtered.map((g) => (
-              <GuideCard key={g.id} guide={g} owned={purchased.includes(`guide-${g.id}`)} onBuy={setSelectedGuide} onDownload={downloadGuide} />
+              <GuideCard key={g.id} guide={g} owned={unlocked} onBuy={setSelectedGuide} onDownload={downloadGuide} />
             ))}
           </div>
         )}
@@ -448,36 +463,45 @@ export default function PDFStorePage() {
 
 export function PDFStoreSection() {
   const { user } = useAuth();
-  const { openItemCheckout } = useCheckout();
+  const { openCheckout } = useCheckout();
   const [selectedGuide, setSelectedGuide] = useState<Guide | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const [purchased, setPurchased] = useState<string[]>([]);
 
-  useEffect(() => { setPurchased(loadPurchased(user?.email)); }, [user?.email]);
+  /* Same rule as the full store: access is the backend's entitlement, never
+     a list this component wrote for itself. */
+  const memberEntitlement = useEntitlement(user?.id ?? null);
+  const gymEntitlement = useGymEntitlement();
+  const unlocked = useMemo(() => {
+    for (const entitlement of [memberEntitlement.data, gymEntitlement.data]) {
+      if (entitlementIsLive(entitlement) && LIBRARY_PLANS.has(entitlement!.plan)) return true;
+    }
+    return false;
+  }, [memberEntitlement.data, gymEntitlement.data]);
 
   const featured = visibleGuides(GUIDES).slice(0, 6);
 
   function downloadGuide(guide: Guide) {
     const file = GUIDE_FILES[guide.id];
-    if (file) downloadFile(file);
+    if (!file) return;
+    if (!unlocked) {
+      setToast("This guide is included with Pro and Elite — upgrade to unlock the library.");
+      setTimeout(() => setToast(null), 5000);
+      return;
+    }
+    downloadFile(file);
   }
 
   const handleProceed = () => {
     const guide = selectedGuide;
     setSelectedGuide(null);
     if (!guide) return;
-    openItemCheckout({
-      id: `guide-${guide.id}`,
-      title: guide.title,
-      price: guide.price,
-      onSuccess: () => {
-        markPurchased(user?.email, `guide-${guide.id}`);
-        setPurchased(loadPurchased(user?.email));
-        downloadGuide(guide);
-        setToast(`✓ ${guide.title} unlocked — download started`);
-        setTimeout(() => setToast(null), 5000);
-      },
-    });
+    if (unlocked) {
+      downloadGuide(guide);
+      setToast(`✓ ${guide.title} — download started`);
+      setTimeout(() => setToast(null), 5000);
+      return;
+    }
+    openCheckout("pro", "annual");
   };
 
   return (
@@ -491,7 +515,7 @@ export function PDFStoreSection() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {featured.map((g) => (
-            <GuideCard key={g.id} guide={g} owned={purchased.includes(`guide-${g.id}`)} onBuy={setSelectedGuide} onDownload={downloadGuide} />
+            <GuideCard key={g.id} guide={g} owned={unlocked} onBuy={setSelectedGuide} onDownload={downloadGuide} />
           ))}
         </div>
         <div className="text-center mt-8">
