@@ -40,3 +40,9 @@ docs/audit-archive/
 # how to purge history if that matters).
 *-audit-*.txt
 *-production-action-*.txt
+
+# Local MCP server wiring. Kept out of the tree: a committed .mcp.json bakes
+# in a placeholder credential and makes every session start by failing to
+# connect to a host the network policy does not allow. None of the skills in
+# .claude/skills/ need an MCP server to work.
+.mcp.json
