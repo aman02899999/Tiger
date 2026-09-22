@@ -1,12 +1,14 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { useAuth } from "../auth/AuthSystem";
 import { isPlayBillingAvailable, purchaseWithPlayBilling, acknowledgePlayPurchase } from "./PlayBilling";
+import { BackendError, verifyPlayPurchase, type CheckoutCycle, type CheckoutPlan } from "../services/backend";
+import { startProviderCheckout, checkoutFailureMessage } from "../services/providerCheckout";
 
 const PAYMENT_SETUP_MESSAGE =
   "Payment verification is not configured in this environment. Nothing was charged and no plan changed — entitlements are issued only by a verified provider webhook.";
 
 const PLAY_VERIFICATION_MESSAGE =
-  "The Play purchase could not be server-verified yet, so no entitlement was granted. It unlocks automatically once the backend acknowledges the purchase token.";
+  "Google Play could not confirm this purchase, so no entitlement was granted. Nothing extra was charged — if Play shows the payment, it will unlock on the next sign-in once verification succeeds.";
 
 /* ---------------------------------------------------------------- */
 /* Checkout — the UI half of the payment path                        */
@@ -19,6 +21,9 @@ const PLAY_VERIFICATION_MESSAGE =
 /* entitlements are written only by a verified provider webhook, and  */
 /* `firestore.rules` denies client writes to commercial fields.       */
 /* ---------------------------------------------------------------- */
+
+const ITEM_CHECKOUT_MESSAGE =
+  "Individual guides are not sold through the subscription checkout. They are included with a Pro or Elite plan — upgrade once and every guide unlocks.";
 
 export type PlanId = "pro" | "elite" | "lifetime";
 
@@ -44,6 +49,14 @@ export const PLANS: Record<PlanId, PlanDef> = {
 function playSkuFor(planId: PlanId, cycle: "monthly" | "annual"): string {
   if (planId === "lifetime") return "elite_lifetime";
   return `${planId}_${cycle}`;
+}
+
+/* The UI's three cards map onto the backend's plan catalog, where "lifetime"
+   is not a plan but the `elite` plan on a lifetime cycle. Keeping the mapping
+   in one place stops the two vocabularies from drifting apart. */
+function backendPlanFor(planId: PlanId, cycle: "monthly" | "annual"): { plan: CheckoutPlan; cycle: CheckoutCycle } {
+  if (planId === "lifetime") return { plan: "elite", cycle: "lifetime" };
+  return { plan: planId === "pro" ? "pro" : "elite", cycle };
 }
 
 const COUPONS: Record<string, { pct: number; label: string }> = {
@@ -148,62 +161,55 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
         return;
       }
 
-      /* A purchase token proves nothing until Google's server-side
-         acknowledgement round-trips through our backend. Until that endpoint
-         is deployed we stop here — the honest branch the old code hardcoded
-         as `verificationRequired = true`. */
-      const verified = await verifyPlayPurchaseState(result.purchaseToken, sku);
-      if (!verified) {
-        setStep("pay");
-        setFailure(PLAY_VERIFICATION_MESSAGE);
-        return;
-      }
+      /* A purchase token proves nothing until Google confirms it. This
+         callable throws unless the Android Publisher API verified the token
+         against our package name, so reaching the next line *is* the proof.
+         The previous implementation POSTed to `/api/billing/play-verify`,
+         which no hosting rule routed — the SPA catch-all answered it with
+         index.html and HTTP 200, so `response.ok` "verified" every purchase
+         including ones Play had rejected. */
+      await verifyPlayPurchase({ purchaseToken: result.purchaseToken, productId: sku });
 
       await acknowledgePlayPurchase(result.purchaseToken);
       if (state.kind === "item") state.item.onSuccess();
       setStep("success");
       setTimeout(onClose, 2400);
-    } catch {
+    } catch (error) {
       setStep("pay");
-    }
-  }
-
-  /** Asks the trusted backend to verify a Play purchase before anything unlocks. */
-  async function verifyPlayPurchaseState(purchaseToken: string, sku: string): Promise<boolean> {
-    try {
-      const response = await fetch("/api/billing/play-verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ purchaseToken, sku, userId: user?.id }),
-      });
-      return response.ok;
-    } catch {
-      return false;
+      setFailure(error instanceof BackendError ? error.message : PLAY_VERIFICATION_MESSAGE);
     }
   }
 
   async function pay() {
     if (playAvailable) return payViaPlay();
+
+    /* One-off item purchases (PDF guides, bundles) have no plan in the
+       backend catalog, so there is nothing for `createCheckout` to price.
+       Say so instead of starting an order that would be refused. */
+    if (state.kind === "item") {
+      setFailure(ITEM_CHECKOUT_MESSAGE);
+      return;
+    }
+
     setStep("processing");
+    setFailure(null);
     try {
-      const response = await fetch("/api/billing/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          plan: state.kind === "plan" ? state.plan : null,
-          itemId: state.kind === "item" ? state.item.id : null,
-          cycle: state.kind === "plan" ? state.cycle : null,
-          coupon: appliedCoupon?.code ?? null,
-          userId: user?.id ?? null,
-        }),
+      const { plan, cycle } = backendPlanFor(state.plan, state.cycle);
+      /* The order is priced by the server but is NOT captured. The provider's
+         sheet collects the money and its webhook — the only writer of
+         entitlements — moves the payment to `captured`. */
+      await startProviderCheckout({
+        plan,
+        cycle,
+        coupon: appliedCoupon?.code ?? null,
+        description: title,
+        email: user?.email ?? null,
+        onSubmitted: () => setStep("success"),
+        onDismissed: () => setStep("pay"),
       });
-      if (!response.ok) throw new Error(String(response.status));
-      const payload = (await response.json()) as { checkoutUrl?: string };
-      if (!payload.checkoutUrl) throw new Error("no checkout url");
-      window.location.href = payload.checkoutUrl;
-    } catch {
+    } catch (error) {
       setStep("pay");
-      setFailure(PAYMENT_SETUP_MESSAGE);
+      setFailure(error instanceof BackendError ? checkoutFailureMessage(error) : PAYMENT_SETUP_MESSAGE);
     }
   }
 
@@ -270,7 +276,7 @@ function CheckoutModal({ state, onClose }: { state: CheckoutState; onClose: () =
                   <button type="button" onClick={pay} className="btn-gloss w-full rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 py-3.5 text-sm font-black uppercase tracking-[0.16em] text-white">
                     ▶️ Continue with Google Play
                   </button>
-                  <p className="mt-3 text-xs text-[#e9f3f5]/60">This environment is not configured for live entitlement verification. The app will not grant premium access until the backend confirms the purchase.</p>
+                  <p className="mt-3 text-xs text-[#e9f3f5]/60">Premium access is granted only after Google Play confirms the purchase with our server — usually within a second of the sheet closing.</p>
                 </>
               ) : (
                 <>

@@ -9,7 +9,8 @@
  *   1. PERMISSION MATRIX      every role × capability decision
  *   2. TENANT ISOLATION       cross-gym / cross-trainer / cross-client
  *   3. ENTITLEMENT READ-ONLY  the browser cannot grant itself anything
- *   4. PAYMENT VERIFICATION   signature, pricing, idempotency, refunds
+ *   4. PAYMENT VERIFICATION   signature, pricing, idempotency, refunds,
+ *                             Google Play product mapping and expiry
  *   5. RULES INVARIANTS       firestore.rules & storage.rules, parsed
  *   6. REGISTRY ↔ RULES       every collection accounted for, both ways
  *   7. INDEXES                firestore.indexes.json matches the queries
@@ -648,6 +649,110 @@ test("the service account key and provider secrets never appear in the client bu
   }
 });
 
+/* ── Google Play billing ────────────────────────────────────────── */
+
+test("an unknown Play product is refused, never defaulted to a plan", () => {
+  assert.equal(VERIFY.playProductFor("not_a_product"), null);
+  assert.equal(VERIFY.playProductFor(""), null);
+  assert.equal(VERIFY.playProductFor(null), null);
+  const result = VERIFY.entitlementFromPlay({
+    uid: "user_1",
+    productId: "free_elite_please",
+    purchaseTokenHash: "a".repeat(64),
+  });
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "unknown_product");
+});
+
+test("only Google's ACTIVE subscription state grants", () => {
+  assert.equal(VERIFY.isActivePlayState("SUBSCRIPTION_STATE_ACTIVE"), true);
+  /* Grace period and on-hold mean Google is still trying to charge the card. */
+  assert.equal(VERIFY.isActivePlayState("SUBSCRIPTION_STATE_IN_GRACE_PERIOD"), false);
+  assert.equal(VERIFY.isActivePlayState("SUBSCRIPTION_STATE_ON_HOLD"), false);
+  assert.equal(VERIFY.isActivePlayState("SUBSCRIPTION_STATE_CANCELED"), false);
+  assert.equal(VERIFY.isActivePlayState(null), false);
+});
+
+test("a Play subscription carries Google's expiry, and a past expiry is refused", () => {
+  const now = new Date("2026-01-01T00:00:00.000Z");
+  const ok = VERIFY.entitlementFromPlay(
+    { uid: "user_1", productId: "pro_monthly", expiryTime: "2026-02-01T00:00:00.000Z", purchaseTokenHash: "b".repeat(64) },
+    now,
+  );
+  assert.equal(ok.ok, true);
+  assert.equal(ok.entitlement.plan, "pro");
+  assert.equal(ok.entitlement.source, "play");
+  assert.equal(ok.entitlement.subjectType, "user");
+  assert.equal(ok.entitlement.expiresAt, "2026-02-01T00:00:00.000Z");
+
+  const stale = VERIFY.entitlementFromPlay(
+    { uid: "user_1", productId: "pro_monthly", expiryTime: "2025-12-01T00:00:00.000Z", purchaseTokenHash: "b".repeat(64) },
+    now,
+  );
+  assert.equal(stale.ok, false);
+  assert.equal(stale.reason, "expired");
+});
+
+test("a missing Play expiry falls back to the catalog duration, not to perpetual", () => {
+  const now = new Date("2026-01-01T00:00:00.000Z");
+  const result = VERIFY.entitlementFromPlay(
+    { uid: "user_1", productId: "elite_annual", expiryTime: null, purchaseTokenHash: "c".repeat(64) },
+    now,
+  );
+  assert.equal(result.ok, true);
+  assert.ok(result.entitlement.expiresAt, "a recurring plan must never be issued without an expiry");
+  assert.ok(new Date(result.entitlement.expiresAt).getTime() > now.getTime());
+});
+
+test("the lifetime product is the only Play purchase that never expires", () => {
+  const result = VERIFY.entitlementFromPlay({
+    uid: "user_1",
+    productId: "elite_lifetime",
+    purchaseTokenHash: "d".repeat(64),
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.entitlement.expiresAt, null);
+  assert.equal(result.entitlement.plan, "elite");
+});
+
+test("a Play entitlement is keyed to the buyer and the token hash, never the raw token", () => {
+  const hash = "e".repeat(64);
+  const result = VERIFY.entitlementFromPlay({ uid: "user_9", productId: "pro_annual", purchaseTokenHash: hash });
+  assert.equal(result.ok, true);
+  assert.equal(result.entitlement.subjectId, "user_9");
+  assert.equal(result.entitlement.providerRef, `play:${hash}`);
+
+  assert.equal(VERIFY.entitlementFromPlay({ uid: "", productId: "pro_annual", purchaseTokenHash: hash }).reason, "missing_uid");
+  assert.equal(VERIFY.entitlementFromPlay({ uid: "user_9", productId: "pro_annual", purchaseTokenHash: "" }).reason, "missing_token_hash");
+});
+
+test("every Play product in the catalog prices to a real, paid plan", () => {
+  for (const [productId, definition] of Object.entries(VERIFY.PLAY_PRODUCT_CATALOG)) {
+    assert.equal(definition.productId, productId, "catalog key and productId must agree");
+    const plan = VERIFY.PLAN_CATALOG[definition.plan];
+    assert.ok(plan, `${productId} maps to an unknown plan ${definition.plan}`);
+    assert.ok(
+      plan.amountMinor[definition.cycle] > 0,
+      `${productId} maps to ${definition.plan}/${definition.cycle}, which has no price — that is a free grant`,
+    );
+  }
+});
+
+test("the Play verification callable cannot be reached without authentication", () => {
+  const backend = readFileSync(join(ROOT, "functions/src/index.ts"), "utf8");
+  const start = backend.indexOf("export const verifyPlayPurchase");
+  assert.ok(start > 0, "verifyPlayPurchase must exist");
+  const body = backend.slice(start, backend.indexOf("export const", start + 10));
+  assert.match(body, /requireAuth\(request\)/, "verifyPlayPurchase must require a signed-in caller");
+  assert.match(body, /createHash\("sha256"\)/, "the raw purchase token must never be stored");
+  assert.match(body, /paymentVerifications/, "verification must be recorded for idempotency");
+  assert.match(body, /permission-denied/, "a token replayed across accounts must be refused");
+  /* The token may be passed to Google; it must never land in a written document. */
+  for (const write of body.match(/batch\.set\([\s\S]*?\n  \);/g) ?? []) {
+    assert.doesNotMatch(write, /\bpurchaseToken\b(?!Hash)/, "a Firestore write includes the raw purchase token");
+  }
+});
+
 /* ═══════════════════════════════════════════════════════════════════
    5–6. RULES INVARIANTS & REGISTRY AGREEMENT
    ═══════════════════════════════════════════════════════════════════ */
@@ -958,6 +1063,75 @@ test("no frontend admin password, simulated payment or authority in localStorage
   }
   const envExample = readFileSync(join(ROOT, ".env.example"), "utf8");
   assert.doesNotMatch(envExample, /VITE_ADMIN_PASSWORD/, ".env.example still offers a frontend admin password");
+});
+
+test("no screen calls an unrouted /api/* path", () => {
+  /* REGRESSION: five screens POSTed to `/api/billing/*` and
+     `/api/admin/assign-role`. Neither firebase.json nor vercel.json routes
+     `/api/**` — both rewrite `**` to `/index.html`, so those fetches got the
+     SPA shell back with HTTP 200. Checkout treated `response.ok` as proof a
+     Play purchase was verified, and AdminConsole reported "Role updated" for a
+     role change that never happened. The trusted backend is reached through
+     callables; a callable throws rather than silently succeeding. */
+  const hosting = JSON.parse(readFileSync(join(ROOT, "firebase.json"), "utf8"));
+  const rewrites = (hosting.hosting ?? []).flatMap((site) => site.rewrites ?? []);
+  const routesApi = rewrites.some((rule) => String(rule.source ?? "").startsWith("/api"));
+
+  for (const file of walkFiles(join(ROOT, "src"), [".ts", ".tsx"])) {
+    /* Strip comments first: the files that carried this bug now *document*
+       it, and a regex that cannot tell code from prose would flag the fix. */
+    const code = readFileSync(file, "utf8")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/(^|[^:])\/\/.*$/gm, "$1");
+    const label = relative(ROOT, file);
+    const calls = code.match(/fetch\(\s*["'`]\/api\//g) ?? [];
+    if (calls.length && !routesApi) {
+      assert.fail(`${label} fetches /api/* but no hosting rewrite routes it — it receives index.html with HTTP 200`);
+    }
+  }
+});
+
+test("the client can actually reach the trusted backend", () => {
+  /* The callable backend existed but nothing imported firebase/functions, so
+     every privileged operation was unreachable from the running app. */
+  const firebaseModule = readFileSync(join(ROOT, "src/firebase.ts"), "utf8");
+  assert.match(firebaseModule, /from "firebase\/functions"/, "src/firebase.ts must expose the callable client");
+  assert.match(firebaseModule, /FUNCTIONS_REGION/, "the callable region must be explicit, not defaulted");
+
+  const client = readFileSync(join(ROOT, "src/services/backend.ts"), "utf8");
+  const backend = readFileSync(join(ROOT, "functions/src/index.ts"), "utf8");
+  const named = [...client.matchAll(/call<[^>]*>\(\s*"([A-Za-z0-9_]+)"/g)].map((m) => m[1]);
+  assert.ok(named.length >= 5, "expected the client to wrap at least five callables");
+  for (const name of named) {
+    assert.match(backend, new RegExp(`export const ${name}\\b`), `functions/src/index.ts does not export ${name}`);
+  }
+  for (const callable of ["createCheckout", "verifyPlayPurchase", "adminAssignRole"]) {
+    assert.ok(named.includes(callable), `backend.ts must wrap the ${callable} callable`);
+  }
+});
+
+test("every upgrade button goes through the one shared checkout path", () => {
+  /* Four screens each had their own copy of "start a checkout", and each was
+     wrong in the same way. One implementation is the fix. */
+  const screens = [
+    "src/app/Checkout.tsx",
+    "src/saas/Pricing.tsx",
+    "src/saas/ClientBilling.tsx",
+    "src/saas/GymBilling.tsx",
+  ];
+  for (const screen of screens) {
+    const source = readFileSync(join(ROOT, screen), "utf8");
+    assert.match(source, /startProviderCheckout/, `${screen} must use the shared provider checkout`);
+    assert.doesNotMatch(source, /checkoutUrl/, `${screen} still expects the removed checkoutUrl response`);
+  }
+  /* The shared path may *mention* entitlements in its rationale; what it must
+     not do is write one. It has no database handle at all, which is the
+     strongest form of that guarantee. */
+  const shared = readFileSync(join(ROOT, "src/services/providerCheckout.ts"), "utf8")
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/(^|[^:])\/\/.*$/gm, "$1");
+  assert.doesNotMatch(shared, /firebase\/firestore|setDoc|updateDoc|requireDb/, "the checkout path must not touch the database");
+  assert.doesNotMatch(shared, /setPlan|grantEntitlement|\bplan\s*=/, "the checkout path must not assign a plan");
 });
 
 test("the demo source is labelled and refuses nothing it should allow", async () => {

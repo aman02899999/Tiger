@@ -310,3 +310,129 @@ export function entitlementFromGrant(grant: VerifiedGrant, now = new Date()): En
     updatedAt: now.toISOString(),
   };
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   GOOGLE PLAY BILLING
+   ───────────────────────────────────────────────────────────────────
+   The Android build is a Trusted Web Activity, so digital purchases
+   made inside it MUST go through Play Billing (Play policy), not the
+   Razorpay path the website uses. Play hands the client an opaque
+   `purchaseToken`; that token proves nothing until it is exchanged
+   with Google's Android Publisher API server-side.
+
+   These functions are the pure half of that exchange — the product-id
+   mapping and the entitlement shape — kept here so `test-saas.mjs`
+   asserts the same mapping the deployed function runs on. The network
+   call itself lives in `index.ts::verifyPlayPurchase`.
+
+   Product ids are created in Play Console; see PLAY_CONSOLE_SETUP.md.
+   A product id absent from this catalog is refused rather than guessed,
+   because guessing is how an unpriced SKU becomes a free Elite plan.
+   ═══════════════════════════════════════════════════════════════════ */
+
+export type PlayProductKind = "subscription" | "onetime";
+
+export type PlayProductDefinition = {
+  productId: string;
+  plan: EntitlementPlan;
+  cycle: BillingCycle;
+  kind: PlayProductKind;
+};
+
+export const PLAY_PRODUCT_CATALOG: Record<string, PlayProductDefinition> = {
+  pro_monthly: { productId: "pro_monthly", plan: "pro", cycle: "monthly", kind: "subscription" },
+  pro_annual: { productId: "pro_annual", plan: "pro", cycle: "annual", kind: "subscription" },
+  elite_monthly: { productId: "elite_monthly", plan: "elite", cycle: "monthly", kind: "subscription" },
+  elite_annual: { productId: "elite_annual", plan: "elite", cycle: "annual", kind: "subscription" },
+  elite_lifetime: { productId: "elite_lifetime", plan: "elite", cycle: "lifetime", kind: "onetime" },
+};
+
+/** The catalog entry for a Play product id, or null when the id is unknown. */
+export function playProductFor(productId: string | null | undefined): PlayProductDefinition | null {
+  if (typeof productId !== "string" || !productId) return null;
+  return PLAY_PRODUCT_CATALOG[productId] ?? null;
+}
+
+/**
+ * True only for the subscription state Google reports for a live, paying
+ * subscription. Grace period and on-hold deliberately do NOT grant: they
+ * mean Google is still trying to charge the card.
+ */
+export function isActivePlayState(state: string | null | undefined): boolean {
+  return state === "SUBSCRIPTION_STATE_ACTIVE";
+}
+
+export type PlayVerificationInput = {
+  uid: string;
+  productId: string;
+  /** RFC3339 expiry from Google for a subscription; null for a one-time product. */
+  expiryTime?: string | null;
+  /** SHA-256 of the purchase token — the token itself is never stored. */
+  purchaseTokenHash: string;
+};
+
+export type PlayVerificationFailure = {
+  ok: false;
+  reason: "unknown_product" | "missing_uid" | "missing_token_hash" | "expired";
+};
+
+export type PlayVerificationSuccess = {
+  ok: true;
+  entitlement: EntitlementDocument;
+  product: PlayProductDefinition;
+};
+
+/**
+ * Turns a *already-verified-with-Google* purchase into the entitlement
+ * document to persist. Refuses unknown products, missing identities and
+ * already-expired subscriptions instead of defaulting them to something
+ * generous.
+ */
+export function entitlementFromPlay(
+  input: PlayVerificationInput,
+  now = new Date(),
+): PlayVerificationSuccess | PlayVerificationFailure {
+  if (!input.uid) return { ok: false, reason: "missing_uid" };
+  if (!input.purchaseTokenHash) return { ok: false, reason: "missing_token_hash" };
+
+  const product = playProductFor(input.productId);
+  if (!product) return { ok: false, reason: "unknown_product" };
+
+  const definition = PLAN_CATALOG[product.plan];
+
+  /* A lifetime product never expires. A subscription expires when Google
+     says it does; if Google already reports a past expiry we refuse rather
+     than grant a window that has closed. */
+  let expiresAt: string | null = null;
+  if (product.cycle !== "lifetime") {
+    if (input.expiryTime) {
+      const parsed = new Date(input.expiryTime);
+      if (Number.isNaN(parsed.getTime())) return { ok: false, reason: "expired" };
+      if (parsed.getTime() <= now.getTime()) return { ok: false, reason: "expired" };
+      expiresAt = parsed.toISOString();
+    } else {
+      /* Google omitted an expiry on a recurring product — fall back to the
+         catalog duration rather than treating it as perpetual. */
+      const days = definition.durationDays[product.cycle];
+      expiresAt = days === null ? null : new Date(now.getTime() + days * 86_400_000).toISOString();
+    }
+  }
+
+  return {
+    ok: true,
+    product,
+    entitlement: {
+      subjectType: "user",
+      subjectId: input.uid,
+      gymId: null,
+      plan: product.plan,
+      status: "active",
+      source: "play",
+      startedAt: now.toISOString(),
+      expiresAt,
+      ...(definition.seats ? { seats: definition.seats } : {}),
+      providerRef: `play:${input.purchaseTokenHash}`,
+      updatedAt: now.toISOString(),
+    },
+  };
+}

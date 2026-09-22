@@ -16,6 +16,7 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 import { useMemo, useState } from "react";
+import { adminAssignRole, BackendError } from "../services/backend";
 import { useAuth } from "../auth/AuthSystem";
 import { useAsyncData, useTenant } from "../data/DataProvider";
 import { formatInr, isoDay, relativeTime } from "../data/analytics";
@@ -344,19 +345,25 @@ function RoleChangeModal({
   async function apply() {
     setBusy(true);
     try {
-      const response = await fetch("/api/admin/assign-role", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, role, gymId: role === "super_admin" ? null : gymId, plan }),
+      /* A callable, not `fetch("/api/...")`. The old path was never routed —
+         the SPA catch-all answered it with index.html and HTTP 200, so this
+         dialog reported "Role updated" on a privileged action that had not
+         happened. A callable throws instead of quietly succeeding. */
+      await adminAssignRole({
+        userId,
+        role,
+        gymId: role === "super_admin" ? null : gymId,
+        plan: plan === "free" ? null : plan,
       });
-      if (!response.ok) throw new Error(String(response.status));
       toast.push("Role updated. The user's claims refresh on their next token.", "success");
       onDone();
       if (userId === "self") void refreshClaims();
       onClose();
-    } catch {
+    } catch (error) {
       toast.push(
-        "No trusted backend is deployed in this environment, so no role was changed. See the provisioning runbook.",
+        error instanceof BackendError
+          ? error.message
+          : "No role was changed. See the provisioning runbook.",
         "error",
       );
     } finally {

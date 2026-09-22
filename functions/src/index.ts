@@ -20,6 +20,8 @@ import { HttpsError, onCall, onRequest } from "firebase-functions/v2/https";
 import { onDocumentWritten } from "firebase-functions/v2/firestore";
 import { defineSecret } from "firebase-functions/params";
 import { logger } from "firebase-functions";
+import { createHash } from "node:crypto";
+import { google } from "googleapis";
 
 import {
   applyCoupon,
@@ -28,6 +30,9 @@ import {
   entitlementFromGrant,
   revocationFor,
   verifyWebhookSignature,
+  entitlementFromPlay,
+  isActivePlayState,
+  playProductFor,
   type BillingCycle,
   type EntitlementPlan,
 } from "./verification";
@@ -39,6 +44,7 @@ const auth = getAuth();
 const RAZORPAY_KEY_ID = defineSecret("RAZORPAY_KEY_ID");
 const RAZORPAY_KEY_SECRET = defineSecret("RAZORPAY_KEY_SECRET");
 const RAZORPAY_WEBHOOK_SECRET = defineSecret("RAZORPAY_WEBHOOK_SECRET");
+const PLAY_PACKAGE_NAME = defineSecret("PLAY_PACKAGE_NAME");
 
 const VALID_ROLES = ["super_admin", "gym_owner", "trainer", "client"] as const;
 type Role = (typeof VALID_ROLES)[number];
@@ -407,6 +413,169 @@ export const paymentWebhook = onRequest(
     }
   },
 );
+
+/* ── 5b. Google Play Billing: verify, then grant ─────────────────── */
+
+/**
+ * Exchanges a Play `purchaseToken` for an entitlement.
+ *
+ * TRUST BOUNDARY: the token arrives from the client and is worthless on
+ * its own — anyone can POST a string. It only becomes evidence after
+ * Google's Android Publisher API confirms it against our package name.
+ * The token itself is never stored; only its SHA-256, which is what makes
+ * replay detectable without keeping a live credential in Firestore.
+ *
+ * Idempotent on the token hash: Play retries, and a user can call this
+ * again after reinstalling, but an entitlement must never stack.
+ */
+export const verifyPlayPurchase = onCall({ secrets: [PLAY_PACKAGE_NAME] }, async (request) => {
+  const actor = requireAuth(request);
+
+  const purchaseToken = (request.data?.purchaseToken ?? null) as string | null;
+  const productId = (request.data?.productId ?? request.data?.sku ?? null) as string | null;
+
+  if (typeof purchaseToken !== "string" || purchaseToken.length < 20) {
+    throw new HttpsError("invalid-argument", "A Play purchase token is required.");
+  }
+
+  const product = playProductFor(productId);
+  if (!product) {
+    /* An unpriced SKU must never fall through to a default plan. */
+    throw new HttpsError("invalid-argument", `Unknown Play product: ${String(productId)}`);
+  }
+
+  const packageName = PLAY_PACKAGE_NAME.value();
+  if (!packageName) {
+    throw new HttpsError(
+      "failed-precondition",
+      "PLAY_PACKAGE_NAME is not configured. Set the secret, then redeploy — nothing is granted until Play can be queried.",
+    );
+  }
+
+  const tokenHash = createHash("sha256").update(purchaseToken).digest("hex");
+  const verificationRef = db.collection("paymentVerifications").doc(`play_${tokenHash}`);
+
+  /* Idempotency first: a token already exchanged for this user is a no-op,
+     and the same token seen for a *different* user is a replay attempt. */
+  const seen = await verificationRef.get();
+  if (seen.exists) {
+    const seenUid = seen.data()?.uid as string | undefined;
+    if (seenUid && seenUid !== actor.uid) {
+      logger.warn("play token replay across accounts", { tokenHash, seenUid, caller: actor.uid });
+      throw new HttpsError("permission-denied", "This purchase belongs to a different account.");
+    }
+    return { status: "active", plan: seen.data()?.plan ?? product.plan, idempotent: true };
+  }
+
+  const publisher = google.androidpublisher({
+    version: "v3",
+    auth: new google.auth.GoogleAuth({ scopes: ["https://www.googleapis.com/auth/androidpublisher"] }),
+  });
+
+  let expiryTime: string | null = null;
+  let googleProductId: string | null = null;
+  let state: string | null = null;
+
+  try {
+    if (product.kind === "subscription") {
+      const purchase = await publisher.purchases.subscriptionsv2.get({ packageName, token: purchaseToken });
+      state = purchase.data.subscriptionState ?? null;
+      const lineItem = purchase.data.lineItems?.[0];
+      googleProductId = lineItem?.productId ?? null;
+      expiryTime = lineItem?.expiryTime ?? null;
+      if (!isActivePlayState(state)) {
+        throw new HttpsError("failed-precondition", `This subscription is not active (${String(state)}).`);
+      }
+    } else {
+      const purchase = await publisher.purchases.products.get({
+        packageName,
+        productId: product.productId,
+        token: purchaseToken,
+      });
+      /* purchaseState 0 = purchased. 1 = cancelled, 2 = pending. */
+      if (purchase.data.purchaseState !== 0) {
+        throw new HttpsError("failed-precondition", "This purchase is not completed.");
+      }
+      googleProductId = purchase.data.productId ?? product.productId;
+      state = "PURCHASED";
+    }
+  } catch (error) {
+    if (error instanceof HttpsError) throw error;
+    logger.error("play verification failed", { tokenHash, error: String(error) });
+    throw new HttpsError("failed-precondition", "Google Play could not verify this purchase.");
+  }
+
+  /* Google is authoritative about which product the token belongs to. If it
+     disagrees with the client's claim, trust Google, not the caller. */
+  if (googleProductId && googleProductId !== product.productId) {
+    logger.warn("play product mismatch", { claimed: product.productId, actual: googleProductId });
+    throw new HttpsError("permission-denied", "This purchase does not match the requested product.");
+  }
+
+  const result = entitlementFromPlay({
+    uid: actor.uid,
+    productId: product.productId,
+    expiryTime,
+    purchaseTokenHash: tokenHash,
+  });
+
+  if (!result.ok) {
+    throw new HttpsError("failed-precondition", `Play purchase rejected: ${result.reason}`);
+  }
+
+  const batch = db.batch();
+  batch.set(verificationRef, {
+    uid: actor.uid,
+    provider: "play",
+    productId: product.productId,
+    plan: product.plan,
+    cycle: product.cycle,
+    state,
+    purchaseTokenHash: tokenHash,
+    verifiedAt: FieldValue.serverTimestamp(),
+  });
+  batch.set(
+    db.collection("payments").doc(`play_${tokenHash}`),
+    {
+      gymId: null,
+      userId: actor.uid,
+      provider: "play",
+      providerRef: `play:${tokenHash}`,
+      amountMinor: null, /* Play settles in its own ledger; we do not invent an amount. */
+      currency: null,
+      status: "captured",
+      plan: product.plan,
+      createdAt: FieldValue.serverTimestamp(),
+      verifiedAt: FieldValue.serverTimestamp(),
+      verifiedBy: "callable:verifyPlayPurchase",
+    },
+    { merge: true },
+  );
+  batch.set(
+    db.collection("entitlements").doc(actor.uid),
+    result.entitlement as unknown as Record<string, unknown>,
+    { merge: true },
+  );
+  batch.set(db.collection("auditLog").doc(), {
+    actorId: actor.uid,
+    actorRole: (actor.token.role as string) ?? "client",
+    gymId: null,
+    action: "entitlement.grant",
+    entity: "entitlements",
+    entityId: actor.uid,
+    at: FieldValue.serverTimestamp(),
+    meta: { provider: "play", plan: product.plan, cycle: product.cycle, productId: product.productId },
+  });
+  await batch.commit();
+
+  logger.info("play entitlement granted", { uid: actor.uid, plan: product.plan });
+  return {
+    status: "active",
+    plan: result.entitlement.plan,
+    expiresAt: result.entitlement.expiresAt,
+    idempotent: false,
+  };
+});
 
 /* ── 6. Default claims for brand-new identities ─────────────────── */
 

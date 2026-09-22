@@ -8,6 +8,8 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 import { useState } from "react";
+import { startProviderCheckout, checkoutFailureMessage } from "../services/providerCheckout";
+import type { CheckoutPlan } from "../services/backend";
 import { useAuth } from "../auth/AuthSystem";
 import { useAsyncData, useTenant } from "../data/DataProvider";
 import { formatInr, isoDay } from "../data/analytics";
@@ -22,6 +24,13 @@ const TIERS: Record<GymPlan, { label: string; price: number; seats: { trainers: 
 };
 
 /** Maps an entitlement plan onto the gym tier it unlocks (client tiers fall back to growth). */
+/* The inverse of `gymPlanOf`: the backend catalog keys gym plans as
+   `gym_*`, this screen labels them without the prefix. `trial` has no
+   catalog price, so it is not purchasable and is excluded by the type. */
+function catalogPlanFor(plan: Exclude<GymPlan, "trial">): CheckoutPlan {
+  return `gym_${plan}` as CheckoutPlan;
+}
+
 function gymPlanOf(plan: EntitlementPlan): GymPlan {
   switch (plan) {
     case "gym_scale":
@@ -62,17 +71,19 @@ export default function GymBilling() {
     if (plan === "trial") return;
     setStarting(true);
     try {
-      const response = await fetch("/api/billing/gym-checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan, gymId: gym?.id }),
+      /* Gym plans are priced from the same backend catalog as member plans;
+         the only difference is the subject the entitlement lands on, which the
+         backend derives from `gymId` — never from anything the browser claims. */
+      await startProviderCheckout({
+        plan: catalogPlanFor(plan),
+        cycle: "monthly",
+        gymId: gym?.id ?? null,
+        description: `Tiger ${plan} (gym)`,
+        onSubmitted: () =>
+          toast.push("Payment submitted. Seats update once the provider confirms the payment.", "success"),
       });
-      if (!response.ok) throw new Error(`checkout endpoint returned ${response.status}`);
-      const payload = (await response.json()) as { checkoutUrl?: string };
-      if (!payload.checkoutUrl) throw new Error("no checkout url");
-      window.location.href = payload.checkoutUrl;
-    } catch {
-      toast.push("Gym billing is not configured in this environment. No charge was attempted and seats are unchanged.", "error");
+    } catch (error) {
+      toast.push(checkoutFailureMessage(error), "error");
     } finally {
       setStarting(false);
     }

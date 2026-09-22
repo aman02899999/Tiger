@@ -23,6 +23,8 @@ import { entitlementIsLive } from "../domain/validation";
 import type { EntitlementPlan } from "../domain/models";
 import { relativeTime } from "../data/analytics";
 import { cn } from "../utils/cn";
+import { startProviderCheckout, checkoutFailureMessage } from "../services/providerCheckout";
+import type { CheckoutPlan } from "../services/backend";
 
 type Audience = "member" | "gym";
 
@@ -129,20 +131,20 @@ export default function Pricing({ audience = "member" }: { audience?: Audience }
     try {
       /* The browser names a plan. The backend prices it, creates the
          provider order, and only a verified webhook grants access. */
-      const response = await fetch("/api/billing/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan, cycle, userId: session?.uid ?? null, gymId: audience === "gym" ? session?.claims.gymId ?? null : null }),
+      await startProviderCheckout({
+        plan: plan as CheckoutPlan,
+        cycle,
+        gymId: audience === "gym" ? session?.claims.gymId ?? null : null,
+        description: `Tiger ${plan} (${cycle})`,
+        email: session?.email ?? null,
+        onSubmitted: () =>
+          toast.push(
+            "Payment submitted. Your plan activates as soon as the provider confirms it — usually within seconds.",
+            "success",
+          ),
       });
-      if (!response.ok) throw new Error(`checkout ${response.status}`);
-      const payload = (await response.json()) as { checkoutUrl?: string };
-      if (!payload.checkoutUrl) throw new Error("no checkout url");
-      window.location.href = payload.checkoutUrl;
-    } catch {
-      toast.push(
-        "Payment verification is not configured in this environment. Nothing was charged and no plan changed.",
-        "error",
-      );
+    } catch (error) {
+      toast.push(checkoutFailureMessage(error), "error");
     } finally {
       setPending(null);
     }

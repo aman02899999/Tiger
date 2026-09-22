@@ -14,6 +14,7 @@
    ═══════════════════════════════════════════════════════════════════ */
 
 import { useState } from "react";
+import { startProviderCheckout, checkoutFailureMessage } from "../services/providerCheckout";
 import { useAuth } from "../auth/AuthSystem";
 import { useAsyncData, useTenant } from "../data/DataProvider";
 import { formatInr, isoDay } from "../data/analytics";
@@ -69,23 +70,17 @@ export default function ClientBilling() {
     try {
       /* The only supported path to an entitlement: a trusted function creates the
          provider order, the provider webhook verifies it and writes entitlements/{uid}. */
-      const response = await fetch("/api/billing/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan, userId: user?.id, gymId: gym?.id ?? null }),
+      await startProviderCheckout({
+        plan,
+        cycle: "monthly",
+        gymId: gym?.id ?? null,
+        description: `Tiger ${plan} membership`,
+        email: user?.email ?? null,
+        onSubmitted: () =>
+          toast.push("Payment submitted. Your plan activates once the provider confirms it.", "success"),
       });
-      if (!response.ok) throw new Error(`checkout endpoint returned ${response.status}`);
-      const payload = (await response.json()) as { checkoutUrl?: string };
-      if (payload.checkoutUrl) {
-        window.location.href = payload.checkoutUrl;
-        return;
-      }
-      throw new Error("no checkout url");
-    } catch {
-      toast.push(
-        "Payment verification is not configured in this environment. Nothing was charged and no plan changed.",
-        "error",
-      );
+    } catch (error) {
+      toast.push(checkoutFailureMessage(error), "error");
     } finally {
       setStarting(false);
     }
