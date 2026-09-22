@@ -1,0 +1,27 @@
+{
+  "name": "tiger-functions",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Trusted backend for Tiger — claims provisioning, verified payments, audit trail.",
+  "type": "module",
+  "engines": {
+    "node": "20"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "serve": "npm run build && firebase emulators:start --only functions,firestore,auth",
+    "deploy": "npm run build && firebase deploy --only functions",
+    "bootstrap:admin": "node scripts/bootstrap-admin.mjs",
+    "logs": "firebase functions:log"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.1",
+    "firebase-functions": "^6.1.0",
+    "googleapis": "^144.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}

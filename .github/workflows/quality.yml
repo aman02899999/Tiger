@@ -1,0 +1,65 @@
+name: Quality gate
+
+# Every push and PR must prove the security invariants, not just build.
+# Order matters: the cheap static checks fail fast, then the test suites,
+# then the production build (which runs the 3D-flattening linter first).
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Typecheck · tests · build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Composite indexes are in sync with the registry
+        run: npm run check:indexes
+
+      - name: Insight maths + API normalisers
+        run: npm run test:insights
+
+      - name: SaaS security proof suite
+        run: npm run test:saas
+
+      - name: Production build (includes the 3D-flattening guard)
+        run: npm run build
+
+      - name: Whitespace / conflict markers
+        run: git diff --check
+
+  functions:
+    name: Trusted backend typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install function dependencies
+        run: npm --prefix functions install --no-audit --no-fund
+      - name: Typecheck
+        run: npm --prefix functions run typecheck

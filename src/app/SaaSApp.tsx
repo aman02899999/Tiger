@@ -1,279 +1,32 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { deleteUser } from "firebase/auth";
 import { deleteDoc, doc } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { useAuth } from "../auth/AuthSystem";
-import OnboardingWizard from "../auth/OnboardingWizard";
-import LoginPage, { SignupPage } from "../auth/Login";
-import FitnessToolbox from "./Toolbox";
-import DietCalculator from "./DietCalculator";
-import { GoalRoadmap, Transformations, Referrals, Leaderboard } from "./Features";
-import BloodReportPage from "./BloodReport";
-import ChallengesPage from "./Challenges";
-import CoursesPage from "./Courses";
-import AyurvedaHubPage from "./AyurvedaHub";
-import PhysioRehabPage from "./PhysioRehab";
-import PDFStorePage from "./PDFStore";
-import YogaPage from "./Yoga";
-import MeditationPage from "./Meditation";
 import WorkoutPlayer from "./WorkoutPlayer";
-import AchievementsPage, { addXP } from "./Achievements";
-import DailyRewardsPage from "./DailySpin";
-import AICoachPage from "./AICoach";
-import GymPartnerPage from "./GymPartner";
+import { addXP } from "./Achievements";
 import { DailyChecklist, MoodCheckIn, WeeklyActivity, QuickActions } from "./DashboardWidgets";
-import StrengthLabPage from "./StrengthLab";
-import ProgressPhotosPage from "./ProgressPhotos";
-import MacroBuilderPage from "./MacroBuilder";
-import SleepRecoveryPage from "./SleepRecovery";
-import HeartHealthPage from "./HeartHealth";
-import ConsistencyHub from "./ConsistencyHub";
-import WorkoutBuilderPage from "./WorkoutBuilder";
-import RecipeHubPage from "./RecipeHub";
-import BodyMetricsPage from "./BodyMetrics";
-import QuestsPage from "./Quests";
-import DataBackupPage from "./DataBackup";
-import { CheckoutProvider, useCheckout, PLANS, type PlanId } from "./Checkout";
-import WorkoutCalendarPage from "./WorkoutCalendar";
-import { NotificationBell } from "./Notifications";
-import MoodJournalPage from "./MoodJournal";
-import IntervalTimerPage from "./IntervalTimer";
-import SupplementsPage from "./Supplements";
-import FitnessStoryPage from "./FitnessStory";
-import ChallengeRoulettePage from "./ChallengeRoulette";
-import RecoveryReadinessPage from "./RecoveryReadiness";
-import StrengthStandardsPage from "./StrengthStandards";
-import FitnessTriviaPage from "./FitnessTrivia";
-import MuscleAnatomyPage from "./MuscleAnatomy";
-import WarmupGeneratorPage from "./WarmupGenerator";
-import CardioTrackerPage from "./CardioTracker";
+import { useCheckout, PLANS, type PlanId } from "./Checkout";
 import TitanIntelligence from "./TitanIntelligence";
 import NutritionTracker from "./NutritionTracker";
 import { collectTitanData, energyScore } from "./insights";
+import { useEntitlement, usePayments } from "../data/hooks";
+import { entitlementIsLive } from "../domain/validation";
+
+/* ---------------------------------------------------------------- */
+/* Legacy consumer surfaces — mounted by src/saas/Shell.tsx          */
+/* ---------------------------------------------------------------- */
+/* The pre-SaaS Tiger experience: personal trackers, habits, family   */
+/* profiles and the consumer premium screen. Retained verbatim and    */
+/* mounted inside the member workspace; these screens keep their own  */
+/* local (non-authoritative) records and never gate entitlements.     */
+/* ---------------------------------------------------------------- */
 
 /* ---------------------------------------------------------------- */
 /* App Shell with Sidebar                                            */
 /* ---------------------------------------------------------------- */
 
-function AppShell({ children, onLogout, currentSection, setCurrentSection }: any) {
-  const { user } = useAuth();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [collapsedGroups, setCollapsedGroups] = useState<Record<string, boolean>>({});
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [searchQ, setSearchQ] = useState("");
-
-  const navGroups = [
-    { group: "🏋️ Training", items: [
-      { id: "workouts", icon: "💪", label: "Workouts" },
-      { id: "calendar", icon: "📅", label: "Workout Calendar" },
-      { id: "workoutbuilder", icon: "🗒️", label: "Workout Builder" },
-      { id: "strengthlab", icon: "🏋️", label: "Strength Lab" },
-      { id: "intervaltimer", icon: "⏱️", label: "Interval Timer" },
-      { id: "strengthstandards", icon: "📊", label: "Strength Standards" },
-      { id: "anatomy", icon: "🦾", label: "Muscle Anatomy" },
-      { id: "warmup", icon: "🔥", label: "Warm-Up Generator" },
-      { id: "roadmap", icon: "🗺️", label: "Goal Roadmap" },
-      { id: "toolbox", icon: "🧰", label: "Fitness Toolbox" },
-    ]},
-    { group: "🍽️ Nutrition", items: [
-      { id: "nutrition", icon: "🍛", label: "Nutrition Tracker" },
-      { id: "macrobuilder", icon: "🍽️", label: "Macro Builder" },
-      { id: "recipehub", icon: "👨‍🍳", label: "Recipe Hub" },
-      { id: "supplements", icon: "💊", label: "Supplements" },
-      { id: "diet", icon: "🥗", label: "Auto Diet" },
-    ]},
-    { group: "🧘 Wellness", items: [
-      { id: "yoga", icon: "🧘", label: "Yoga Studio" },
-      { id: "meditation", icon: "🙏", label: "Meditation" },
-      { id: "hearthealth", icon: "🫀", label: "Heart & Breathing" },
-      { id: "moodjournal", icon: "📓", label: "Mood & Stress Journal" },
-      { id: "sleeprecovery", icon: "😴", label: "Sleep & Recovery" },
-      { id: "readiness", icon: "🔋", label: "Recovery Readiness" },
-      { id: "physio", icon: "🦴", label: "Physio & Rehab" },
-      { id: "ayurveda", icon: "🌿", label: "Ayurveda Hub" },
-    ]},
-    { group: "📈 Progress", items: [
-      { id: "progress", icon: "📈", label: "Progress" },
-      { id: "bodymetrics", icon: "📐", label: "Body Metrics" },
-      { id: "consistency", icon: "🔥", label: "Consistency" },
-      { id: "cardio", icon: "🏃", label: "Cardio & Steps" },
-      { id: "progressphotos", icon: "📸", label: "Progress Photos" },
-      { id: "habits", icon: "🎯", label: "Habits" },
-      { id: "blood", icon: "🩸", label: "Blood Report" },
-    ]},
-    { group: "🎮 Rewards & Social", items: [
-      { id: "achievements", icon: "🏅", label: "Achievements" },
-      { id: "dailyrewards", icon: "🎡", label: "Daily Rewards" },
-      { id: "quests", icon: "⚔️", label: "Quests & Share" },
-      { id: "fitnessstory", icon: "🎬", label: "Fitness Story" },
-      { id: "challenges", icon: "🏆", label: "Challenges" },
-      { id: "roulette", icon: "🎰", label: "Challenge Roulette" },
-      { id: "leaderboard", icon: "🏆", label: "Leaderboard" },
-      { id: "gympartner", icon: "🤝", label: "Let's Gym" },
-      { id: "referrals", icon: "💰", label: "Referrals" },
-    ]},
-    { group: "📚 Learn & Coach", items: [
-      { id: "aicoach", icon: "🤖", label: "AI Coach" },
-      { id: "courses", icon: "📚", label: "Courses" },
-      { id: "trivia", icon: "🧠", label: "Fitness Trivia" },
-      { id: "pdfstore", icon: "📄", label: "PDF Store" },
-    ]},
-    { group: "⚙️ Account", items: [
-      { id: "family", icon: "👨‍👩‍", label: "Family" },
-      { id: "databackup", icon: "💾", label: "Data & Backup" },
-      { id: "premium", icon: "👑", label: "Premium" },
-      { id: "settings", icon: "⚙️", label: "Settings" },
-    ]},
-  ];
-
-  const allItems = useMemo(
-    () => [{ id: "dashboard", icon: "📊", label: "Dashboard", group: "" }, ...navGroups.flatMap((g) => g.items.map((i) => ({ ...i, group: g.group })))],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-  const searchResults = useMemo(() => {
-    const q = searchQ.trim().toLowerCase();
-    return q ? allItems.filter((i) => i.label.toLowerCase().includes(q) || i.group.toLowerCase().includes(q)) : allItems;
-  }, [searchQ, allItems]);
-
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); setSearchOpen((o) => !o); }
-      if (e.key === "Escape") setSearchOpen(false);
-    }
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  function go(id: string) {
-    setCurrentSection(id);
-    setSearchOpen(false);
-    setSearchQ("");
-    setMobileOpen(false);
-  }
-
-  return (
-    <div className="flex min-h-screen bg-[#04070e] text-[#e9f3f5]">
-      {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-40 w-72 transform border-r border-violet-400/10 bg-[#0a141f]/98 backdrop-blur-2xl transition-transform lg:static lg:translate-x-0 ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`} style={{ boxShadow: "4px 0 40px rgba(0,0,0,0.6), inset -1px 0 0 rgba(45,212,191,0.08)" }}>
-        <div className="flex h-full flex-col p-6">
-          {/* Logo / Brand */}
-          <div className="mb-8 flex items-center gap-3">
-            <div className="relative grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#ffb627] text-sm font-black text-[#04121a] shadow-[0_0_20px_rgba(45,212,191,0.4)]">
-              TT
-              <span className="absolute inset-0 rounded-xl" style={{ background: "linear-gradient(180deg,rgba(255,255,255,0.18) 0%,transparent 60%)" }} />
-            </div>
-            <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-[#e9f3f5]">The Titan Fitness</p>
-              <p className="text-[10px] uppercase tracking-[0.18em] text-[#e9f3f5]/65">{user?.plan} Plan</p>
-            </div>
-          </div>
-
-          <button type="button" onClick={() => setSearchOpen(true)} className="mb-3 flex w-full items-center gap-2 rounded-xl border border-[#e9f3f5]/12 bg-[#e9f3f5]/5 px-4 py-2.5 text-sm text-[#e9f3f5]/60 transition hover:bg-[#e9f3f5]/10">
-            <span>🔍</span>
-            <span className="flex-1 text-left">Search…</span>
-            <kbd className="rounded border border-[#e9f3f5]/15 px-1.5 py-0.5 text-[10px] font-bold text-[#e9f3f5]/55">⌘K</kbd>
-          </button>
-
-          <nav className="flex-1 space-y-1 overflow-y-auto min-h-0 pr-1">
-            {/* Pinned Dashboard */}
-            <button type="button" onClick={() => { setCurrentSection("dashboard"); setMobileOpen(false); }} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${currentSection === "dashboard" ? "bg-gradient-to-r from-violet-400/20 to-fuchsia-400/10 text-violet-100 shadow-[inset_0_1px_0_rgba(45,212,191,0.2),0_4px_12px_rgba(0,0,0,0.2)] border border-violet-400/20" : "text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/6 hover:text-[#e9f3f5] border border-transparent"}`}>
-              <span className="text-lg">📊</span>
-              Dashboard
-            </button>
-
-            {navGroups.map((g) => {
-              const hasActive = g.items.some((i) => i.id === currentSection);
-              const open = collapsedGroups[g.group] === undefined ? true : collapsedGroups[g.group];
-              return (
-                <div key={g.group} className="pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setCollapsedGroups((prev) => ({ ...prev, [g.group]: !open }))}
-                    className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#e9f3f5]/55 transition hover:text-[#e9f3f5]/80"
-                  >
-                    <span className={hasActive ? "text-violet-200/90" : ""}>{g.group}</span>
-                    <span className={`text-[9px] transition-transform ${open ? "rotate-90" : ""}`}>▶</span>
-                  </button>
-                  {open && (
-                    <div className="mt-0.5 space-y-1">
-                      {g.items.map((item) => (
-                        <button key={item.id} type="button" onClick={() => { setCurrentSection(item.id); setMobileOpen(false); }} className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${currentSection === item.id ? "bg-gradient-to-r from-violet-400/20 to-fuchsia-400/10 text-violet-100 shadow-[inset_0_1px_0_rgba(45,212,191,0.2),0_4px_12px_rgba(0,0,0,0.2)] border border-violet-400/20" : "text-[#e9f3f5]/70 hover:bg-[#e9f3f5]/6 hover:text-[#e9f3f5] border border-transparent"}`}>
-                          <span className="text-base">{item.icon}</span>
-                          {item.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </nav>
-
-          <div className="rounded-2xl border border-violet-200/20 bg-violet-200/8 p-4">
-            <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#ffb627] text-xs font-black text-[#04121a]">{user?.avatar}</div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-bold">{user?.name}</p>
-                <p className="truncate text-[10px] text-[#e9f3f5]/65">{user?.email}</p>
-              </div>
-            </div>
-            <button type="button" onClick={onLogout} className="mt-3 w-full rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 py-2 text-xs font-bold text-[#e9f3f5]/60 hover:bg-rose-400/10 hover:text-rose-200">Sign Out</button>
-          </div>
-        </div>
-      </aside>
-
-      {mobileOpen && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setMobileOpen(false)} />}
-
-      {/* Global search (⌘K) */}
-      {searchOpen && (
-        <div className="fixed inset-0 z-[60] flex items-start justify-center bg-black/70 p-4 pt-24 backdrop-blur-sm" onClick={() => setSearchOpen(false)}>
-          <div className="glass-card w-full max-w-lg overflow-hidden rounded-2xl bg-[#0a141f]/95" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center gap-3 border-b border-[#e9f3f5]/10 px-4 py-3">
-              <span className="text-lg">🔍</span>
-              <input autoFocus value={searchQ} onChange={(e) => setSearchQ(e.target.value)} placeholder="Jump to any section…" className="flex-1 bg-transparent text-sm outline-none placeholder:text-[#e9f3f5]/45" />
-              <kbd className="rounded border border-[#e9f3f5]/15 px-1.5 py-0.5 text-[10px] font-bold text-[#e9f3f5]/55">ESC</kbd>
-            </div>
-            <div className="max-h-80 overflow-y-auto p-2">
-              {searchResults.length === 0 ? (
-                <p className="p-6 text-center text-sm text-[#e9f3f5]/60">No sections match "{searchQ}"</p>
-              ) : (
-                searchResults.map((item) => (
-                  <button key={item.id} type="button" onClick={() => go(item.id)} className={`flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm transition ${currentSection === item.id ? "bg-violet-400/15 text-violet-100" : "text-[#e9f3f5]/80 hover:bg-[#e9f3f5]/8"}`}>
-                    <span className="text-lg">{item.icon}</span>
-                    <span className="flex-1 font-semibold">{item.label}</span>
-                    {item.group && <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#e9f3f5]/45">{item.group.replace(/^[^ ]+ /, "")}</span>}
-                  </button>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex items-center justify-between border-b border-[#e9f3f5]/10 bg-[#0a141f]/60 px-6 py-4 backdrop-blur-xl">
-          <button type="button" onClick={() => setMobileOpen(true)} className="rounded-xl border border-white/10 px-3 py-2 text-sm lg:hidden">☰ Menu</button>
-          <span className="text-sm font-bold lg:hidden">The Titan Fitness</span>
-          <span className="hidden text-sm font-bold text-[#e9f3f5]/65 lg:block">{currentSection === "dashboard" ? "Dashboard" : ""}</span>
-          <div className="flex items-center gap-3">
-            <NotificationBell onNavigate={setCurrentSection} />
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-violet-300 via-fuchsia-500 to-[#ffb627] text-xs font-black text-[#04121a] lg:hidden">{user?.avatar}</div>
-          </div>
-        </header>
-
-        <main className="flex-1 overflow-y-auto px-4 py-5 sm:p-6 lg:p-10">{children}</main>
-      </div>
-    </div>
-  );
-}
-
-/* ---------------------------------------------------------------- */
-/* Dashboard                                                         */
-/* ---------------------------------------------------------------- */
-
-function Dashboard({ onNavigate }: { onNavigate: (section: string) => void }) {
+export function Dashboard({ onNavigate }: { onNavigate: (section: string) => void }) {
   const { user } = useAuth();
   if (!user) return null;
 
@@ -366,7 +119,7 @@ function Dashboard({ onNavigate }: { onNavigate: (section: string) => void }) {
 
 /* Reads the same derived Energy score the dashboard shows, so the two can
    never disagree, and adapts the training advice to it. */
-function EnergyBadge() {
+export function EnergyBadge() {
   const { user } = useAuth();
   const [score, setScore] = useState<{ value: number; estimated: boolean } | null>(null);
 
@@ -396,7 +149,7 @@ function EnergyBadge() {
   );
 }
 
-function WorkoutsPage() {
+export function WorkoutsPage() {
   const { user, updateUser } = useAuth();
   const [started, setStarted] = useState<string | null>(null);
 
@@ -473,7 +226,7 @@ function WorkoutsPage() {
    that no control could change. It is replaced by NutritionTracker, which
    logs real meals + water, persists per user per day, derives targets from
    the profile, and feeds Titan Intelligence. */
-function NutritionPage() {
+export function NutritionPage() {
   return (
     <div className="space-y-6">
       <NutritionTracker />
@@ -494,7 +247,7 @@ function NutritionPage() {
   );
 }
 
-function ProgressPage() {
+export function ProgressPage() {
   const { user, updateUser } = useAuth();
   const log = user?.stats.weightLog || [];
   const max = log.length ? Math.max(...log.map((l) => l.weight)) : 0;
@@ -627,7 +380,7 @@ const DEFAULT_HABITS = [
   { id: 6, name: "Protein goal", streak: 0, icon: "🍗", done: false },
 ];
 
-function HabitsPage() {
+export function HabitsPage() {
   const { user, updateUser } = useAuth();
   const today = new Date().toISOString().split("T")[0];
   const stored = (user as any)?.habits;
@@ -671,7 +424,7 @@ function HabitsPage() {
 }
 
 
-function FamilyPage() {
+export function FamilyPage() {
   const { openCheckout } = useCheckout();
   return (
     <div className="space-y-6">
@@ -753,7 +506,7 @@ const FAQ_ITEMS = [
   { q: "Does Lifetime really mean forever?", a: "Yes. One payment unlocks Elite features for as long as The Titan Fitness exists — no recurring charges, ever." },
 ];
 
-function PremiumPage() {
+export function PremiumPage() {
   const { user } = useAuth();
   const { openCheckout } = useCheckout();
   const [cycle, setCycle] = useState<"monthly" | "annual">("monthly");
@@ -892,7 +645,89 @@ function PremiumPage() {
   );
 }
 
-function SettingsPage() {
+/* ---------------------------------------------------------------- */
+/* Billing (legacy tab) — reads the entitlement, never invents one    */
+/* ---------------------------------------------------------------- */
+/*
+ * This tab used to print "Next billing: July 1, 2025" and a hardcoded
+ * "user@paytm" UPI id — a placeholder presented as account state. It now
+ * renders the entitlement document written by the verified webhook, and
+ * says plainly when there is none. It cannot change a plan: upgrades go
+ * through the hosted provider checkout (see src/saas/Pricing.tsx).
+ */
+function LegacyBillingPanel() {
+  const { user } = useAuth();
+  const { data: entitlement, loading } = useEntitlement();
+  const live = entitlementIsLive(entitlement);
+  const { data: payments } = usePayments();
+
+  return (
+    <div className="space-y-6">
+      <div className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-6">
+        <h3 className="font-bold">Current Plan</h3>
+        <div className="mt-4 rounded-xl border border-violet-200/20 bg-violet-200/10 p-5">
+          {loading ? (
+            <p className="text-sm text-[#e9f3f5]/68">Checking your entitlement…</p>
+          ) : entitlement ? (
+            <>
+              <p className="text-xl font-black capitalize">{entitlement.plan.replace("_", " ")}</p>
+              <p className="mt-1 text-xs text-[#e9f3f5]/68">
+                {entitlement.status}
+                {entitlement.expiresAt
+                  ? ` · renews ${new Date(entitlement.expiresAt).toLocaleDateString("en-IN")}`
+                  : " · no expiry"}
+                {` · source: ${entitlement.source}`}
+              </p>
+              {!live && (
+                <p className="mt-2 text-xs font-semibold text-amber-200">
+                  This entitlement is not active right now, so premium features are locked.
+                </p>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="text-xl font-black">Free</p>
+              <p className="mt-1 text-xs text-[#e9f3f5]/68">
+                No entitlement on record. Paid plans are activated only after the payment provider confirms the
+                order to our backend.
+              </p>
+            </>
+          )}
+        </div>
+        <p className="mt-3 text-xs text-[#e9f3f5]/55">
+          Signed in as {user?.email ?? "—"}. Card and UPI details are entered on the provider's own page and are
+          never stored in this app.
+        </p>
+      </div>
+
+      <div className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-6">
+        <h3 className="font-bold">Payments</h3>
+        {!payments || payments.length === 0 ? (
+          <p className="mt-3 text-xs text-[#e9f3f5]/68">
+            No payments recorded. If you have been charged and this list is empty, contact support with your
+            provider reference — do not re-purchase.
+          </p>
+        ) : (
+          <ul className="mt-3 space-y-2">
+            {payments.slice(0, 6).map((payment) => (
+              <li key={payment.id} className="flex items-center justify-between rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 px-4 py-3">
+                <div>
+                  <p className="text-sm font-bold">{payment.providerRef}</p>
+                  <p className="text-[11px] text-[#e9f3f5]/60">
+                    {payment.provider} · {payment.status} · {new Date(payment.createdAt).toLocaleDateString("en-IN")}
+                  </p>
+                </div>
+                <p className="text-sm font-black tabular-nums">₹{(payment.amountMinor / 100).toLocaleString("en-IN")}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export function SettingsPage() {
   const { user, updateUser, logout } = useAuth();
   const [tab, setTab] = useState<"profile" | "preferences" | "billing" | "privacy">("profile");
   const [form, setForm] = useState({ name: user?.name || "", email: user?.email || "", phone: user?.phone || "", age: String(user?.age || ""), height: String(user?.height || ""), weight: String(user?.weight || "") });
@@ -992,26 +827,7 @@ function SettingsPage() {
         </div>
       )}
 
-      {tab === "billing" && (
-        <div className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-6">
-          <h3 className="font-bold">Current Plan</h3>
-          <div className="mt-4 flex items-center justify-between rounded-xl border border-violet-200/20 bg-violet-200/10 p-5">
-            <div>
-              <p className="text-xl font-black">{user?.plan} Plan</p>
-              <p className="text-xs text-[#e9f3f5]/68">Next billing: July 1, 2025</p>
-            </div>
-            <button type="button" className="rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-500 to-violet-700 px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] text-white">Upgrade</button>
-          </div>
-          <h3 className="mt-6 font-bold">Payment Method</h3>
-          <div className="mt-4 flex items-center justify-between rounded-xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-5">
-            <div className="flex items-center gap-3">
-              <div className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-br from-[#ffb627] to-orange-400 text-xs font-black text-[#04121a]">UPI</div>
-              <div><p className="font-bold">UPI ID</p><p className="text-xs text-[#e9f3f5]/68">user@paytm</p></div>
-            </div>
-            <button type="button" className="text-xs font-bold text-violet-100">Change</button>
-          </div>
-        </div>
-      )}
+      {tab === "billing" && <LegacyBillingPanel />}
 
       {tab === "privacy" && (
         <div className="rounded-2xl border border-[#e9f3f5]/10 bg-[#e9f3f5]/5 p-6 space-y-4">
@@ -1031,97 +847,3 @@ function SettingsPage() {
 }
 
 /* ---------------------------------------------------------------- */
-/* Main App Router                                                   */
-/* ---------------------------------------------------------------- */
-
-export default function SaaSApp() {
-  return (
-    <CheckoutProvider>
-      <SaaSAppInner />
-    </CheckoutProvider>
-  );
-}
-
-function SaaSAppInner() {
-  const { user, authLoading, logout } = useAuth();
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-  const [section, setSection] = useState("dashboard");
-
-  // Firebase checking session
-  if (authLoading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-[#04070e]">
-        <div className="text-center">
-          <div className="mx-auto h-14 w-14 animate-spin rounded-full border-4 border-violet-300/20 border-t-violet-300" />
-          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-[#e9f3f5]/62">Loading…</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Not logged in → show login
-  if (!user) {
-    if (authMode === "login") return <LoginPage onSwitch={() => setAuthMode("signup")} onSuccess={() => {}} />;
-    return <SignupPage onSwitch={() => setAuthMode("login")} onSuccess={() => {}} />;
-  }
-
-  // Logged in but onboarding incomplete → show wizard
-  if (!user.onboardingComplete) {
-    return <OnboardingWizard onComplete={() => setSection("dashboard")} />;
-  }
-
-  // Logged in + onboarded → show app shell
-  return (
-    <AppShell currentSection={section} setCurrentSection={setSection} onLogout={logout}>
-      {section === "dashboard" && <Dashboard onNavigate={setSection} />}
-      {section === "workouts" && <WorkoutsPage />}
-      {section === "calendar" && <WorkoutCalendarPage onNavigate={setSection} />}
-      {section === "nutrition" && <NutritionPage />}
-      {section === "toolbox" && <FitnessToolbox />}
-      {section === "diet" && <DietCalculator />}
-      {section === "roadmap" && <GoalRoadmap />}
-      {section === "transform" && <Transformations />}
-      {section === "referrals" && <Referrals />}
-      {section === "leaderboard" && <Leaderboard />}
-      {section === "achievements" && <AchievementsPage />}
-      {section === "dailyrewards" && <DailyRewardsPage />}
-      {section === "quests" && <QuestsPage />}
-      {section === "fitnessstory" && <FitnessStoryPage />}
-      {section === "aicoach" && <AICoachPage />}
-      {section === "gympartner" && <GymPartnerPage />}
-      {section === "workoutbuilder" && <WorkoutBuilderPage />}
-      {section === "strengthlab" && <StrengthLabPage />}
-      {section === "intervaltimer" && <IntervalTimerPage />}
-      {section === "strengthstandards" && <StrengthStandardsPage />}
-      {section === "anatomy" && <MuscleAnatomyPage />}
-      {section === "warmup" && <WarmupGeneratorPage />}
-      {section === "bodymetrics" && <BodyMetricsPage />}
-      {section === "consistency" && <ConsistencyHub />}
-      {section === "cardio" && <CardioTrackerPage />}
-      {section === "progressphotos" && <ProgressPhotosPage />}
-      {section === "macrobuilder" && <MacroBuilderPage />}
-      {section === "recipehub" && <RecipeHubPage />}
-      {section === "supplements" && <SupplementsPage />}
-      {section === "sleeprecovery" && <SleepRecoveryPage />}
-      {section === "readiness" && <RecoveryReadinessPage />}
-      {section === "hearthealth" && <HeartHealthPage />}
-      {section === "moodjournal" && <MoodJournalPage />}
-      {section === "progress" && <ProgressPage />}
-      {section === "habits" && <HabitsPage />}
-      {section === "blood" && <BloodReportPage />}
-      {section === "challenges" && <ChallengesPage />}
-      {section === "roulette" && <ChallengeRoulettePage />}
-      {section === "courses" && <CoursesPage />}
-      {section === "trivia" && <FitnessTriviaPage />}
-      {section === "ayurveda" && <AyurvedaHubPage />}
-      {section === "physio" && <PhysioRehabPage />}
-      {section === "pdfstore" && <PDFStorePage />}
-      {section === "yoga" && <YogaPage />}
-      {section === "meditation" && <MeditationPage />}
-      {section === "family" && <FamilyPage />}
-      {section === "databackup" && <DataBackupPage />}
-      {section === "premium" && <PremiumPage />}
-      {section === "settings" && <SettingsPage />}
-    </AppShell>
-  );
-}

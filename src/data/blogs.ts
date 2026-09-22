@@ -29,7 +29,7 @@ const commonCta: BlogBlock = {
   type: "cta",
   title: "Ready to transform your lifestyle?",
   subtitle:
-    "Download The Titan Fitness and get AI-powered workouts, Indian food scanning, and 28+ premium features. Join 50,000+ Indians transforming today.",
+    "Download The Titan Fitness for coached training: assigned programmes, session logging, Indian food data and progress analytics that come straight from what you recorded.",
 };
 
 const commonDisclaimer: BlogBlock = {
@@ -63,7 +63,7 @@ export const blogs: BlogPost[] = [
       ] },
       { type: "h2", text: "Why The Titan Fitness Takes #1" },
       { type: "p", text: "The Titan Fitness is the only app built specifically for Indian users. Features like the Smart Indian Food Scanner, Cheapest Protein Finder, Grocery Budget Planner, and Wedding Mode make it unmatched. Plus, the Energy Prediction Engine adjusts your workout every single morning based on 6 lifestyle signals." },
-      { type: "stat", label: "Avg Daily Active Users (2025)", value: "50K+" },
+      { type: "stat", label: "Records behind every metric", value: "Yours" },
       { type: "stat", label: "App Store Rating", value: "4.9 ★" },
       { type: "tip", text: "Pro Tip: Look for apps that offer offline workout access, Indian food databases with 5000+ items, and family health tracking. Most apps fail on at least one of these." },
       commonCta,

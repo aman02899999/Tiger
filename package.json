@@ -8,7 +8,22 @@
     "build": "node scripts/check-3d.mjs && vite build",
     "preview": "vite preview",
     "check:3d": "node scripts/check-3d.mjs",
-    "test": "node scripts/test-insights.mjs"
+    "check:firebase": "node scripts/check-firebase.mjs",
+    "check:indexes": "node scripts/gen-indexes.mjs --check",
+    "gen:indexes": "node scripts/gen-indexes.mjs",
+    "typecheck": "tsc -b --noEmit",
+    "typecheck:functions": "npm --prefix functions run typecheck",
+    "test": "node scripts/test-insights.mjs && node scripts/test-saas.mjs",
+    "test:insights": "node scripts/test-insights.mjs",
+    "test:saas": "node scripts/test-saas.mjs",
+    "verify": "npm run typecheck && npm test && npm run build",
+    "fb": "npx --yes firebase-tools@latest",
+    "emulators": "npm run fb -- emulators:start",
+    "deploy:rules": "npm run fb -- deploy --only firestore:rules,storage:rules,firestore:indexes",
+    "deploy:hosting": "npm run build && npm run fb -- deploy --only hosting",
+    "deploy:functions": "npm run fb -- deploy --only functions",
+    "deploy:all": "npm run build && npm run fb -- deploy --only firestore:rules,storage:rules,firestore:indexes,functions,hosting",
+    "logs": "npm run fb -- functions:log"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

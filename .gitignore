@@ -2,6 +2,12 @@ node_modules/
 dist/
 .firebase/
 
+# Environment files — per-machine configuration, and the place a future
+# contributor will inevitably paste a real secret. Never commit them.
+.env
+.env.*
+!.env.example
+
 tsconfig.tsbuildinfo
 .claude/worktrees/
 
@@ -17,3 +23,26 @@ android/key.properties
 
 # Local visual preview artifact (generated, not source)
 .preview/
+
+# Archived audit logs — kept on disk for reference, not tracked (134 MB).
+docs/audit-archive/
+
+# Local test build output
+.test-build/
+.indexes-build/
+
+# Firebase doctor scratch build
+.firebase-check-build/
+
+# Generated audit/action transcripts. These were committed as 133 MB of
+# tracked text, which every clone and every CI checkout paid for. Keep them
+# out of the tree; they remain in git history (see docs/REPO_ANALYSIS.md for
+# how to purge history if that matters).
+*-audit-*.txt
+*-production-action-*.txt
+
+# Local MCP server wiring. Kept out of the tree: a committed .mcp.json bakes
+# in a placeholder credential and makes every session start by failing to
+# connect to a host the network policy does not allow. None of the skills in
+# .claude/skills/ need an MCP server to work.
+.mcp.json

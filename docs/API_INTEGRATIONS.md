@@ -8,7 +8,8 @@ Tiger intentionally avoids assuming that third-party services are live in every 
 |---|---|---|---|
 | wger | IMPLEMENTED | Workout Builder search and exercise enrichment | Real lookup flow added to Tiger and normalized into Tiger’s exercise model |
 | Open Food Facts | IMPLEMENTED | Nutrition Tracker barcode lookup | Real barcode lookup flow added with product normalization and manual fallback |
-| Firebase | IMPLEMENTED | Auth, Firestore, Storage | Enforced only when env config is present |
+| Firebase | IMPLEMENTED | Auth, Firestore, Cloud Storage | Enforced only when env config is present; rules and 22 composite indexes ship in this repo |
+| Razorpay / Play Billing | IMPLEMENTED (server-side, needs credentials) | Hosted checkout + signature-verified webhook → entitlement | `functions/src/verification.ts` holds the pure verification core; 14 assertions cover it. No order can be created without provider secrets, and no entitlement can be written from a browser |
 | Weather provider | NOT IMPLEMENTED | No live production UI feature currently calls it | Service layer exists but no end-to-end UI is wired to it |
 | AQI provider | NOT IMPLEMENTED | No live production UI feature currently calls it | Service layer exists but no end-to-end UI is wired to it |
 | Geocoding | NOT IMPLEMENTED | No live UI currently uses it | Service layer exists but no feature is wired to it |
@@ -22,16 +23,17 @@ Tiger intentionally avoids assuming that third-party services are live in every 
 ## Security and deployment notes
 
 - The browser is explicitly not allowed to assign privileged roles.
-- Role provisioning must be done via Firebase custom claims through a trusted backend or Firebase Admin SDK.
+- Role provisioning is implemented in `functions/` (callable functions + one-time bootstrap script) — there is no endpoint that promotes an arbitrary caller.
 - Tenant and trainer/client isolation are enforced in secure Firestore rules and not by client-side filtering alone.
-- Storage rules must keep health records and private uploads behind authenticated access controls.
+- Storage rules keep health records behind an owner check plus an ACTIVE trainer relationship, anchored to the member's own gym (`gymOf()` in `storage.rules`).
 
 ## Required environment variables
+
+There is deliberately **no** frontend admin password: privileged actions require a custom claim, and the secrets live in Cloud Functions Secret Manager (`RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`).
 
 Copy `.env.example` to `.env.local` and fill in the values you want to enable:
 
 - `VITE_FIREBASE_*` for Firebase Auth/Firestore/Storage
-- `VITE_ADMIN_PASSWORD` to protect the admin panel
 - `VITE_OPENWEATHER_API_KEY` for weather lookups
 - `VITE_AQI_API_KEY` for air quality data
 - `VITE_GEOCODING_API_KEY` for location search
@@ -51,5 +53,5 @@ The shared API layer in `src/services/api/client.ts`:
 
 - Firebase config must be set in the hosting environment before auth and database features are expected to work.
 - The Android TWA asset links file requires the real release certificate SHA-256 fingerprint.
-- Admin access stays disabled until `VITE_ADMIN_PASSWORD` is set in the deployed environment.
+- Admin access stays disabled until a user carries the `super_admin` custom claim; the one-time bootstrap script is the only way to create the first one.
 - The app should be treated as a demo-safe frontend until the secure server-side verification layer exists for payment entitlement confirmation.
